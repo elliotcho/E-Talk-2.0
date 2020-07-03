@@ -1,0 +1,90 @@
+.auth{
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-image: linear-gradient(rgb(0,0,0,0.5), rgb(0,0,0,0.5)), url(./images/bg.png); 
+    font-family: 'Nunito';
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+
+.auth nav{
+    background: #6262b4;
+    max-width: 905px;
+    margin: 0 auto;
+}
+
+.auth .navbar-brand{
+    font-size: 30px;
+    color: #E8E8E8;
+}
+
+.auth .navbar-nav{
+    padding: 15px;
+    font-size: 16px;
+    font-family: 'Trebuchet MS';
+    background: linear-gradient(rgb(0, 0, 0, 0.2), rgb(0,0,0,0.2));
+    color: lightgray;
+}
+
+.auth .navbar-toggler-icon{
+    background-image: url('https://mdbootstrap.com/img/svg/hamburger1.svg?color=fff');
+}
+
+.auth .navbar-toggler:focus,
+.auth .navbar-toggler:active,
+.auth .navbar-toggler-icon:focus{
+    outline: none;
+    box-shadow:none;
+}
+
+.auth form{
+    margin: 130px auto;
+    max-width: 350px;
+}
+
+.auth input{
+    width: 100%;
+    padding: 10px;
+    font-family: 'Arial';
+}
+
+.auth input:focus{
+    outline: none;
+    border: lightblue solid 2px;
+}
+
+.auth form button{
+    width: 100%;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.auth button:focus{
+    box-shadow: none;
+}
+
+.auth p{
+    cursor: pointer;
+}
+
+.auth p:hover{
+    text-decoration: underline;
+}
+
+@media screen and (min-width: 550px){
+    .auth .navbar-nav{
+        font-size: 18px;
+    }
+}
+
+@media screen and (min-width:800px){
+    .auth .navbar-nav{
+        font-size: 20px;
+    }
+}
