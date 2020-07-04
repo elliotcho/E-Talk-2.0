@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Banner from './Banner';
 import './Auth.css';
 
 class Login extends Component{
@@ -13,6 +12,11 @@ class Login extends Component{
 
         this.handleChange=this.handleChange.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
+        this.toSignup=this.toSignup.bind(this);
+    }
+
+    toSignup(){
+        this.props.history.push('/signup');
     }
 
     handleChange(e){
@@ -28,7 +32,9 @@ class Login extends Component{
     render(){
         return(
             <div className='auth text-white' onSubmit={this.handleSubmit}>
-                <Banner/>
+                <nav className='navbar'>
+                    <h2 className='navbar-brand'>E-Talk</h2>
+                </nav>
 
                 <form>
                     <h1 className='mb-3'>Sign In</h1>
@@ -53,7 +59,7 @@ class Login extends Component{
                     
                     <button className='btn btn-lg btn-success'>Sign In</button>
 
-                    <p className='mt-3'>Don't have an account? Sign up here!</p>
+                    <p onClick={this.toSignup} className='mt-3'>Don't have an account? Sign up here!</p>
                 </form>
             </div>
         )
