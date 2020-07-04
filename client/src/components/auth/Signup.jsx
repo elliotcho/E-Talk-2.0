@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './Auth.css';
 
+const axios=require('axios');
+
 class Signup extends Component{
     constructor(){
         super();
@@ -30,6 +32,12 @@ class Signup extends Component{
 
     handleSubmit(e){
         e.preventDefault();
+
+        const config={headers: {'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/signup', {...this.state}, config).then(response =>{
+            console.log(response.data);
+        });
     }
 
     render(){
