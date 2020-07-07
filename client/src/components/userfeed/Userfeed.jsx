@@ -3,7 +3,7 @@ import {Redirect} from 'react-router-dom';
 
 class Userfeed extends Component{
     render(){
-        if(!this.props.signedIn){
+        if(!this.props.uid){
             return <Redirect to='/'/>
         }
 

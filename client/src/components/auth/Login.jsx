@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {login} from '../../store/actions/authActions';
 import './Auth.css';
-
-const axios = require('axios');
 
 class Login extends Component{
     constructor(){
@@ -29,26 +29,13 @@ class Login extends Component{
     }
 
     handleSubmit(e){
-        e.preventDefault();
+        e.preventDefault();   
 
-        const config={headers: {'content-type': 'application/json'}};
-
-        axios.post('http://localhost:5000/login', {...this.state}, config)
-        .then(response =>{
-            const {msg} = response.data;
-
-            if(msg==='Success'){
-                this.props.login();
-            }
-
-            else{
-                alert(msg);
-            }
-        });      
+        this.props.login(this.state);
     }
 
     render(){
-        if(this.props.signedIn){
+        if(this.props.uid){
             return <Redirect to='/'/>
         }
 
@@ -88,4 +75,10 @@ class Login extends Component{
     }
 }
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+    return{
+        login: (creds) => {dispatch(login(creds));}
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Login);

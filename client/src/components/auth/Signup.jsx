@@ -50,7 +50,7 @@ class Signup extends Component{
     }
 
     render(){
-        if(this.props.signedIn){
+        if(this.props.uid){
             return <Redirect to='/'/>
         }
 

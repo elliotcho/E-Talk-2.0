@@ -1,47 +1,29 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import Userfeed from './components/userfeed/Userfeed';
 
 class App extends Component{  
-    constructor(){
-        super();
-        
-        this.state = { 
-            signedIn: false
-        }
-
-        this.changeAuthStatus = this.changeAuthStatus.bind(this);
-    }
-
-    changeAuthStatus(){
-        const {signedIn} = this.state;
-
-        this.setState({
-            signedIn: !signedIn
-        });
-    }
-
     render(){
-        const {signedIn} =this.state;
+        const {uid} = this.props;
 
         return(
             <BrowserRouter>
               <Switch>
-                  <Route exact 
-                         path='/' 
-                         render = {() => (
-                                signedIn? 
-                                <Userfeed signedIn = {signedIn} logout = {this.changeAuthStatus}/>: 
-                                <Login signedIn = {signedIn} login = {this.changeAuthStatus}/>
-                         )}                           
-                  />
-                  <Route path='/signup' render ={() => <Signup signedIn = {signedIn} />}/>
+                  <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login uid = {uid}/>}/>
+                  <Route path='/signup' render ={() => <Signup uid = {uid}/>}/>
               </Switch>
             </BrowserRouter>
         )
     }
 }
 
-export default App;
+const mapStateToProps = (state) =>{
+    return {
+        uid: state.auth.id
+    }
+}
+
+export default connect(mapStateToProps)(App);
