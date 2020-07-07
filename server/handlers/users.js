@@ -9,7 +9,7 @@ exports.login = (req, res) =>{
         }
 
         else{
-            res.json({msg: "Success", ...result});
+            res.json({msg: "Success", ...result})
         }
     });
 }
