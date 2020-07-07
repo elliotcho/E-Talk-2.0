@@ -22,7 +22,7 @@ class App extends Component{
 
 const mapStateToProps = (state) =>{
     return {
-        uid: state.auth.id
+        uid: state.auth.uid
     }
 }
 
