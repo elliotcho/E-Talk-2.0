@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect, withRouter} from 'react-router-dom';
 import './Auth.css';
 
 const axios=require('axios');
@@ -36,11 +37,23 @@ class Signup extends Component{
         const config={headers: {'content-type': 'application/json'}};
 
         axios.post('http://localhost:5000/signup', {...this.state}, config).then(response =>{
-            console.log(response.data);
+            const {msg, _doc} = response.data;
+
+            if(msg === 'Success'){
+                this.props.history.push('/');
+            }
+
+            else{
+                alert(msg);
+            }
         });
     }
 
     render(){
+        if(this.props.signedIn){
+            return <Redirect to='/'/>
+        }
+
         return(
             <div className='auth signup text-white' onSubmit={this.handleSubmit}>
                 <nav className='navbar'>
@@ -104,4 +117,4 @@ class Signup extends Component{
     }
 }
 
-export default Signup;
+export default withRouter(Signup);

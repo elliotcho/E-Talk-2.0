@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import './Auth.css';
+
+const axios = require('axios');
 
 class Login extends Component{
     constructor(){
@@ -27,9 +30,28 @@ class Login extends Component{
 
     handleSubmit(e){
         e.preventDefault();
+
+        const config={headers: {'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/login', {...this.state}, config)
+        .then(response =>{
+            const {msg} = response.data;
+
+            if(msg==='Success'){
+                this.props.login();
+            }
+
+            else{
+                alert(msg);
+            }
+        });      
     }
 
     render(){
+        if(this.props.signedIn){
+            return <Redirect to='/'/>
+        }
+
         return(
             <div className='auth text-white' onSubmit={this.handleSubmit}>
                 <nav className='navbar'>

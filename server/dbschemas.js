@@ -7,7 +7,8 @@ const UserSchema = new Schema({
     email: String,
     password: String,
     createdAt: Date,
-    profilePic: String
+    profilePic: String,
+    friends: [String]
 });
 
 exports.User=mongoose.model('user', UserSchema);
