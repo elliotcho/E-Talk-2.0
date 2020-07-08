@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {signUp} from '../../store/actions/authActions';
 import './Auth.css';
-
-const axios=require('axios');
 
 class Signup extends Component{
     constructor(){
@@ -33,20 +33,7 @@ class Signup extends Component{
 
     handleSubmit(e){
         e.preventDefault();
-
-        const config={headers: {'content-type': 'application/json'}};
-
-        axios.post('http://localhost:5000/signup', {...this.state}, config).then(response =>{
-            const {msg, _doc} = response.data;
-
-            if(msg === 'Success'){
-                this.props.history.push('/');
-            }
-
-            else{
-                alert(msg);
-            }
-        });
+       this.props.signUp(this.state);
     }
 
     render(){
@@ -117,4 +104,10 @@ class Signup extends Component{
     }
 }
 
-export default withRouter(Signup);
+const mapDispatchToProps = (dispatch) => {
+    return{
+        signUp: (creds) => {dispatch(signUp(creds));}
+    }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(Signup));
