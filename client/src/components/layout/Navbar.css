@@ -1,0 +1,69 @@
+nav{
+    background: #6262b4;
+}
+
+nav .navbar-brand{
+    font-size: 30px;
+    color: #E8E8E8;
+    font-family: 'Nunito';
+}
+
+nav ul{
+    padding-left: 20px;
+    border-left: 1px white solid;
+    float: right;
+}
+
+nav li{
+    display: inline-block;
+    margin: 0 10px;
+}
+
+nav .link{
+    color: lightgray;
+    text-decoration: none;
+    font-family: 'Arial';
+}
+
+nav .link:hover{
+    color: white;
+}
+
+nav .btn-circle{
+    color: white;
+    background: #EC407A;
+    border-radius: 50%;
+    text-align: center;
+}
+
+@media screen and (min-width: 550px){
+    nav li{
+        margin: 0 12px;
+    }
+
+    nav .link{
+        font-size: 1.1em;
+    }
+
+    nav .btn-circle{
+        font-size: 1.1em;
+        position: relative;
+        bottom: 2px;
+    }
+}
+
+@media screen and (min-width: 650px){
+    nav li{
+        margin: 0 15px;
+    }
+
+    nav .link{
+        font-size: 1.3em;
+    }
+
+    nav .btn-circle{
+        font-size: 1.1em;
+        position: relative;
+        bottom: 2px;
+    }
+}

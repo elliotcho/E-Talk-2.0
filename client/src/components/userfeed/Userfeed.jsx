@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import Navbar from '../partials/Navbar';
+import Navbar from '../layout/Navbar';
 
 class Userfeed extends Component{
 
