@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
+import {getUserInfo} from '../../store/actions/profileActions';
 import {Link} from 'react-router-dom';
 import './Navbar.css';
 
-function Navbar(){
+function Navbar(props){
     const signOut = (e) =>{
         e.preventDefault();
         window.localStorage.clear();
         window.location.href='/';
     }
+
+    useEffect(() => {props.getUserInfo(props.uid);})
 
     return(
         <div className='text-white'>
@@ -42,7 +46,11 @@ function Navbar(){
 
                     <li>
                         <Link to ='/' className='btn btn-circle btn-md link'>
-                            JD
+                            {
+                                props.firstName && props.lastName? 
+                                props.firstName[0].toUpperCase() + props.lastName[0].toUpperCase():
+                                null 
+                            }
                         </Link>
                     </li>
 
@@ -63,4 +71,18 @@ function Navbar(){
     )
 }
 
-export default Navbar;
+const mapStateToProps = (state) =>{
+    return{
+        uid: state.auth.uid,
+        firstName: state.profile.firstName,
+        lastName: state.profile.lastName
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        getUserInfo: (uid) => {dispatch(getUserInfo(uid));}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

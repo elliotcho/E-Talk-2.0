@@ -42,3 +42,12 @@ exports.signup = (req, res)=>{
         });
     }
 }
+
+exports.getUserInfo = (req, res) =>{
+    User.findOne({_id: req.body.uid}).then(result =>{
+        res.json({
+            firstName: result.firstName,
+            lastName: result.lastName
+        });
+    });
+}

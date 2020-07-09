@@ -22,10 +22,12 @@ app.use(bodyParser.json());
 
 const {
     login,
-    signup
+    signup,
+    getUserInfo,
 } = require('./handlers/users');
 
 app.post('/login', login);
 app.post('/signup', signup);
+app.post('/userinfo', getUserInfo);
 
 app.listen(5000);
