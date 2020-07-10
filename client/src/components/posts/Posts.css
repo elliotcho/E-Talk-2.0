@@ -1,0 +1,39 @@
+.post{
+    margin: 20px;
+    max-width: 600px;
+    padding: 20px;
+    font-family: 'Helvetica';
+    padding-bottom: 30px;
+}
+
+.post img{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.post h3{
+    font-family: 'Arial';
+    font-size: 24px;
+}
+
+.post p{
+    font-size: 0.9em;
+}
+
+.post i{
+    display: inline;
+    font-size: 1.3em;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.post h3:hover, .post p:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.content{
+    overflow-wrap: break-word;
+}

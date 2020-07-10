@@ -3,7 +3,7 @@
     height: 100%;
     width: 100%;
     background-size: cover;
-    background-image: linear-gradient(rgb(0,0,0,0.8), rgb(0,0,0,0.5)), url(./images/bg.png); 
+    background-image: linear-gradient(rgb(0,0,0,0.8), rgb(0,0,0,0.5)), url(../../images/bg.png); 
     overflow-y: auto;
     font-family: 'Nunito';
     -webkit-touch-callout: none;

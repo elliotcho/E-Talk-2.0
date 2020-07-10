@@ -36,6 +36,11 @@ nav .btn-circle{
     text-align: center;
 }
 
+nav .btn-circle:focus{
+    box-shadow: none;
+    outline: none;
+}
+
 @media screen and (min-width: 550px){
     nav li{
         margin: 0 12px;
