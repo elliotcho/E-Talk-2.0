@@ -27,6 +27,15 @@
     font-size: 1.3em;
     margin-left: 20px;
     cursor: pointer;
+    color: gray;
+}
+
+.post .fa-trash-alt:hover{
+    color: red;
+}
+
+.post .fa-edit:hover{
+    color: silver;
 }
 
 .post h3:hover, .post p:hover{
@@ -36,4 +45,24 @@
 
 .content{
     overflow-wrap: break-word;
+}
+
+.post .fa-heart{
+    font-size: 10px;
+    color: white;
+    background: black;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.post span{
+    position: relative;
+    top: 2px;
+    font-size: 15px;
+    font-family: 'Arial';
+    cursor: pointer;
+}
+
+.post span:hover{
+    color: gray;
 }
