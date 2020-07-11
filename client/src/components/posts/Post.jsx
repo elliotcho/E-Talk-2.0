@@ -29,10 +29,9 @@ class Post extends Component{
                 <section className='mt-4'>
                     <i className ='fa fa-heart mx-0'></i>
                     <span className='ml-2'>3 likes</span>
-                </section>
 
-                <section className='commentSection text-right'>       
-                    <div className ='mr-3'>3 comments</div>
+                    <i className ='fas fa-comment-alt'></i>
+                    <span className='ml-2'>3 Comments</span>
                 </section>
             </div>
         )

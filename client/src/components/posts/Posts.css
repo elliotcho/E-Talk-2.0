@@ -1,10 +1,36 @@
+.createpost{
+    max-width: 600px;
+    margin: 20px;
+    font-family: 'Nunito';
+}
+
+
+.createpost textarea{
+    width: 100%;
+    height: 100px;
+    resize: none;
+    outline: none;
+    font-family: 'Arial';
+}
+
+.createpost textarea:focus{
+    border: solid lightblue;
+}
+
+.createpost button{
+    width: 100%;
+}
+
+.createpost button:focus{
+    box-shadow: none;
+    outline: none;
+}
+
 .post{
     position: relative;
     margin: 20px;
-    margin-bottom: 60px;
     max-width: 600px;
-    border-top-left-radius: 2%;
-    border-top-right-radius: 2%;
+    border-radius: 2%;
     padding: 20px;
     font-family: 'Helvetica';
 }
@@ -38,7 +64,7 @@
 }
 
 .post .fa-edit:hover{
-    color: silver;
+    color: black;
 }
 
 .post h3:hover, .post p:hover{
@@ -62,10 +88,19 @@
     color: red;
 }
 
+.post .fa-comment-alt{
+   position: relative;
+   top: 5px;
+}
+
+.post .fa-comment-alt:hover{
+    color:brown;
+}
+
 .post span{
     position: relative;
     top: 2px;
-    font-size: 13px;
+    font-size: 14px;
     font-family: 'Arial';
     cursor: pointer;
 }
@@ -74,20 +109,8 @@
     color: gray;
 }
 
-.post .commentSection{
-    position: absolute;
-    left: 0;
-    margin: 20px 0;
-    width: 100%;
-    border-bottom-left-radius: 2%;
-    border-bottom-right-radius: 2%;
-    padding: 7px;
-    background: lightblue;
-    color: blue;
-    font-family: 'Trebuchet MS';
-    cursor: pointer;
-}
-
-.post .commentSection:hover{
-    color: gray;
+@media screen and (min-width: 680px){
+    .createpost, .post{
+        margin: 20px auto;
+    }
 }
