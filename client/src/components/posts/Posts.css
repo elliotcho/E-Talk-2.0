@@ -1,9 +1,12 @@
 .post{
+    position: relative;
     margin: 20px;
+    margin-bottom: 60px;
     max-width: 600px;
+    border-top-left-radius: 2%;
+    border-top-right-radius: 2%;
     padding: 20px;
     font-family: 'Helvetica';
-    padding-bottom: 30px;
 }
 
 .post img{
@@ -55,14 +58,36 @@
     cursor: pointer;
 }
 
+.post .fa-heart:hover{
+    color: red;
+}
+
 .post span{
     position: relative;
     top: 2px;
-    font-size: 15px;
+    font-size: 13px;
     font-family: 'Arial';
     cursor: pointer;
 }
 
 .post span:hover{
+    color: gray;
+}
+
+.post .commentSection{
+    position: absolute;
+    left: 0;
+    margin: 20px 0;
+    width: 100%;
+    border-bottom-left-radius: 2%;
+    border-bottom-right-radius: 2%;
+    padding: 7px;
+    background: lightblue;
+    color: blue;
+    font-family: 'Trebuchet MS';
+    cursor: pointer;
+}
+
+.post .commentSection:hover{
     color: gray;
 }
