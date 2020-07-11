@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import CreatePost from '../posts/CreatePost';
 import PostsList from '../posts/PostsList';
 import Navbar from '../layout/Navbar';
 import './Userfeed.css';
@@ -16,9 +15,6 @@ class Userfeed extends Component{
         return (
             <div className='userfeed'>
                 <Navbar/>
-
-                <CreatePost/>
-
                 <PostsList/>
             </div>
         )

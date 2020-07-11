@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import './Posts.css';
 
 class CreatePost extends Component{
     constructor(){
@@ -40,6 +39,8 @@ class CreatePost extends Component{
         }
 
         this.setState({content: ""});
+
+        this.props.addPost(content);
     }
 
     render(){
