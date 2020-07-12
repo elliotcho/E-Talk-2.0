@@ -4,7 +4,7 @@ import moment from 'moment';
 import loading from '../../../images/loading.jpg';
 
 
-class OwnerDetails extends Component{
+class PostHeader extends Component{
     constructor(){
         super();
         
@@ -61,4 +61,4 @@ class OwnerDetails extends Component{
     }
 }
 
-export default OwnerDetails;
+export default PostHeader;

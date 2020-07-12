@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import LikeSection from './post/LikeSection';
-import OwnerDetails from './post/OwnerDetails';
+import PostLikes from './post/PostLikes';
+import PostHeader from './post/PostHeader';
 import {connect} from 'react-redux';
 
 class Post extends Component{
@@ -50,7 +50,7 @@ class Post extends Component{
 
         return(
             <div className ='post bg-white'>
-                 <OwnerDetails
+                 <PostHeader
                     uid = {uid}
                     ownerId = {ownerId}
                     postId = {postId}
@@ -63,7 +63,7 @@ class Post extends Component{
                 </main>
 
                 <section className='mt-4'>
-                    <LikeSection 
+                    <PostLikes
                                  uid = {uid}
                                  postId = {postId} 
                                  formatCount = {this.formatCount} 

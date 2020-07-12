@@ -27,15 +27,14 @@
 
 .noposts{
     max-width: 600px;
-    margin: 50px auto;
+    margin: 50px;
     color: lightgray;
     font-family: 'Nunito';
 }
 
 .post{
-    position: relative;
-    margin: 20px;
     max-width: 600px;
+    margin: 20px;
     border-radius: 2%;
     padding: 20px;
     font-family: 'Helvetica';
@@ -119,10 +118,4 @@
 
 .post span:hover{
     color: gray;
-}
-
-@media screen and (min-width: 680px){
-    .createpost, .post{
-        margin: 20px auto;
-    }
 }

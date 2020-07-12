@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-class LikeSection extends Component{
+class PostLikes extends Component{
     constructor(){
         super();
         
@@ -70,4 +70,4 @@ class LikeSection extends Component{
     }
 }
 
-export default LikeSection;
+export default PostLikes;
