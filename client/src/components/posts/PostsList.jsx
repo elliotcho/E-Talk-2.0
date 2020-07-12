@@ -42,7 +42,7 @@ class PostsList extends Component{
         ));
 
         return(
-            <div>
+            <div className='mb-5'>
                 <CreatePost addPost ={this.addPost}/>
                 {posts.length === 0 ? <h1 className='noposts text-center'>No posts available</h1>: posts}
             </div>

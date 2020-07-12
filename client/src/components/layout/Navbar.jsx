@@ -49,7 +49,7 @@ function Navbar(props){
                             {
                                 props.firstName && props.lastName? 
                                 props.firstName[0].toUpperCase() + props.lastName[0].toUpperCase():
-                                null 
+                                "..."
                             }
                         </Link>
                     </li>
