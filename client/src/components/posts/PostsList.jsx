@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {createPost, getPosts, deletePost} from '../../store/actions/postActions';
 import CreatePost from './CreatePost';
 import Post from './Post';
 import './Posts.css';
@@ -6,22 +8,16 @@ import './Posts.css';
 class PostsList extends Component{
     constructor(){
         super();
-
-        this.state ={posts: [{id: "1", content: "This is content"}]}
-
         this.addPost = this.addPost.bind(this);
         this.deletePost = this.deletePost.bind(this);
     }
 
+    componentDidMount(){
+        this.props.getPosts();
+    }
+
     addPost(content){
-        const {posts} =this.state;
-
-        posts.unshift({
-            id: "2",
-            content
-        });
-
-        this.setState({posts});
+        this.props.createPost(this.props.uid, content);
     }
 
     deletePost(id){
@@ -29,31 +25,42 @@ class PostsList extends Component{
             return;
         }
 
-        const {posts} = this.state;
-
-        for(let i=0;i<posts.length;i++){
-            if(posts[i].id === id){
-                posts.splice(i, 1);
-                break;
-            }
-        }
-
-        this.setState({posts});
+        this.props.deletePost(id);
     }
 
     render(){
-        const posts = this.state.posts.map(post =>(
-            <Post key = {post.id}  id = {post.id} content = {post.content} deletePost={this.deletePost}/>
+        const posts = this.props.posts.map(post =>(
+            <Post key = {post._id}  
+                  postId = {post._id} 
+                  date = {post.date}
+                  content = {post.content} 
+                  deletePost={this.deletePost}
+            />
         ));
 
         return(
             <div>
                 <CreatePost addPost ={this.addPost}/>
 
-                {posts}
+                {posts.length === 0 ? <h1 className='noposts text-center'>No posts available</h1>: posts}
             </div>
         )
     }
 }
 
-export default PostsList;
+const mapStateToProps = (state) =>{
+    return {
+        uid: state.auth.uid,
+        posts: state.posts.list
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        createPost: (uid, content) => {dispatch(createPost(uid, content));},
+        getPosts: () => {dispatch(getPosts());},
+        deletePost: (id) => {dispatch(deletePost(id));}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostsList);

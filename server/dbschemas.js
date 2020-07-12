@@ -14,8 +14,6 @@ const UserSchema = new Schema({
 const CommentSchema = new Schema({
     uid: String,
     createdAt: Date,
-    editted: Boolean, 
-    edittedAt: Date, 
     content: String,
     likes: [String]
 });
@@ -23,8 +21,6 @@ const CommentSchema = new Schema({
 const PostSchema = new Schema({
     uid: String,
     createdAt: Date, 
-    editted: Boolean,
-    ediittedAt: Date,
     content: String,
     likes: [String],
     comments: [CommentSchema]

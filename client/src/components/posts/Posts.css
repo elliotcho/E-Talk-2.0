@@ -25,6 +25,13 @@
     outline: none;
 }
 
+.noposts{
+    max-width: 600px;
+    margin: 50px auto;
+    color: lightgray;
+    font-family: 'Nunito';
+}
+
 .post{
     position: relative;
     margin: 20px;

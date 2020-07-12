@@ -4,7 +4,7 @@ export const login = (credentials) =>{
     return (dispatch) =>{
         const config={headers: {'content-type': 'application/json'}};
 
-        axios.post('http://localhost:5000/login', {...credentials}, config)
+        axios.post('http://localhost:5000/users/login', {...credentials}, config)
         .then(response =>{
             const {msg, _doc} = response.data;
 
@@ -23,7 +23,7 @@ export const signUp = (credentials) =>{
     return (dispatch) =>{
         const config={headers: {'content-type': 'application/json'}};
 
-        axios.post('http://localhost:5000/signup', {...credentials}, config).then(response =>{
+        axios.post('http://localhost:5000/users/signup', {...credentials}, config).then(response =>{
             const {msg, _doc} = response.data;
 
             if(msg === 'Success'){

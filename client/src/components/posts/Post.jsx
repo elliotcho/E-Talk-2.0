@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import  moment from 'moment';
 
 import loading from '../../images/loading.jpg';
 
@@ -13,7 +14,7 @@ class Post extends Component{
 
                     <section className='col-7 col-sm-8'>
                         <h3 className='text-primary mt-2'>Gugsa Challa</h3>
-                        <p className='text-muted'>5 minutes ago</p>
+                        <p className='text-muted'>{moment(this.props.date).calendar()}</p>
                     </section>
 
                     <section className='col-1 mt-4'>

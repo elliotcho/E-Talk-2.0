@@ -1,6 +1,7 @@
 const {User} = require('../dbschemas');
+const router = require('express').Router();
 
-exports.login = (req, res) =>{
+router.post('/login', (req, res) =>{
     const {email, password} = req.body;
     
     User.findOne({email}).then(result =>{
@@ -12,9 +13,9 @@ exports.login = (req, res) =>{
             res.json({msg: "Success", ...result})
         }
     });
-}
+});
 
-exports.signup = (req, res)=>{
+router.post('/signup', (req, res)=>{
     const {firstName, lastName, email, password, confirmPassword} = req.body;
 
     if(password !== confirmPassword){
@@ -41,13 +42,15 @@ exports.signup = (req, res)=>{
             }
         });
     }
-}
+});
 
-exports.getUserInfo = (req, res) =>{
-    User.findOne({_id: req.body.uid}).then(result =>{
+router.get('/:uid', (req, res) =>{
+    User.findOne({_id: req.params.uid}).then(result =>{
         res.json({
             firstName: result.firstName,
             lastName: result.lastName
         });
     });
-}
+});
+
+module.exports = router;

@@ -14,20 +14,12 @@ mongoose.connection.once('open', ()=>{
     console.log('Connected to database');
 }).on('error', err => {console.log(err);});
 
-//set up middleware
+//use middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-
-
-const {
-    login,
-    signup,
-    getUserInfo,
-} = require('./handlers/users');
-
-app.post('/login', login);
-app.post('/signup', signup);
-app.post('/userinfo', getUserInfo);
+//initialize routes
+app.use('/users', require('./routes/users'));
+app.use('/posts', require('./routes/posts'));
 
 app.listen(5000);
