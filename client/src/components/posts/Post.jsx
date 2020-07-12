@@ -19,7 +19,7 @@ class Post extends Component{
 
                     <section className='col-1 mt-4'>
                         <i className='fas fa-edit'></i>
-                        <i className='fas fa-trash-alt' onClick ={() => {this.props.deletePost(this.props.id)}}></i>
+                        <i className='fas fa-trash-alt' onClick ={() => {this.props.deletePost(this.props.postId)}}></i>
                     </section>
                 </header>
 

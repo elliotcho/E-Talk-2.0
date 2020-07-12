@@ -1,6 +1,13 @@
 const {User, Post, Comment} = require('../dbschemas');
 const router = require('express').Router();
 
+const getUserFeedPosts = (res) =>{
+    Post.find({}).then(result =>{
+        result.sort((a, b) => b.createdAt - a.createdAt);
+        res.json(result);
+    });
+}
+
 router.post('/create', (req, res) =>{
     const newPost = new Post({
         uid: req.body.uid,
@@ -11,27 +18,18 @@ router.post('/create', (req, res) =>{
     });
 
     newPost.save().then(() =>{
-        Post.find({}).then(result =>{
-            result.sort((a, b) => b.createdAt - a.createdAt);
-            res.json(result);
-        });
+        getUserFeedPosts(res);
     });
 });
 
 router.get('/', (req, res) =>{
-    Post.find({}).then(result =>{
-        result.sort((a, b) => b.createdAt - a.createdAt);
-        res.json(result);
-    });
+    getUserFeedPosts(res);
 });
 
 
 router.delete('/:id', (req, res) =>{
     Post.deleteOne({_id: req.params.id}).then(()=>{
-        Post.find({}).then(result =>{
-            result.sort((a, b) => b.createdAt - a.createdAt);
-            res.json(result);
-        });
+        getUserFeedPosts(res);
     });
 });
 
