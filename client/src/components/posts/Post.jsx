@@ -21,15 +21,29 @@ class Post extends Component{
     }
 
     componentDidMount(){
-        const {ownerId} = this.props;
+        const {uid, postId, ownerId, comments, likes} = this.props;
+
+        const config = {headers: {'content-type': 'application/json'}};
 
         axios.get(`http://localhost:5000/users/${ownerId}`).then(response => {
             const {firstName, lastName} = response.data;
-            this.setState({firstName, lastName});
+            
+            this.setState({firstName, lastName}, ()=>{        
+                axios.post('http://localhost:5000/posts/userliked', {uid, postId}, config).then(response =>{
+                    const {userLiked} = response.data;
+
+                    this.setState({
+                        userLiked,
+                        likeCount: likes.length,
+                        comments: comments.length
+                    });
+                });
+            });
         });
     }
 
     handleLike(e){
+        let {uid, postId} = this.props;
         let {userLiked, likeCount} = this.state;
 
         if(userLiked){
@@ -41,6 +55,11 @@ class Post extends Component{
             e.target.style.color = 'red';
             likeCount++;
         }
+
+        const config = {headers: {'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/posts/like', {uid, postId, userLiked: !userLiked}, config)
+        .then(()=>{});
 
         this.setState({userLiked: !userLiked, likeCount});
     }
@@ -75,7 +94,9 @@ class Post extends Component{
     render(){
         const {uid, ownerId, postId, createdAt, deletePost} = this.props;
 
-        const {firstName, lastName, likeCount, commentCount} = this.state;
+        const {firstName, lastName, userLiked, likeCount, commentCount} = this.state;
+
+        const styleLike = (userLiked)? {color: 'red'}: {color: 'white'};
 
         return(
             <div className ='post bg-white'>
@@ -109,7 +130,7 @@ class Post extends Component{
                 </main>
 
                 <section className='mt-4'>
-                    <i className ='fa fa-heart mx-0' onClick = {this.handleLike}/>
+                    <i className ='fa fa-heart mx-0' onClick = {this.handleLike} style={styleLike}/>
                     <span className='ml-2'>
                         {likeCount ===0? null: this.formatCount(likeCount)}
                         {likeCount===1? " like": likeCount === 0? null: " likes"}

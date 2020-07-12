@@ -33,4 +33,43 @@ router.delete('/:id', (req, res) =>{
     });
 });
 
+router.post('/like', (req, res) =>{
+    const {uid, postId, userLiked} = req.body;
+
+    Post.findOne({_id: postId}).then(result=>{ 
+        const likes = result.likes;
+
+        if(userLiked){
+            likes.push(uid);
+
+            Post.updateOne({_id: postId}, {likes}).then(()=>{
+                res.json({msg: "Post was liked"});
+            });
+        }
+
+        else{
+            likes.splice(likes.indexOf(uid), 1);
+
+            Post.updateOne({_id: postId}, {likes}).then(()=>{
+                res.json({msg: "Post was unliked"});
+            });
+        }
+    });
+});
+
+
+router.post('/userliked', (req, res) =>{
+    const {postId, uid} = req.body;
+
+    Post.findOne({_id: postId}).then(result =>{
+        if(result.likes.includes(uid)){
+            res.json({userLiked: true});
+        }
+
+        else{
+            res.json({userLiked: false});
+        }
+    });
+});
+
 module.exports = router;
