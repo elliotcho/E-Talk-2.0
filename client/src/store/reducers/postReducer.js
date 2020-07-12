@@ -7,6 +7,7 @@ const postReducer = (state=initState, action) =>{
                 ...state,
                 list: [...action.posts]
             }
+            
         default:
             return state;
     }

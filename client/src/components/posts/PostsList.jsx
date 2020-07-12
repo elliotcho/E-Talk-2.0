@@ -32,8 +32,11 @@ class PostsList extends Component{
         const posts = this.props.posts.map(post =>(
             <Post key = {post._id}  
                   postId = {post._id} 
-                  date = {post.date}
-                  content = {post.content} 
+                  ownerId = {post.uid}
+                  createdAt = {post.createdAt}
+                  content = {post.content}
+                  likes = {post.likes}
+                  comments = {post.comments} 
                   deletePost={this.deletePost}
             />
         ));
@@ -41,7 +44,6 @@ class PostsList extends Component{
         return(
             <div>
                 <CreatePost addPost ={this.addPost}/>
-
                 {posts.length === 0 ? <h1 className='noposts text-center'>No posts available</h1>: posts}
             </div>
         )
