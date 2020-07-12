@@ -11,27 +11,71 @@ class Post extends Component{
 
         this.state= {
             firstName: 'Loading',
-            lastName: 'User...'
+            lastName: 'User...', 
+            userLiked: false, 
+            likeCount: 0,
+            commentCount: 0
         }
+
+        this.handleLike = this.handleLike.bind(this);
     }
 
     componentDidMount(){
         const {ownerId} = this.props;
 
         axios.get(`http://localhost:5000/users/${ownerId}`).then(response => {
-            const {
-                firstName, 
-                lastName
-            } = response.data;
-            
+            const {firstName, lastName} = response.data;
             this.setState({firstName, lastName});
         });
     }
 
-    render(){
-        const {uid, ownerId, postId, createdAt, likes, comments, deletePost} = this.props;
+    handleLike(e){
+        let {userLiked, likeCount} = this.state;
 
-        const {firstName, lastName} = this.state;
+        if(userLiked){
+            e.target.style.color = 'white';
+            likeCount--;
+        }
+
+        else{
+            e.target.style.color = 'red';
+            likeCount++;
+        }
+
+        this.setState({userLiked: !userLiked, likeCount});
+    }
+
+    formatCount(num){
+        if(num >= 1000000000){
+            let billions = Math.floor(num/1000000000);
+            let hundredMillions = Math.floor((num%1000000000)/100000000);
+
+            return `${billions}.${hundredMillions}B`;
+        }
+
+        else if(num >= 1000000){
+            let millions = Math.floor(num/1000000);
+            let hundredThousands = Math.floor((num%1000000)/100000);
+
+            return `${millions}.${hundredThousands}M`
+        }
+
+        else if(num >= 1000){
+            let thousands = Math.floor(num/1000);
+            let hundreds = Math.floor((num%1000)/100)
+
+            return `${thousands}.${hundreds}K`
+        }
+
+        else{
+            return num;
+        }
+    }
+
+    render(){
+        const {uid, ownerId, postId, createdAt, deletePost} = this.props;
+
+        const {firstName, lastName, likeCount, commentCount} = this.state;
 
         return(
             <div className ='post bg-white'>
@@ -65,16 +109,16 @@ class Post extends Component{
                 </main>
 
                 <section className='mt-4'>
-                    <i className ='fa fa-heart mx-0'/>
+                    <i className ='fa fa-heart mx-0' onClick = {this.handleLike}/>
                     <span className='ml-2'>
-                        {likes.length===0? null: likes.length}
-                        {likes.length===1? "like": likes.length === 0? null: "likes"}
+                        {likeCount ===0? null: this.formatCount(likeCount)}
+                        {likeCount===1? " like": likeCount === 0? null: " likes"}
                     </span>
 
                     <i className ='fas fa-comment-alt'/>
                     <span className='ml-2'>
-                        {comments.length === 0? null: comments.length} 
-                        {comments.length>1? "Comments": "Comment"}
+                        {commentCount === 0? null: this.formatCount(commentCount)} 
+                        {commentCount>1? " Comments": " Comment"}
                     </span>
                 </section>
             </div>
