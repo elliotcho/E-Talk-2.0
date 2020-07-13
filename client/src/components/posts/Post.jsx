@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import PostLikes from './post/PostLikes';
 import PostHeader from './post/PostHeader';
-import {connect} from 'react-redux';
 
 class Post extends Component{
     constructor(){
@@ -81,10 +80,4 @@ class Post extends Component{
     }
 }
 
-const mapStateToProps = (state) =>{
-    return{
-        uid: state.auth.uid
-    }
-}
-
-export default connect(mapStateToProps)(Post);
+export default Post;

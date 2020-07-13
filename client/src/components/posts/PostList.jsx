@@ -33,6 +33,7 @@ class PostsList extends Component{
             <Post key = {post._id}  
                   postId = {post._id} 
                   ownerId = {post.uid}
+                  uid = {this.props.uid}
                   createdAt = {post.createdAt}
                   content = {post.content}
                   likes = {post.likes}
