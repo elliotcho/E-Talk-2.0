@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import Userfeed from './components/userfeed/Userfeed';
+import Profile from './components/profile/Profile';
+import Navbar from './components/layout/Navbar';
 
 class App extends Component{  
     render(){
@@ -11,9 +13,12 @@ class App extends Component{
 
         return(
             <BrowserRouter>
+              {uid? <Navbar/>: null}
+
               <Switch>
                   <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login uid = {uid}/>}/>
                   <Route path='/signup' render ={() => <Signup uid = {uid}/>}/>
+                  <Route path ='/profile/:id' render ={() => <Profile/>}/>
               </Switch>
             </BrowserRouter>
         )
