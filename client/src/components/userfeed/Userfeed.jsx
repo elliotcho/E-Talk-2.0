@@ -16,13 +16,18 @@ class Userfeed extends Component{
             <div className='userfeed'>
                 <Navbar/>
                 
-                <div className='container-fluid'>
-                    <div className='row'>
-                        <section className='col-12'>
-                            <PostList/>
-                        </section>
+                <div className='row'>
+                    <section className ='col-xl-3 text-white'>
+                        <h1>Find Users</h1>
+                    </section>
 
-                    </div>
+                    <section className='col-12 col-xl-6'>
+                        <PostList/>
+                    </section>
+
+                    <section className ='xl-3 text-white'>
+                        <h1>Find Users</h1>
+                    </section>
                 </div>
             </div>
         )

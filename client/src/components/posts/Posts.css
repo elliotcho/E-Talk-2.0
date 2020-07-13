@@ -119,3 +119,13 @@
 .post span:hover{
     color: gray;
 }
+
+@media screen and (min-width: 680px){
+    .createpost, .post{
+        margin: 20px auto;
+    }
+
+    .noposts{
+        margin: 50px auto;
+    }
+}

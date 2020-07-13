@@ -34,11 +34,11 @@ class PostHeader extends Component{
 
         return(
             <header className ='row mb-3'>
-                 <section className='col-s-2 ml-2'> 
+                 <section className='ml-2'> 
                     <img src={loading} alt='profile pic'/>
                  </section>
 
-                <section className='col-7 col-sm-8'>
+                <section className='col-7 col-sm-8 col-md-8'>
                     <h3 className='text-primary mt-2'>
                         {firstName} {lastName}
                     </h3>
@@ -50,7 +50,7 @@ class PostHeader extends Component{
 
                 {
                     uid === ownerId? 
-                        (<section className='col-1 mt-4'>
+                        (<section className='mt-4'>
                             <i className='fas fa-edit'/>
                             <i className='fas fa-trash-alt' onClick ={() => {deletePost(postId)}}/>
                         </section>)
