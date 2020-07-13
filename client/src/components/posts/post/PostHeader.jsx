@@ -38,7 +38,7 @@ class PostHeader extends Component{
                     <img src={loading} alt='profile pic'/>
                  </section>
 
-                <section className='col-7 col-sm-8'>
+                <section className='col-7 col-sm-8 col-md-6 col-lg-7 col-xl-8'>
                     <h3 className='text-primary mt-2'>
                         {firstName} {lastName}
                     </h3>
