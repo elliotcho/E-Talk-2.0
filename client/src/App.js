@@ -6,6 +6,7 @@ import Signup from './components/auth/Signup';
 import Userfeed from './components/userfeed/Userfeed';
 import Profile from './components/profile/Profile';
 import Navbar from './components/layout/Navbar';
+import './App.css';
 
 class App extends Component{  
     render(){

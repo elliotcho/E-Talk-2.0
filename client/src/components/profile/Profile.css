@@ -1,0 +1,10 @@
+.profile{
+    margin: 20px 0;
+    font-family: 'Nunito';
+}
+
+.profile .profile-content{
+    padding: 20px;
+    background: #fff;
+    min-height: 460px;
+}

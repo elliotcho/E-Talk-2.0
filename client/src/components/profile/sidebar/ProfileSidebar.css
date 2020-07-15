@@ -1,0 +1,91 @@
+.profile-sidebar{
+    padding: 20px 10px;
+    background: #fff;
+}
+
+.profile-sidebar img{
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.profile-sidebar .user-name{
+    color: #5a7391;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    cursor: pointer;
+}
+
+.profile-sidebar .user-buttons{
+    text-align: center;
+    margin: 15px auto;
+}
+
+.profile-sidebar .btn{
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 15px;
+    margin-right: 5px;
+}
+
+.profile-sidebar .btn:last-child{
+    margin-right: 0px;
+}
+
+.profile-sidebar .btn:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.profile-sidebar .profile-menu{
+    margin-top: 30px;
+}
+
+.profile-sidebar li{
+    width: 100%;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #f0f4f7;
+}
+
+.profile-sidebar li:last-child{
+    border-bottom: none;
+}
+
+.profile-sidebar a{
+    color: #93a3b5;
+    font-size: 14px;
+    font-weight: 400;
+    margin-right: 8px;
+}
+
+.profile-sidebar a:hover{
+    background: #fafcfd;
+    color: #5b9bd1;
+}
+
+.profile-sidebar li.active{
+    border-bottom: none;
+}
+
+.profile-sidebar li.active a{
+    color: #5b9bd1;
+    background: #f6f9fb;
+    border-bottom: 2px solid #5b9bd1;
+    margin-left: -2px;
+}
+
+@media screen and (min-width: 768px){
+    .profile-sidebar img{
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-sidebar .btn{
+        margin-top: 7px;
+    }
+}
