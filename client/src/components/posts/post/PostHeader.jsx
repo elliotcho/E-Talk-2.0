@@ -11,6 +11,7 @@ class PostHeader extends Component{
         this.state = {
             firstName: 'Loading',
             lastName: 'User...', 
+            imgURL: null
         }
     }
 
@@ -18,24 +19,29 @@ class PostHeader extends Component{
         const {ownerId} = this.props;
 
         axios.get(`http://localhost:5000/users/${ownerId}`).then(response => {
-            const {firstName, lastName} = response.data;
-            
             this.setState({
-                firstName,
-                lastName,
+                firstName: response.data.firstName,
+                lastName: response.data.lastName
             });
+        });
+
+        fetch(`http://localhost:5000/users/profilepic/${ownerId}`, {
+            method: 'GET'
+        }).then(response => response.blob())
+        .then(file => {
+            this.setState({imgURL: URL.createObjectURL(file)});
         });
     }
 
     render(){
-        const {firstName, lastName} = this.state;
+        const {firstName, lastName, imgURL} = this.state;
 
         const {uid, ownerId, postId, createdAt, deletePost} = this.props;
 
         return(
             <header className ='row mb-3'>
                  <section className='ml-2'> 
-                    <img src={loading} alt='profile pic'/>
+                    <img src={imgURL? imgURL: loading} alt='profile pic'/>
                  </section>
 
                 <section className='col-7 col-sm-8'>

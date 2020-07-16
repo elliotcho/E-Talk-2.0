@@ -3,13 +3,42 @@
     background: #fff;
 }
 
+.profile-sidebar .profile-pic{
+    position: relative;
+}
+
+.profile-sidebar .profile-pic, 
 .profile-sidebar img{
     display: block;
     width: 150px;
     height: 150px;
     border-radius: 50%;
     margin: 0 auto;
+}
+
+.profile-sidebar label{
+    position: absolute;
+    font-weight: bold;
+    width: 150px;
+    height: 75px;
+    bottom: -10px;
+    border-top: 0;
+    border-bottom-left-radius: 75px;
+    border-bottom-right-radius: 75px;
+    box-sizing: border-box;
+    background: lightgray;
+    opacity: 0.7;
     cursor: pointer;
+}
+
+.profile-sidebar input[type='file']{
+    visibility: hidden;
+}
+
+.profile-sidebar .update-pic-txt{
+    position: relative;
+    color: #585656;
+    top: 10px;
 }
 
 .profile-sidebar .user-name{
@@ -80,9 +109,20 @@
 }
 
 @media screen and (min-width: 768px){
-    .profile-sidebar img{
+    .profile-sidebar .profile-pic,
+    .profile-sidebar img
+    {
         width: 100px;
         height: 100px;
+    }
+
+    .profile-sidebar label{
+        width: 100px;
+        height: 50px;
+    }
+
+    .profile-sidebar .update-pic-txt{
+        font-size: 0.9em;
     }
 
     .profile-sidebar .btn{

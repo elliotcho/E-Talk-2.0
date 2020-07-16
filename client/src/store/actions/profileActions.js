@@ -8,3 +8,17 @@ export const getUserInfo = (uid) =>{
         });
     }
 }
+
+export const changeProfilePic = (uid, profilePic) =>{
+    return (dispatch) =>{
+        const formData = new FormData();
+
+        formData.append('uid', uid);
+        formData.append('profilePic', profilePic);
+
+        const config = {headers: {'content-type': 'multipart/form-data'}};
+
+        axios.post('http://localhost:5000/users/profilepic', formData, config)
+        .then(() => {window.location.reload();})
+    }
+}

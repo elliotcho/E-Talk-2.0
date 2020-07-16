@@ -1,4 +1,5 @@
 //require modules
+const multer = require('multer');
 const mongoose=require('mongoose');
 const cors=require('cors');
 const bodyParser=require('body-parser');
