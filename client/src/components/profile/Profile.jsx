@@ -5,6 +5,10 @@ import ProfileSidebar from './sidebar/ProfileSidebar';
 import './Profile.css';
 
 class Profile extends Component{
+    componentDidUpdate(){
+        window.location.reload();
+    }
+
     render(){
         const {uid} = this.props;
 

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import loading from '../../../images/loading.jpg';
@@ -13,6 +14,8 @@ class PostHeader extends Component{
             lastName: 'User...', 
             imgURL: null
         }
+
+        this.toOwnerProfile = this.toOwnerProfile.bind(this);
     }
 
     componentDidMount(){
@@ -33,6 +36,11 @@ class PostHeader extends Component{
         });
     }
 
+    toOwnerProfile(){
+        const {ownerId} = this.props;
+        this.props.history.push(`/profile/${ownerId}`);
+    }
+
     render(){
         const {firstName, lastName, imgURL} = this.state;
 
@@ -41,11 +49,11 @@ class PostHeader extends Component{
         return(
             <header className ='row mb-3'>
                  <section className='ml-2'> 
-                    <img src={imgURL? imgURL: loading} alt='profile pic'/>
+                    <img src={imgURL? imgURL: loading} alt='profile pic' onClick = {this.toOwnerProfile}/>
                  </section>
 
                 <section className='col-7 col-sm-8'>
-                    <h3 className='text-primary mt-2'>
+                    <h3 className='text-primary mt-2' onClick = {this.toOwnerProfile}>
                         {firstName} {lastName}
                     </h3>
 
@@ -67,4 +75,4 @@ class PostHeader extends Component{
     }
 }
 
-export default PostHeader;
+export default withRouter(PostHeader);

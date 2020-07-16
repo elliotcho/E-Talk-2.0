@@ -52,7 +52,7 @@ class ProfilePic extends Component{
 
                 <img src ={imgURL? imgURL: loading} alt='profile pic'/>
 
-                <label style = {canChange? labelStyle: null} htmlFor = 'uploadPic'>
+                <label style = {canChange? labelStyle: {display: 'none'}} htmlFor = 'uploadPic'>
                     <div className ='text-center update-pic-txt'>
                         Update
                     </div>

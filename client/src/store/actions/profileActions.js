@@ -19,6 +19,6 @@ export const changeProfilePic = (uid, profilePic) =>{
         const config = {headers: {'content-type': 'multipart/form-data'}};
 
         axios.post('http://localhost:5000/users/profilepic', formData, config)
-        .then(() => {window.location.reload();})
+        .then(() => {window.location.reload();});
     }
 }
