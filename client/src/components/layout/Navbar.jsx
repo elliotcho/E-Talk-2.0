@@ -14,7 +14,7 @@ function Navbar(props){
     useEffect(() => {props.getUserInfo(props.uid);})
 
     return(
-        <div className='text-white'>
+        <div className='text-white navbar-container'>
             <nav className='navbar'>
                 <Link exact to='/' className='navbar-brand'>E-Talk</Link>
             

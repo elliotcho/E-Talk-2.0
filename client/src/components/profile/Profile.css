@@ -4,7 +4,7 @@
 }
 
 .profile .profile-content{
-    padding: 20px;
+    padding: 30px;
     background: #fff;
     min-height: 460px;
     overflow: auto;
@@ -19,5 +19,7 @@
 }
 
 .profile .post{
-    
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: solid black 1px;
 }

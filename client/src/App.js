@@ -16,11 +16,13 @@ class App extends Component{
             <BrowserRouter>
               {uid? <Navbar/>: null}
 
-              <Switch>
+              <main style = {uid? {marginTop: "120px"}: null}>
+                <Switch>
                   <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login uid = {uid}/>}/>
                   <Route path='/signup' render ={() => <Signup uid = {uid}/>}/>
                   <Route path ='/profile/:id/:type' render ={() => <Profile/>}/>
-              </Switch>
+                </Switch>
+              </main>
             </BrowserRouter>
         )
     }

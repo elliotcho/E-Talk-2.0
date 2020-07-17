@@ -11,6 +11,8 @@ class Profile extends Component{
         if(prevProps.match.params.id !== this.props.match.params.id){   
             window.location.reload();
         }
+        
+        window.scrollTo(0, 0);
     }
 
     render(){

@@ -76,7 +76,7 @@ class PostsList extends Component{
                 
                 {posts.length === 0 ? 
                     <h1 className='noposts text-center'>No posts available</h1>: 
-                    <div className ='post-list'>{posts}</div>}
+                    posts}
             </div>
         )
     }
