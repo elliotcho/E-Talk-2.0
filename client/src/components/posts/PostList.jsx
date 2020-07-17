@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {createPost, getFeedPosts, deletePost} from '../../store/actions/postActions';
+import {getPosts, createPost, deletePost} from '../../store/actions/postActions';
 import CreatePost from './CreatePost';
 import Post from './Post';
 import './Posts.css';
@@ -13,23 +13,43 @@ class PostsList extends Component{
     }
 
     componentDidMount(){
-        const {profileId, getFeedPosts}  = this.props;
+        const {getPosts, profileId}  = this.props;
 
         if(profileId === null){
-            getFeedPosts();
+            getPosts();
+        }
+
+        else{
+            getPosts(profileId);
         }
     }
 
     addPost(content){
-        this.props.createPost(this.props.uid, content);
+        const {uid, profileId} = this.props;
+
+        if(profileId === null){
+            this.props.createPost(uid, content);
+        }
+
+        else{
+            this.props.createPost(uid, content, profileId);
+        }
     }
 
-    deletePost(id){
+    deletePost(postId){
         if(!window.confirm("Are you sure you want to delete this post?")){
             return;
         }
 
-        this.props.deletePost(id);
+        const {profileId} = this.props;
+
+        if(profileId === null){
+            this.props.deletePost(postId);
+        }
+
+        else{
+            this.props.deletePost(postId, profileId);
+        }
     }
 
     render(){
@@ -54,7 +74,9 @@ class PostsList extends Component{
                     <CreatePost addPost ={this.addPost}/>: 
                     null}
                 
-                {posts.length === 0 ? <h1 className='noposts text-center'>No posts available</h1>: posts}
+                {posts.length === 0 ? 
+                    <h1 className='noposts text-center'>No posts available</h1>: 
+                    <div className ='post-list'>{posts}</div>}
             </div>
         )
     }
@@ -69,9 +91,9 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        createPost: (uid, content) => {dispatch(createPost(uid, content));},
-        getFeedPosts: () => {dispatch(getFeedPosts());},
-        deletePost: (id) => {dispatch(deletePost(id));}
+        createPost: (uid, content, profileId) => {dispatch(createPost(uid, content, profileId));},
+        getPosts: (profileId) => {dispatch(getPosts(profileId));},
+        deletePost: (postId, profileId) => {dispatch(deletePost(postId, profileId));}
     }
 }
 

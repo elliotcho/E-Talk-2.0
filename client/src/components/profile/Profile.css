@@ -7,4 +7,17 @@
     padding: 20px;
     background: #fff;
     min-height: 460px;
+    overflow: auto;
+}
+
+.profile .createpost h2{
+    color: black;
+}
+
+.profile .noposts{
+    color: gray;
+}
+
+.profile .post{
+    
 }

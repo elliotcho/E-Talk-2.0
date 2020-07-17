@@ -32,6 +32,11 @@
     font-family: 'Nunito';
 }
 
+.post-list{
+    max-height: 600px;
+    overflow: auto;
+}
+
 .post{
     max-width: 600px;
     margin: 20px;
