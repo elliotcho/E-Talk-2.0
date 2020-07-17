@@ -4,9 +4,13 @@ import {Redirect, withRouter} from 'react-router-dom';
 import ProfileSidebar from './sidebar/ProfileSidebar';
 import './Profile.css';
 
+import PostList from '../posts/PostList';
+
 class Profile extends Component{
-    componentDidUpdate(){
-        window.location.reload();
+    componentDidUpdate(prevProps){
+        if(prevProps.match.params.id !== this.props.match.params.id){   
+            window.location.reload();
+        }
     }
 
     render(){
@@ -16,18 +20,21 @@ class Profile extends Component{
             return <Redirect to='/'/>
         }
 
-        const profileId = this.props.match.params.id;
+        const {
+            id,
+            type
+        } = this.props.match.params;
 
         return(
                 <div className ='container'>
                     <div className ='row profile'>
                         <section className ='col-md-3'>
-                            <ProfileSidebar profileId = {profileId} uid = {uid}/>
+                            <ProfileSidebar profileId = {id} uid = {uid}  type = {type}/>
                         </section>
 
                         <section className ='col-md-9'>
                             <div className ='profile-content'>
-                                User related content....
+                                <PostList profileId = {id}/>
                             </div>
                         </section>
                     </div>

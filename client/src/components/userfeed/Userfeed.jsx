@@ -13,7 +13,7 @@ class Userfeed extends Component{
 
         return (
             <div className='userfeed'>    
-                <PostList/>
+                <PostList profileId = {null}/>
             </div>
         )
     }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {createPost, getPosts, deletePost} from '../../store/actions/postActions';
+import {createPost, getFeedPosts, deletePost} from '../../store/actions/postActions';
 import CreatePost from './CreatePost';
 import Post from './Post';
 import './Posts.css';
@@ -13,7 +13,11 @@ class PostsList extends Component{
     }
 
     componentDidMount(){
-        this.props.getPosts();
+        const {profileId, getFeedPosts}  = this.props;
+
+        if(profileId === null){
+            getFeedPosts();
+        }
     }
 
     addPost(content){
@@ -42,9 +46,14 @@ class PostsList extends Component{
             />
         ));
 
+        const {uid, profileId} = this.props;
+
         return(
             <div className='mb-5'>
-                <CreatePost addPost ={this.addPost}/>
+                {(profileId === null || profileId === uid)? 
+                    <CreatePost addPost ={this.addPost}/>: 
+                    null}
+                
                 {posts.length === 0 ? <h1 className='noposts text-center'>No posts available</h1>: posts}
             </div>
         )
@@ -61,7 +70,7 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
     return{
         createPost: (uid, content) => {dispatch(createPost(uid, content));},
-        getPosts: () => {dispatch(getPosts());},
+        getFeedPosts: () => {dispatch(getFeedPosts());},
         deletePost: (id) => {dispatch(deletePost(id));}
     }
 }

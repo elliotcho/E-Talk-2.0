@@ -1,24 +1,35 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 
 class ProfileMenu extends Component{
     render(){
+        const {profileId, type} = this.props;
+
         return(
             <div className ='profile-menu'>
                 <ul className ='nav'>
-                    <li className ='active'>
-                        <a href='/'>Posts</a>
+                    <li className = {type === 'posts'? 'active': ''}>
+                        <Link to = {`/profile/${profileId}/posts`}>
+                            Posts
+                        </Link>
                     </li>
 
-                    <li>
-                        <a href='/'>Bio</a>
+                    <li className = {type === 'bio'? 'active': ''}>
+                        <Link to = {`/profile/${profileId}/bio`}>
+                            Bio
+                        </Link>
                     </li>
 
-                    <li>
-                        <a href='/'>Projects</a>
+                    <li className = {type === 'projects'? 'active': ''}>
+                        <Link to = {`/profile/${profileId}/projects`}>
+                            Projects
+                        </Link>
                     </li>
 
-                    <li>
-                        <a href='/'>Skills</a>
+                    <li className = {type === 'skills'? 'active': ''}>
+                        <Link to = {`/profile/${profileId}/skills`}>
+                            Skills
+                        </Link>
                     </li>
                 </ul>
             </div>

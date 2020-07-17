@@ -45,7 +45,7 @@ function Navbar(props){
                     </li>
 
                     <li>
-                        <Link to ={`/profile/${props.uid}`} className='btn btn-circle btn-md link'>
+                        <Link to ={`/profile/${props.uid}/posts`} className='btn btn-circle btn-md link'>
                             {
                                 props.firstName && props.lastName? 
                                 props.firstName[0].toUpperCase() + props.lastName[0].toUpperCase():

@@ -38,7 +38,7 @@ class PostHeader extends Component{
 
     toOwnerProfile(){
         const {ownerId} = this.props;
-        this.props.history.push(`/profile/${ownerId}`);
+        this.props.history.push(`/profile/${ownerId}/posts`);
     }
 
     render(){

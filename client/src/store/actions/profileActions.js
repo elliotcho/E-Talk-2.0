@@ -10,7 +10,7 @@ export const getUserInfo = (uid) =>{
 }
 
 export const changeProfilePic = (uid, profilePic) =>{
-    return (dispatch) =>{
+    return () =>{
         const formData = new FormData();
 
         formData.append('uid', uid);

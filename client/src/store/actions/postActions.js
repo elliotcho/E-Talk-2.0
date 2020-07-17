@@ -10,11 +10,17 @@ export const createPost = (uid, content) =>{
     }
 }
 
-export const getPosts = () =>{
+export const getFeedPosts = () =>{
     return (dispatch) =>{
         axios.get('http://localhost:5000/posts').then(response => {
             dispatch({type: "POSTS_UPDATED", posts: response.data});
         });
+    }
+}
+
+export const getProfilePosts = (profileId) =>{
+    return (dispatch) =>{
+        
     }
 }
 

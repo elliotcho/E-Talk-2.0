@@ -19,7 +19,7 @@ class App extends Component{
               <Switch>
                   <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login uid = {uid}/>}/>
                   <Route path='/signup' render ={() => <Signup uid = {uid}/>}/>
-                  <Route path ='/profile/:id' render ={() => <Profile/>}/>
+                  <Route path ='/profile/:id/:type' render ={() => <Profile/>}/>
               </Switch>
             </BrowserRouter>
         )
