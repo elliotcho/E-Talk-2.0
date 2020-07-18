@@ -42,10 +42,39 @@ class Post extends Component{
         }
     }
 
+    computeContent(content){
+        let res = "";
+        let charsLeft =312;
+        let limitExceeded = false;
+
+        for(let i =0;i<content.length;i++){
+            if(charsLeft <=0 ){
+                limitExceeded=true;
+                break;
+            }
+
+            else if(content[i] === '\n'){
+                res+=content[i];
+                charsLeft-=63;
+            }
+
+            else{
+                res+=content[i];
+                charsLeft--;
+            }
+        }
+
+        if(limitExceeded){res += "...";}
+
+        return [res, limitExceeded];
+    }
+
     render(){
-        const {uid, ownerId, postId, createdAt, deletePost, content, likes} = this.props;
+        const {uid, ownerId, postId, createdAt, content, deletePost, likes} = this.props;
 
         const {commentCount} = this.state;
+
+        const contentArray = this.computeContent(content);
 
         return(
             <div className ='post bg-white'>
@@ -58,7 +87,12 @@ class Post extends Component{
                 />
 
                 <main className='content'>
-                    {content}
+                    {contentArray[1]? 
+                    (<div> 
+                        {contentArray[0]} 
+                        <span className ='ml-1 see-more'>See More</span>
+                    </div>):
+                    contentArray[0]}
                 </main>
 
                 <section className='mt-4'>

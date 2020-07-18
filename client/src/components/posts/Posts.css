@@ -85,6 +85,16 @@
 
 .content{
     overflow-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.post .see-more{
+    color: #212194;
+}
+
+.post .see-more:hover{
+    text-decoration: underline;
+    color: #212194;
 }
 
 .post .fa-heart{
