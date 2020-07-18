@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getPosts, createPost, deletePost} from '../../store/actions/postActions';
 import CreatePost from './CreatePost';
-import Post from './Post';
+import Post from './post/Post';
 import './Posts.css';
 
 class PostsList extends Component{
@@ -58,6 +58,7 @@ class PostsList extends Component{
                   postId = {post._id} 
                   ownerId = {post.uid}
                   uid = {this.props.uid}
+                  profileId = {this.props.profileId}
                   createdAt = {post.createdAt}
                   content = {post.content}
                   likes = {post.likes}

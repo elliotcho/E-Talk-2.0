@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect, withRouter} from 'react-router-dom';
+import {Redirect, withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {signUp} from '../../store/actions/authActions';
 import './Auth.css';
@@ -44,7 +44,7 @@ class Signup extends Component{
         return(
             <div className='auth signup text-white' onSubmit={this.handleSubmit}>
                 <nav className='navbar'>
-                    <h2 className='navbar-brand'>E-Talk</h2>
+                    <Link to='/' className='navbar-brand'>E-Talk</Link>
                 </nav>
 
                 <form className='mt-4'>

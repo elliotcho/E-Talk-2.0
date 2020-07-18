@@ -62,25 +62,23 @@
     font-size: 0.9em;
 }
 
-.post i{
-    display: inline;
-    font-size: 1.3em;
-    margin-left: 20px;
-    cursor: pointer;
-    color: gray;
-}
-
-.post .fa-trash-alt:hover{
-    color: red;
-}
-
-.post .fa-edit:hover{
-    color: black;
-}
-
 .post h3:hover, .post p:hover{
     cursor: pointer;
     text-decoration: underline;
+}
+.post-settings{
+    text-align: right;
+}
+
+.post-settings .fa-ellipsis-h{
+    color: #979797;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.post-settings .fa-ellipsis-h:hover{
+    color: black;
 }
 
 .content{
@@ -95,6 +93,14 @@
 .post .see-more:hover{
     text-decoration: underline;
     color: #212194;
+}
+
+.post i{
+    display: inline;
+    font-size: 1.3em;
+    margin-left: 20px;
+    cursor: pointer;
+    color: gray;
 }
 
 .post .fa-heart{

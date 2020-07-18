@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import PostLikes from './post/PostLikes';
-import PostHeader from './post/PostHeader';
+import PostLikes from './PostLikes';
+import PostHeader from './PostHeader';
 
 class Post extends Component{
     constructor(){
@@ -70,7 +70,7 @@ class Post extends Component{
     }
 
     render(){
-        const {uid, ownerId, postId, createdAt, content, deletePost, likes} = this.props;
+        const {uid, ownerId, postId, profileId, createdAt, content, deletePost, likes} = this.props;
 
         const {commentCount} = this.state;
 
@@ -82,6 +82,7 @@ class Post extends Component{
                     uid = {uid}
                     ownerId = {ownerId}
                     postId = {postId}
+                    profileId = {profileId}
                     createdAt = {createdAt}
                     deletePost = {deletePost}
                 />
