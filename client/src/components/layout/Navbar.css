@@ -15,6 +15,10 @@ nav .navbar-brand{
     font-family: 'Nunito';
 }
 
+nav input{
+    display: none;
+}
+
 nav ul{
     padding-left: 20px;
     border-left: 1px white solid;

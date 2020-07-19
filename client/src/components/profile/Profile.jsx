@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect, withRouter} from 'react-router-dom';
 import ProfileSidebar from './sidebar/ProfileSidebar';
-import './Profile.css';
-
 import PostList from '../posts/PostList';
+import ProfileBio from './content/ProfileBio';
+import './Profile.css';
 
 class Profile extends Component{
     componentDidUpdate(prevProps){
@@ -36,7 +36,8 @@ class Profile extends Component{
 
                         <section className ='col-md-9'>
                             <div className ='profile-content'>
-                                <PostList profileId = {id}/>
+                                {type === 'posts'? <PostList profileId = {id}/> : null}
+                                {type === 'bio'? <ProfileBio/>: null}
                             </div>
                         </section>
                     </div>

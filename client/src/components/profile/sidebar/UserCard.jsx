@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ProfilePic from './ProfilePic';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 
 class UserCard extends Component{
@@ -34,7 +35,7 @@ class UserCard extends Component{
                 <ProfilePic profileId = {profileId} uid = {uid}/>
 
                 <section className ='mt-2 text-center'>
-                    <div className ='user-name'>
+                    <div className ='user-name' onClick = {() => {this.props.history.push(`/profile/${profileId}/posts`)}}>
                         {firstName} {lastName}
                     </div>
                 </section>
@@ -48,4 +49,4 @@ class UserCard extends Component{
     }
 }
 
-export default UserCard;
+export default withRouter(UserCard);
