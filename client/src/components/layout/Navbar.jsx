@@ -18,6 +18,15 @@ function Navbar(props){
             <nav className='navbar'>
                 <Link exact to='/' className='navbar-brand'>E-Talk</Link>
             
+                <div className ='search'>
+                    <form>
+                        <input type = 'text'/>
+                        <button>
+                            <i className ='fa fa-search'></i>
+                        </button>
+                    </form>
+                </div>
+
                 <ul className='mt-3'>
                     <li>
                         <Link exact to ='/' className='link'>

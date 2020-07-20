@@ -15,7 +15,7 @@ nav .navbar-brand{
     font-family: 'Nunito';
 }
 
-nav input{
+nav .search{
     display: none;
 }
 
@@ -81,5 +81,66 @@ nav .btn-circle:focus{
         font-size: 1.1em;
         position: relative;
         bottom: 2px;
+    }
+}
+
+@media screen and (min-width: 850px){
+    nav .search{
+        display: block;
+        position: absolute;
+        left: 12vw;
+    }
+
+    nav .search input{
+        width: 25vw;
+        height: 5vh;
+    }
+
+    nav .search input:focus{
+        outline: none;
+        border: 2px solid lightblue;
+    }
+
+    nav .search button{
+        margin: 10px 7px;
+        border: none;
+        cursor: pointer;
+        color: white;
+        background: #6262b4;
+    }
+
+    nav .search button:hover{
+       position: relative;
+       bottom: 2px;
+    }
+
+    nav .search button:focus{
+        outline: none;
+        box-shadow: none;
+    }
+}   
+
+@media screen and (min-width: 1000px){
+    nav .search input{
+        width: 25vw;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    nav .navbar-brand{
+        margin-left: 5vw;
+        margin-top: 5px;
+    }
+
+    nav .search{
+        left: 14vw;
+    }
+
+    nav ul{
+        margin-right: 4vw;
+    }
+
+    nav .search input{
+        width: 35vw;
     }
 }
