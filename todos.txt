@@ -17,6 +17,9 @@ Overall:
 
 [ ] Friend Request page design
 
+[ ] Post detail design
+[ ] Post detail backend
+
 [ ] Post for who liked design
 [ ] Post for who liked backend
 

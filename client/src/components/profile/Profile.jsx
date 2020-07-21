@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {Redirect, withRouter} from 'react-router-dom';
 import ProfileSidebar from './sidebar/ProfileSidebar';
 import PostList from '../posts/PostList';
@@ -47,10 +46,4 @@ class Profile extends Component{
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        uid: state.auth.uid,
-    }
-}
-
-export default withRouter(connect(mapStateToProps)(Profile));
+export default withRouter(Profile);

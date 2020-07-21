@@ -5,6 +5,8 @@ import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import Userfeed from './components/userfeed/Userfeed';
 import Profile from './components/profile/Profile';
+import Network from './components/friends/Network';
+import SearchResults from './components/search/SearchResults';
 import Navbar from './components/layout/Navbar';
 import './App.css';
 
@@ -20,7 +22,9 @@ class App extends Component{
                 <Switch>
                   <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login uid = {uid}/>}/>
                   <Route path='/signup' render ={() => <Signup uid = {uid}/>}/>
-                  <Route path ='/profile/:id/:type' render ={() => <Profile/>}/>
+                  <Route path ='/profile/:id/:type' render ={() => <Profile uid = {uid}/>}/>
+                  <Route path = '/mynetwork' render = {() => <Network uid = {uid}/>}/>
+                  <Route path = '/search/:query' render = {() => <SearchResults uid = {uid}/>}/>
                 </Switch>
               </main>
             </BrowserRouter>

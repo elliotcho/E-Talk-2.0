@@ -42,7 +42,7 @@ function Navbar(props){
                             <span className='title'>Home</span>
                         </Link>
                      
-                        <Link to ='/' className ='link'>
+                        <Link to ='/mynetwork' className ='link'>
                             <i className='fas fa-user-friends mr-2'></i>
                             <span className='title'>Find Friends</span>
                         </Link>
