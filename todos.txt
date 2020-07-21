@@ -1,0 +1,47 @@
+For next 2 hour session:
+[X] Navbar design
+[ ] Friend request page design
+
+Overall:
+[ ] Navbar design
+[ ] Navbar searchbar backend
+
+[ ] Profile Bio Design
+[ ] Profile Bio backend
+
+[ ] Profile projects Design
+[ ] Profile projects backend
+
+[ ] Profile skills design
+[ ] profile skills backend
+
+[ ] Friend Request page design
+
+[ ] Post for who liked design
+[ ] Post for who liked backend
+
+[ ] Comment page design
+[ ] Comments on profile design
+[ ] Comments on feed design
+[ ] comments backend
+
+[ ] Friend cards design
+[ ] Friend request backend
+
+[ ] Notification page design
+[ ] Like/comment notification design
+[ ] Like/comment notificaiton backend
+
+[ ] Message page design
+[ ] Message to  person design
+[ ] Message to person backend
+[ ] Message form data backend
+
+[ ] Settings page design
+[ ] Settings page backend
+
+[ ] Additional settings for posts backend
+
+[ ] User feed side content design
+[ ] User feed side content #1 backend
+[ ] User feed side content #2 backend

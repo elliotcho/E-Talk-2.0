@@ -1,4 +1,4 @@
-const initState = {};
+const initState = {firstName: null, lastName: null};
 
 const profileReducer = (state=initState, action) => {
     switch(action.type){

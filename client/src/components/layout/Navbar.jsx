@@ -11,70 +11,73 @@ function Navbar(props){
         window.location.href='/';
     }
 
+    const computeInitials = (firstName, lastName) =>(
+        firstName!==null && lastName!==null? 
+        firstName[0].toUpperCase() + lastName[0].toUpperCase():
+        "..."
+    )
+
     useEffect(() => {props.getUserInfo(props.uid);})
 
     return(
         <div className='text-white navbar-container'>
-            <nav className='navbar'>
-                <Link exact to='/' className='navbar-brand'>E-Talk</Link>
+            <nav className='navbar navbar-expand-md'>
+                <Link to='/' className ='navbar-brand'>E-Talk</Link>
             
-                <div className ='search'>
+                <button className='navbar-toggler' data-toggle='collapse' data-target='#links'>
+                    <span className='navbar-toggler-icon'></span>
+                </button>
+
+                <div className ='collapse navbar-collapse' id='links'>
                     <form>
-                        <input type = 'text'/>
-                        <button>
-                            <i className ='fa fa-search'></i>
-                        </button>
+                        <input className='form-control' 
+                            type='text' 
+                            placeholder ='Search'
+                        />
                     </form>
-                </div>
 
-                <ul className='mt-3'>
-                    <li>
-                        <Link exact to ='/' className='link'>
-                            <i className='fa fa-home'></i>
+                    <ul className ='navbar-nav ml-auto'>
+                        <Link to ='/' className ='link'>
+                            <i className='fa fa-home mr-2'></i>
+                            <span className='title'>Home</span>
                         </Link>
-                    </li>
+                     
+                        <Link to ='/' className ='link'>
+                            <i className='fas fa-user-friends mr-2'></i>
+                            <span className='title'>Find Friends</span>
+                        </Link>
+                        
+                        <Link to ='/' className ='link'>
+                            <i className='fas fa-comment mr-2'></i>
+                            <span className='title'>Messages</span>
+                        </Link>
                     
-                    <li>
-                        <Link to='/' className='link'>
-                            <i className='fas fa-user-friends'></i>
+                        <Link to ='/' className ='link'>
+                            <i className='fas fa-bell mr-2'></i>
+                            <span className='title'>Notifications</span>
                         </Link>
-                    </li>
-                    
-                    
-                    <li>
-                        <Link to='/' className='link'>
-                            <i className='fas fa-comment'></i>
-                        </Link>
-                    </li>
+                        
+                        <Link to ={`/profile/${props.uid}/posts`} className = 'link'>
+                            <i className = 'fa fa-address-card mr-2'></i>
 
-                    <li>
-                        <Link to='/' className='link'>
-                            <i className='fas fa-bell'></i>
+                            <span className='btn btn-circle btn-md mr-2'>
+                                {computeInitials(props.firstName, props.lastName)}
+                            </span>
+                            
+                            <span className='title'>Profile</span>
                         </Link>
-                    </li>
-
-                    <li>
-                        <Link to ={`/profile/${props.uid}/posts`} className='btn btn-circle btn-md link'>
-                            {
-                                props.firstName && props.lastName? 
-                                props.firstName[0].toUpperCase() + props.lastName[0].toUpperCase():
-                                "..."
-                            }
+            
+                        <Link to ='/' className ='link'>
+                            <i className='fas fa-user-cog mr-2'></i>
+                            <span className='title'>Settings</span>
                         </Link>
-                    </li>
 
-                    <li>
-                        <Link to='/' className='link'>
-                            <i className='fas fa-user-cog'></i>
-                        </Link>
-                    </li>
-
-                    <li>
                         <a onClick ={signOut} href='/' className='link'>
-                            <i className='fas fa-sign-out-alt'></i>
+                            <i className='fas fa-sign-out-alt mr-2'></i>
+                            <span className='title'>Sign Out</span>
                         </a>
-                    </li>
-                </ul>
+                    </ul>
+                </div>
             </nav>
         </div>
     )
