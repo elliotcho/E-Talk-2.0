@@ -1,22 +1,13 @@
 const {User} = require('../dbschemas');
 
-const multer = require('multer');
+
 const fs = require('fs');
 const path = require('path');
 const router = require('express').Router();
 
-//use multer to upload profile pictures
-const storage = multer.diskStorage({
-    destination: path.join(__dirname, '../', 'images'),
-    filename: (req, file, cb) =>{
-        cb(null, 'PROFILE-' + req.body.uid + Date.now() + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({
-    storage,
-    limits: {fileSize: 1000000000}
-}).single('profilePic');
+const {
+    upload
+} = require('../app.js');
 
 router.post('/login', (req, res) =>{
     const {email, password} = req.body;

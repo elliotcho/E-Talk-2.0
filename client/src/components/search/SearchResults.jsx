@@ -34,10 +34,10 @@ class SearchResults extends Component{
         );
 
         return(
-            <div>
+            <div className ='search-results jumbotron'>
                 <div className ='container'>
-                    <div className = 'row d-flex justify-content-center align-items-center'>
-                        {cards}
+                    <div className = 'row d-flex justify-content-center align-items-stretch'>
+                        {cards.length === 0? <h3 className ='text-white'>No Users Found</h3>: cards}
                     </div>
                 </div>
             </div>
