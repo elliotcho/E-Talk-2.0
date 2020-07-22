@@ -5,6 +5,14 @@
     border:none;
 }
 
+.user-card h5{
+    cursor: pointer;
+}
+
+.user-card h5:hover{
+    text-decoration: underline;
+}
+
 .user-card .card-footer{
     cursor: pointer;
 }

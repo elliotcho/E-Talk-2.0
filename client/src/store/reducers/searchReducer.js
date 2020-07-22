@@ -20,6 +20,11 @@ const searchReducer = (state = initState, action) =>{
                 ...state,
                 query: action.query
             }
+        case "SEARCH_APPLIED":
+            return{
+                ...state,
+                results: [...action.results]
+            }
         default:
             return state;
     }

@@ -104,4 +104,56 @@ router.get('/profilepic/:uid', (req, res)=>{
     });
 });
 
+router.get('/search/:name', (req, res) =>{
+   let {name} = req.params;
+
+   let listOfNames = [];
+
+   if(name.includes(" ")){
+       split = name.split(" ");
+
+       split.forEach(word =>{
+           listOfNames.push(word.toLowerCase());
+        });
+   }
+
+   else{
+       listOfNames.push(name.toLowerCase());
+   }
+
+   User.find({}).then(result =>{
+        const users = [];
+
+        for(let i = 0; i < result.length; i++){
+            let fName = result[i].firstName.toLowerCase();
+            let lName = result[i].lastName.toLowerCase();
+
+            let userNames = `${fName} ${lName}`.split(" ");
+
+            for(let j=0;j<userNames.length;j++){
+                let found = false;
+
+                for(let k = 0; k < listOfNames.length; k++){
+                    if(userNames[j].startsWith(listOfNames[k])){
+                        if(j == 0){
+                            users.unshift(result[i]);
+                        }
+
+                        else{
+                            users.push(result[i]);
+                        }
+
+                        found = true;
+                        break;
+                    }
+                }
+
+                if(found){break;}
+            }
+        }
+
+        res.json({users});
+   });
+});
+
 module.exports = router;

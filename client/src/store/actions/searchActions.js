@@ -24,3 +24,15 @@ export const clearQuery = () =>{
         dispatch({type: 'CLEAR_QUERY', query: ""});
     }
 }
+
+export const applySearch = (query) =>{
+    return (dispatch) =>{
+        axios.get(`http://localhost:5000/users/search/${query}`).then(response =>{
+            const {
+                users
+            } = response.data;
+        
+            dispatch({type: "SEARCH_APPLIED", results: users});
+        });
+    }
+}
