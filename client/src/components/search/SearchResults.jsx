@@ -10,7 +10,6 @@ class SearchResults extends Component{
         const {query} = this.props.match.params;
 
         this.props.saveQuery(query);
-
         this.props.applySearch(query);
     }
 

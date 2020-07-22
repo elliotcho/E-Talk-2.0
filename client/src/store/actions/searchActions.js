@@ -31,7 +31,7 @@ export const applySearch = (query) =>{
             const {
                 users
             } = response.data;
-        
+
             dispatch({type: "SEARCH_APPLIED", results: users});
         });
     }

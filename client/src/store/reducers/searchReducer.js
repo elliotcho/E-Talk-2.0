@@ -13,11 +13,13 @@ const searchReducer = (state = initState, action) =>{
         case "CLEAR_QUERY":    
             return{
                 ...state,
+                results: [],
                 query: action.query
             }
         case "PROFILE_QUERY":
             return{
                 ...state,
+                results: [],
                 query: action.query
             }
         case "SEARCH_APPLIED":
