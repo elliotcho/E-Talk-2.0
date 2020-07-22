@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Redirect, withRouter} from 'react-router-dom';
+import {changeQueryToProfile} from '../../store/actions/searchActions';
 import ProfileSidebar from './sidebar/ProfileSidebar';
 import PostList from '../posts/PostList';
 import ProfileBio from './content/ProfileBio';
@@ -7,7 +9,9 @@ import './Profile.css';
 
 class Profile extends Component{
     componentDidUpdate(prevProps){
-        if(prevProps.match.params.id !== this.props.match.params.id){   
+        const {id} = this.props.match.params;
+
+        if(prevProps.match.params.id !== id){   
             window.location.reload();
         }
         
@@ -46,4 +50,10 @@ class Profile extends Component{
     }
 }
 
-export default withRouter(Profile);
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        changeQueryToProfile: (profileId) =>{dispatch(changeQueryToProfile(profileId));}
+    }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(Profile));

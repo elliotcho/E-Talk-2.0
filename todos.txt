@@ -1,10 +1,13 @@
 For next 2 hour session:
-[X] Navbar design
-[ ] Friend request page design
-
+[ ] Search page design
+[ ] Search page backend
+ 
 Overall:
-[ ] Navbar design
+[X] Navbar design
 [ ] Navbar searchbar backend
+
+[ ] Search page design
+[ ] Search page backend
 
 [ ] Profile Bio Design
 [ ] Profile Bio backend

@@ -1,0 +1,14 @@
+.user-card{
+    padding: 0;
+    margin: 10px;
+    font-family: 'Helvetica';
+    border:none;
+}
+
+.user-card .card-footer{
+    cursor: pointer;
+}
+
+.user-card .card-footer:hover{
+    background: lightgray;
+}

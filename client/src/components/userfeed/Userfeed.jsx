@@ -1,9 +1,15 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import {clearQuery} from '../../store/actions/searchActions';
 import PostList from '../posts/PostList';
 import './Userfeed.css';
 
 class Userfeed extends Component{
+    componentDidMount(){
+        this.props.clearQuery();
+    }
+
     render(){
         const {uid} = this.props;
 
@@ -19,4 +25,10 @@ class Userfeed extends Component{
     }
 }
 
-export default Userfeed;
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        clearQuery: () => {dispatch(clearQuery());}
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Userfeed);
