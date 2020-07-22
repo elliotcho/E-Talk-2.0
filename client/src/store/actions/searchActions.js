@@ -15,8 +15,6 @@ export const changeQueryToProfile = (profileId) =>{
             } = response.data;
             
             dispatch({type: "PROFILE_QUERY", query: `${firstName} ${lastName}`});
-
-            window.location.reload();
         });
     }
 }

@@ -5,8 +5,18 @@ const initState = {
 
 const searchReducer = (state = initState, action) =>{
     switch(action.type){
-        case ("SAVE_QUERY" || "CLEAR_QUERY" || "PROFILE_QUERY"):
+        case "SAVE_QUERY":
             return {
+                ...state,
+                query: action.query
+            }
+        case "CLEAR_QUERY":    
+            return{
+                ...state,
+                query: action.query
+            }
+        case "PROFILE_QUERY":
+            return{
                 ...state,
                 query: action.query
             }

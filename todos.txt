@@ -6,6 +6,8 @@ Overall:
 [X] Navbar design
 [ ] Navbar searchbar backend
 
+[ ] Non existent routes client
+
 [ ] Search page design
 [ ] Search page backend
 

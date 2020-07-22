@@ -1,19 +1,15 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Redirect, withRouter} from 'react-router-dom';
 import UserCard from '../layout/UserCard';
+import {saveQuery} from '../../store/actions/searchActions';
 import './SearchResults.css';
 
 class SearchResults extends Component{
     componentDidMount(){
         const {query} = this.props.match.params;
-    }
 
-    componentDidUpdate(prevProps){
-        if(prevProps.match.params.query !== this.props.match.params.query){   
-            window.location.reload();
-        }
-        
-        window.scrollTo(0, 0);
+        this.props.saveQuery(query);
     }
 
     render(){
@@ -35,4 +31,10 @@ class SearchResults extends Component{
     }
 }
 
-export default withRouter(SearchResults);
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        saveQuery: (query) => {dispatch(saveQuery(query));}
+    }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(SearchResults));
