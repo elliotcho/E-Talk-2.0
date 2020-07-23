@@ -53,16 +53,16 @@
     user-select: none; 
 }
 
-.post h3{
+.post header h3{
     font-family: 'Arial';
     font-size: 24px;
 }
 
-.post p{
+.post header p{
     font-size: 0.9em;
 }
 
-.post h3:hover, .post p:hover{
+.post header h3:hover, .post header p:hover{
     cursor: pointer;
     text-decoration: underline;
 }
@@ -181,6 +181,13 @@
 
 .post span:hover{
     color: gray;
+}
+
+@media screen and (max-width: 500px){
+    .post header p{
+        font-size: 0.75em;
+        font-weight: bold;
+    }
 }
 
 @media screen and (min-width: 680px){

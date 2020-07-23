@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 
 class PostLikes extends Component{
@@ -14,12 +15,12 @@ class PostLikes extends Component{
     }
 
     componentDidMount(){
-        const {uid, postId, likes} = this.props;
+        const {uid, postId} = this.props;
 
         const config = {headers: {'content-type': 'application/json'}};
 
         axios.post('http://localhost:5000/posts/userliked', {uid, postId}, config).then(response =>{
-            const {userLiked} = response.data;
+            const {userLiked, likes} = response.data;
 
             this.setState({
                 userLiked,
@@ -70,4 +71,4 @@ class PostLikes extends Component{
     }
 }
 
-export default PostLikes;
+export default withRouter(PostLikes);

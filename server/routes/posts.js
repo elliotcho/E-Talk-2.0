@@ -41,7 +41,7 @@ router.post('/like', (req, res) =>{
     const {uid, postId, userLiked} = req.body;
 
     Post.findOne({_id: postId}).then(result=>{ 
-        const likes = result.likes;
+        const likes = [...result.likes];
 
         if(userLiked){
             likes.push(uid);
@@ -66,12 +66,14 @@ router.post('/userliked', (req, res) =>{
     const {postId, uid} = req.body;
 
     Post.findOne({_id: postId}).then(result =>{
-        if(result.likes.includes(uid)){
-            res.json({userLiked: true});
+        const {likes} = result;
+
+        if(likes.includes(uid)){
+            res.json({userLiked: true, likes});
         }
 
         else{
-            res.json({userLiked: false});
+            res.json({userLiked: false, likes});
         }
     });
 });

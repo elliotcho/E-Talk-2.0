@@ -70,7 +70,7 @@ class Post extends Component{
     }
 
     render(){
-        const {uid, ownerId, postId, profileId, createdAt, content, deletePost, likes} = this.props;
+        const {uid, ownerId, postId, profileId, createdAt, content, deletePost} = this.props;
 
         const {commentCount} = this.state;
 
@@ -101,7 +101,6 @@ class Post extends Component{
                                  uid = {uid}
                                  postId = {postId} 
                                  formatCount = {this.formatCount} 
-                                 likes={likes}
                     />
 
                     <i className ='fas fa-comment-alt'/>

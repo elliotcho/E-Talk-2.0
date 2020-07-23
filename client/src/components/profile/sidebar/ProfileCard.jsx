@@ -40,10 +40,11 @@ class UserCard extends Component{
                     </div>
                 </section>
 
-                <section className='user-buttons'>
+                {uid === profileId? null: 
+                (<section className='user-buttons'>
                     <button className='btn btn-secondary btn-small'>Add Friend</button>
                     <button className='btn btn-primary btn-small'>Message</button>
-                </section>
+                </section>)}
             </div>
         )
     }

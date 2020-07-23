@@ -1,15 +1,11 @@
 For next 2 hour session:
-[ ] Search page design
-[ ] Search page backend
+[ ] Post for who liked design
+[ ] Post for who liked backend
  
 Overall:
-[X] Navbar design
-[ ] Navbar searchbar backend
+[ ] Rework search bar backend
 
 [ ] Non existent routes client
-
-[ ] Search page design
-[ ] Search page backend
 
 [ ] Profile Bio Design
 [ ] Profile Bio backend
@@ -24,9 +20,6 @@ Overall:
 
 [ ] Post detail design
 [ ] Post detail backend
-
-[ ] Post for who liked design
-[ ] Post for who liked backend
 
 [ ] Comment page design
 [ ] Comments on profile design
