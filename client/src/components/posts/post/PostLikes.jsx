@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import LikesModal from './LikesModal';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 
