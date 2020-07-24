@@ -67,7 +67,7 @@ class PostLikes extends Component{
                     </span>): null}
 
                     <div className='modal fade' id= {`likesModalFor${postId}`}>
-                        <LikesModal likes = {likes}/>
+                        <LikesModal likes={likes} postId={postId}/>
                     </div>
             </div>
         )

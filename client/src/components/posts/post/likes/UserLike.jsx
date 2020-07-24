@@ -35,7 +35,13 @@ class UserLike extends Component{
     }
 
     toProfile(){
-       this.props.history.push(`/profile/${this.props.uid}/posts`)
+        const {uid, postId} = this.props;
+
+        document.getElementById(`closeLikesFor${postId}`).click();
+
+       setTimeout(() =>{
+           this.props.history.push(`/profile/${uid}/posts`)
+       }, 500);
     }
 
     render(){

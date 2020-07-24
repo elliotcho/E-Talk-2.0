@@ -10,6 +10,7 @@ import './Profile.css';
 class Profile extends Component{
     componentDidMount(){
         const {changeQueryToProfile} = this.props;
+        
         const {id} = this.props.match.params;
          
         changeQueryToProfile(id);
