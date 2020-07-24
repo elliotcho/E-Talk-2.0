@@ -5,6 +5,10 @@
     border:none;
 }
 
+.user-card img{
+    max-height: 190px;
+}
+
 .user-card h5{
     cursor: pointer;
 }

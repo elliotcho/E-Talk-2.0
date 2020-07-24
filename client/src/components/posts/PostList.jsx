@@ -67,6 +67,8 @@ class PostsList extends Component{
             />
         ));
 
+        console.log(posts)
+
         const {uid, profileId} = this.props;
 
         return(

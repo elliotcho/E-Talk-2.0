@@ -1,4 +1,4 @@
-const {Post, User} = require('../dbschemas');
+const {Post} = require('../dbschemas');
 const router = require('express').Router();
 
 router.get('/:uid', (req, res) =>{

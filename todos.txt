@@ -1,7 +1,7 @@
 For next 2 hour session:
-[ ] Post for who liked design
-[ ] Post for who liked backend
- 
+[ ] Post for who liked bug fix
+[ ] Notification page design
+
 Overall:
 [ ] Rework search bar backend
 
@@ -29,7 +29,6 @@ Overall:
 [ ] Friend cards design
 [ ] Friend request backend
 
-[ ] Notification page design
 [ ] Like/comment notification design
 [ ] Like/comment notificaiton backend
 
