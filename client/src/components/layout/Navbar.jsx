@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {getUserInfo} from '../../store/actions/profileActions';
 import {saveQuery} from '../../store/actions/searchActions';
 import {Link, withRouter} from 'react-router-dom';
+import {io} from '../../App';
 import './Navbar.css';
 
 class Navbar extends Component{
@@ -13,6 +14,7 @@ class Navbar extends Component{
             query: ''
         }
 
+        this.signOut = this.signOut.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -35,7 +37,11 @@ class Navbar extends Component{
 
     signOut(e){
         e.preventDefault();
+
+        io.emit('LOGOUT', {uid: this.props.uid});
+        
         window.localStorage.clear();
+        
         window.location.href='/';
     }
 

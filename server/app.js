@@ -1,4 +1,5 @@
 //require modules
+const socket = require('socket.io');
 const multer = require('multer');
 const path = require('path');
 const mongoose=require('mongoose');
@@ -37,4 +38,6 @@ app.use(bodyParser.json());
 app.use('/users', require('./routes/users'));
 app.use('/posts', require('./routes/posts'));
 
-app.listen(5000);
+const server = app.listen(5000);
+
+require('./socketEvents')(socket(server));

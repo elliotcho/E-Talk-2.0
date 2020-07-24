@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
+import socket from 'socket.io-client';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import Userfeed from './components/userfeed/Userfeed';
@@ -8,11 +9,26 @@ import Profile from './components/profile/Profile';
 import Network from './components/friends/Network';
 import SearchResults from './components/search/SearchResults';
 import Navbar from './components/layout/Navbar';
+import {handleSocketEvents} from './handlers/socketEvents';
 import './App.css';
 
-class App extends Component{  
+let io;
+
+class App extends Component{ 
+    constructor(){
+      super();
+
+      io = socket('http://localhost:5000');
+
+      handleSocketEvents(io);
+    }
+  
     render(){
         const {uid} = this.props;
+
+        if(uid){
+          io.emit('USER_AUTHENTICATED', {uid});
+        }
 
         return(
             <BrowserRouter>
@@ -38,4 +54,5 @@ const mapStateToProps = (state) =>{
     }
 }
 
+export {io};
 export default connect(mapStateToProps)(App);
