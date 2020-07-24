@@ -36,7 +36,8 @@
 
 .likes .user-like{
     padding: 10px;
-    border-bottom: solid silver;
+    margin: 10px;
+    border-bottom: solid silver 1px;
 }
 
 .likes .user-like:last-child{
