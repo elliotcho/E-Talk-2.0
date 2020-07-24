@@ -1,5 +1,4 @@
 For next 2 hour session:
-[ ] Post for who liked bug fix
 [ ] Notification page design
 
 Overall:

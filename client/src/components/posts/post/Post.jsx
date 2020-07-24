@@ -90,7 +90,7 @@ class Post extends Component{
                 <main className='content'>
                     {contentArray[1]? 
                     (<div> 
-                        {contentArray[0]} 
+                        {contentArray[0] + '\n'} 
                         <span className ='ml-1 see-more'>See More</span>
                     </div>):
                     contentArray[0]}
