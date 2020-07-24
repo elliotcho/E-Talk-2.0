@@ -150,18 +150,6 @@
     color: gray;
 }
 
-.post .fa-heart{
-    font-size: 10px;
-    color: white;
-    background: black;
-    padding: 5px;
-    cursor: pointer;
-}
-
-.post .fa-heart:hover{
-    color: red;
-}
-
 .post .fa-comment-alt{
    position: relative;
    top: 5px;

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import LikesModal from './LikesModal';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
+import './Likes.css';
 
 class PostLikes extends Component{
     constructor(){
@@ -9,7 +10,6 @@ class PostLikes extends Component{
         
         this.state = {
             userLiked: false, 
-            likeCount: 0
         }
 
         this.handleLike = this.handleLike.bind(this);
@@ -21,52 +21,54 @@ class PostLikes extends Component{
         const config = {headers: {'content-type': 'application/json'}};
 
         axios.post('http://localhost:5000/posts/userliked', {uid, postId}, config).then(response =>{
-            const {userLiked, likes} = response.data;
+            const {userLiked} = response.data;
 
             this.setState({
-                userLiked,
-                likeCount: likes.length
+                userLiked
             });
         });
     }
 
     handleLike(e){
-        let {uid, postId} = this.props;
-        let {userLiked, likeCount} = this.state;
+        let {uid, postId, likes} = this.props;
+        let {userLiked} = this.state;
 
         if(userLiked){
             e.target.style.color = 'white';
-            likeCount--;
+            likes.splice(likes.indexOf(uid), 1);
         }
 
         else{
             e.target.style.color = 'red';
-            likeCount++;
+            likes.push(uid);
         }
 
         const config = {headers: {'content-type': 'application/json'}};
 
-        axios.post('http://localhost:5000/posts/like', {uid, postId, userLiked: !userLiked}, config)
-        .then(()=>{});
+        axios.post('http://localhost:5000/posts/like', {uid, postId, userLiked: !userLiked}, config);
 
-        this.setState({userLiked: !userLiked, likeCount});
+        this.setState({userLiked: !userLiked});
     }
 
     render(){
-        const {userLiked, likeCount} = this.state;
+        const {userLiked} = this.state;
 
-        const {formatCount} = this.props;
+        const {formatCount, likes} = this.props;
 
         const styleLike = (userLiked)? {color: 'red'}: {color: 'white'};
 
         return(
-            <div className='d-inline-block'>
+            <div className='d-inline-block likes'>
                     <i className ='fa fa-heart mx-0' onClick = {this.handleLike} style={styleLike}/>
                     
-                    <span className='ml-2'>
-                        {likeCount ===0? null: formatCount(likeCount)}
-                        {likeCount===1? " like": likeCount === 0? null: " likes"}
-                    </span>
+                    {likes.length !== 0? (<span className='ml-2' data-toggle ='modal' data-target ='#likesModal'>
+                        {formatCount(likes.length)}
+                        {likes.length===1? " like": " likes"}
+                    </span>): null}
+
+                    <div className='modal fade' id='likesModal'>
+                        <LikesModal likes = {likes}/>
+                    </div>
             </div>
         )
     }

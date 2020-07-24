@@ -1,4 +1,4 @@
-const {Post} = require('../dbschemas');
+const {Post, User} = require('../dbschemas');
 const router = require('express').Router();
 
 router.get('/:uid', (req, res) =>{
@@ -71,7 +71,7 @@ router.post('/userliked', (req, res) =>{
         if(likes.includes(uid)){
             res.json({userLiked: true, likes});
         }
-
+ 
         else{
             res.json({userLiked: false, likes});
         }

@@ -1,0 +1,57 @@
+.likes .fa-heart{
+    font-size: 10px;
+    color: white;
+    background: black;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.likes .fa-heart:hover{
+    color: red;
+}
+
+.likes .modal{
+    margin: auto;
+}
+
+.likes .modal-header{
+    font-family: 'Helvetica';
+}
+
+.likes .modal-body{
+    max-height: 400px;
+    overflow: auto;
+}
+
+.likes .modal button:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.likes .modal button span{
+    position: relative;
+    top: 2px;
+    font-size: 30px;
+}
+
+.likes .user-like{
+    padding: 10px;
+    border-bottom: solid silver;
+}
+
+.likes .user-like:last-child{
+    border-bottom: none;
+}
+
+.likes .user-like img{
+    border-radius: 0;
+}
+
+.likes .user-like h4{
+    display: inline-block;
+    cursor: pointer;
+}
+
+.likes .user-like h4:hover{
+    text-decoration: underline;
+}
