@@ -38,7 +38,14 @@ class FriendRequestToast extends Component{
 
     toNetwork(){
         toast.dismiss();
-        this.props.history.push('/mynetwork');
+
+        if(this.props.location.pathname === '/mynetwork'){
+            window.location.reload();
+        }
+
+        else{
+            this.props.history.push('/mynetwork');
+        }
     }
 
     render(){
