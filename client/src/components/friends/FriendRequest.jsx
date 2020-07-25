@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
+import {io} from '../../App';
 import loading from '../../images/loading.jpg';
 
 class FriendRequest extends Component{
@@ -11,6 +13,9 @@ class FriendRequest extends Component{
             lastName: 'User...',
             imgURL: null
         }
+
+        this.toProfile = this.toProfile.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount(){
@@ -31,21 +36,45 @@ class FriendRequest extends Component{
         });
     }
 
+    toProfile(){
+        const {
+            senderId
+        } = this.props.request;
+
+        this.props.history.push(`/profile/${senderId}/posts`);
+    }
+
+    handleClick(eventType){
+        const {_id} = this.props.request;
+
+        this.props.deleteRequest(_id);
+
+        io.emit(eventType, {requestId: _id});
+    }
+
     render(){
         const {firstName, lastName, imgURL} = this.state;
 
         return(
             <div className ='row request mb-3'>
                 <div className ='col-4'>
-                    <img src = {imgURL? imgURL: loading} className ='float-left' alt ='profile pic'/>
+                    <img src={imgURL? imgURL: loading} className='float-left' alt='profile pic' onClick={this.toProfile}/>
                 </div>
 
                 <div className ='col-8'>
-                    <p><strong>{firstName} {lastName}</strong> sent you a friend request!</p>
+                    <p>
+                        <strong onClick={this.toProfile}>{firstName} {lastName} </strong> 
+                        sent you a friend request!
+                    </p>
                 
                     <div>
-                        <button className ='btn btn-success mr-3'>Accept</button>
-                        <button className ='btn btn-danger'>Decline</button>
+                        <button className ='btn btn-success mr-3' onClick={() => this.handleClick("ACCEPT_REQUEST")}>
+                            Accept
+                        </button>
+                        
+                        <button className ='btn btn-danger' onClick={() => this.handleClick("DECLINE_REQUEST")}>
+                            Decline
+                        </button>
                     </div>
                 </div>
             </div>
@@ -53,4 +82,4 @@ class FriendRequest extends Component{
     }
 }
 
-export default FriendRequest;
+export default withRouter(FriendRequest);

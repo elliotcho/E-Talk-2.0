@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Redirect, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {changeQueryToProfile} from '../../store/actions/searchActions';
 import ProfileSidebar from './sidebar/ProfileSidebar';
 import PostList from '../posts/PostList';
 import ProfileBio from './content/ProfileBio';
+import Friends from './content/Friends';
 import './Profile.css';
 
 class Profile extends Component{
@@ -29,14 +30,7 @@ class Profile extends Component{
     render(){
         const {uid} = this.props;
 
-        if(!uid){
-            return <Redirect to='/'/>
-        }
-
-        const {
-            id,
-            type
-        } = this.props.match.params;
+        const {id, type} = this.props.match.params;
 
         return(
                 <div className ='container'>
@@ -48,7 +42,8 @@ class Profile extends Component{
                         <section className ='col-md-9'>
                             <div className ='profile-content'>
                                 {type === 'posts'? <PostList profileId = {id}/> : null}
-                                {type === 'bio'? <ProfileBio/>: null}
+                                {type === 'friends'? <Friends/>: null}
+                                {type === 'bio' ? <ProfileBio/>: null}
                             </div>
                         </section>
                     </div>

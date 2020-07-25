@@ -12,6 +12,14 @@ module.exports = (io) =>{
             delete active[data.uid];
         });
 
+        socket.on('DECLINE_REQUEST', data =>{
+            const {requestId} = data;
+
+            FriendRequest.deleteOne({_id: requestId}).then(()=>{
+                console.log(`Request with id ${requestId} has been removed`);
+            });
+        });
+
         socket.on('FRIEND_REQUEST', data =>{
             const {senderId, receiverId} =data;
 

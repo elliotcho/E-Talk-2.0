@@ -14,6 +14,12 @@ class ProfileMenu extends Component{
                         </Link>
                     </li>
 
+                    <li className = {type === 'friends'? 'active': ''}>
+                        <Link to = {`/profile/${profileId}/friends`}>
+                            Friends
+                        </Link>
+                    </li>
+
                     <li className = {type === 'bio'? 'active': ''}>
                         <Link to = {`/profile/${profileId}/bio`}>
                             Bio

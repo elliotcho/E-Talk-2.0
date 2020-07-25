@@ -1,14 +1,27 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getRequests, removeRequest} from '../../store/actions/friendsActions';
 import FriendRequest from './FriendRequest';
 import './Network.css';
 
-import {connect} from 'react-redux';
-import {getRequests} from '../../store/actions/friendsActions';
-
 class Network extends Component{
+    constructor(){
+        super();
+        this.deleteRequest = this.deleteRequest.bind(this);
+    }
+
     componentDidMount(){
         this.props.getRequests(this.props.uid);
+    }
+
+    deleteRequest(id){
+        const {
+            requests,
+            removeRequest
+        } = this.props;
+
+        removeRequest(id, requests);
     }
 
     render(){
@@ -19,7 +32,7 @@ class Network extends Component{
         }
 
         const requests = this.props.requests.map(request =>
-            <FriendRequest request = {request}/>
+            <FriendRequest request={request} deleteRequest={this.deleteRequest}/>
         );
 
         return(
@@ -39,7 +52,8 @@ const mapStateToProps = (state) =>{
 }
 const mapDispatchToProps = (dispatch) =>{
     return {
-        getRequests: (uid) => {dispatch(getRequests(uid));}
+        getRequests: (uid) => {dispatch(getRequests(uid));},
+        removeRequest: (requestId, requests) => {dispatch(removeRequest(requestId, requests));}
     }
 }
 

@@ -7,3 +7,16 @@ export const getRequests = (uid) =>{
         });
     }
 }
+
+export const removeRequest = (requestId, requests) =>{
+    return (dispatch) =>{
+        for(let i=0;i<requests.length;i++){
+            if(requests[i]._id === requestId){
+                requests.splice(i, 1);
+                break;
+            }
+        }
+        
+        dispatch({type: 'REMOVE_REQUEST', requests});
+    }
+}
