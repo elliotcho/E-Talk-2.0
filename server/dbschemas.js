@@ -18,6 +18,15 @@ const CommentSchema = new Schema({
     likes: [String]
 });
 
+const FriendRequestSchema = new Schema({
+    senderId: String,
+    receiverId: String, 
+    date: Date,
+    content: String,
+    seen: Boolean,
+    isRequestNew: Boolean
+});
+
 const PostSchema = new Schema({
     uid: String,
     createdAt: Date, 
@@ -29,3 +38,4 @@ const PostSchema = new Schema({
 exports.User=mongoose.model('user', UserSchema);
 exports.Comment=mongoose.model('comment', CommentSchema);
 exports.Post=mongoose.model('post', PostSchema);
+exports.FriendRequest=mongoose.model('friendrequest', FriendRequestSchema);

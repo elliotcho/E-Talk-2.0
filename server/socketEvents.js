@@ -1,4 +1,4 @@
-const {User} = require('./dbschemas');
+const {User, FriendRequest} = require('./dbschemas');
 
 const active = {};
 
@@ -18,12 +18,21 @@ module.exports = (io) =>{
             User.findOne({_id: senderId}).then(result =>{
                 const {firstName, lastName} = result;
 
-                const msg= `sent you a friend request`;
+                const newFriendRequest = new FriendRequest({
+                    senderId,
+                    receiverId,
+                    date: new Date(),
+                    content: 'sent you a friend request',
+                    seen: false,
+                    isRequestNew: true
+                });
 
-                io.sockets.to(active[receiverId]).emit(
-                    'FRIEND_REQUEST',
-                     {firstName, lastName, msg }
-                );
+                newFriendRequest.save().then(() =>{
+                    io.sockets.to(active[receiverId]).emit(
+                        'FRIEND_REQUEST',
+                         {firstName, lastName, msg: 'sent you a friend request'}
+                    );
+                });
             });
         });
     });
