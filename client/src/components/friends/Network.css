@@ -1,3 +1,7 @@
+.network .fr-container:last-child{
+    margin-bottom: 50px;
+}
+
 .network .request{
     max-width: 600px;
     margin: auto;

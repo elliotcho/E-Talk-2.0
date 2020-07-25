@@ -37,6 +37,7 @@ app.use(bodyParser.json());
 //initialize routes
 app.use('/users', require('./routes/users'));
 app.use('/posts', require('./routes/posts'));
+app.use('/friends', require('./routes/friends'));
 
 const server = app.listen(5000);
 
