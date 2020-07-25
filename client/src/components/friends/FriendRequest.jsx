@@ -45,11 +45,11 @@ class FriendRequest extends Component{
     }
 
     handleClick(eventType){
-        const {_id} = this.props.request;
+        const {_id, receiverId, senderId} = this.props.request;
 
         this.props.deleteRequest(_id);
 
-        io.emit(eventType, {requestId: _id});
+        io.emit(eventType, {requestId: _id, receiverId, senderId});
     }
 
     render(){

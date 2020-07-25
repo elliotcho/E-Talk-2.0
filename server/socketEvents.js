@@ -15,8 +15,33 @@ module.exports = (io) =>{
         socket.on('DECLINE_REQUEST', data =>{
             const {requestId} = data;
 
-            FriendRequest.deleteOne({_id: requestId}).then(()=>{
-                console.log(`Request with id ${requestId} has been removed`);
+            FriendRequest.deleteOne({_id: requestId}).then(()=>{});
+        });
+
+        socket.on('ACCEPT_REQUEST', data =>{
+            const {requestId, receiverId, senderId} = data;
+
+            FriendRequest.deleteOne({_id: requestId}).then(()=>{});
+
+            User.findOne({_id: receiverId}).then(result =>{
+                const {friends} = result;
+
+                friends.push(senderId);
+
+                User.updateOne({_id: receiverId}, {friends}).then(()=>{});
+            });
+
+            User.findOne({_id: senderId}).then(result =>{
+                const {friends} = result;
+
+                friends.push(receiverId);
+
+                User.updateOne({_id: senderId}, {friends}).then(()=>{
+                    io.sockets.to(active[senderId]).emit(
+                        'ACCEPT_REQUEST',
+                         {newFriendId: receiverId}
+                    );
+                });
             });
         });
 

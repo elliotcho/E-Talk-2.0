@@ -10,4 +10,8 @@ export const handleSocketEvents = (io) =>{
             closeOnClick: false,
         });
     });
+
+    io.on('ACCEPT_REQUEST', data =>{
+        toast.info("Friend request accepted");
+    });
 }
