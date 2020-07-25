@@ -10,8 +10,8 @@ class Network extends Component{
         }
 
         return(
-            <div>
-                
+            <div className ='text-white'>
+                Friend Request page... Under construction
             </div>
         )
     }

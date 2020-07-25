@@ -16,11 +16,13 @@ module.exports = (io) =>{
             const {senderId, receiverId} =data;
 
             User.findOne({_id: senderId}).then(result =>{
-                const msg= `${result.firstName} ${result.lastName} sent you a friend request`;
+                const {firstName, lastName} = result;
+
+                const msg= `sent you a friend request`;
 
                 io.sockets.to(active[receiverId]).emit(
                     'FRIEND_REQUEST',
-                     {msg}
+                     {firstName, lastName, msg }
                 );
             });
         });

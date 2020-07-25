@@ -10,6 +10,8 @@ import Network from './components/friends/Network';
 import SearchResults from './components/search/SearchResults';
 import Navbar from './components/layout/Navbar';
 import {handleSocketEvents} from './handlers/socketEvents';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 let io;
@@ -42,6 +44,8 @@ class App extends Component{
                   <Route path = '/mynetwork' render = {() => <Network uid = {uid}/>}/>
                   <Route path = '/search/:query' render = {() => <SearchResults uid = {uid}/>}/>
                 </Switch>
+
+                <ToastContainer style = {{fontFamily: 'Trebuchet MS'}}/>
               </main>
             </BrowserRouter>
         )
