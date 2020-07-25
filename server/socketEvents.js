@@ -16,7 +16,7 @@ module.exports = (io) =>{
             const {senderId, receiverId} =data;
 
             User.findOne({_id: senderId}).then(result =>{
-                const {firstName, lastName} = result;
+                const {_id} = result;
 
                 const newFriendRequest = new FriendRequest({
                     senderId,
@@ -29,7 +29,7 @@ module.exports = (io) =>{
                 newFriendRequest.save().then(() =>{
                     io.sockets.to(active[receiverId]).emit(
                         'FRIEND_REQUEST',
-                         {firstName, lastName, msg: 'sent you a friend request'}
+                         {_id}
                     );
                 });
             });

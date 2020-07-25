@@ -1,4 +1,6 @@
 .search-results{
     background: #313131;
     font-family: 'Nunito';
+    max-height: 600px;
+    overflow: auto;
 }
