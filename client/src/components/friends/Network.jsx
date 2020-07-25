@@ -15,24 +15,17 @@ class Network extends Component{
         return(
             <div className = 'network'>
                 <div>
-                    <div className = 'request row d-flex justify-content-center'>
-                        <div className = 'col-2 text-center'>
-                            <img src ={loading} className ='img-fluid' alt ='profile pic'/>
-                        </div>
-
-                        <div className ='col-5'>
-                            <h2>
-                                <strong>Gugsa Challa</strong>
-                                <span>Sent you a friend request</span>
-                            </h2>
-                        </div>
-
-                        <div classname = 'col-1'>
-                            Confirm
-                        </div>
-
-                        <div className ='col-1'>
-                            Delete Request
+                    <div className = 'request'>
+                        <img src ={loading} className ='img-fluid' alt ='profile pic'/>
+    
+                        <h2 className = 'd-inline-block ml-3'>
+                            <strong>Gugsa Challa </strong>
+                            <span>sent you a friend request</span>
+                        </h2>
+                    
+                        <div className ='d-inline-block'>
+                            <button className ='btn btn-primary ml-3'>Accept</button>
+                            <button className ='btn btn-light ml-3'>Delete Request</button>
                         </div>
                     </div>
                 </div>
