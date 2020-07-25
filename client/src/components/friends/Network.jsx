@@ -32,7 +32,11 @@ class Network extends Component{
         }
 
         const requests = this.props.requests.map(request =>
-            <FriendRequest request={request} deleteRequest={this.deleteRequest}/>
+            <FriendRequest 
+                key={request._id} 
+                request={request} 
+                deleteRequest={this.deleteRequest}
+            />
         );
 
         return(

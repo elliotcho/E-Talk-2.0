@@ -16,7 +16,7 @@ export const removeRequest = (requestId, requests) =>{
                 break;
             }
         }
-        
+
         dispatch({type: 'REMOVE_REQUEST', requests});
     }
 }
