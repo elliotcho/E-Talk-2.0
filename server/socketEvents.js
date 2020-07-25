@@ -22,7 +22,6 @@ module.exports = (io) =>{
                     senderId,
                     receiverId,
                     date: new Date(),
-                    content: 'sent you a friend request',
                     seen: false,
                     isRequestNew: true
                 });

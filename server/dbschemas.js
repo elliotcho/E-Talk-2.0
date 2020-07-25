@@ -22,7 +22,6 @@ const FriendRequestSchema = new Schema({
     senderId: String,
     receiverId: String, 
     date: Date,
-    content: String,
     seen: Boolean,
     isRequestNew: Boolean
 });
