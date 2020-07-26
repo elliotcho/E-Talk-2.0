@@ -44,14 +44,16 @@ class UserCard extends Component{
         const {uid, profileId} = this.props;
 
         if(status === 'Add Friend'){
+            io.emit("FRIEND_REQUEST", {status, senderId: uid, receiverId: profileId});     
+
             this.setState({
                 status: 'Pending'
-            });
- 
-            io.emit("FRIEND_REQUEST", {senderId: uid, receiverId: profileId});       
+            });  
         }
 
         else if(status === 'Pending'){
+            io.emit("FRIEND_REQUEST", {status, senderId: uid, receiverId: profileId});     
+
             this.setState({
                 status: 'Add Friend'
             });
@@ -61,6 +63,8 @@ class UserCard extends Component{
             if(!window.confirm(`Are you sure you want to unfriend ${firstName} ${lastName}?`)){
                 return;
             }
+
+            io.emit("FRIEND_REQUEST", {status, senderId: uid, receiverId: profileId});     
 
             this.setState({
                 status: 'Add Friend'

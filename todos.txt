@@ -1,7 +1,7 @@
 For next 2 hour session:
 [ ] Delete Friend
 [ ] Cancel Request
-[ ] Simulatenous events
+[ ] Simultaneous events (send status, if status align do action other wise do not)
 
 Overall:
 [ ] Notification page design

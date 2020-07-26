@@ -11,7 +11,8 @@ class FriendRequest extends Component{
         this.state = {
             firstName: 'Loading...',
             lastName: 'User...',
-            imgURL: null
+            imgURL: null,
+            status: 'Pending'
         }
 
         this.toProfile = this.toProfile.bind(this);
@@ -19,7 +20,7 @@ class FriendRequest extends Component{
     }
 
     componentDidMount(){
-        const {senderId} = this.props.request;
+        const {receiverId, senderId} = this.props.request;
 
         axios.get(`http://localhost:5000/users/${senderId}`).then(response => {
             this.setState({
@@ -34,6 +35,12 @@ class FriendRequest extends Component{
         .then(file => {
             this.setState({imgURL: URL.createObjectURL(file)});
         });
+
+        const config = {headers: {'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/friends/status', {receiverId, senderId}, config).then(response =>{
+            this.setState({status: response.data.status});
+        });
     }
 
     toProfile(){
@@ -47,9 +54,11 @@ class FriendRequest extends Component{
     handleClick(eventType){
         const {_id, receiverId, senderId} = this.props.request;
 
+        const {status} = this.state;
+
         this.props.deleteRequest(_id);
 
-        io.emit(eventType, {requestId: _id, receiverId, senderId});
+        io.emit(eventType, {status, receiverId, senderId});
     }
 
     render(){

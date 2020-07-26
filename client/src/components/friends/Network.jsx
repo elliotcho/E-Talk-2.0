@@ -52,6 +52,7 @@ class Network extends Component{
 
 const mapStateToProps = (state) =>{
     return{
+        uid: state.auth.uid, 
         requests: state.friends.requests
     }
 }
