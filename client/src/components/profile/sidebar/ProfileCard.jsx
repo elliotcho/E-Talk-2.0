@@ -1,16 +1,20 @@
 import React, {Component} from 'react';
 import ProfilePic from './ProfilePic';
 import {withRouter} from 'react-router-dom';
+import {io} from '../../../App';
 import axios from 'axios';
 
 class UserCard extends Component{
     constructor(){
         super();
+
         this.state = {
             firstName: 'Loading',
             lastName: 'User...',
             status: 'Add Friend'
         }
+
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount(){
@@ -32,6 +36,38 @@ class UserCard extends Component{
         });
     }
 
+    handleClick(){
+        const {status} = this.state;
+        
+        const {firstName, lastName} = this.state;
+
+        const {uid, profileId} = this.props;
+
+        if(status === 'Add Friend'){
+            this.setState({
+                status: 'Pending'
+            });
+ 
+            io.emit("FRIEND_REQUEST", {senderId: uid, receiverId: profileId});       
+        }
+
+        else if(status === 'Pending'){
+            this.setState({
+                status: 'Add Friend'
+            });
+        }
+
+        else{
+            if(!window.confirm(`Are you sure you want to unfriend ${firstName} ${lastName}?`)){
+                return;
+            }
+
+            this.setState({
+                status: 'Add Friend'
+            });
+        }
+    }
+
     render(){
         const {firstName, lastName, status} = this.state;
 
@@ -49,7 +85,7 @@ class UserCard extends Component{
 
                 {uid === profileId? null: 
                 (<section className='user-buttons'>
-                    <button className='btn btn-secondary btn-small'>{status}</button>
+                    <button className='btn btn-secondary btn-small' onClick = {this.handleClick}>{status}</button>
                     <button className='btn btn-primary btn-small'>Message</button>
                 </section>)}
             </div>

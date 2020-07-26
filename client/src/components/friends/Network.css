@@ -2,6 +2,11 @@
     margin-bottom: 50px;
 }
 
+.network .no-requests{
+    color: lightgray;
+    font-family: 'Nunito';
+}
+
 .network .request{
     max-width: 600px;
     margin: auto;

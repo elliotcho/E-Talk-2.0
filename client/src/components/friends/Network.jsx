@@ -41,9 +41,10 @@ class Network extends Component{
 
         return(
             <div className = 'network'>
+                {requests.length === 0? <h1 className ='no-requests text-center'>Friend Requests Unavailable</h1>:
                 <div className ='fr-container'>
                     {requests}
-                </div>
+                </div>}
             </div>
         )
     }

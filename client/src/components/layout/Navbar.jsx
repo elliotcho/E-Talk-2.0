@@ -100,7 +100,7 @@ class Navbar extends Component{
                      
                             <Link to ='/mynetwork' className ='link'>
                                 <i className='fas fa-user-friends mr-2'></i>
-                                <span className='title'>Find Friends</span>
+                                <span className='title'>Friend Requests</span>
                             </Link>
                         
                             <Link to ='/' className ='link'>

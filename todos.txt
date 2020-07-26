@@ -1,6 +1,7 @@
 For next 2 hour session:
-[ ] Friend cards design
-[ ] Friend request backend
+[ ] Delete Friend
+[ ] Cancel Request
+[ ] Simulatenous events
 
 Overall:
 [ ] Notification page design

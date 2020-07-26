@@ -52,8 +52,8 @@ class UserCard extends Component{
             this.setState({
                 status: 'Pending'
             });
-
-            io.emit("FRIEND_REQUEST", {senderId: uid, receiverId: _id});        
+ 
+            io.emit("FRIEND_REQUEST", {senderId: uid, receiverId: _id});       
         }
 
         else if(status === 'Pending'){
