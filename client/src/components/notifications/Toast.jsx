@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import loading from '../../images/loading.jpg';
 import axios from 'axios';
-import './Toasts.css';
+import './Notifications.css';
 
 class FriendRequestToast extends Component{
     constructor(){
@@ -16,19 +16,20 @@ class FriendRequestToast extends Component{
         }
 
         this.toNetwork = this.toNetwork.bind(this);
+        this.toNotifs = this.toNotifs.bind(this);
     }
 
     componentDidMount(){
-        const {_id} = this.props.data;
+        const {toastId} = this.props.data;
 
-        axios.get(`http://localhost:5000/users/${_id}`).then(response => {
+        axios.get(`http://localhost:5000/users/${toastId}`).then(response => {
             this.setState({
                 firstName: response.data.firstName,
                 lastName: response.data.lastName
             });
         });
 
-        fetch(`http://localhost:5000/users/profilepic/${_id}`, {
+        fetch(`http://localhost:5000/users/profilepic/${toastId}`, {
             method: 'GET'
         }).then(response => response.blob())
         .then(file => {
@@ -48,16 +49,32 @@ class FriendRequestToast extends Component{
         }
     }
 
+    toNotifs(){
+        toast.dismiss();
+
+        if(this.props.location.pathname === '/notifications'){
+            window.location.reload();
+        }
+
+        else{
+            this.props.history.push('/notifications');
+        }
+    }
+
     render(){
         const {imgURL, firstName, lastName} = this.state;
 
+        const {msg, data} = this.props;
+
+        const clickToast = (data.type === 'FRIEND_REQUEST')? this.toNetwork: this.toNotifs;
+
         return(
-            <div onClick = {this.toNetwork} className ='fr-toast row'>
+            <div onClick = {clickToast} className ='toast-notif row'>
                 <img src = {imgURL? imgURL: loading} className ='col-5' alt ='profile pic'/>
                 
                 <div className ='col-7 mt-2'>
                     <strong>{firstName} {lastName}</strong>
-                    <span> sent you a friend request!</span>
+                    <span> {msg}</span>
                 </div>
             </div>
         )

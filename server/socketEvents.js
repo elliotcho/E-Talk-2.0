@@ -44,7 +44,7 @@ module.exports = (io) =>{
                         User.updateOne({_id: senderId}, {friends}).then(()=>{
                             io.sockets.to(active[senderId]).emit(
                                 'ACCEPT_REQUEST',
-                                {newFriendId: receiverId}
+                                {toastId: receiverId, type: 'REQUEST_ACCEPTED'}
                             );
                         });
                     });
@@ -74,7 +74,7 @@ module.exports = (io) =>{
                             newFriendRequest.save().then(() =>{
                                 io.sockets.to(active[receiverId]).emit(
                                     'CHANGE_FRIEND_STATUS',
-                                     {_id}
+                                     {toastId: _id, type: 'FRIEND_REQUEST'}
                                 );
                             });
                         });

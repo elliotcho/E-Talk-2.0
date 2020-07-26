@@ -8,6 +8,7 @@ import Userfeed from './components/userfeed/Userfeed';
 import Profile from './components/profile/Profile';
 import Network from './components/friends/Network';
 import SearchResults from './components/search/SearchResults';
+import Notifications from './components/notifications/Notifications';
 import Navbar from './components/layout/Navbar';
 import {handleSocketEvents} from './handlers/socketEvents';
 import {ToastContainer} from 'react-toastify';
@@ -43,6 +44,7 @@ class App extends Component{
                   <Route path ='/profile/:id/:type' render ={() => <Profile uid = {uid}/>}/>
                   <Route path = '/mynetwork' render = {() => <Network uid = {uid}/>}/>
                   <Route path = '/search/:query' render = {() => <SearchResults uid = {uid}/>}/>
+                  <Route path = '/notifications' render = {()=><Notifications uid={uid}/>}/>
                 </Switch>
 
                 <ToastContainer style = {{fontFamily: 'Trebuchet MS'}}/>

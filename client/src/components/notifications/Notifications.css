@@ -1,9 +1,9 @@
-.fr-toast{
+.toast-notif{
     font-family: 'Nunito';
     color: #e8e8e8;
 }
 
-.fr-toast img{
+.toast-notif img{
     width: 100px;
     height: 100px;
     margin: 0 auto;
