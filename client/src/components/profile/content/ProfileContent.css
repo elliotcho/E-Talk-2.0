@@ -1,3 +1,10 @@
 .profile .friends-container{
     background: #313131;
 }
+
+.profile .nofriends{
+    max-width: 600px;
+    color:gray;
+    font-family: 'Nunito';
+    margin: 60px auto;
+}

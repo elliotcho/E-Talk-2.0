@@ -8,12 +8,13 @@ class UserCard extends Component{
         super();
         this.state = {
             firstName: 'Loading',
-            lastName: 'User...'
+            lastName: 'User...',
+            status: 'Add Friend'
         }
     }
 
     componentDidMount(){
-        const {profileId} = this.props;
+        const {profileId, uid} = this.props;
 
         axios.get(`http://localhost:5000/users/${profileId}`).then(response => {
             const {firstName, lastName} = response.data;
@@ -23,10 +24,16 @@ class UserCard extends Component{
                 lastName,
             });
         });
+
+        const config = {headers: {'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/friends/status', {receiverId: profileId, senderId: uid}, config).then(response =>{
+            this.setState({status: response.data.status});
+        });
     }
 
     render(){
-        const {firstName, lastName} = this.state;
+        const {firstName, lastName, status} = this.state;
 
         const {profileId, uid} = this.props;
 
@@ -42,7 +49,7 @@ class UserCard extends Component{
 
                 {uid === profileId? null: 
                 (<section className='user-buttons'>
-                    <button className='btn btn-secondary btn-small'>Add Friend</button>
+                    <button className='btn btn-secondary btn-small'>{status}</button>
                     <button className='btn btn-primary btn-small'>Message</button>
                 </section>)}
             </div>

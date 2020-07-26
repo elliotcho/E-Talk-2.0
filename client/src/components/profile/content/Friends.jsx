@@ -18,11 +18,12 @@ class Friends extends Component{
 
         return(
             <div>
-                <div className ='jumbotron friends-container'>
+                {friends.length === 0? <h1 className ='nofriends text-center'>No Friends Available</h1>:
+                (<div className ='jumbotron friends-container'>
                     <div className = 'friend row d-flex justify-content-center align-items-stretch'>
                         {friends}
                     </div>
-                </div>
+                </div>)}
             </div>
         )
     }
