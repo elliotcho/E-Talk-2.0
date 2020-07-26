@@ -52,7 +52,7 @@ module.exports = (io) =>{
             });
         });
 
-        socket.on('FRIEND_REQUEST', data =>{
+        socket.on('CHANGE_FRIEND_STATUS', data =>{
             const {status, senderId, receiverId} =data;
 
             const config = {headers: {'content-type': 'application/json'}};
@@ -73,7 +73,7 @@ module.exports = (io) =>{
             
                             newFriendRequest.save().then(() =>{
                                 io.sockets.to(active[receiverId]).emit(
-                                    'FRIEND_REQUEST',
+                                    'CHANGE_FRIEND_STATUS',
                                      {_id}
                                 );
                             });
@@ -82,6 +82,34 @@ module.exports = (io) =>{
 
                     else if(status === 'Pending'){
                         FriendRequest.deleteOne({receiverId, senderId}).then(()=>{});
+                    }
+
+                    else{
+                        User.findOne({_id: receiverId}).then(result =>{
+                            const {friends} = result;
+
+                            for(let i=0;i<friends.length;i++){
+                                if(friends[i] === senderId){
+                                    friends.splice(i, 1);
+                                    break;
+                                }
+                            }
+
+                            User.updateOne({_id: receiverId}, {friends}).then(()=>{});
+                        });
+
+                        User.findOne({_id: senderId}).then(result =>{
+                            const {friends} = result;
+
+                            for(let i=0;i<friends.length;i++){
+                                if(friends[i] === receiverId){
+                                    friends.splice(i, 1);
+                                    break;
+                                }
+                            }
+
+                            User.updateOne({_id: senderId}, {friends}).then(()=>{});
+                        });
                     }
                 }
             });

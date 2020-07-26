@@ -49,7 +49,7 @@ class UserCard extends Component{
         const {uid} = this.props;
 
         if(status === 'Add Friend'){
-            io.emit("FRIEND_REQUEST", {status, senderId: uid, receiverId: _id}); 
+            io.emit('CHANGE_FRIEND_STATUS', {status, senderId: uid, receiverId: _id}); 
 
             this.setState({
                 status: 'Pending'
@@ -57,7 +57,7 @@ class UserCard extends Component{
         }
 
         else if(status === 'Pending'){
-            io.emit("FRIEND_REQUEST", {status, senderId: uid, receiverId: _id}); 
+            io.emit('CHANGE_FRIEND_STATUS', {status, senderId: uid, receiverId: _id}); 
 
             this.setState({
                 status: 'Add Friend'
@@ -69,7 +69,7 @@ class UserCard extends Component{
                 return;
             }
 
-            io.emit("FRIEND_REQUEST", {status, senderId: uid, receiverId: _id}); 
+            io.emit('CHANGE_FRIEND_STATUS', {status, senderId: uid, receiverId: _id}); 
 
             this.setState({
                 status: 'Add Friend'
