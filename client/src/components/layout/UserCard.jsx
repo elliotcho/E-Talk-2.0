@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import loading from '../../images/loading.jpg';
+import axios from 'axios';
 import {io} from '../../App';
 import './UserCard.css';
 
@@ -9,6 +10,7 @@ class UserCard extends Component{
         super();
 
         this.state = {
+            status: 'Add Friend',
             imgURL: null
         }
 
@@ -19,11 +21,19 @@ class UserCard extends Component{
     componentDidMount(){
         const {_id} = this.props.user;
 
+        const {uid} = this.props;
+
+        const config = {headers: {'content-type': 'application/json'}};
+
         fetch(`http://localhost:5000/users/profilepic/${_id}`, {
             method: 'GET'
         }).then(response => response.blob())
         .then(file => {
             this.setState({imgURL: URL.createObjectURL(file)});
+        });
+
+        axios.post('http://localhost:5000/friends/status', {receiverId: _id, senderId: uid}, config).then(response =>{
+            this.setState({status: response.data.status});
         });
     }
 
@@ -32,15 +42,39 @@ class UserCard extends Component{
     }
 
     handleClick(){
-        const cardId = this.props.user._id;
+        const {status} = this.state;
+        
+        const {_id, firstName, lastName} = this.props.user;
 
         const {uid} = this.props;
 
-        io.emit("FRIEND_REQUEST", {senderId: uid, receiverId: cardId});        
+        if(status === 'Add Friend'){
+            this.setState({
+                status: 'Pending'
+            });
+
+            io.emit("FRIEND_REQUEST", {senderId: uid, receiverId: _id});        
+        }
+
+        else if(status === 'Pending'){
+            this.setState({
+                status: 'Add Friend'
+            });
+        }
+
+        else{
+            if(!window.confirm(`Are you sure you want to unfriend ${firstName} ${lastName}?`)){
+                return;
+            }
+
+            this.setState({
+                status: 'Add Friend'
+            });
+        }
     }
 
     render(){
-        const {imgURL} = this.state;
+        const {imgURL, status} = this.state;
 
         const {uid, type} = this.props;
 
@@ -48,7 +82,7 @@ class UserCard extends Component{
 
         //'fas fa-user-plus Add friend
         //'fas fa-user-clock' Pending
-        //'fa fa-check
+        //'fa fa-check Friends
 
         const dimensions = (type==='friend')? 'col-7 col-sm-5 col-lg-3': 'col-6 col-sm-4 col-lg-2'
 
@@ -63,8 +97,10 @@ class UserCard extends Component{
                 </div>
 
                 {uid === _id? null: <div className ='card-footer text-center' onClick = {this.handleClick}>
-                    <i className ='fas fa-user-plus mr-2'></i>
-                    <span>Add Friend</span>
+                    {status === 'Add Friend' ? <i className ='fas fa-user-plus mr-2'/>:
+                    status === 'Pending' ? <i className ='fas fa-user-clock mr-2'/>:
+                    <i className ='fa fa-check mr-2'/>}
+                    <span>{status}</span>
                 </div>}
             </div>
         )

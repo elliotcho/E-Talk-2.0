@@ -13,6 +13,28 @@ router.get('/:profileId', (req, res) =>{
     });
 });
 
+router.post('/status', (req, res)=>{
+    const {senderId, receiverId} = req.body;
+
+    FriendRequest.findOne({senderId, receiverId}).then(result=>{
+        if(result !== null){
+            res.json({status: "Pending"});
+        }
+
+        else{
+            User.findOne({_id: receiverId}).then(user =>{
+                if(user.friends.includes(senderId)){
+                    res.json({status: "Friends"});
+                }
+    
+                else{
+                    res.json({status: "Add Friend"});
+                }
+            });
+        }
+    });
+});
+
 router.get('/requests/:uid', (req, res) =>{
     const {uid} = req.params;
     

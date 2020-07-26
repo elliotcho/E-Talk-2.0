@@ -18,8 +18,10 @@ class Friends extends Component{
 
         return(
             <div>
-                <div className = 'friend row d-flex justify-content-center align-items-stretch'>
-                    {friends}
+                <div className ='jumbotron friends-container'>
+                    <div className = 'friend row d-flex justify-content-center align-items-stretch'>
+                        {friends}
+                    </div>
                 </div>
             </div>
         )
