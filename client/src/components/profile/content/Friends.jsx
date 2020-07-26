@@ -6,22 +6,24 @@ import './ProfileContent.css';
 
 class Friends extends Component{
     componentDidMount(){
-        this.props.getFriends(this.props.uid);
+        this.props.getFriends(this.props.profileId);
     }
 
     render(){
         const {uid} = this.props;
 
         const friends = this.props.friends.map(friend =>
-            <UserCard key={friend._id} user={friend} uid={uid}/>
+            <UserCard key={friend._id} user={friend} uid={uid} type='friend'/>
         );
 
         return(
             <div>
                 <div className ='jumbotron'>
+                    <div className ='container'>
                         <div className = 'row d-flex justify-content-center align-items-stretch'>
                             {friends}
                         </div>
+                    </div>
                 </div>
             </div>
         )

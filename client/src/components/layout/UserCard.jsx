@@ -42,7 +42,7 @@ class UserCard extends Component{
     render(){
         const {imgURL} = this.state;
 
-        const {uid} = this.props;
+        const {uid, type} = this.props;
 
         const {_id, firstName, lastName} = this.props.user;
 
@@ -50,8 +50,10 @@ class UserCard extends Component{
         //'fas fa-user-clock' Pending
         //'fa fa-check
 
+        const dimensions = (type==='friend')? 'col-7 col-sm-5 col-lg-3': 'col-6 col-sm-4 col-lg-2'
+
         return(
-            <div className = 'user-card card col-6 col-sm-4 col-lg-2'>
+            <div className = {`user-card card ${dimensions}`}>
                 <img src = {imgURL? imgURL: loading} className ='card-img-top' alt = 'profile pic'/>
 
                 <div className ='card-body'>

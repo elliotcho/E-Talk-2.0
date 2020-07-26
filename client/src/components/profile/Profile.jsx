@@ -42,7 +42,7 @@ class Profile extends Component{
                         <section className ='col-md-9'>
                             <div className ='profile-content'>
                                 {type === 'posts'? <PostList profileId = {id}/> : null}
-                                {type === 'friends'? <Friends/>: null}
+                                {type === 'friends'? <Friends profileId = {id}/>: null}
                                 {type === 'bio' ? <ProfileBio/>: null}
                             </div>
                         </section>

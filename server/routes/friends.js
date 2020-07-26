@@ -2,12 +2,15 @@ const {User, FriendRequest} = require('../dbschemas');
 
 const router = require('express').Router();
 
-router.get('/:uid', (req, res) =>{
-    const {uid} = req.params;
+router.get('/:profileId', (req, res) =>{
+    const {profileId} = req.params;
 
-    User.findOne({_id: uid}).then(user =>{
+    User.findOne({_id: profileId}).then(user =>{
         User.find({_id: {$in: user.friends}}).then(result =>{
             result.sort((a, b) => a.firstName[0] - b.firstName[0]);
+
+            console.log(result)
+
             res.json(result);
         });
     });
