@@ -8,9 +8,6 @@ router.get('/:profileId', (req, res) =>{
     User.findOne({_id: profileId}).then(user =>{
         User.find({_id: {$in: user.friends}}).then(result =>{
             result.sort((a, b) => a.firstName[0] - b.firstName[0]);
-
-            console.log(result)
-
             res.json(result);
         });
     });
