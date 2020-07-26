@@ -1,5 +1,13 @@
 import axios from 'axios';
 
+export const getFriends = (uid) =>{
+    return (dispatch) =>{
+        axios.get(`http://localhost:5000/friends/${uid}`).then(response =>{
+            dispatch({type: 'LOAD_FRIENDS', friends: response.data});
+        });
+    }
+}
+
 export const getRequests = (uid) =>{
     return (dispatch) =>{
         axios.get(`http://localhost:5000/friends/requests/${uid}`).then(response =>{

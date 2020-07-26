@@ -29,7 +29,7 @@ class SearchResults extends Component{
         }
 
         const cards = results.map(user =>
-            <UserCard user = {user} uid = {uid}/>
+            <UserCard key = {user._id} user = {user} uid = {uid}/>
         );
 
         return(

@@ -2,6 +2,11 @@ const initState = {requests: [], friends: []}
 
 const friendsReducer = (state = initState, action) =>{
     switch (action.type){
+        case "LOAD_FRIENDS":
+            return{
+                ...state,
+                friends: [...action.friends]
+            }
         case "LOAD_REQUESTS":
             return {
                 ...state,
