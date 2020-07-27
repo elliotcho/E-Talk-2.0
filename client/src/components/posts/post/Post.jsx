@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PostLikes from './likes/PostLikes';
+import PostComments from './comments/PostComments';
 import PostHeader from './PostHeader';
 
 class Post extends Component{
@@ -70,10 +71,18 @@ class Post extends Component{
     }
 
     render(){
-        const {uid, ownerId, postId, profileId, createdAt, content, deletePost, likes} = this.props;
-
-        const {commentCount} = this.state;
-
+        const {
+            uid, 
+            ownerId, 
+            postId, 
+            profileId, 
+            createdAt, 
+            content, 
+            deletePost, 
+            likes, 
+            comments
+        } = this.props;
+        
         const contentArray = this.computeContent(content);
 
         return(
@@ -104,11 +113,12 @@ class Post extends Component{
                                  formatCount = {this.formatCount} 
                     />
 
-                    <i className ='fas fa-comment-alt'/>
-                    <span className='ml-2'>
-                        {commentCount === 0? null: this.formatCount(commentCount)} 
-                        {commentCount>1? " Comments": " Comment"}
-                    </span>
+                    <PostComments
+                        uid = {uid}
+                        postId = {postId}
+                        comments = {comments}
+                        formatCount ={this.formatCount}
+                    />
                 </section>
             </div>
         )

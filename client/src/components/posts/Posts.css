@@ -150,15 +150,6 @@
     color: gray;
 }
 
-.post .fa-comment-alt{
-   position: relative;
-   top: 5px;
-}
-
-.post .fa-comment-alt:hover{
-    color:brown;
-}
-
 .post span{
     position: relative;
     top: 2px;

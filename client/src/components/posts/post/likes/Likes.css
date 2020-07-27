@@ -23,6 +23,14 @@
     overflow: auto;
 }
 
+.likes .close:hover span{
+    color: revert;
+}
+
+.likes .close span:hover{
+    color: black;
+}
+
 .likes .modal button:focus{
     outline: none;
     box-shadow: none;

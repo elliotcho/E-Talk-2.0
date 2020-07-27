@@ -1,0 +1,36 @@
+.comments .fa-comment-alt{
+    position: relative;
+    top: 5px;
+ }
+ 
+ .comments .fa-comment-alt:hover{
+     color:brown;
+ }
+
+.comments .modal-header{
+    font-family: 'Helvetica';
+}
+
+.comments .modal-body{
+    max-height: 800px;
+    overflow: auto;
+}
+
+.comments .close:hover span{
+    color: revert;
+}
+
+.comments .close span:hover{
+    color: black;
+}
+
+.comments .modal button:focus{
+    outline: none;
+    box-shadow: none;
+}
+
+.comments .modal button span{
+    position: relative;
+    top: 2px;
+    font-size: 30px;
+}
