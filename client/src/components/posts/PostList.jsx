@@ -13,14 +13,14 @@ class PostsList extends Component{
     }
 
     componentDidMount(){
-        const {getPosts, profileId}  = this.props;
+        const {getPosts, uid, profileId}  = this.props;
 
         if(profileId === null){
-            getPosts();
+            getPosts(uid);
         }
 
         else{
-            getPosts(profileId);
+            getPosts(uid, profileId);
         }
     }
 
@@ -93,7 +93,7 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
     return{
         createPost: (uid, content, profileId) => {dispatch(createPost(uid, content, profileId));},
-        getPosts: (profileId) => {dispatch(getPosts(profileId));},
+        getPosts: (uid, profileId) => {dispatch(getPosts(uid, profileId));},
         deletePost: (postId, profileId) => {dispatch(deletePost(postId, profileId));}
     }
 }

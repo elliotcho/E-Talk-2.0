@@ -1,18 +1,26 @@
-const {Post} = require('../dbschemas');
+const {User, Post} = require('../dbschemas');
 const router = require('express').Router();
 
-router.get('/:uid', (req, res) =>{
-    if(req.params.uid !== "empty"){
-        Post.find({uid: req.params.uid}).then(result =>{
+router.post('/', (req, res) =>{
+    const {uid, profileId} = req.body;
+
+    if(profileId !== "empty"){
+        Post.find({uid: profileId}).then(result =>{
             result.sort((a, b) => b.createdAt - a.createdAt);
             res.json(result);
         });
     }
 
     else{
-        Post.find({}).then(result =>{
-            result.sort((a, b) => b.createdAt - a.createdAt);
-            res.json(result);
+        User.findOne({_id: uid}).then(result =>{
+            const {friends} = result;
+
+            friends.push(uid);
+
+            Post.find({uid: {$in: friends}}).then(posts =>{
+                posts.sort((a, b) => b.createdAt - a.createdAt);
+                res.json(posts);
+            });
         });
     }
 });

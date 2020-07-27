@@ -1,8 +1,10 @@
 import axios from 'axios';
 
-export const getPosts = (profileId = "empty") =>{
+export const getPosts = (uid, profileId = "empty") =>{
     return (dispatch) =>{
-        axios.get(`http://localhost:5000/posts/${profileId}`).then(response => {
+        const config = {headers: {'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/posts', {uid, profileId}, config).then(response => {
             dispatch({type: "POSTS_UPDATED", posts: response.data});
         });
     }

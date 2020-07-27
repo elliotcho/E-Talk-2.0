@@ -2,6 +2,11 @@ For next 2 hour session:
 [ ] Post Detail Design
 [ ] Post Detail backend
 
+[ ] Comment page design
+[ ] Comments on profile design
+[ ] Comments on feed design
+[ ] comments backend
+
 Overall:
 [ ] Notification page design
 
@@ -19,11 +24,6 @@ Overall:
 [ ] profile skills backend
 
 [ ] Friend Request page design
-
-[ ] Comment page design
-[ ] Comments on profile design
-[ ] Comments on feed design
-[ ] comments backend
 
 [ ] Like/comment notification design
 [ ] Like/comment notificaiton backend
