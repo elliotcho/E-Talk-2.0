@@ -56,4 +56,14 @@ router.get('/unreadrequests/:uid',  (req, res) =>{
     });
 });
 
+router.put('/readrequests/:uid', (req, res) =>{
+    const {uid} = req.params;
+
+    FriendRequest.updateMany({receiverId: uid}, {seen: true}).then(() =>{
+        FriendRequest.find({receiverId: uid}).then(result =>{
+            res.json(result);
+        });
+    });
+});
+
 module.exports = router; 

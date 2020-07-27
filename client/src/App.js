@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
+import {getUnreadRequests} from './store/actions/friendsActions';
 import socket from 'socket.io-client';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
@@ -18,12 +19,12 @@ import './App.css';
 let io;
 
 class App extends Component{ 
-    constructor(){
-      super();
+    constructor(props){
+      super(props);
 
       io = socket('http://localhost:5000');
 
-      handleSocketEvents(io);
+      handleSocketEvents(io, props.uid, props.getUnreadRequests);
     }
   
     render(){
@@ -60,5 +61,11 @@ const mapStateToProps = (state) =>{
     }
 }
 
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        getUnreadRequests: (uid) => {dispatch(getUnreadRequests(uid));}
+    }
+}
+
 export {io};
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

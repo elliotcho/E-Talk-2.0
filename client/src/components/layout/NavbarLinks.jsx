@@ -44,6 +44,8 @@ class NavbarLinks extends Component{
     render(){
         const {uid, firstName, lastName, unreadRequests} = this.props;
 
+        const friendIcon = (unreadRequests === 0)? '': 'text-white';
+
         return(
             <ul className ='navbar-nav ml-auto'>
                 <Link to ='/' className ='link'>
@@ -51,26 +53,26 @@ class NavbarLinks extends Component{
                     <span className='title'>Home</span>
                 </Link>
                      
-                <Link to ='/mynetwork' className ='link'>
+                <Link to ='/mynetwork' className ={`link ${friendIcon}`}>
                     <i className='fas fa-user-friends mr-2'></i>
                     <span className='title'>Friend Requests</span>
 
                     {unreadRequests === 0? null:
-                    <div className ='count-box request'>{this.formatCount(100)}</div>}
+                    <div className ='count-box request'>{unreadRequests}</div>}
                 </Link>
                         
                 <Link to ='/' className ='link'>
                     <i className='fas fa-comment mr-2'></i>
                     <span className='title'>Messages</span>
 
-                    {<div className ='count-box msg'>{this.formatCount(100)}</div>}
+                    {/*<div className ='count-box msg'>{this.formatCount(100)}</div>*/}
                 </Link>
                     
                 <Link to ='/notifications' className ='link'>
                     <i className='fas fa-bell mr-2'></i>
                     <span className='title'>Notifications</span>
 
-                    {<div className ='count-box notif'>{this.formatCount(100)}</div>}
+                    {/*<div className ='count-box notif'>{this.formatCount(100)}</div>*/}
                 </Link>
                         
                 <Link to ={`/profile/${uid}/posts`} className = 'link ml-2'>
