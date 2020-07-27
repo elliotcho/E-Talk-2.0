@@ -24,7 +24,7 @@ class App extends Component{
 
       io = socket('http://localhost:5000');
 
-      handleSocketEvents(io, props.uid, props.getUnreadRequests);
+      handleSocketEvents(io, props.getUnreadRequests);
     }
   
     render(){

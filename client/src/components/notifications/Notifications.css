@@ -8,3 +8,8 @@
     height: 100px;
     margin: 0 auto;
 }
+
+.Toastify__toast-container button:focus{
+    outline: none;
+    box-shadow: none;
+}
