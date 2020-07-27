@@ -82,7 +82,7 @@ router.post('/userliked', (req, res) =>{
  
     Post.findOne({_id: postId}).then(result =>{ 
         if(result === null){
-            res.json({userLiked: false, likes: []})
+            res.json({msg: 'Post no longer exists'});
         }
  
         else{

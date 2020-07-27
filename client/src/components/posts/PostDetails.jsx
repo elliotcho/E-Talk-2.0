@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {deleteFromPostDetails} from '../../store/actions/postActions';
 import {withRouter} from 'react-router-dom';
 import Post from './post/Post';
 import axios from 'axios';
@@ -29,6 +31,8 @@ class PostDetails extends Component{
         }
 
         this.setState({posts: []});
+
+        this.props.deleteFromPostDetails(postId, this.props.posts);
         
         axios.delete(`http://localhost:5000/posts/${postId}`).then(() =>{
             this.props.history.push('/'); 
@@ -60,4 +64,16 @@ class PostDetails extends Component{
     }
 }
 
-export default withRouter(PostDetails);
+const mapStateToProps = (state) =>{
+    return {
+        posts: state.posts.list
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        deleteFromPostDetails: (postId, posts) => {dispatch(deleteFromPostDetails(postId, posts));}
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostDetails));
