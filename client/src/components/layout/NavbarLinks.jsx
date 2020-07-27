@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {io} from '../../App';
-import { getUnreadRequests } from '../../store/actions/friendsActions';
 
 class NavbarLinks extends Component{
     constructor(){
@@ -35,7 +34,7 @@ class NavbarLinks extends Component{
     }
 
     formatCount(num){
-        if(num<=99){
+        if(num<99){
             return num;
         }
 
@@ -56,24 +55,25 @@ class NavbarLinks extends Component{
                     <i className='fas fa-user-friends mr-2'></i>
                     <span className='title'>Friend Requests</span>
 
-                    <div className ='count-box'>{this.formatCount(5)}</div>
+                    {unreadRequests === 0? null:
+                    <div className ='count-box request'>{this.formatCount(100)}</div>}
                 </Link>
                         
                 <Link to ='/' className ='link'>
                     <i className='fas fa-comment mr-2'></i>
                     <span className='title'>Messages</span>
 
-                    <div className ='count-box'>{this.formatCount(30)}</div>
+                    {<div className ='count-box msg'>{this.formatCount(100)}</div>}
                 </Link>
                     
                 <Link to ='/notifications' className ='link'>
                     <i className='fas fa-bell mr-2'></i>
                     <span className='title'>Notifications</span>
 
-                    <div className ='count-box'>{this.formatCount(300000)}</div>
+                    {<div className ='count-box notif'>{this.formatCount(100)}</div>}
                 </Link>
                         
-                <Link to ={`/profile/${uid}/posts`} className = 'link'>
+                <Link to ={`/profile/${uid}/posts`} className = 'link ml-2'>
                     <i className = 'fa fa-address-card mr-2'></i>
 
                     <span className='btn btn-circle btn-md mr-2'>
