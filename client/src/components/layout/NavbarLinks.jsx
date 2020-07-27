@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {io} from '../../../App';
+import {io} from '../../App';
+import { getUnreadRequests } from '../../store/actions/friendsActions';
 
 class NavbarLinks extends Component{
     constructor(){
@@ -33,8 +34,16 @@ class NavbarLinks extends Component{
         "..."
     }
 
+    formatCount(num){
+        if(num<=99){
+            return num;
+        }
+
+        return "99+";
+    }
+
     render(){
-        const {uid, firstName, lastName} = this.props;
+        const {uid, firstName, lastName, unreadRequests} = this.props;
 
         return(
             <ul className ='navbar-nav ml-auto'>
@@ -46,16 +55,22 @@ class NavbarLinks extends Component{
                 <Link to ='/mynetwork' className ='link'>
                     <i className='fas fa-user-friends mr-2'></i>
                     <span className='title'>Friend Requests</span>
+
+                    <div className ='count-box'>{this.formatCount(5)}</div>
                 </Link>
                         
                 <Link to ='/' className ='link'>
                     <i className='fas fa-comment mr-2'></i>
                     <span className='title'>Messages</span>
+
+                    <div className ='count-box'>{this.formatCount(30)}</div>
                 </Link>
                     
                 <Link to ='/notifications' className ='link'>
                     <i className='fas fa-bell mr-2'></i>
                     <span className='title'>Notifications</span>
+
+                    <div className ='count-box'>{this.formatCount(300000)}</div>
                 </Link>
                         
                 <Link to ={`/profile/${uid}/posts`} className = 'link'>

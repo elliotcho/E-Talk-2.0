@@ -10,7 +10,8 @@
     overflow: auto;
 }
 
-.profile .noposts{
+.profile .noposts,
+.profile .createpost h2{
     color: gray;
 }
 

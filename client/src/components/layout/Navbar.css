@@ -30,11 +30,17 @@ nav ul{
     margin: 20px auto;
 }
 
+nav .link:last-child{
+    border: none;
+}
+
 nav .link{
     width: 100%;
+    position: relative;
     font-family: 'Arial';
     color: lightgray;
     font-size: 1.0rem;
+    border-bottom: solid silver 1px;
     padding: 12px;
 }
 
@@ -64,6 +70,18 @@ nav form{
     font-family: 'Helvetica';
 }
 
+nav .count-box{
+    position: absolute;
+    margin: auto;
+    background: orangered;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 3px 10px;
+    border-radius: 10%;
+    left: 90%;
+    top: 15%;
+}
+
 @media screen and (min-width: 768px){
     nav ul{
         margin: 0;
@@ -71,6 +89,7 @@ nav form{
 
     nav .link{
         font-size: 1.3rem;
+        border: none;
     }
 
     nav .btn-circle{
@@ -89,6 +108,12 @@ nav form{
 
     nav .title{
         display: none;
+    }
+
+    nav .count-box{
+        padding: 2px 7px;
+        left: 50%;
+        top: -5%
     }
 }
 

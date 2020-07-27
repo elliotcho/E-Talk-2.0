@@ -4,7 +4,7 @@ import {getUserInfo} from '../../store/actions/profileActions';
 import {getUnreadRequests} from '../../store/actions/friendsActions';
 import {saveQuery} from '../../store/actions/searchActions';
 import {Link, withRouter} from 'react-router-dom';
-import NavbarLinks from './links/NavbarLinks';
+import NavbarLinks from './NavbarLinks';
 import './Navbar.css';
 
 class Navbar extends Component{

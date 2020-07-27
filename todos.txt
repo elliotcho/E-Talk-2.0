@@ -43,3 +43,5 @@ Overall:
 [ ] User feed side content design
 [ ] User feed side content #1 backend
 [ ] User feed side content #2 backend
+
+[ ] format count as global? 
