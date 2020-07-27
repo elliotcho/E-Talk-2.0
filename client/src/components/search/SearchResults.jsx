@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect, withRouter} from 'react-router-dom';
-import UserCard from '../layout/UserCard';
+import UserCard from './UserCard';
 import {saveQuery, applySearch} from '../../store/actions/searchActions';
 import './SearchResults.css';
 

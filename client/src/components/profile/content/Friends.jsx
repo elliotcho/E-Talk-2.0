@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getFriends} from '../../../store/actions/friendsActions';
-import UserCard from '../../layout/UserCard';
+import UserCard from '../../search/UserCard';
 import './ProfileContent.css';
 
 class Friends extends Component{

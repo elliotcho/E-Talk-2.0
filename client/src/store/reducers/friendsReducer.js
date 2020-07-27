@@ -1,4 +1,4 @@
-const initState = {requests: [], friends: []}
+const initState = {requests: [], friends: [], unreadRequests: 0}
 
 const friendsReducer = (state = initState, action) =>{
     switch (action.type){
@@ -16,6 +16,11 @@ const friendsReducer = (state = initState, action) =>{
             return {
                 ...state,
                 requests: [...action.requests]
+            }
+        case "LOAD_UNREAD":
+            return{
+                ...state,
+                unreadRequests: action.unreadRequests
             }
         default:
             return state;

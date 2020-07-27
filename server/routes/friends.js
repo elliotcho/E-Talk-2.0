@@ -44,4 +44,16 @@ router.get('/requests/:uid', (req, res) =>{
     });
 });
 
+router.get('/unreadrequests/:uid',  (req, res) =>{
+    const {uid} = req.params;
+
+    FriendRequest.find({receiverId: uid}).then(result =>{
+        const requests = result.filter(request =>{
+            return request.seen === false
+        });
+
+        res.json({unreadRequests: requests.length});
+    });
+});
+
 module.exports = router; 

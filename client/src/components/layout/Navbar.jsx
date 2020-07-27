@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getUserInfo} from '../../store/actions/profileActions';
+import {getUnreadRequests} from '../../store/actions/friendsActions';
 import {saveQuery} from '../../store/actions/searchActions';
 import {Link, withRouter} from 'react-router-dom';
-import {io} from '../../App';
+import NavbarLinks from './links/NavbarLinks';
 import './Navbar.css';
 
 class Navbar extends Component{
@@ -14,15 +15,8 @@ class Navbar extends Component{
             query: ''
         }
 
-        this.signOut = this.signOut.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentDidMount(){
-        const {getUserInfo, uid} = this.props;
-
-        getUserInfo(uid);
     }
 
     componentDidUpdate(prevProps){
@@ -33,22 +27,6 @@ class Navbar extends Component{
                 query
             });
         }
-    }
-
-    signOut(e){
-        e.preventDefault();
-
-        io.emit('LOGOUT', {uid: this.props.uid});
-        
-        window.localStorage.clear();
-        
-        window.location.href='/';
-    }
-
-    computeInitials(firstName, lastName){
-        return firstName!==null && lastName!==null? 
-        firstName[0].toUpperCase() + lastName[0].toUpperCase():
-        "..."
     }
 
     handleChange(e){
@@ -70,8 +48,6 @@ class Navbar extends Component{
     }
 
     render(){
-        const {uid, firstName, lastName} = this.props;
-
         return(
             <div className='text-white navbar-container'>
                 <nav className='navbar navbar-expand-md'>
@@ -92,47 +68,14 @@ class Navbar extends Component{
                             />
                         </form>
 
-                        <ul className ='navbar-nav ml-auto'>
-                            <Link to ='/' className ='link'>
-                                <i className='fa fa-home mr-2'></i>
-                                <span className='title'>Home</span>
-                            </Link>
-                     
-                            <Link to ='/mynetwork' className ='link'>
-                                <i className='fas fa-user-friends mr-2'></i>
-                                <span className='title'>Friend Requests</span>
-                            </Link>
-                        
-                            <Link to ='/' className ='link'>
-                                <i className='fas fa-comment mr-2'></i>
-                                <span className='title'>Messages</span>
-                            </Link>
-                    
-                            <Link to ='/' className ='link'>
-                                <i className='fas fa-bell mr-2'></i>
-                                <span className='title'>Notifications</span>
-                            </Link>
-                        
-                            <Link to ={`/profile/${uid}/posts`} className = 'link'>
-                                <i className = 'fa fa-address-card mr-2'></i>
-
-                                <span className='btn btn-circle btn-md mr-2'>
-                                    {this.computeInitials(firstName, lastName)}
-                                </span>
-                            
-                                <span className='title'>Profile</span>
-                            </Link>
-            
-                            <Link to ='/' className ='link'>
-                                <i className='fas fa-user-cog mr-2'></i>
-                                <span className='title'>Settings</span>
-                            </Link>
-
-                            <a onClick ={this.signOut} href='/' className='link'>
-                                <i className='fas fa-sign-out-alt mr-2'></i>
-                                <span className='title'>Sign Out</span>
-                            </a>
-                        </ul>
+                        <NavbarLinks 
+                            uid={this.props.uid} 
+                            firstName={this.props.firstName} 
+                            lastName={this.props.lastName}
+                            unreadRequests={this.props.unreadRequests}
+                            getUserInfo ={this.props.getUserInfo}
+                            getUnreadRequests = {this.props.getUnreadRequests}
+                        />
                     </div>
                 </nav>
             </div>
@@ -145,14 +88,17 @@ const mapStateToProps = (state) =>{
         uid: state.auth.uid,
         firstName: state.profile.firstName,
         lastName: state.profile.lastName,
-        query: state.search.query
+        query: state.search.query,
+        unreadRequests: state.friends.unreadRequests
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
         getUserInfo: (uid) => {dispatch(getUserInfo(uid));},
-        saveQuery: (query) => {dispatch(saveQuery(query));}
+        saveQuery: (query) => {dispatch(saveQuery(query));},
+        getUnreadRequests: (uid) => {dispatch(getUnreadRequests(uid));}
+
     }
 }
 

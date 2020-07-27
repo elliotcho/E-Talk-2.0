@@ -26,7 +26,8 @@ module.exports = (io) =>{
 
             axios.post('http://localhost:5000/friends/status', {senderId, receiverId}, config).then(response =>{
                 if(status === response.data.status && status === 'Pending'){
-                    FriendRequest.deleteOne({receiverId, senderId}).then(()=>{});
+                    FriendRequest.deleteOne({receiverId: receiverId, senderId: senderId}).then(()=>{});
+                    FriendRequest.deleteOne({receiverId: senderId, senderId: receiverId}).then(()=>{});
 
                     User.findOne({_id: receiverId}).then(result =>{
                         const {friends} = result;

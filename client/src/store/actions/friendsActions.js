@@ -16,6 +16,14 @@ export const getRequests = (uid) =>{
     }
 }
 
+export const getUnreadRequests = (uid) =>{
+    return (dispatch) =>{
+        axios.get(`http://localhost:5000/friends/unreadrequests/${uid}`).then(response =>{
+            dispatch({type: 'LOAD_UNREAD', unreadRequests: response.data.unreadRequests});
+        });
+    }
+}
+
 export const removeRequest = (requestId, requests) =>{
     return (dispatch) =>{
         for(let i=0;i<requests.length;i++){
