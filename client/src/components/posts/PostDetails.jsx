@@ -29,7 +29,7 @@ class PostDetails extends Component{
         }
 
         this.setState({posts: []});
-
+        
         axios.delete(`http://localhost:5000/posts/${postId}`).then(() =>{
             this.props.history.push('/'); 
         });
