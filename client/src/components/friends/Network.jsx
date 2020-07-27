@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getRequests, removeRequest, readRequests} from '../../store/actions/friendsActions';
+import {removeRequest, readRequests} from '../../store/actions/friendsActions';
 import FriendRequest from './FriendRequest';
 import './Network.css';
 
@@ -12,7 +12,6 @@ class Network extends Component{
     }
 
     componentDidMount(){
-        this.props.getRequests(this.props.uid);
         this.props.readRequests(this.props.uid);
     }
 
@@ -59,7 +58,6 @@ const mapStateToProps = (state) =>{
 }
 const mapDispatchToProps = (dispatch) =>{
     return {
-        getRequests: (uid) => {dispatch(getRequests(uid));},
         removeRequest: (requestId, requests) => {dispatch(removeRequest(requestId, requests));},
         readRequests: (uid) => {dispatch(readRequests(uid));}
     }

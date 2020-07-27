@@ -1,5 +1,6 @@
 For next 2 hour session:
-[ ] Light up navbar for friends
+[ ] Post Detail Design
+[ ] Post Detail backend
 
 Overall:
 [ ] Notification page design
@@ -18,9 +19,6 @@ Overall:
 [ ] profile skills backend
 
 [ ] Friend Request page design
-
-[ ] Post detail design
-[ ] Post detail backend
 
 [ ] Comment page design
 [ ] Comments on profile design

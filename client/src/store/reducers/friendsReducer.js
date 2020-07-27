@@ -7,11 +7,6 @@ const friendsReducer = (state = initState, action) =>{
                 ...state,
                 friends: [...action.friends]
             }
-        case "LOAD_REQUESTS":
-            return {
-                ...state,
-                requests: [...action.requests]
-            }
         case "REMOVE_REQUEST":
             return {
                 ...state,

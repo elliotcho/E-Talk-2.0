@@ -35,15 +35,6 @@ router.post('/status', (req, res)=>{
     });
 });
 
-router.get('/requests/:uid', (req, res) =>{
-    const {uid} = req.params;
-    
-    FriendRequest.find({receiverId: uid}).then(result =>{
-        result.sort((a, b) => b.date - a.date);
-        res.json(result);
-    });
-});
-
 router.get('/unreadrequests/:uid',  (req, res) =>{
     const {uid} = req.params;
 
@@ -61,6 +52,7 @@ router.put('/readrequests/:uid', (req, res) =>{
 
     FriendRequest.updateMany({receiverId: uid}, {seen: true}).then(() =>{
         FriendRequest.find({receiverId: uid}).then(result =>{
+            result.sort((a, b) => b.date - a.date);
             res.json(result);
         });
     });
