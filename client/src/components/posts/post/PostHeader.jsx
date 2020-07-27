@@ -16,6 +16,7 @@ class PostHeader extends Component{
         }
 
         this.toOwnerProfile = this.toOwnerProfile.bind(this);
+        this.toPostDetails = this.toPostDetails.bind(this);
     }
 
     componentDidMount(){
@@ -40,6 +41,18 @@ class PostHeader extends Component{
         this.props.history.push(`/profile/${this.props.ownerId}/posts`);
     }
 
+    toPostDetails(){
+        const {postId} = this.props;
+
+        if(this.props.location.pathname === `/post/${postId}`){
+            window.location.reload();
+        }
+
+        else{
+            this.props.history.push(`/post/${postId}`);
+        }
+    }
+
     render(){
         const {firstName, lastName, imgURL} = this.state;
 
@@ -58,7 +71,7 @@ class PostHeader extends Component{
                         {firstName} {lastName}
                     </h3>
 
-                    <p className='text-muted'>
+                    <p className='text-muted' onClick ={this.toPostDetails}>
                         {moment(createdAt).calendar()}
                     </p>
                 </div>

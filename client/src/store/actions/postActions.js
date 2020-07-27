@@ -15,17 +15,19 @@ export const createPost = (uid, content, profileId = "empty") =>{
         const config = {headers: {'content-type': 'application/json'}};
 
         axios.post('http://localhost:5000/posts/create', {uid, content}, config).then(() =>{
-            axios.get(`http://localhost:5000/posts/${profileId}`).then(response => {
+            axios.post('http://localhost:5000/posts', {uid, profileId}, config).then(response => {
                 dispatch({type: "POSTS_UPDATED", posts: response.data});
             });
         });
     }
 }
 
-export const deletePost = (postId, profileId = "empty") => {
+export const deletePost = (uid, postId, profileId = "empty") => {
     return (dispatch) =>{
+        const config = {headers: {'content-type': 'application/json'}};
+
         axios.delete(`http://localhost:5000/posts/${postId}`).then( () => {
-            axios.get(`http://localhost:5000/posts/${profileId}`).then(response => {
+            axios.post('http://localhost:5000/posts', {uid, profileId}, config).then(response => {
                 dispatch({type: "POSTS_UPDATED", posts: response.data});
             });
         });

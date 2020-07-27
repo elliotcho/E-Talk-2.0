@@ -41,14 +41,14 @@ class PostsList extends Component{
             return;
         }
 
-        const {profileId} = this.props;
+        const {uid, profileId} = this.props;
 
         if(profileId === null){
-            this.props.deletePost(postId);
+            this.props.deletePost(uid, postId);
         }
 
         else{
-            this.props.deletePost(postId, profileId);
+            this.props.deletePost(uid, postId, profileId);
         }
     }
 
@@ -94,7 +94,7 @@ const mapDispatchToProps = (dispatch) =>{
     return{
         createPost: (uid, content, profileId) => {dispatch(createPost(uid, content, profileId));},
         getPosts: (uid, profileId) => {dispatch(getPosts(uid, profileId));},
-        deletePost: (postId, profileId) => {dispatch(deletePost(postId, profileId));}
+        deletePost: (uid, postId, profileId) => {dispatch(deletePost(uid, postId, profileId));}
     }
 }
 
