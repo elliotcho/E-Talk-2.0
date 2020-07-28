@@ -29,3 +29,14 @@
     top: 2px;
     font-size: 30px;
 }
+
+.comments .modal-body textarea{
+    resize: none;
+    width: 100%;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: padding-box;
+    font-family: 'Segoe UI';
+    overflow: hidden;
+}

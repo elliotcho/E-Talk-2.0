@@ -98,7 +98,7 @@ class Post extends Component{
             seeMore
         } = this.props;
         
-        const contentArray = (seeMore)? content: this.computeContent(content);
+        const contentArray = (seeMore)? [content, false] : this.computeContent(content);
 
         return(
             <div className ='post bg-white'>

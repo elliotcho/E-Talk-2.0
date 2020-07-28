@@ -1,6 +1,22 @@
 import React, {Component} from 'react';
 
 class CommentsModal extends Component{
+    constructor(){
+        super();
+        this.pressEnter = this.pressEnter.bind(this);
+    }
+
+    pressEnter(e){
+        if(e.keyCode === 13 && e.shiftKey === false){
+            this.myCommentForm.dispatchEvent(new Event('submit'));
+        }
+
+        else{
+            this.myComment.style.height = "";
+           this.myComment.style.height = this.myComment.scrollHeight + 'px';
+        }
+    }
+
     render(){
         const {postId} = this.props;
 
@@ -15,8 +31,14 @@ class CommentsModal extends Component{
                         </button>
                     </div>
 
-                    <div>
-                      
+                    <div className ='modal-body'>
+                        <form ref ={ele => this.myCommentForm = ele}>
+                            <textarea 
+                                      rows='1' 
+                                      ref = {ele => this.myComment = ele}
+                                      onKeyUp={this.pressEnter} 
+                            />
+                        </form>
                     </div>
                 </div>
             </div>

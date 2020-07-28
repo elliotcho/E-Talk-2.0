@@ -7,10 +7,14 @@ class PostComments extends Component{
         const {postId, formatCount, comments} = this.props;
 
         return(
-            <div className ='d-inline-block comments' data-toggle ='modal' data-target ={`#commentsModalFor${postId}`}>
-                <i className ='fas fa-comment-alt'/>
+            <div className ='d-inline-block comments'>
+                <i className ='fas fa-comment-alt' data-toggle ='modal' data-target ={`#commentsModalFor${postId}`}/>
                 
-                <span className={comments.length === 0? 'ml-1': 'ml-2'}>  
+                <span 
+                      className={comments.length === 0? 'ml-1': 'ml-2'} 
+                      data-toggle ='modal' 
+                      data-target ={`#commentsModalFor${postId}`}
+                >    
                     {comments.length === 0? null: formatCount(comments)} 
                     {comments.length>1? " Comments": " Comment"}
                 </span>
