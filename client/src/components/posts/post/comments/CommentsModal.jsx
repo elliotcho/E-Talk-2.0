@@ -15,8 +15,8 @@ class CommentsModal extends Component{
                         </button>
                     </div>
 
-                    <div className ='modal-body'>
-                        User Comments Here...
+                    <div>
+                      
                     </div>
                 </div>
             </div>

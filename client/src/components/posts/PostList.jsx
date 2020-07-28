@@ -64,6 +64,7 @@ class PostsList extends Component{
                   likes = {post.likes}
                   comments = {post.comments} 
                   deletePost={this.deletePost}
+                  seeMore = {false}
             />
         ));
 

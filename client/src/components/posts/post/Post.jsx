@@ -80,10 +80,11 @@ class Post extends Component{
             content, 
             deletePost, 
             likes, 
-            comments
+            comments,
+            seeMore
         } = this.props;
         
-        const contentArray = this.computeContent(content);
+        const contentArray = (seeMore)? content: this.computeContent(content);
 
         return(
             <div className ='post bg-white'>

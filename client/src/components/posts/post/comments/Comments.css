@@ -11,11 +11,6 @@
     font-family: 'Helvetica';
 }
 
-.comments .modal-body{
-    max-height: 800px;
-    overflow: auto;
-}
-
 .comments .close:hover span{
     color: revert;
 }

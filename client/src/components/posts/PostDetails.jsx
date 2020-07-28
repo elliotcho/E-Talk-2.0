@@ -53,6 +53,7 @@ class PostDetails extends Component{
                   likes = {post.likes}
                   comments = {post.comments} 
                   deletePost={this.deletePost}
+                  seeMore = {true}
             />
         );
 
