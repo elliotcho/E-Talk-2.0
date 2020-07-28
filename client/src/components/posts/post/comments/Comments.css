@@ -30,13 +30,72 @@
     font-size: 30px;
 }
 
+.comments .modal-body .comments-container{
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 800px;
+}
+
+.comments .modal-body .comment-form{
+    position: fixed;
+    width: 100%;
+    padding: 15px;
+    background: #e8e8e8;
+    top: 70%;
+    left: 0;
+}
+
 .comments .modal-body textarea{
     resize: none;
+    margin: auto;
     width: 100%;
+    height: 33px;
     font-size: 1.2rem;
-    border: 1px solid #ccc;
+    border: 2px solid #313131;
     border-radius: 4px;
-    box-sizing: padding-box;
     font-family: 'Segoe UI';
     overflow: hidden;
+}
+
+.comments .user-comment{
+    border: gray solid 1px;
+    padding: 10px;
+}
+
+.comments .user-comment img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none; 
+    -khtml-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; 
+}
+
+.comments .user-comment h5{
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.comments .user-comment p{
+    font-size: 0.8rem;
+}
+
+.comments .user-comment h5:hover{
+    text-decoration: underline;
+}
+
+.comments .user-comment .user-content{
+    padding: 10px;
+    margin-left: 10px;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+}
+
+.comments .user-comment .fa-ellipsis-h:hover{
+    color: black;
 }

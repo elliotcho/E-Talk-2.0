@@ -40,7 +40,7 @@
     font-family: 'Helvetica';
 }
 
-.post img{
+.post header img{
     width: 70px;
     height: 70px;
     border-radius: 50%;
