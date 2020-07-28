@@ -10,6 +10,8 @@ class Post extends Component{
         this.state= {
             commentCount: 0
         }
+
+        this.toPostDetails = this.toPostDetails.bind(this);
     }
 
     componentDidMount(){
@@ -70,6 +72,18 @@ class Post extends Component{
         return [res, limitExceeded];
     }
 
+    toPostDetails(){
+        const {postId} = this.props;
+
+        if(this.props.location.pathname === `/post/${postId}`){
+            window.location.reload();
+        }
+
+        else{
+            this.props.history.push(`/post/${postId}`);
+        }
+    }
+
     render(){
         const {
             uid, 
@@ -101,7 +115,7 @@ class Post extends Component{
                     {contentArray[1]? 
                     (<div> 
                         {contentArray[0] + '\n'} 
-                        <span className ='ml-1 see-more'>See More</span>
+                        <span className ='ml-1 see-more' onClick ={this.toPostDetails}>See More</span>
                     </div>):
                     contentArray[0]}
                 </main>
