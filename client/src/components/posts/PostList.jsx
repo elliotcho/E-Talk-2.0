@@ -62,7 +62,7 @@ class PostsList extends Component{
                   createdAt = {post.createdAt}
                   content = {post.content}
                   likes = {post.likes}
-                  comments = {post.comments} 
+                  comments = {JSON.stringify(post.comments)} 
                   deletePost={this.deletePost}
                   seeMore = {false}
             />

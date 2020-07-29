@@ -1,4 +1,4 @@
-const {User, Post} = require('../dbschemas');
+const {User, Post, Comment} = require('../dbschemas');
 const router = require('express').Router();
 
 router.get('/:id', (req, res) =>{
@@ -95,6 +95,35 @@ router.post('/userliked', (req, res) =>{
             else{ 
                 res.json({userLiked: false, likes});
             }
+        }
+    });
+});
+
+router.post('/comment', (req, res)=>{
+    const {postId, uid, content} = req.body;
+
+    Post.findOne({_id: postId}).then(result =>{
+        const {comments} = result;
+
+        if(result === null){
+            res.json({msg:"Post not found"});
+        }
+
+        else{
+            const newComment = new Comment({
+                uid,
+                createdAt: new Date(),
+                content,
+                likes: []
+            });
+
+            comments.push(newComment);
+
+            comments.sort((a,b) => b.createdAt - a.createdAt);
+
+            Post.updateOne({_id: postId}, {comments}).then(() =>{
+                res.json(comments);
+            });
         }
     });
 });

@@ -3,7 +3,7 @@ import UserLike from './UserLike';
 
 function LikesModal({likes, postId}){
     const userLikes = likes.map(like =>
-        <UserLike uid ={like} postId={postId}/>
+        <UserLike key={like} uid ={like} postId={postId}/>
     );
 
     return(

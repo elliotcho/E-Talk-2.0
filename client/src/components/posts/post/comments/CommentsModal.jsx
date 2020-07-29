@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import UserComment from './UserComment';
+import axios from 'axios';
 
 class CommentsModal extends Component{
     constructor(){
@@ -16,12 +17,12 @@ class CommentsModal extends Component{
     }
 
     componentDidMount(){
-        const {comments} = this.props;
+        const comments = JSON.parse(this.props.comments);
 
         comments.sort((a, b) => b.createdAt - a.createdAt);
 
         this.setState({
-            comments: []
+            comments
         });
     }
 
@@ -54,19 +55,25 @@ class CommentsModal extends Component{
             return;
         }
 
-        
+        const {postId, uid} = this.props;
+
+        const config = {headers: {'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/posts/comment', {postId, uid, content: commentContent}, config).then(response =>{
+            this.setState({comments: response.data});
+        });
 
         this.setState({commentContent: ''});
         this.myComment.style.height = "";
     }
 
     render(){
-        const {postId} = this.props;
+        const {postId, uid} = this.props;
 
         const {commentContent} = this.state;
 
         const userComments = this.state.comments.map(comment =>
-            <UserComment/>
+            <UserComment key={comment.uid} myId={uid} postId={postId} comment={comment}/>
         );
 
         return(

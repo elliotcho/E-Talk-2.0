@@ -41,4 +41,4 @@ app.use('/friends', require('./routes/friends'));
 
 const server = app.listen(5000);
 
-require('./socketEvents')(socket(server));
+require('./socketEvents')(socket(server)); 
