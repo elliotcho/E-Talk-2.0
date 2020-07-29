@@ -19,7 +19,7 @@ class UserComment extends Component{
                         <i className ='fa fa-ellipsis-h'/>
                     </div>
 
-                    <div className ='user-content'>
+                    <div className ='user-content col-12'>
                         This is a comment blahjdad;skfja;dfkja;f
                         ad;fkja;dkjfa;kjf
                         ad;fkja;dfkjaf;kaj

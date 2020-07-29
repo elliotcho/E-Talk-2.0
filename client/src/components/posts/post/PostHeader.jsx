@@ -44,11 +44,7 @@ class PostHeader extends Component{
     toPostDetails(){
         const {postId} = this.props;
 
-        if(this.props.location.pathname === `/post/${postId}`){
-            window.location.reload();
-        }
-
-        else{
+        if(this.props.location.pathname !== `/post/${postId}`){
             this.props.history.push(`/post/${postId}`);
         }
     }

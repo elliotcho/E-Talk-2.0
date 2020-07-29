@@ -21,7 +21,7 @@ class CommentsModal extends Component{
         comments.sort((a, b) => b.createdAt - a.createdAt);
 
         this.setState({
-            comments: [1,2,4,4,4,5,6]
+            comments: []
         });
     }
 
@@ -57,6 +57,7 @@ class CommentsModal extends Component{
         
 
         this.setState({commentContent: ''});
+        this.myComment.style.height = "";
     }
 
     render(){
@@ -81,7 +82,8 @@ class CommentsModal extends Component{
 
                     <div className ='modal-body' onSubmit={this.handleSubmit}>
                         <div className ='comments-container'>
-                            {userComments}
+                            {userComments.length === 0? <h4 className ='no-comments'>No Comments Available</h4>: 
+                            userComments}
                         </div>
 
                         <div className ='comment-form'> 

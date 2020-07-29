@@ -18,7 +18,7 @@ function PostComments(props){
                 {comments.length>1? " Comments": " Comment"}
             </span>
 
-            <div className='modal fade' id= {`commentsModalFor${postId}`} data-backdrop='static'>
+            <div className='modal fade' id= {`commentsModalFor${postId}`}>
                 <CommentsModal postId={postId} uid={uid} comments={comments}/>
             </div>
         </div>

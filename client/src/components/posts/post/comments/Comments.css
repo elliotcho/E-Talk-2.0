@@ -30,19 +30,28 @@
     font-size: 30px;
 }
 
+.comments .modal-body{
+    position: relative;
+}
+
 .comments .modal-body .comments-container{
     overflow-y: auto;
     overflow-x: hidden;
-    max-height: 800px;
+    max-height: 400px;
+}
+
+.comments .modal-body .no-comments{
+    font-family: 'Nunito';
+    text-align: center;
+    color: #6262b4;
 }
 
 .comments .modal-body .comment-form{
-    position: fixed;
+    position: absolute;
     width: 100%;
-    padding: 15px;
-    background: #e8e8e8;
-    top: 70%;
+    top: 100%;
     left: 0;
+    margin: 30px auto;
 }
 
 .comments .modal-body textarea{
