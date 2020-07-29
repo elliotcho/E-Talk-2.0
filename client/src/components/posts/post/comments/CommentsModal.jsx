@@ -124,6 +124,7 @@ class CommentsModal extends Component{
                         <div className ='comment-form'> 
                             <form ref ={ele => this.myCommentForm = ele}>
                                 <textarea 
+                                        className = 'form-control'
                                         rows='1' 
                                         ref = {ele => this.myComment = ele}
                                         onKeyUp={this.pressEnter} 
