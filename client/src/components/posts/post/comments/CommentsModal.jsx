@@ -14,6 +14,7 @@ class CommentsModal extends Component{
         this.pressEnter = this.pressEnter.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.deleteComment = this.deleteComment.bind(this);
     }
 
     componentDidMount(){
@@ -67,13 +68,32 @@ class CommentsModal extends Component{
         this.myComment.style.height = "";
     }
 
+    deleteComment(commentId){
+        if(!window.confirm("Are you sure you want to delete this comment?")){
+            return;
+        }
+
+        const data = {postId: this.props.postId, commentId};
+        const config = {headers: {'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/posts/deletecomment', data, config).then(response =>{
+            this.setState({comments: response.data});
+        });
+    }
+
     render(){
         const {postId, uid} = this.props;
 
         const {commentContent} = this.state;
 
         const userComments = this.state.comments.map(comment =>
-            <UserComment key={comment.uid} myId={uid} postId={postId} comment={comment}/>
+            <UserComment 
+                key={comment.uid} 
+                myId={uid} 
+                postId={postId} 
+                comment={comment}
+                deleteComment = {this.deleteComment}
+            />
         );
 
         return(
@@ -102,6 +122,7 @@ class CommentsModal extends Component{
                                         value = {commentContent}
                                         id = 'commentContent'
                                         onChange = {this.handleChange}
+                                        placeholder = 'Write a comment...'
                                 />
                             </form>
                         </div>

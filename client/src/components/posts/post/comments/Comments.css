@@ -49,20 +49,24 @@
     position: absolute;
     width: 100%;
     top: 100%;
-    left: 0;
-    margin: 30px auto;
+    left: 3px;
+    margin-top: 30px;
 }
 
 .comments .modal-body textarea{
     resize: none;
-    margin: auto;
     width: 100%;
     height: 33px;
-    font-size: 1.2rem;
     border: 2px solid #313131;
+    font-size: 1.0rem;
     border-radius: 4px;
-    font-family: 'Segoe UI';
     overflow: hidden;
+    font-family: 'Tahoma';
+}
+
+
+.comments .modal-body textarea:focus{
+    outline: none;
 }
 
 .comments .user-comment{
@@ -97,13 +101,68 @@
 }
 
 .comments .user-comment .user-content{
-    padding: 10px;
+    padding: 15px 10px;
     margin-left: 10px;
     overflow-wrap: break-word;
     white-space: pre-wrap;
     font-size: 0.9rem;
 }
 
-.comments .user-comment .fa-ellipsis-h:hover{
+.comment-settings{
+    position: relative;
+    text-align: right;
+}
+
+.comment-settings .fa-ellipsis-h{
+    color: #979797;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.comment-settings .fa-ellipsis-h:hover{
     color: black;
+}
+
+.comment-settings .dropdown-content{
+    display: none;
+    position: absolute;
+    right: -7px;
+    text-align: center;
+    background: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 0 5px black;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.comment-settings .option{
+    position: relative;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 0.7rem;
+}
+
+.comment-settings .option .fa-trash-alt,
+.comment-settings .option .fa-edit{
+    position: absolute; 
+    top: 10px;
+    left: 0;
+}
+
+.comment-settings .option span{
+    position: relative;
+    left: 15px;
+}
+
+.comment-settings .option:hover,
+.comment-settings .option:hover span,
+.comment-settings .option:hover .fa-trash-alt,
+.comment-settings .option:hover .fa-edit{
+    background: darkblue;
+    color: white;
+}
+
+.comment-settings:hover .dropdown-content{
+    display: block;
 }

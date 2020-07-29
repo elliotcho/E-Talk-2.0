@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
+import CommentSettings from './CommentSettings';
 import loading from '../../../../images/loading.jpg';
 
 class UserComment extends Component{
@@ -50,20 +51,6 @@ class UserComment extends Component{
     }
 
     render(){
-        // const ownerSettings = (
-        //     <div>
-        //         <div className = 'option' onClick = {() => {deletePost(postId)}}>
-        //             <i className ='fas fa-trash-alt'></i>
-        //             <span className ='ml-1'>Delete Post</span>
-        //         </div>
-
-        //         <div className = 'option'>
-        //             <i className ='fas fa-edit'></i>
-        //             <span className='ml-1'>Edit Post</span>
-        //         </div>
-        //     </div>
-        // );
-
         const {createdAt, content} = this.props.comment;
 
         const {firstName, lastName, imgURL} = this.state;
@@ -81,7 +68,12 @@ class UserComment extends Component{
                     </div>
 
                     <div className='col-3 text-right'>
-                        <i className ='fa fa-ellipsis-h'/>
+                        <CommentSettings 
+                            commentId = {this.props.comment._id}
+                            myId={this.props.myId} 
+                            commenterId={this.props.comment.uid}
+                            deleteComment = {this.props.deleteComment}
+                        />
                     </div>
 
                     <div className ='user-content col-12'>

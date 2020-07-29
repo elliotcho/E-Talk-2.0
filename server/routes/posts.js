@@ -103,13 +103,13 @@ router.post('/comment', (req, res)=>{
     const {postId, uid, content} = req.body;
 
     Post.findOne({_id: postId}).then(result =>{
-        const {comments} = result;
-
         if(result === null){
             res.json({msg:"Post not found"});
         }
 
         else{
+            const {comments} = result;
+
             const newComment = new Comment({
                 uid,
                 createdAt: new Date(),
@@ -122,6 +122,31 @@ router.post('/comment', (req, res)=>{
             comments.sort((a,b) => b.createdAt - a.createdAt);
 
             Post.updateOne({_id: postId}, {comments}).then(() =>{
+                res.json(comments);
+            });
+        }
+    });
+});
+
+router.post('/deletecomment', (req, res) =>{
+    const {postId, commentId} = req.body;
+
+    Post.findOne({_id: postId}).then(result =>{
+        if(result === null){
+            res.json({msg: 'Post not found'});
+        }
+
+        else{
+            const {comments} = result;
+
+            for(let i=0;i<comments.length;i++){
+                if(String(comments[i]._id) === commentId){
+                    comments.splice(i, 1);
+                    break;
+                }
+            }
+
+            Post.updateOne({_id: postId}, {comments}).then(()=>{
                 res.json(comments);
             });
         }
