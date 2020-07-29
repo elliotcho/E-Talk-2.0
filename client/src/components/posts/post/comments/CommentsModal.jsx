@@ -56,13 +56,19 @@ class CommentsModal extends Component{
             return;
         }
 
-        const {postId, uid} = this.props;
+        const {
+            postId, 
+            uid, 
+            updateCommentsCount
+        } = this.props;
 
         const config = {headers: {'content-type': 'application/json'}};
 
         axios.post('http://localhost:5000/posts/comment', {postId, uid, content: commentContent}, config).then(response =>{
             this.setState({comments: response.data});
         });
+
+        updateCommentsCount(1);
 
         this.setState({commentContent: ''});
         this.myComment.style.height = "";
@@ -72,6 +78,8 @@ class CommentsModal extends Component{
         if(!window.confirm("Are you sure you want to delete this comment?")){
             return;
         }
+
+        this.props.updateCommentsCount(-1);
 
         const data = {postId: this.props.postId, commentId};
         const config = {headers: {'content-type': 'application/json'}};
