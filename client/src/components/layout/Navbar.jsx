@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getUserInfo} from '../../store/actions/profileActions';
 import {getUnreadRequests} from '../../store/actions/friendsActions';
+import {getUnreadNotifs} from '../../store/actions/notificationActions';
 import {saveQuery} from '../../store/actions/searchActions';
 import {Link, withRouter} from 'react-router-dom';
 import NavbarLinks from './NavbarLinks';
@@ -73,8 +74,10 @@ class Navbar extends Component{
                             firstName={this.props.firstName} 
                             lastName={this.props.lastName}
                             unreadRequests={this.props.unreadRequests}
+                            unreadNotifs = {this.props.unreadNotifs}
                             getUserInfo ={this.props.getUserInfo}
                             getUnreadRequests = {this.props.getUnreadRequests}
+                            getUnreadNotifs = {this.props.getUnreadNotifs}
                         />
                     </div>
                 </nav>
@@ -89,7 +92,8 @@ const mapStateToProps = (state) =>{
         firstName: state.profile.firstName,
         lastName: state.profile.lastName,
         query: state.search.query,
-        unreadRequests: state.friends.unreadRequests
+        unreadRequests: state.friends.unreadRequests,
+        unreadNotifs: state.notifs.unreadNotifs
     }
 }
 
@@ -97,8 +101,8 @@ const mapDispatchToProps = (dispatch) =>{
     return {
         getUserInfo: (uid) => {dispatch(getUserInfo(uid));},
         saveQuery: (query) => {dispatch(saveQuery(query));},
-        getUnreadRequests: (uid) => {dispatch(getUnreadRequests(uid));}
-
+        getUnreadRequests: (uid) => {dispatch(getUnreadRequests(uid));},
+        getUnreadNotifs: (uid) => {dispatch(getUnreadNotifs(uid));}
     }
 }
 

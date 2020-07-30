@@ -24,7 +24,7 @@
 }
 
 .notifications .notif-card:hover{
-    box-shadow: 0 0 5px white;
+    box-shadow: 0 0 5px #e8e8e8;
 }
 
 .notifications .notif-card p{

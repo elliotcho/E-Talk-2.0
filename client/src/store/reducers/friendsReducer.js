@@ -18,7 +18,7 @@ const friendsReducer = (state = initState, action) =>{
                 unreadRequests: 0,
                 requests: [...action.requests]
             }
-        case "LOAD_UNREAD":
+        case "LOAD_UNREAD_REQUESTS":
             return{
                 ...state,
                 unreadRequests: action.unreadRequests

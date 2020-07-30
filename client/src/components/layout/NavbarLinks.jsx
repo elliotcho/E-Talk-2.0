@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {io} from '../../App';
+import { getUnreadNotifs } from '../../store/actions/notificationActions';
 
 class NavbarLinks extends Component{
     constructor(){
@@ -13,8 +14,8 @@ class NavbarLinks extends Component{
         const {uid, getUserInfo, getUnreadRequests} = this.props;
 
         getUserInfo(uid);
-
         getUnreadRequests(uid);
+        getUnreadNotifs(uid);
     }
 
     signOut(e){
@@ -42,9 +43,10 @@ class NavbarLinks extends Component{
     }
 
     render(){
-        const {uid, firstName, lastName, unreadRequests} = this.props;
+        const {uid, firstName, lastName, unreadRequests, unreadNotifs} = this.props;
 
         const friendIcon = (unreadRequests === 0)? '': 'text-white';
+        const notifIcon = (unreadNotifs === 0)? '': 'text-white';
 
         return(
             <ul className ='navbar-nav ml-auto'>
@@ -58,7 +60,9 @@ class NavbarLinks extends Component{
                     <span className='title'>Friend Requests</span>
 
                     {unreadRequests === 0? null:
-                    <div className ='count-box request'>{unreadRequests}</div>}
+                    (<div className ='count-box request'>
+                        {this.formatCount(unreadRequests)}
+                    </div>)}
                 </Link>
                         
                 <Link to ='/' className ='link'>
@@ -68,11 +72,14 @@ class NavbarLinks extends Component{
                     {/*<div className ='count-box msg'>{this.formatCount(100)}</div>*/}
                 </Link>
                     
-                <Link to ='/notifications' className ='link'>
+                <Link to ='/notifications' className={`link ${notifIcon}`}>
                     <i className='fas fa-bell mr-2'></i>
                     <span className='title'>Notifications</span>
 
-                    {/*<div className ='count-box notif'>{this.formatCount(100)}</div>*/}
+                    {unreadNotifs === 0? null:
+                    (<div className ='count-box notif'>
+                        {this.formatCount(unreadNotifs)}
+                    </div>)}
                 </Link>
                         
                 <Link to ={`/profile/${uid}/posts`} className = 'link ml-2'>

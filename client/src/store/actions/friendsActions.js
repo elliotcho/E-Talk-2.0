@@ -11,7 +11,7 @@ export const getFriends = (uid) =>{
 export const getUnreadRequests = (uid) =>{
     return (dispatch) =>{
         axios.get(`http://localhost:5000/friends/unreadrequests/${uid}`).then(response =>{
-            dispatch({type: 'LOAD_UNREAD', unreadRequests: response.data.unreadRequests});
+            dispatch({type: 'LOAD_UNREAD_REQUESTS', unreadRequests: response.data.unreadRequests});
         });
     }
 }

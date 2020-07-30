@@ -3,6 +3,7 @@ import profileReducer from './profileReducer';
 import postReducer from './postReducer';
 import searchReducer from './searchReducer';
 import friendsReducer from './friendsReducer';
+import notificationReducer from './notificationReducer';
 import {combineReducers} from 'redux';
 
 const rootReducer = combineReducers({
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
     profile: profileReducer,
     posts: postReducer,
     search: searchReducer,
-    friends: friendsReducer
+    friends: friendsReducer,
+    notifs: notificationReducer
 });
 
 export default rootReducer;
