@@ -2,7 +2,7 @@ import React from 'react';
 import Toast from '../components/notifications/Toast';
 import {toast} from 'react-toastify';
 
-export const handleSocketEvents = (io, getUnreadRequests) =>{
+export const handleSocketEvents = (io, getUnreadRequests, getUnreadNotifs) =>{
     io.on('CHANGE_FRIEND_STATUS', data =>{
         const {uid} =data;
 
@@ -15,6 +15,10 @@ export const handleSocketEvents = (io, getUnreadRequests) =>{
     });
 
     io.on('ACCEPT_REQUEST', data =>{
+        const {uid} = data;
+
+        getUnreadNotifs(uid);
+
         toast.success(<Toast data={data} msg ={'accepted your friend request'}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false       

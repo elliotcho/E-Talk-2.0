@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {io} from '../../App';
-import { getUnreadNotifs } from '../../store/actions/notificationActions';
 
 class NavbarLinks extends Component{
     constructor(){
@@ -11,7 +10,12 @@ class NavbarLinks extends Component{
     }
 
     componentDidMount(){
-        const {uid, getUserInfo, getUnreadRequests} = this.props;
+        const {
+            uid, 
+            getUserInfo, 
+            getUnreadRequests, 
+            getUnreadNotifs
+        } = this.props;
 
         getUserInfo(uid);
         getUnreadRequests(uid);

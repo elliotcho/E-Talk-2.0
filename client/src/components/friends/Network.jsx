@@ -15,6 +15,10 @@ class Network extends Component{
         this.props.readRequests(this.props.uid);
     }
 
+    componentDidUpdate(prevProps){
+     
+    }
+
     deleteRequest(id){
         const {
             requests,
