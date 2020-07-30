@@ -14,6 +14,15 @@
     box-shadow: none;
 }
 
+.notifications .notif-container:last-child{
+    margin-bottom: 50px;
+}
+
+.notifications .no-notifs{
+    color: lightgray;
+    font-family: 'Nunito';
+}
+
 .notifications .notif-card{
     max-width: 600px;
     margin: auto;

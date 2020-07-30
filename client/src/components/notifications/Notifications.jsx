@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {readNotifs} from '../../store/actions/notificationActions';
+import {Redirect} from 'react-router-dom';
 import NotifCard from './NotifCard';
 import './Notifications.css';
 
@@ -10,10 +11,25 @@ class Notifications extends Component{
     }
 
     render(){
+        const {uid} = this.props;
+
+        if(!uid){
+            return <Redirect to ='/'/>
+        }
+
+        const notifs = this.props.notifs.map(notif =>
+            <NotifCard
+                key = {notif._id}
+                notif = {notif}
+            />
+        );
+
         return(
             <div className ='text-white notifications'>
-                <NotifCard/>
-                <NotifCard/>
+                 {notifs.length === 0? <h1 className ='no-notifs text-center'>Notifications Unavailable</h1>:
+                <div className ='notif-container'>
+                    {notifs}
+                </div>}
             </div>
         )
     }
