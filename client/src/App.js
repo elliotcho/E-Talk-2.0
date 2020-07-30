@@ -12,7 +12,7 @@ import SearchResults from './components/search/SearchResults';
 import Notifications from './components/notifications/Notifications';
 import PostDetails from './components/posts/PostDetails';
 import Navbar from './components/layout/Navbar';
-import {handleSocketEvents} from './handlers/socketEvents';
+import {handleSocketEvents} from './socket/socketEvents';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';

@@ -22,8 +22,7 @@ const FriendRequestSchema = new Schema({
     senderId: String,
     receiverId: String, 
     date: Date,
-    seen: Boolean,
-    isRequestNew: Boolean
+    seen: Boolean
 });
 
 const PostSchema = new Schema({
