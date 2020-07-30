@@ -1,12 +1,9 @@
 For next 2 hour session:
-[ ] Comment page design
-[ ] Comments on profile design
-[ ] Comments on feed design
-[ ] comments backend
+[ ] Notification page design
+[ ] Like/comment notification design
+[ ] Like/comment notificaiton backend
 
 Overall:
-[ ] Notification page design
-
 [ ] Rework search bar backend
 
 [ ] Non existent routes client
@@ -21,9 +18,6 @@ Overall:
 [ ] profile skills backend
 
 [ ] Friend Request page design
-
-[ ] Like/comment notification design
-[ ] Like/comment notificaiton backend
 
 [ ] Message page design
 [ ] Message to  person design
