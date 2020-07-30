@@ -1,4 +1,4 @@
-const {User, FriendRequest} = require('../dbschemas');
+const {User, FriendRequest, Notification} = require('../dbschemas');
 const axios = require('axios');
 
 exports.declineRequest = async (data) =>{
@@ -34,6 +34,17 @@ exports.acceptRequest = async (data) =>{
             {_id: senderId},
             {friends: [...sender.friends, receiverId]
         });
+
+        const newNotification = new Notification({
+            receiverId: senderId,
+            senderId: receiverId,
+            date: new Date(),
+            seen: false,
+            msg: 'accepted your friend request!',
+            type: 'ACCEPT_REQUEST'
+        });
+
+        await newNotification.save();
 
         return true;
     }
@@ -90,6 +101,9 @@ exports.changeFriendStatus = async (data) =>{
             }
 
             await User.updateOne({_id: senderId}, {friends: senderFriends});
+
+            await Notification.deleteOne({receiverId: receiverId, senderId: senderId, type: 'ACCEPT_REQUEST'});
+            await Notification.deleteOne({receiverId: senderId, senderId: receiverId, type: 'ACCEPT_REQUEST'});
         }
     }
 }
