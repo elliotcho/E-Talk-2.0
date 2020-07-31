@@ -59,3 +59,10 @@
     top: 3px;
     font-size: 1.8rem;
 }
+
+.notifications .notif-card .fa-comment-alt{
+    color: #09ad09;
+    position: relative;
+    top: 5px;
+    font-size: 1.5rem;
+}

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import UserComment from './UserComment';
+import {io} from '../../../../App';
 import axios from 'axios';
 
 class CommentsModal extends Component{
@@ -62,6 +63,8 @@ class CommentsModal extends Component{
             updateCommentsCount
         } = this.props;
 
+        io.emit('COMMENT_ON_POST', {postId, senderId: uid});
+
         const config = {headers: {'content-type': 'application/json'}};
 
         axios.post('http://localhost:5000/posts/comment', {postId, uid, content: commentContent}, config).then(response =>{
@@ -79,9 +82,13 @@ class CommentsModal extends Component{
             return;
         }
 
-        this.props.updateCommentsCount(-1);
+        const {postId, uid, updateCommentsCount} = this.props;
 
-        const data = {postId: this.props.postId, commentId};
+        io.emit('REMOVE_COMMENT', {postId, senderId: uid});
+
+        updateCommentsCount(-1);
+
+        const data = {postId, commentId};
         const config = {headers: {'content-type': 'application/json'}};
 
         axios.post('http://localhost:5000/posts/deletecomment', data, config).then(response =>{

@@ -64,12 +64,12 @@ class FriendRequestToast extends Component{
     render(){
         const {imgURL, firstName, lastName} = this.state;
 
-        const {msg, data} = this.props;
+        const {color, msg, data} = this.props;
 
         const clickToast = (data.type === 'FRIEND_REQUEST')? this.toNetwork: this.toNotifs;
 
         return(
-            <div onClick = {clickToast} className ='toast-notif row'>
+            <div onClick = {clickToast} className ='toast-notif row' style={color? {color} : null}>
                 <img src = {imgURL? imgURL: loading} className ='col-5' alt ='profile pic'/>
                 
                 <div className ='col-7 mt-2'>

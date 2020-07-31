@@ -35,4 +35,15 @@ export const handleSocketEvents = (io, getUnreadRequests, getUnreadNotifs) =>{
             draggable: false
         });
     });
+
+    io.on('COMMENT_ON_POST', data =>{
+        const {uid, content} = data;
+
+        getUnreadNotifs(uid);
+
+        toast(<Toast data={data} msg={`commented on your: ${content.substring(0,30)}...`} color={'black'}/>, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            draggable: false
+        });
+    });
 }

@@ -50,7 +50,7 @@ class NotifCard extends Component{
             this.props.history.push(`/profile/${senderId}/posts`);
         }     
 
-        else if(type === 'LIKE_POST'){
+        else if(type === 'LIKE_POST' || type === 'POST_COMMENT'){
             this.props.history.push(`/post/${postId}`);
         }
     }
@@ -81,7 +81,9 @@ class NotifCard extends Component{
                             <span className='heart text-danger ml-3'> 
                                 &hearts;
                             </span>
-                        ): null}
+                        ): type === 'POST_COMMENT'?
+                            <i className='fas fa-comment-alt ml-3'></i>
+                        :null}
                     </div>
                 </div>
             </div>

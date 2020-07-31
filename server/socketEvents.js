@@ -6,7 +6,9 @@ const {
 
 const {
     likePost,
-    unlikePost
+    unlikePost,
+    addComment,
+    removeComment
 } = require('./socket/posts');
 
 const active = {};
@@ -69,6 +71,26 @@ module.exports = (io) =>{
 
         socket.on('UNLIKE_POST', async data =>{
             await unlikePost(data);
+        });
+
+        socket.on('COMMENT_ON_POST', async data=>{
+            const postInfo = await addComment(data);
+
+            const receiverId = postInfo[0];
+            const content = postInfo[1];
+
+            const {senderId} = data;
+
+            if(receiverId){
+                io.sockets.to(active[receiverId]).emit(
+                    'COMMENT_ON_POST', 
+                    {toastId: senderId, uid: receiverId, content}
+                );
+            }
+        });
+
+        socket.on('REMOVE_COMMENT', async data =>{
+            await removeComment(data);
         });
     });
 }
