@@ -58,7 +58,7 @@ class NotifCard extends Component{
     render(){
         const {firstName, lastName, imgURL, content} = this.state;
 
-        const {msg, date} = this.props.notif;
+        const {msg, date, type} = this.props.notif;
 
         return(
             <div className ='row notif-card mb-3' onClick = {this.handleClick}>
@@ -70,11 +70,18 @@ class NotifCard extends Component{
                     <p>
                         <strong>{firstName} {lastName} </strong> 
                         {msg} 
+                        
                         {content? ` ${content.substring(0, 30)}...`: null}
                     </p>
 
                     <div className ='notif-date'>
                         {moment(date).calendar()}
+
+                        {type === 'LIKE_POST'? (
+                            <span className='heart text-danger ml-3'> 
+                                &hearts;
+                            </span>
+                        ): null}
                     </div>
                 </div>
             </div>

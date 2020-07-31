@@ -53,3 +53,9 @@
     width: 8rem;
     height: 8rem;
 }
+
+.notifications .notif-card .heart{
+    position: relative;
+    top: 3px;
+    font-size: 1.8rem;
+}

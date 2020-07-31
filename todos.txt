@@ -1,6 +1,4 @@
 For next 2 hour session:
-[ ] Notification page design
-[ ] Like/comment notification design
 [ ] Like/comment notificaiton backend
 
 Overall:
