@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import moment from 'moment';
 import axios from 'axios';
 import loading from '../../images/loading.jpg';
 
 class NotifCard extends Component{
     constructor(){
         super();
+
         this.state = {
             firstName: 'Loading...',
             lastName: 'User...',
             imgURL: null
         }
+
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount(){
@@ -30,13 +35,21 @@ class NotifCard extends Component{
         });
     }
 
+    handleClick(){
+        const {senderId, type} = this.props.notif;
+
+        if(type === 'ACCEPT_REQUEST'){
+            this.props.history.push(`/profile/${senderId}/posts`);
+        }     
+    }
+
     render(){
         const {firstName, lastName, imgURL} = this.state;
 
-        const {msg} = this.props.notif;
+        const {msg, date} = this.props.notif;
 
         return(
-            <div className ='row notif-card mb-3'>
+            <div className ='row notif-card mb-3' onClick = {this.handleClick}>
                 <div className ='col-4'>
                     <img src={imgURL? imgURL: loading} className='float-left' alt='profile pic'/>
                 </div>
@@ -48,7 +61,7 @@ class NotifCard extends Component{
                     </p>
 
                     <div className ='notif-date'>
-                        September 30, 2018
+                        {moment(date).calendar()}
                     </div>
                 </div>
             </div>
@@ -56,4 +69,4 @@ class NotifCard extends Component{
     }
 }
 
-export default NotifCard;
+export default withRouter(NotifCard);

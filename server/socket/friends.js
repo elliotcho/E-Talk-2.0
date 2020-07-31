@@ -38,6 +38,7 @@ exports.acceptRequest = async (data) =>{
         const newNotification = new Notification({
             receiverId: senderId,
             senderId: receiverId,
+            postId: null, 
             date: new Date(),
             seen: false,
             msg: 'accepted your friend request!',

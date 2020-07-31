@@ -1,11 +1,13 @@
-const {User, FriendRequest} = require('./dbschemas');
-const axios = require('axios');
-
 const {
     declineRequest,
     acceptRequest,
     changeFriendStatus
 } = require('./socket/friends');
+
+const {
+    likePost,
+    unlikePost
+} = require('./socket/posts');
 
 const active = {};
 
@@ -47,6 +49,23 @@ module.exports = (io) =>{
                      {toastId: senderId, uid: receiverId, type: 'FRIEND_REQUEST'}
                 );
             }
+        });
+
+        socket.on('LIKE_POST', async data =>{
+            const receiverId = await likePost(data);
+
+            const {senderId} = data;
+
+            if(receiverId){
+                io.sockets.to(active[receiverId]).emit(
+                    'LIKE_POST',
+                    {toastId: senderId, uid: receiverId}
+                );
+            }
+        });
+
+        socket.on('UNLIKE_POST', async data =>{
+            await unlikePost(data);
         });
     });
 }

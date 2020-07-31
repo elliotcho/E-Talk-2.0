@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import LikesModal from './LikesModal';
 import {withRouter} from 'react-router-dom';
+import {io} from '../../../../App';
 import axios from 'axios';
 import './Likes.css';
 
@@ -35,12 +36,18 @@ class PostLikes extends Component{
 
         if(userLiked){
             e.target.style.color = 'white';
+
             likes.splice(likes.indexOf(uid), 1);
+
+            io.emit('UNLIKE_POST', {senderId: uid, postId});
         }
 
         else{
             e.target.style.color = 'red';
+            
             likes.push(uid);
+
+            io.emit('LIKE_POST', {senderId: uid, postId});
         }
 
         const config = {headers: {'content-type': 'application/json'}};

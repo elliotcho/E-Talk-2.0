@@ -19,9 +19,20 @@ export const handleSocketEvents = (io, getUnreadRequests, getUnreadNotifs) =>{
 
         getUnreadNotifs(uid);
 
-        toast.success(<Toast data={data} msg ={'accepted your friend request'}/>, {
+        toast.success(<Toast data={data} msg ={'accepted your friend request!'}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false       
          });
+    });
+
+    io.on('LIKE_POST', data=>{
+        const {uid} = data;
+
+        getUnreadNotifs(uid);
+
+        toast.error(<Toast data={data} msg={'liked your post!'}/>, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            draggable: false
+        });
     });
 }

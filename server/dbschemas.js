@@ -14,6 +14,7 @@ const UserSchema = new Schema({
 const NotificationSchema = new Schema({
     senderId: String,
     receiverId: String,
+    postId: String,
     date: Date,
     seen: Boolean, 
     msg: String, 
