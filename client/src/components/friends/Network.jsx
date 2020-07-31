@@ -14,11 +14,7 @@ class Network extends Component{
     componentDidMount(){
         this.props.readRequests(this.props.uid);
     }
-
-    componentDidUpdate(prevProps){
-     
-    }
-
+    
     deleteRequest(id){
         const {
             requests,
@@ -26,6 +22,14 @@ class Network extends Component{
         } = this.props;
 
         removeRequest(id, requests);
+    }
+
+    componentDidUpdate(prevProps){
+        const {unreadRequests} = this.props;
+
+        if(prevProps.unreadRequests !== unreadRequests && unreadRequests!==0){   
+            window.location.reload();
+        }
     }
 
     render(){
@@ -57,7 +61,8 @@ class Network extends Component{
 const mapStateToProps = (state) =>{
     return{
         uid: state.auth.uid, 
-        requests: state.friends.requests
+        requests: state.friends.requests,
+        unreadRequests: state.friends.unreadRequests
     }
 }
 const mapDispatchToProps = (dispatch) =>{

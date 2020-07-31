@@ -10,6 +10,14 @@ class Notifications extends Component{
         this.props.readNotifs(this.props.uid);
     }
 
+    componentDidUpdate(prevProps){
+        const {unreadNotifs} = this.props;
+
+        if(prevProps.unreadNotifs !== unreadNotifs && unreadNotifs!==0){   
+            window.location.reload();
+        }
+    }
+
     render(){
         const {uid} = this.props;
 
@@ -38,7 +46,8 @@ class Notifications extends Component{
 const mapStateToProps = (state) =>{
     return{
         uid: state.auth.uid, 
-        notifs: state.notifs.notifs
+        notifs: state.notifs.notifs,
+        unreadNotifs: state.notifs.unreadNotifs
     }
 }
 const mapDispatchToProps = (dispatch) =>{
