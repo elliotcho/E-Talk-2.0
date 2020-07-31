@@ -7,12 +7,12 @@ exports.likePost = async (data) =>{
 
     if(post!== null && post.uid !== senderId){
         const newNotification = new Notification({
-            receiverId: post.uid,
+            receiverId: post.uid, 
             senderId: senderId,
             postId: postId,
             date: new Date(),
             seen: false,
-            msg: 'liked your post!',
+            msg: 'liked your post:',
             type: 'LIKE_POST'
         });
 
@@ -23,9 +23,10 @@ exports.likePost = async (data) =>{
 }
 
 exports.unlikePost = async (data) =>{
-    const {senderId, postId} = data;
-
-    const post = await Post.findOne({_id: postId});
+    const {
+        senderId, 
+        postId
+    } = data;
 
     await Notification.deleteOne({postId: postId, senderId: senderId});
 }

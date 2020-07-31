@@ -11,14 +11,15 @@ class NotifCard extends Component{
         this.state = {
             firstName: 'Loading...',
             lastName: 'User...',
-            imgURL: null
+            imgURL: null, 
+            content: null,
         }
 
         this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount(){
-        const {senderId} = this.props.notif;
+        const {senderId, postId} = this.props.notif;
 
         axios.get(`http://localhost:5000/users/${senderId}`).then(response => {
             this.setState({
@@ -33,18 +34,29 @@ class NotifCard extends Component{
         .then(file => {
             this.setState({imgURL: URL.createObjectURL(file)});
         });
+
+        if(postId){
+            axios.get(`http://localhost:5000/posts/${postId}`).then(response =>{
+                console.log(response.data);
+                this.setState({content: response.data[0].content});
+            });
+        }
     }
 
     handleClick(){
-        const {senderId, type} = this.props.notif;
+        const {senderId, postId, type} = this.props.notif;
 
         if(type === 'ACCEPT_REQUEST'){
             this.props.history.push(`/profile/${senderId}/posts`);
         }     
+
+        else if(type === 'LIKE_POST'){
+            this.props.history.push(`/post/${postId}`);
+        }
     }
 
     render(){
-        const {firstName, lastName, imgURL} = this.state;
+        const {firstName, lastName, imgURL, content} = this.state;
 
         const {msg, date} = this.props.notif;
 
@@ -57,7 +69,8 @@ class NotifCard extends Component{
                 <div className ='col-8'>
                     <p>
                         <strong>{firstName} {lastName} </strong> 
-                        {msg}
+                        {msg} 
+                        {content? `${content.substring(0, 30)}...`: null}
                     </p>
 
                     <div className ='notif-date'>
