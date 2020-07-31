@@ -26,11 +26,11 @@ export const handleSocketEvents = (io, getUnreadRequests, getUnreadNotifs) =>{
     });
 
     io.on('LIKE_POST', data=>{
-        const {uid} = data;
+        const {uid, content} = data;
 
         getUnreadNotifs(uid);
 
-        toast.error(<Toast data={data} msg={'liked your post!'}/>, {
+        toast.error(<Toast data={data} msg={`liked your post: ${content.substring(0,30)}...`}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false
         });

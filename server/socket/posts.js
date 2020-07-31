@@ -18,7 +18,7 @@ exports.likePost = async (data) =>{
 
         await newNotification.save();
 
-        return post.uid;
+        return [post.uid, post.content];
     }
 }
 

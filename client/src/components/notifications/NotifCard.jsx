@@ -70,7 +70,7 @@ class NotifCard extends Component{
                     <p>
                         <strong>{firstName} {lastName} </strong> 
                         {msg} 
-                        {content? `${content.substring(0, 30)}...`: null}
+                        {content? ` ${content.substring(0, 30)}...`: null}
                     </p>
 
                     <div className ='notif-date'>

@@ -52,14 +52,17 @@ module.exports = (io) =>{
         });
 
         socket.on('LIKE_POST', async data =>{
-            const receiverId = await likePost(data);
+            const postInfo = await likePost(data);
+
+            const receiverId = postInfo[0];
+            const content = postInfo[1];
 
             const {senderId} = data;
 
             if(receiverId){
                 io.sockets.to(active[receiverId]).emit(
                     'LIKE_POST',
-                    {toastId: senderId, uid: receiverId}
+                    {toastId: senderId, uid: receiverId, content}
                 );
             }
         });
