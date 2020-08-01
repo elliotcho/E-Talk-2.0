@@ -51,6 +51,10 @@ exports.addComment = async (data) =>{
 
         return [post.uid, post.content];
     }
+    
+    else{
+        return [null, null];
+    }
 }
 
 exports.removeComment = async (data) =>{
