@@ -2,6 +2,17 @@
     padding: 0;
 }
 
+.search-contacts input{
+    width: 100%;
+    padding: 7px;
+    font-family: 'Tahoma';
+}
+
+.search-contacts input:focus{
+    outline: none;
+    border: 2px lightblue solid;
+}
+
 .messages .card-list{
     height: 100vh;
     overflow-y: auto;
@@ -9,11 +20,17 @@
 
 .msg-card{
     font-family: 'Helvetica';
+    padding: 5px;
     width: 100%;
     cursor: pointer;
     font-size: 0.9rem;
     background: #DFDFDF;
     border-radius: 0;
+}
+
+.msg-card.active,
+.msg-card.active .card-header{
+    background: white;
 }
 
 .msg-card .card-header{

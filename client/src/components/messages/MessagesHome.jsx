@@ -20,10 +20,6 @@ class MessagesHome extends Component{
                                 <MessageCard/>
                                 <MessageCard/>
                                 <MessageCard/>
-                                <MessageCard/>
-                                <MessageCard/>
-                                <MessageCard/>
-                                <MessageCard/>
                             </div>
                         </div>
 
