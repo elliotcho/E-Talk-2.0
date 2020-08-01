@@ -12,6 +12,7 @@ import Network from './components/friends/Network';
 import SearchResults from './components/search/SearchResults';
 import Notifications from './components/notifications/Notifications';
 import PostDetails from './components/posts/PostDetails';
+import MessagesHome from './components/messages/MessagesHome';
 import Navbar from './components/layout/Navbar';
 import {handleSocketEvents} from './socket/socketEvents';
 import {ToastContainer} from 'react-toastify';
@@ -53,6 +54,7 @@ class App extends Component{
                   <Route path = '/search/:query' render = {() => <SearchResults uid = {uid}/>}/>
                   <Route path = '/notifications' render = {()=><Notifications uid={uid}/>}/>
                   <Route path = '/post/:id' render = {() => <PostDetails uid={uid}/>}/>
+                  <Route path = '/chat/:id' render = {() => <MessagesHome uid={uid}/>}/>
                 </Switch>
 
                 <ToastContainer style = {{fontFamily: 'Trebuchet MS'}}/>

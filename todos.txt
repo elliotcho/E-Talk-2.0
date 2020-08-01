@@ -1,5 +1,8 @@
 For next 2 hour session:
-[ ] Like/comment notificaiton backend
+[ ] Message page design
+[ ] Message to  person design
+[ ] Message to person backend
+[ ] Message form data backend
 
 Overall:
 [ ] Rework search bar backend
@@ -16,11 +19,6 @@ Overall:
 [ ] profile skills backend
 
 [ ] Friend Request page design
-
-[ ] Message page design
-[ ] Message to  person design
-[ ] Message to person backend
-[ ] Message form data backend
 
 [ ] Settings page design
 [ ] Settings page backend

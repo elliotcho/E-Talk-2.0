@@ -1,0 +1,67 @@
+.messages{
+    font-family: 'Tahoma';
+}
+
+.messages .search-contacts input{
+    width: 30vw;
+    padding: 10px;
+}
+
+.messages .search-contacts input:focus{
+    outline: none;
+    border: 2px solid lightblue;
+}
+
+.msg-card{
+    text-align: center;
+    width: 30vw;
+    font-size: 0.7rem;
+    padding: 10px;
+    background: #313131;
+    color: whitesmoke;
+    cursor: pointer;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.msg-card:last-child{
+    border-bottom: none;
+}
+
+.msg-card img{
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+}
+
+.msg-card-text{
+    position: relative;
+    top: 20px;
+    display: none;
+    margin-left: 1rem;
+}
+
+.msg-card-date{
+    display: none;
+    margin: 15px;
+    color: silver;
+}
+
+@media screen and (min-width: 768px){
+    .msg-card{
+        text-align: left;
+    }
+
+    .msg-card-text{
+        display: inline-block;
+    }
+
+    .msg-card-date{
+        display: block;
+    }
+}
+
+@media screen and (min-width: 900px){
+    .msg-card{
+        font-size: 0.9rem;
+    }
+}
