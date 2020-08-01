@@ -12,7 +12,9 @@ class MessageCard extends Component{
                    <div className ='card-block'>
                         <h3>Gugsa Challa</h3>
                         
-                        <p>{'This guy is comedy bbb bbb'.substring(0,20) + '...'}</p>
+                        <p>
+                            {'This guy is comedy bbb bbb'.substring(0,20) + '...'}
+                        </p>
                         
                         <p className='text-muted'>October 15, 2019</p>
                    </div>
