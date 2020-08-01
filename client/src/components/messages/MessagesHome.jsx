@@ -6,6 +6,14 @@ import CreateMessage from './CreateMessage';
 import './Messages.css';
 
 class MessagesHome extends Component{
+    componentDidMount(){
+        this.props.changeNavMargin('80px');
+    }
+
+    componentWillUnmount(){
+        this.props.changeNavMargin('120px');
+    }
+
     render(){
         return(
             <div className='messages'>
