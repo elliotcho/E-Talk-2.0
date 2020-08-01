@@ -8,26 +8,30 @@ import './Messages.css';
 class MessagesHome extends Component{
     render(){
         return(
-            <div className ='messages'>
-                <div>
-                    <div>
-                        <SearchContacts/>
-                    </div>
+            <div className='messages'>
+                <div className='container-fluid'>
+                    <div className='row no-gutters'>
+                        <div className ='col-4'>
+                            <div>
+                                <SearchContacts/>
+                            </div>
 
-                    <div className ='card-list'>
-                        <MessageCard/>
-                        <MessageCard/>
-                        <MessageCard/>
-                        <MessageCard/>
-                        <MessageCard/>
-                        <MessageCard/>
-                        <MessageCard/>
-                    </div>
-                </div>
+                            <div className ='card-list'>
+                                <MessageCard/>
+                                <MessageCard/>
+                                <MessageCard/>
+                                <MessageCard/>
+                                <MessageCard/>
+                                <MessageCard/>
+                                <MessageCard/>
+                            </div>
+                        </div>
 
-                <div>
-                    <Converstaion/>
-                    <CreateMessage/>
+                        <div className='col-8'>
+                            <Converstaion/>
+                            <CreateMessage/>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

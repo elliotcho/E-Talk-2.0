@@ -1,30 +1,28 @@
-.messages{
-    font-family: 'Tahoma';
+.messages .container-fluid{
+    padding: 0;
 }
 
-.messages .search-contacts input{
-    width: 30vw;
-    padding: 10px;
-}
-
-.messages .search-contacts input:focus{
-    outline: none;
-    border: 2px solid lightblue;
+.messages .card-list{
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .msg-card{
-    text-align: center;
-    width: 30vw;
-    font-size: 0.7rem;
-    padding: 10px;
-    background: #313131;
-    color: whitesmoke;
+    font-family: 'Helvetica';
+    width: 100%;
     cursor: pointer;
-    border-bottom: 1px solid #e8e8e8;
+    font-size: 0.9rem;
+    background: #DFDFDF;
+    border-radius: 0;
 }
 
-.msg-card:last-child{
-    border-bottom: none;
+.msg-card .card-header{
+    margin: auto;
+    background: #DFDFDF;
+}
+
+.msg-card .card-block{
+    display: none;
 }
 
 .msg-card img{
@@ -33,35 +31,12 @@
     border-radius: 50%;
 }
 
-.msg-card-text{
-    position: relative;
-    top: 20px;
-    display: none;
-    margin-left: 1rem;
-}
-
-.msg-card-date{
-    display: none;
-    margin: 15px;
-    color: silver;
-}
-
-@media screen and (min-width: 768px){
-    .msg-card{
-        text-align: left;
+@media screen and (min-width:768px){
+    .msg-card .card-header{
+        margin: revert;
     }
 
-    .msg-card-text{
-        display: inline-block;
-    }
-
-    .msg-card-date{
+    .msg-card .card-block{
         display: block;
-    }
-}
-
-@media screen and (min-width: 900px){
-    .msg-card{
-        font-size: 0.9rem;
     }
 }
