@@ -106,7 +106,7 @@
 .convo .chat-box{
     padding: 20px;
     overflow-y: auto;
-    max-height: 100%;
+    max-height: 73vh;
 }
 
 .convo .msg-container{
@@ -153,6 +153,20 @@
     margin-right: auto;
 }
 
+.create-msg{
+   position: fixed;
+   width: 100%;
+   z-index: 1;
+   background: #6262b4;
+   bottom: 0;
+   padding: 15px;
+   font-family: 'Tahoma';
+}
+
+.create-msg textarea{
+    resize: none; 
+    max-width: 60%;
+}
 
 @media screen and (min-width:768px){
     .messages{
