@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import SearchContacts from './SearchContacts';
 import MessageCard from './MessageCard';
-import Converstaion from './Conversation';
+import Conversation from './Conversation';
 import CreateMessage from './CreateMessage';
+import Composer from './Composer';
 import './Messages.css';
 
 class MessagesHome extends Component{
@@ -27,7 +28,7 @@ class MessagesHome extends Component{
                         </div>
 
                         <div className='col-8'>
-                            <Converstaion/>
+                            {true? <Conversation/>: <Composer/>}
                             <CreateMessage/>
                         </div>
                     </div>
