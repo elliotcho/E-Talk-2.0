@@ -106,7 +106,7 @@
 .convo .chat-box{
     padding: 20px;
     overflow-y: auto;
-    max-height: 73vh;
+    max-height: 70vh;
 }
 
 .convo .msg-container{
@@ -156,7 +156,6 @@
 .create-msg{
    position: fixed;
    width: 100%;
-   z-index: 1;
    background: #6262b4;
    bottom: 0;
    padding: 15px;
@@ -164,8 +163,26 @@
 }
 
 .create-msg textarea{
+    position: relative;
+    top: 10px;
+    z-index: 1;
     resize: none; 
-    max-width: 60%;
+    max-width: 50%;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.create-msg label{
+    position: relative;
+    top: 3px;
+    font-size: 2rem;
+    color: silver;
+    margin-left: 3rem;
+    cursor: pointer;
+}
+
+.create-msg label:hover{
+    color: white;
 }
 
 @media screen and (min-width:768px){

@@ -11,6 +11,10 @@ class CreateMessage extends Component{
                         ref = {ele =>this.myMessage = ele}
                         placeholder ='Type a message...'
                     />
+
+                    <label>
+                        <i className ='fas fa-file-image'/>
+                    </label>
                 </form>
             </div>
         )
