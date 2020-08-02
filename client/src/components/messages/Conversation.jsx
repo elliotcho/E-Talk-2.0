@@ -21,8 +21,7 @@ class Conversation extends Component{
                                 </div>
 
                                 <div className = 'read mx-1 my-1'>
-                                    <i className ='fa fa-check mt-1'/>
-                                    <span>September 30, 2019</span>
+                                    <img src = {loading} alt ='profile pic'/>
                                 </div>
                             </div>
 
@@ -40,93 +39,8 @@ class Conversation extends Component{
                                 </div>
 
                                 <div className = 'read my-1 mx-1'>
-                                    <i className ='fa fa-check mt-1'/>
-                                    <span>September 30, 2019</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className ='row no-gutters'>
-                        <div className='msg-container'>
-                            <img src = {loading} alt ='profile pic'/>
-
-                            <div className ='msg msg-l my-1'>
-                                <div className='msg-content'>
-                                    Hello hello hello hello hello hello
-                                </div>
-
-                                <div className = 'read my-1 mx-1'>
-                                    <i className ='fa fa-check mt-1'/>
-                                    <span>September 30, 2019</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className ='row no-gutters'>
-                        <div className='msg-container'>
-                            <img src = {loading} alt ='profile pic'/>
-
-                            <div className ='msg msg-l my-1'>
-                                <div className='msg-content'>
-                                    Hello hello hello hello hello hello
-                                </div>
-
-                                <div className = 'read my-1 mx-1'>
-                                    <i className ='fa fa-check mt-1'/>
-                                    <span>September 30, 2019</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className ='row no-gutters'>
-                        <div className='msg-container'>
-                            <img src = {loading} alt ='profile pic'/>
-
-                            <div className ='msg msg-l my-1'>
-                                <div className='msg-content'>
-                                    Hello hello hello hello hello hello
-                                </div>
-
-                                <div className = 'read my-1 mx-1'>
-                                    <i className ='fa fa-check mt-1'/>
-                                    <span>September 30, 2019</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className ='row no-gutters'>
-                        <div className='msg-container'>
-                            <img src = {loading} alt ='profile pic'/>
-
-                            <div className ='msg msg-l my-1'>
-                                <div className='msg-content'>
-                                    Hello hello hello hello hello hello
-                                </div>
-
-                                <div className = 'read my-1 mx-1'>
-                                    <i className ='fa fa-check mt-1'/>
-                                    <span>September 30, 2019</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                        <div className ='row no-gutters'>
-                        <div className='msg-container'>
-                            <img src = {loading} alt ='profile pic'/>
-
-                            <div className ='msg msg-l my-1'>
-                                <div className='msg-content'>
-                                    Hello hello hello hello hello hello
-                                </div>
-
-                                <div className = 'read my-1 mx-1'>
-                                    <i className ='fa fa-check mt-1'/>
-                                    <span>September 30, 2019</span>
+                                    <img src = {loading} alt ='profile pic'/>
+                                    <img src = {loading} alt ='profile pic'/>
                                 </div>
                             </div>
                         </div>

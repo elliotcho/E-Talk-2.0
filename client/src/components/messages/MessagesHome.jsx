@@ -14,6 +14,7 @@ class MessagesHome extends Component{
                         <div className ='col-4'>
                             <div className ='card-list-header'>
                                 <h3>Chats</h3>
+                                <i className ='fas fa-paper-plane'/>
                             </div>
  
                             <div className ='card-list'>
