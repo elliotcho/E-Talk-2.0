@@ -6,25 +6,19 @@ import CreateMessage from './CreateMessage';
 import './Messages.css';
 
 class MessagesHome extends Component{
-    componentDidMount(){
-        this.props.changeNavMargin('80px');
-    }
-
-    componentWillUnmount(){
-        this.props.changeNavMargin('120px');
-    }
-
     render(){
         return(
             <div className='messages'>
                 <div className='container-fluid'>
                     <div className='row no-gutters'>
                         <div className ='col-4'>
-                            <div>
-                                <SearchContacts/>
+                            <div className ='card-list-header'>
+                                <h3>Chats</h3>
                             </div>
-
+ 
                             <div className ='card-list'>
+                                <SearchContacts/>
+
                                 <MessageCard/>
                                 <MessageCard/>
                                 <MessageCard/>

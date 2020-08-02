@@ -1,5 +1,29 @@
+.messages{
+    position: fixed;
+    width: 100%;
+    top: 70px;
+}
+
 .messages .container-fluid{
     padding: 0;
+}
+
+.messages .card-list-header{
+    background: #e8e8e8;
+    text-align: center;
+    height: 60px;
+    margin: 0;
+}
+
+.messages .card-list-header h3{
+    display: inline-block;
+    line-height: 60px;
+    vertical-align: bottom;
+    font-family: 'Helvetica';
+}
+
+.search-contacts{
+    margin: 0;
 }
 
 .search-contacts input{
@@ -33,7 +57,6 @@
 .msg-card.active .card-header{
     background: white;
 }
-
 
 .msg-card .card-header{
     margin: auto;
@@ -82,6 +105,8 @@
 
 .convo .chat-box{
     padding: 20px;
+    overflow-y: auto;
+    max-height: 100%;
 }
 
 .convo .msg-container{
@@ -94,6 +119,7 @@
     height: 3rem;
     border-radius: 50%;
     margin-top: 15px;
+    cursor: pointer;
 }
 
 .convo .msg{
@@ -129,11 +155,21 @@
 
 
 @media screen and (min-width:768px){
+    .messages{
+        top: 78px;
+    }
+
     .msg-card .card-header{
         margin: revert;
     }
 
     .msg-card .card-block{
         display: block;
+    }
+}
+
+@media screen and (min-width: 992px){
+    .messages{
+        top: 80px;
     }
 }

@@ -32,19 +32,8 @@ class App extends Component{
         props.getUnreadRequests, 
         props.getUnreadNotifs
       );
-
-      this.state = {
-          navMargin: '120px'
-      }
-
-      this.changeNavMargin = this.changeNavMargin.bind(this);
     }
 
-    changeNavMargin(newMargin){
-        this.setState({
-           navMargin: newMargin
-        });
-    }
   
     render(){
         const {uid} = this.props;
@@ -53,13 +42,11 @@ class App extends Component{
           io.emit('USER_AUTHENTICATED', {uid});
         }
 
-        const {navMargin} = this.state;
-
         return(
             <BrowserRouter>
               {uid? <Navbar/>: null}
 
-              <main style = {uid? {marginTop: navMargin}: null}>
+              <main style = {uid? {marginTop: '120px'}: null}>
                 <Switch>
                   <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login uid = {uid}/>}/>
                   <Route path='/signup' render ={() => <Signup uid = {uid}/>}/>
@@ -68,7 +55,7 @@ class App extends Component{
                   <Route path = '/search/:query' render = {() => <SearchResults uid = {uid}/>}/>
                   <Route path = '/notifications' render = {()=><Notifications uid={uid}/>}/>
                   <Route path = '/post/:id' render = {() => <PostDetails uid={uid}/>}/>
-                  <Route path = '/chat/:id' render = {() => <MessagesHome uid={uid} changeNavMargin={this.changeNavMargin}/>}/>
+                  <Route path = '/chat/:id' render = {() => <MessagesHome uid={uid}/>}/>
                 </Switch>
 
                 <ToastContainer style = {{fontFamily: 'Trebuchet MS'}}/>
