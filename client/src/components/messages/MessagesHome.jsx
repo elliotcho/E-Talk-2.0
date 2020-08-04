@@ -7,7 +7,17 @@ import Composer from './Composer';
 import './Messages.css';
 
 class MessagesHome extends Component{
+    constructor(){
+        super();
+
+        this.state = {
+            showComposer: false
+        }
+    }
+
     render(){
+        const {showComposer} = this.state;
+
         return(
             <div className='messages'>
                 <div className='container-fluid'>
@@ -15,7 +25,7 @@ class MessagesHome extends Component{
                         <div className ='col-4'>
                             <div className ='card-list-header'>
                                 <h3>Chats</h3>
-                                <i className ='fas fa-paper-plane'/>
+                                <i className ='fas fa-paper-plane' onClick = {() => {this.setState({showComposer:true})}}/>
                             </div>
  
                             <div className ='card-list'>
@@ -28,7 +38,7 @@ class MessagesHome extends Component{
                         </div>
 
                         <div className='col-8'>
-                            {true? <Conversation/>: <Composer/>}
+                            {showComposer?  <Composer/>: <Conversation/>}
                             <CreateMessage/>
                         </div>
                     </div>

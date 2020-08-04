@@ -28,7 +28,8 @@
     float: right;
     cursor: pointer;
     font-size: 2rem;
-    margin: 10px;
+    margin: 12px;
+    margin-right: 20px;
 }
 
 .messages .card-list-header .fa-paper-plane:hover{
