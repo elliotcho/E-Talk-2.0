@@ -211,18 +211,30 @@
 .messages .composer{
     height: 100vh;
     background: white;
+    font-family: 'Tahoma';
+}
+
+.composer form{
+    width: 100%;
+    position: relative;
+    border-bottom: black solid 1px;
 }
 
 .composer input{
-    width: 100%;
     height: 60px;
     padding: 7px;
-    font-family: 'Tahoma';
+    border: none;
 }
 
 .composer input:focus{
     outline: none;
-    border: 2px solid lightblue;
+}
+
+.composer .user-block{
+    background: #68bbee;
+    margin-left: 10px;
+    padding: 5px;
+    display: inline-block;
 }
 
 .user-composed-to{
@@ -242,7 +254,6 @@
 .user-composed-to p{
     display: inline-block;
     margin-left: 10px;
-    font-family: 'Tahoma';
 }
 
 @media screen and (min-width:768px){

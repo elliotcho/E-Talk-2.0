@@ -44,11 +44,11 @@ class MessagesHome extends Component{
                         <div className='col-8'>
                             {
                               showComposer?  
-                                <Composer 
+                                (<Composer 
                                     uid={uid} 
                                     composedTo={JSON.stringify(composedTo)}
                                     clearUsersComposedTo = {clearUsersComposedTo}
-                                />: 
+                                />): 
                                 <Conversation/>
                             }
 

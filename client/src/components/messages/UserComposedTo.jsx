@@ -10,6 +10,8 @@ class UserComposedTo extends Component{
             lastName: 'User...',
             imgURL: null,
         }
+
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount(){
@@ -25,11 +27,15 @@ class UserComposedTo extends Component{
         });
     }
 
+    handleClick(){
+        
+    }
+
     render(){
         const {firstName, lastName, imgURL} = this.state;
 
         return(
-            <div className ='user-composed-to'>
+            <div className ='user-composed-to' onClick = {this.handleClick}>
                 <img src={imgURL? imgURL: loading} alt = 'profile-pic'/>
                 <p>
                     {firstName} {lastName}

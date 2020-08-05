@@ -26,6 +26,14 @@ class Composer extends Component{
         return(
             <div className='composer'>
                 <form>
+                    <div className ='user-block text-white'>
+                        Gugsa Challa
+                    </div>
+
+                    <div className ='user-block text-white'>
+                        Gugsa Challa
+                    </div>
+
                     <input 
                         type ='text' 
                         placeholder='Type a name...' 
