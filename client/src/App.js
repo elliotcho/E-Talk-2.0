@@ -3,6 +3,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getUnreadRequests} from './store/actions/friendsActions';
 import {getUnreadNotifs} from './store/actions/notificationActions';
+import {getUsersComposedTo} from './store/actions/messagesActions';
 import socket from 'socket.io-client';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
@@ -30,7 +31,8 @@ class App extends Component{
       handleSocketEvents(
         io, 
         props.getUnreadRequests, 
-        props.getUnreadNotifs
+        props.getUnreadNotifs,
+        props.getUsersComposedTo
       );
     }
 
@@ -74,7 +76,8 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
     return{
         getUnreadRequests: (uid) => {dispatch(getUnreadRequests(uid));},
-        getUnreadNotifs: (uid)  => {dispatch(getUnreadNotifs(uid));}
+        getUnreadNotifs: (uid)  => {dispatch(getUnreadNotifs(uid));},
+        getUsersComposedTo: (queryResult) => {dispatch(getUsersComposedTo(queryResult));}
     }
 }
 

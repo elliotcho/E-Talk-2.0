@@ -11,6 +11,10 @@ const {
     removeComment
 } = require('./socket/posts');
 
+const {
+    getContacts
+} = require('./socket/messages');
+
 const active = {};
 
 module.exports = (io) =>{
@@ -91,6 +95,17 @@ module.exports = (io) =>{
 
         socket.on('REMOVE_COMMENT', async data =>{
             await removeComment(data);
+        });
+
+        socket.on('COMPOSE_MESSAGE_TO', async data =>{
+            const result = await getContacts(data);
+
+            const {uid} = data;
+
+            io.sockets.to(active[uid]).emit(
+                'COMPOSE_MESSAGE_TO',
+                {queryResult: result}
+            );
         });
     });
 }

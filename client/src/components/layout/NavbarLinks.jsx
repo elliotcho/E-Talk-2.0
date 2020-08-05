@@ -69,7 +69,7 @@ class NavbarLinks extends Component{
                     </div>)}
                 </Link>
                         
-                <Link to ='/chat/empty' className ='link'>
+                <Link to ='/chat/home' className ='link'>
                     <i className='fas fa-comment mr-2'></i>
                     <span className='title'>Messages</span>
 

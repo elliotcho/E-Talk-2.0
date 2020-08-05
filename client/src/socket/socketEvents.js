@@ -2,7 +2,14 @@ import React from 'react';
 import Toast from '../components/notifications/Toast';
 import {toast} from 'react-toastify';
 
-export const handleSocketEvents = (io, getUnreadRequests, getUnreadNotifs) =>{
+export const handleSocketEvents = 
+    (
+     io, 
+     getUnreadRequests, 
+     getUnreadNotifs, 
+     getUsersComposedTo
+    ) =>{
+    
     io.on('CHANGE_FRIEND_STATUS', data =>{
         const {uid} =data;
 
@@ -45,5 +52,9 @@ export const handleSocketEvents = (io, getUnreadRequests, getUnreadNotifs) =>{
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false
         });
+    });
+
+    io.on('COMPOSE_MESSAGE_TO', data => {
+        getUsersComposedTo(data.queryResult);
     });
 }

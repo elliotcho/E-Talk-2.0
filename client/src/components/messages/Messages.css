@@ -225,6 +225,26 @@
     border: 2px solid lightblue;
 }
 
+.user-composed-to{
+    max-width: 300px;
+    cursor: pointer;
+}
+
+.user-composed-to:hover{
+    background: lightgray;
+}
+
+.user-composed-to img{
+    width: 4rem;
+    height: 4rem;
+}
+
+.user-composed-to p{
+    display: inline-block;
+    margin-left: 10px;
+    font-family: 'Tahoma';
+}
+
 @media screen and (min-width:768px){
     .messages{
         top: 78px;

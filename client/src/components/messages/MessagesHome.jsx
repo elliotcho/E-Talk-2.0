@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import SearchContacts from './SearchContacts';
 import MessageCard from './MessageCard';
 import Conversation from './Conversation';
@@ -17,6 +18,8 @@ class MessagesHome extends Component{
 
     render(){
         const {showComposer} = this.state;
+
+        const {uid, composedTo} = this.props;
 
         return(
             <div className='messages'>
@@ -38,7 +41,12 @@ class MessagesHome extends Component{
                         </div>
 
                         <div className='col-8'>
-                            {showComposer?  <Composer/>: <Conversation/>}
+                            {
+                              showComposer?  
+                                <Composer uid={uid} composedTo={JSON.stringify(composedTo)}/>: 
+                                <Conversation/>
+                            }
+
                             <CreateMessage/>
                         </div>
                     </div>
@@ -48,4 +56,10 @@ class MessagesHome extends Component{
     }
 }
 
-export default MessagesHome;
+const mapStateToProps = (state) =>{
+    return{
+        composedTo: state.messages.composedTo
+    }
+}
+
+export default connect(mapStateToProps)(MessagesHome);
