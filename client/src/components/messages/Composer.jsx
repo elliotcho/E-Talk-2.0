@@ -16,6 +16,10 @@ class Composer extends Component{
         });
     }
 
+    componentWillUnmount(){
+        this.props.clearUsersComposedTo()
+    }
+
     render(){
         const composedTo = JSON.parse(this.props.composedTo);
 

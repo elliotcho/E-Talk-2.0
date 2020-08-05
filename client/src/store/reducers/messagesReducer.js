@@ -7,6 +7,11 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 composedTo: [...action.composedTo]
             }
+        case 'CLEAR_USERS_COMPOSED_TO':
+            return{
+                ...state,
+                composedTo: []
+            }
         default:
             return state;
     }
