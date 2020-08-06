@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import SearchContacts from './SearchContacts';
-import MessageCard from './MessageCard';
 import Conversation from './Conversation';
 import CreateMessage from './CreateMessage';
 import Composer from './Composer';
@@ -9,14 +9,23 @@ import './Messages.css';
 class MessagesHome extends Component{
     constructor(){
         super();
+        this.handleComposer = this.handleComposer.bind(this);
+    }
 
-        this.state = {
-            showComposer: false
+    handleComposer(){
+        const {id} = this.props.match.params;
+
+        if(id === 'new'){
+            this.props.history.push('/chat/home');
+        }
+
+        else{
+            this.props.history.push('/chat/new');
         }
     }
 
     render(){
-        const {showComposer} = this.state;
+        const chatId = this.props.match.params.id;
 
         const {uid} = this.props;
 
@@ -27,21 +36,21 @@ class MessagesHome extends Component{
                         <div className ='col-4'>
                             <div className ='card-list-header'>
                                 <h3>Chats</h3>
-                                <i className ='fas fa-paper-plane' onClick = {() => {this.setState({showComposer:true})}}/>
+                                
+                                {chatId ==='new'?
+                                    (<i className = 'fas fa-times' onClick = {this.handleComposer}/>)
+                                    : (<i className ='fas fa-paper-plane' onClick = {this.handleComposer}/>)
+                                }
                             </div>
  
                             <div className ='card-list'>
                                 <SearchContacts/>
-
-                                <MessageCard/>
-                                <MessageCard/>
-                                <MessageCard/>
                             </div>
                         </div>
 
                         <div className='col-8'>
                             {
-                              showComposer?  
+                              chatId === 'new'?  
                                 (<Composer 
                                     uid={uid} 
                                 />): 
@@ -57,4 +66,4 @@ class MessagesHome extends Component{
     }
 }
 
-export default MessagesHome;
+export default withRouter(MessagesHome);

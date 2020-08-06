@@ -24,7 +24,8 @@
     font-family: 'Helvetica';
 }
 
-.messages .card-list-header .fa-paper-plane{
+.messages .card-list-header .fa-paper-plane,
+.messages .card-list-header .fa-times{
     float: right;
     cursor: pointer;
     font-size: 2rem;
@@ -32,8 +33,14 @@
     margin-right: 20px;
 }
 
-.messages .card-list-header .fa-paper-plane:hover{
+.messages .card-list-header .fa-paper-plane:hover,
+.messages .card-list-header .fa-times:hover{
     color: gray;
+}
+
+.messages .card-list{
+    background: #e8e8e8;
+    height: 100vh;
 }
 
 .search-contacts{
@@ -241,6 +248,12 @@
 .user-composed-to{
     max-width: 300px;
     cursor: pointer;
+    border: solid black 1px;
+    border-bottom: none;
+}
+
+.user-composed-to:last-child{
+    border-bottom: solid black 1px;;
 }
 
 .user-composed-to:hover{
