@@ -26,6 +26,14 @@ class CreateMessage extends Component{
            this.myMessage.style.height = "";
            this.myMessage.style.height = this.myMessage.scrollHeight + 'px';
         }
+
+        if(this.myMessage.scrollHeight > 200){
+            this.myMessage.style.overflow = 'auto';
+        }
+
+        else{
+            this.myMessage.style.overflow = 'hidden';
+        }
     }
 
     handleSubmit(e){
