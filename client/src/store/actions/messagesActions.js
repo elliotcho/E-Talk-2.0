@@ -20,3 +20,16 @@ export const addRecipient = (userinfo, recipients) =>{
         });
     }
 }
+
+export const removeRecipient = (recipients) => {
+    return (dispatch) =>{
+        recipients.pop();
+
+        const newRecipients = [...recipients];
+
+        dispatch({
+            type: 'UPDATE_RECIPIENTS',
+            recipients: newRecipients
+        });
+    }
+}

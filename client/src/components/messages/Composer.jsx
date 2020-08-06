@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import { clearComposer, addRecipient } from '../../store/actions/messagesActions';
+import { clearComposer, addRecipient, removeRecipient} from '../../store/actions/messagesActions';
 import UserComposedTo from './UserComposedTo';
 import {io} from '../../App';
 
@@ -14,6 +14,7 @@ class Composer extends Component{
 
         this.handleChange = this.handleChange.bind(this);
         this.clickUser = this.clickUser.bind(this);
+        this.handleKeyDown = this.handleKeyDown.bind(this);
     }
 
     handleChange(e){
@@ -34,6 +35,16 @@ class Composer extends Component{
         this.setState({query: ''}, ()=>{
             io.emit('COMPOSE_MESSAGE_TO', {uid, name: ''})
         });
+    }
+
+    handleKeyDown(e){
+        const {query} = this.state;
+
+        const {recipients, removeRecipient} = this.props;
+
+        if(e.keyCode === 8 && recipients.length > 0 && query === ''){
+            removeRecipient(recipients);
+        }
     }
 
     componentWillUnmount(){
@@ -57,6 +68,7 @@ class Composer extends Component{
                         type ='text' 
                         placeholder='Type a name...' 
                         onChange = {this.handleChange}
+                        onKeyDown = {this.handleKeyDown}
                         value = {this.state.query}
                     />
                 </form>
@@ -83,7 +95,8 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
     return {
         clearComposer: () => {dispatch(clearComposer());},
-        addRecipient: (userinfo, recipients) => {dispatch(addRecipient(userinfo, recipients));}
+        addRecipient: (userinfo, recipients) => {dispatch(addRecipient(userinfo, recipients));},
+        removeRecipient: (recipients) => {dispatch(removeRecipient(recipients));}
     }
 }
 
