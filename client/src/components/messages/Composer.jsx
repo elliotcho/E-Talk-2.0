@@ -58,7 +58,7 @@ class Composer extends Component{
 
         return(
             <div className='composer'>
-                <form>
+                <div className ='recipients-container'>
                     {recipients.map(user => 
                         <div key={user._id} className ='user-block text-white'>
                             {user.firstName} {user.lastName}
@@ -66,14 +66,13 @@ class Composer extends Component{
                     )}
 
                     <input 
-                        id = 'query'
                         type ='text' 
                         placeholder='Type a name...' 
                         onChange = {this.handleChange}
                         onKeyDown = {this.handleKeyDown}
                         value = {this.state.query}
                     />
-                </form>
+                </div>
 
                 {composedTo.map(user =>
                     <UserComposedTo 

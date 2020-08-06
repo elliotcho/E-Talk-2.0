@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Redirect} from 'react-router-dom';
 import SearchContacts from './SearchContacts';
 import Conversation from './Conversation';
 import CreateMessage from './CreateMessage';
@@ -25,9 +25,15 @@ class MessagesHome extends Component{
     }
 
     render(){
+        const {uid} = this.props;
+
+        if(!uid){
+            return <Redirect to ='/'/>
+        }
+
         const chatId = this.props.match.params.id;
 
-        const {uid} = this.props;
+        const messageCards = [];
 
         return(
             <div className='messages'>
@@ -45,6 +51,11 @@ class MessagesHome extends Component{
  
                             <div className ='card-list'>
                                 <SearchContacts/>
+
+                                {messageCards.length === 0?
+                                    <h3 className='no-cards'>No messages available</h3>:
+                                    messageCards
+                                }
                             </div>
                         </div>
 

@@ -5,7 +5,7 @@ class SearchContacts extends Component{
         return(
             <div className ='search-contacts'>
                 <form>
-                    <input type='text' id ='query' placeholder ='Search...'/>
+                    <input type='text' placeholder ='Search...'/>
                 </form>
             </div>
         )

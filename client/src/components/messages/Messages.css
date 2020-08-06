@@ -35,12 +35,18 @@
 
 .messages .card-list-header .fa-paper-plane:hover,
 .messages .card-list-header .fa-times:hover{
-    color: gray;
+    color: #6d6d6d;
 }
 
 .messages .card-list{
-    background: #e8e8e8;
+    background: lightgray;
     height: 100vh;
+}
+
+.messages .card-list .no-cards{
+    font-family: 'Helvetica';
+    margin-top: 50px;
+    text-align: center;
 }
 
 .search-contacts{
@@ -222,7 +228,7 @@
     font-family: 'Tahoma';
 }
 
-.composer form{
+.composer .recipients-container{
     width: 100%;
     position: relative;
     border-bottom: black solid 1px;

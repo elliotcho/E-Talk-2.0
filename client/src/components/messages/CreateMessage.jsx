@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
 class CreateMessage extends Component{
     constructor(){
@@ -18,7 +19,13 @@ class CreateMessage extends Component{
     }
 
     pressEnter(e){
+        const {value} = e.target;
+
         if(e.keyCode === 13 && e.shiftKey === false){
+            this.setState({
+                [e.target.id]: value.substring(0, value.length-1)
+            });
+
             this.myMessageForm.dispatchEvent(new Event('submit'));
         }
 
@@ -77,4 +84,10 @@ class CreateMessage extends Component{
     }
 }
 
-export default CreateMessage;
+const mapStateToProps = (state) =>{
+    return {
+        isSelected: state.messages.recipients
+    }
+}
+
+export default connect(mapStateToProps)(CreateMessage);
