@@ -18,19 +18,21 @@ class Composer extends Component{
     }
 
     handleChange(e){
-        const {uid} = this.props;
+        const {uid, isSelected} = this.props;
 
         io.emit('COMPOSE_MESSAGE_TO', {
-            uid, name: e.target.value
+            uid, 
+            name: e.target.value, 
+            isSelected
         });
 
         this.setState({query: e.target.value});
     }
 
     clickUser(userinfo){
-        const {uid, recipients, addRecipient} = this.props;
+        const {uid, recipients, isSelected, addRecipient} = this.props;
 
-        addRecipient(userinfo, recipients);
+        addRecipient(userinfo, recipients, isSelected);
 
         this.setState({query: ''}, ()=>{
             io.emit('COMPOSE_MESSAGE_TO', {uid, name: ''})
@@ -40,10 +42,10 @@ class Composer extends Component{
     handleKeyDown(e){
         const {query} = this.state;
 
-        const {recipients, removeRecipient} = this.props;
+        const {recipients, isSelected, removeRecipient} = this.props;
 
         if(e.keyCode === 8 && recipients.length > 0 && query === ''){
-            removeRecipient(recipients);
+            removeRecipient(recipients, isSelected);
         }
     }
 
@@ -88,15 +90,16 @@ class Composer extends Component{
 const mapStateToProps = (state) =>{
     return{
         composedTo: state.messages.composedTo,
-        recipients: state.messages.recipients
+        recipients: state.messages.recipients,
+        isSelected: state.messages.isSelected
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
         clearComposer: () => {dispatch(clearComposer());},
-        addRecipient: (userinfo, recipients) => {dispatch(addRecipient(userinfo, recipients));},
-        removeRecipient: (recipients) => {dispatch(removeRecipient(recipients));}
+        addRecipient: (userinfo, recipients, isSelected) => {dispatch(addRecipient(userinfo, recipients, isSelected));},
+        removeRecipient: (recipients, isSelected) => {dispatch(removeRecipient(recipients, isSelected));}
     }
 }
 

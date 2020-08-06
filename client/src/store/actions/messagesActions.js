@@ -10,26 +10,30 @@ export const clearComposer= () =>{
     }
 }
 
-export const addRecipient = (userinfo, recipients) =>{
+export const addRecipient = (userinfo, recipients, isSelected) =>{
     return (dispatch) =>{
-        const newRecipients = [...recipients, userinfo];
+        recipients.push(userinfo);
+
+        isSelected[userinfo._id] = true;
 
         dispatch({
             type: 'UPDATE_RECIPIENTS',
-            recipients: newRecipients
+            recipients, 
+            isSelected
         });
     }
 }
 
-export const removeRecipient = (recipients) => {
+export const removeRecipient = (recipients, isSelected) => {
     return (dispatch) =>{
-        recipients.pop();
+        const user = recipients.pop();
 
-        const newRecipients = [...recipients];
+        delete isSelected[user._id];
 
         dispatch({
             type: 'UPDATE_RECIPIENTS',
-            recipients: newRecipients
-        });
+            recipients, 
+            isSelected
+        })
     }
 }

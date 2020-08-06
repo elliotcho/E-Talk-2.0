@@ -1,6 +1,7 @@
 const initState = {
     composedTo: [],
-    recipients: []
+    recipients: [],
+    isSelected: {}
 }
 
 const messagesReducer = (state = initState, action) =>{
@@ -14,12 +15,14 @@ const messagesReducer = (state = initState, action) =>{
             return{
                 ...state,
                 composedTo: [],
-                recipients: []
+                recipients: [],
+                isSelected: {}
             }
         case 'UPDATE_RECIPIENTS':
             return{
                 ...state,
-                recipients: [...action.recipients]
+                recipients: [...action.recipients],
+                isSelected: {...action.isSelected}
             }
         default:
             return state;
