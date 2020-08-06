@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {clearUsersComposedTo} from '../../store/actions/messagesActions';
 import SearchContacts from './SearchContacts';
 import MessageCard from './MessageCard';
 import Conversation from './Conversation';
@@ -20,7 +18,7 @@ class MessagesHome extends Component{
     render(){
         const {showComposer} = this.state;
 
-        const {uid, composedTo, clearUsersComposedTo} = this.props;
+        const {uid} = this.props;
 
         return(
             <div className='messages'>
@@ -46,8 +44,6 @@ class MessagesHome extends Component{
                               showComposer?  
                                 (<Composer 
                                     uid={uid} 
-                                    composedTo={JSON.stringify(composedTo)}
-                                    clearUsersComposedTo = {clearUsersComposedTo}
                                 />): 
                                 <Conversation/>
                             }
@@ -61,16 +57,4 @@ class MessagesHome extends Component{
     }
 }
 
-const mapStateToProps = (state) =>{
-    return{
-        composedTo: state.messages.composedTo
-    }
-}
-
-const mapDispatchToProps = (dispatch) =>{
-    return {
-        clearUsersComposedTo: () => {dispatch(clearUsersComposedTo());}
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(MessagesHome);
+export default MessagesHome;

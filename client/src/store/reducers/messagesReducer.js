@@ -1,4 +1,7 @@
-const initState = {composedTo: []}
+const initState = {
+    composedTo: [],
+    recipients: []
+}
 
 const messagesReducer = (state = initState, action) =>{
     switch (action.type){
@@ -7,10 +10,16 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 composedTo: [...action.composedTo]
             }
-        case 'CLEAR_USERS_COMPOSED_TO':
+        case 'CLEAR_COMPOSER':
             return{
                 ...state,
-                composedTo: []
+                composedTo: [],
+                recipients: []
+            }
+        case 'UPDATE_RECIPIENTS':
+            return{
+                ...state,
+                recipients: [...action.recipients]
             }
         default:
             return state;

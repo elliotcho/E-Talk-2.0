@@ -1,10 +1,17 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import UserComposedTo from './UserComposedTo';
 import {io} from '../../App';
+import { clearComposer, addRecipient } from '../../store/actions/messagesActions';
 
 class Composer extends Component{
     constructor(){
         super();
+
+        this.state = {
+            
+        }
+
         this.handleKeyUp = this.handleKeyUp.bind(this);
     }
 
@@ -17,22 +24,20 @@ class Composer extends Component{
     }
 
     componentWillUnmount(){
-        this.props.clearUsersComposedTo()
+        this.props.clearComposer();
     }
 
     render(){
-        const composedTo = JSON.parse(this.props.composedTo);
+        const {composedTo, recipients} = this.props;
 
         return(
             <div className='composer'>
                 <form>
-                    <div className ='user-block text-white'>
-                        Gugsa Challa
-                    </div>
-
-                    <div className ='user-block text-white'>
-                        Gugsa Challa
-                    </div>
+                    {recipients.map(user => 
+                        <div key={user._id} className ='user-block text-white'>
+                            {user.firstName} {user.lastName}
+                        </div>
+                    )}
 
                     <input 
                         type ='text' 
@@ -52,4 +57,18 @@ class Composer extends Component{
     }
 }
 
-export default Composer;
+const mapStateToProps = (state) =>{
+    return{
+        composedTo: state.messages.composedTo,
+        recipients: state.messages.recipients
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        clearComposer: () => {dispatch(clearComposer());},
+        addRecipient: (userinfo, recipients) => {dispatch(addRecipient(userinfo, recipients));}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Composer);
