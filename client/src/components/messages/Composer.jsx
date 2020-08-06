@@ -1,25 +1,38 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import { clearComposer, addRecipient } from '../../store/actions/messagesActions';
 import UserComposedTo from './UserComposedTo';
 import {io} from '../../App';
-import { clearComposer, addRecipient } from '../../store/actions/messagesActions';
 
 class Composer extends Component{
     constructor(){
         super();
 
-        this.state = {
-            
+        this.state= {
+            query: ''
         }
 
-        this.handleKeyUp = this.handleKeyUp.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.clickUser = this.clickUser.bind(this);
     }
 
-    handleKeyUp(e){
+    handleChange(e){
         const {uid} = this.props;
 
         io.emit('COMPOSE_MESSAGE_TO', {
             uid, name: e.target.value
+        });
+
+        this.setState({query: e.target.value});
+    }
+
+    clickUser(userinfo){
+        const {uid, recipients, addRecipient} = this.props;
+
+        addRecipient(userinfo, recipients);
+
+        this.setState({query: ''}, ()=>{
+            io.emit('COMPOSE_MESSAGE_TO', {uid, name: ''})
         });
     }
 
@@ -40,9 +53,11 @@ class Composer extends Component{
                     )}
 
                     <input 
+                        id = 'query'
                         type ='text' 
                         placeholder='Type a name...' 
-                        onKeyUp = {this.handleKeyUp}
+                        onChange = {this.handleChange}
+                        value = {this.state.query}
                     />
                 </form>
 
@@ -50,6 +65,7 @@ class Composer extends Component{
                     <UserComposedTo 
                         key = {user._id}
                         user = {user}
+                        clickUser = {() => {this.clickUser(user)}}
                     />
                 )}  
             </div>
