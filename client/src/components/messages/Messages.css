@@ -193,6 +193,7 @@
     max-width: 50%;
     display: inline-block;
     overflow: hidden;
+    max-height: 30vh;
 }
 
 .create-msg label{
