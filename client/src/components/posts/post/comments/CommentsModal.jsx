@@ -37,6 +37,14 @@ class CommentsModal extends Component{
            this.myComment.style.height = "";
            this.myComment.style.height = this.myComment.scrollHeight + 'px';
         }
+
+        if(this.myComment.scrollHeight > 200){
+            this.myComment.style.overflow = 'auto';
+        }
+
+        else{
+            this.myComment.style.overflow = 'hidden';
+        }
     }
 
     handleChange(e){

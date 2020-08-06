@@ -62,6 +62,7 @@
     border-radius: 4px;
     overflow: hidden;
     font-family: 'Tahoma';
+    max-height: 200px;
 }
 
 .comments .modal-body textarea:focus{
