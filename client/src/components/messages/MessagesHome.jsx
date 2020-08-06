@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
 import SearchContacts from './SearchContacts';
 import Conversation from './Conversation';
@@ -15,7 +16,15 @@ class MessagesHome extends Component{
     handleComposer(){
         const {id} = this.props.match.params;
 
+        const {recipients} = this.props;
+
+        let msg = "You haven't finished composing your message? Are you sure you want to exit?";
+
         if(id === 'new'){
+            if(recipients.length !==0 && !window.confirm(msg)){
+                return;
+            }
+
             this.props.history.push('/chat/home');
         }
 
@@ -77,4 +86,10 @@ class MessagesHome extends Component{
     }
 }
 
-export default withRouter(MessagesHome);
+const mapStateToProps = (state) =>{
+    return{
+        recipients: state.messages.recipients
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(MessagesHome));

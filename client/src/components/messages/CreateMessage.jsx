@@ -30,8 +30,10 @@ class CreateMessage extends Component{
         }
 
         else{
-           this.myMessage.style.height = "";
-           this.myMessage.style.height = this.myMessage.scrollHeight + 'px';
+           setTimeout(() =>{
+            this.myMessage.style.height = "auto";
+            this.myMessage.style.height = this.myMessage.scrollHeight + 'px';
+           }, 0);
         }
 
         if(this.myMessage.scrollHeight > 200){
@@ -46,14 +48,10 @@ class CreateMessage extends Component{
     handleSubmit(e){
         e.preventDefault();
 
-        let {messageContent} = this.state;
-        let n = messageContent.length;
+        const {messageContent} = this.state;
+        const {recipients} = this.props;
 
-        if(messageContent.trim() === ""){
-            messageContent = messageContent.substring(0, n-1);
-            
-            this.setState({messageContent});
-
+        if(messageContent.trim() === "" || recipients.length === 0){
             return;
         }
     }
@@ -70,7 +68,7 @@ class CreateMessage extends Component{
                         rows ='1'
                         ref = {ele =>this.myMessage = ele}
                         placeholder ='Type a message...'
-                        onKeyUp = {this.pressEnter}
+                        onKeyDown = {this.pressEnter}
                         onChange = {this.handleChange}
                         value = {messageContent}
                     />
