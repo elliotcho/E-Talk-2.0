@@ -254,6 +254,7 @@
 .user-composed-to{
     max-width: 300px;
     cursor: pointer;
+    margin-left: 15px;
     border: solid black 1px;
     border-bottom: none;
 }

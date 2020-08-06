@@ -4,28 +4,12 @@ import {connect} from 'react-redux';
 class CreateMessage extends Component{
     constructor(){
         super();
-
-        this.state = {
-            messsageContent: ''
-        }
-
-        this.handleChange = this.handleChange.bind(this);
         this.pressEnter = this.pressEnter.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(e){
-        this.setState({[e.target.id]: e.target.value});
-    }
-
     pressEnter(e){
-        const {value} = e.target;
-
         if(e.keyCode === 13 && e.shiftKey === false){
-            this.setState({
-                [e.target.id]: value.substring(0, value.length-1)
-            });
-
             this.myMessageForm.dispatchEvent(new Event('submit'));
         }
 
@@ -48,29 +32,23 @@ class CreateMessage extends Component{
     handleSubmit(e){
         e.preventDefault();
 
-        const {messageContent} = this.state;
         const {recipients} = this.props;
 
-        if(messageContent.trim() === "" || recipients.length === 0){
+        if(recipients.length === 0){
             return;
         }
     }
 
     render(){
-        const {messageContent} = this.state;
-
         return(
             <div className ='create-msg'>
                 <form ref = {ele => this.myMessageForm = ele} onSubmit={this.handleSubmit}>
                     <textarea
-                        id = 'messageContent'
                         className ='form-control'
                         rows ='1'
                         ref = {ele =>this.myMessage = ele}
                         placeholder ='Type a message...'
                         onKeyDown = {this.pressEnter}
-                        onChange = {this.handleChange}
-                        value = {messageContent}
                     />
 
                     <label>
@@ -84,7 +62,7 @@ class CreateMessage extends Component{
 
 const mapStateToProps = (state) =>{
     return {
-        isSelected: state.messages.recipients
+        recipients: state.messages.recipients
     }
 }
 

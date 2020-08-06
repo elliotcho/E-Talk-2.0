@@ -34,8 +34,10 @@ class CommentsModal extends Component{
         }
 
         else{
-           this.myComment.style.height = "";
-           this.myComment.style.height = this.myComment.scrollHeight + 'px';
+           setTimeout(()=>{
+            this.myComment.style.height = "auto";
+            this.myComment.style.height = this.myComment.scrollHeight + 'px';
+           }, 0);
         }
 
         if(this.myComment.scrollHeight > 200){
@@ -142,7 +144,7 @@ class CommentsModal extends Component{
                                         className = 'form-control'
                                         rows='1' 
                                         ref = {ele => this.myComment = ele}
-                                        onKeyUp={this.pressEnter} 
+                                        onKeyDown={this.pressEnter} 
                                         value = {commentContent}
                                         id = 'commentContent'
                                         onChange = {this.handleChange}
