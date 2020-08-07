@@ -12,7 +12,7 @@ const {
 } = require('./socket/posts');
 
 const {
-    getContacts
+    getRecipients
 } = require('./socket/messages');
 
 const active = {};
@@ -98,7 +98,7 @@ module.exports = (io) =>{
         });
 
         socket.on('COMPOSE_MESSAGE_TO', async data =>{
-            const result = await getContacts(data);
+            const result = await getRecipients(data);
 
             const {uid} = data;
 

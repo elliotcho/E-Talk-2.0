@@ -16,7 +16,7 @@ class CreateMessage extends Component{
 
         else{
            setTimeout(() =>{
-            this.myMessage.style.height = "auto";
+            this.myMessage.style.height = "";
             this.myMessage.style.height = this.myMessage.scrollHeight + 'px';
            }, 0);
         }
@@ -33,10 +33,22 @@ class CreateMessage extends Component{
     handleSubmit(e){
         e.preventDefault();
 
-        const {recipients} = this.props;
+        const {uid, recipients, chatId} = this.props;
 
-        if(recipients.length === 0){
+        const content = this.myMessage.value;
+
+        if((recipients.length === 0 && chatId === 'new') || content.trim() === ""){
             return;
+        }
+
+        this.myMessage.value = "";
+
+        if(chatId === 'new'){
+           //if chat is new
+        }
+
+        else{
+            //if we are messaging an existing chat
         }
     }
 
@@ -63,6 +75,7 @@ class CreateMessage extends Component{
 
 const mapStateToProps = (state) =>{
     return {
+        uid: state.auth.uid, 
         recipients: state.messages.recipients
     }
 }

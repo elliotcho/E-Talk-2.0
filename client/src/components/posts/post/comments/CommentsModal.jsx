@@ -30,12 +30,13 @@ class CommentsModal extends Component{
 
     pressEnter(e){
         if(e.keyCode === 13 && e.shiftKey === false){
+            e.preventDefault();
             this.myCommentForm.dispatchEvent(new Event('submit'));
         }
 
         else{
            setTimeout(()=>{
-            this.myComment.style.height = "auto";
+            this.myComment.style.height = "";
             this.myComment.style.height = this.myComment.scrollHeight + 'px';
            }, 0);
         }

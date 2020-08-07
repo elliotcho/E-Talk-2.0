@@ -1,6 +1,6 @@
-const {User} = require('../dbschemas');
+const {User, Message, Chat} = require('../dbschemas');
 
-exports.getContacts = async (data) =>{
+exports.getRecipients = async (data) =>{
     const {uid, name, isSelected} = data;
 
     let query = name.split(" ").join("").toLowerCase();

@@ -43,8 +43,25 @@ const PostSchema = new Schema({
     comments: [CommentSchema]
 });
 
+const MessageSchema = new Schema({
+    uid: String,
+    chatId: String,
+    content: String,
+    timeSent: Date,
+    readBy: [String]
+});
+
+const ChatSchema = new Schema({
+    members: [String],
+    createdAt: Date,
+    createdBy: String,
+    messages: [MessageSchema]
+});
+
 exports.User=mongoose.model('user', UserSchema);
 exports.Notification=mongoose.model('notification', NotificationSchema);
 exports.FriendRequest=mongoose.model('friendrequest', FriendRequestSchema);
 exports.Comment=mongoose.model('comment', CommentSchema);
 exports.Post=mongoose.model('post', PostSchema);
+exports.Message = mongoose.model('message', MessageSchema);
+exports.Chat = mongoose.model('chat', ChatSchema);
