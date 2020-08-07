@@ -101,7 +101,7 @@ class NavbarLinks extends Component{
                     <span className='title'>Settings</span>
                 </Link>
 
-                <Link onClick ={this.signOut} className='link'>
+                <Link onClick ={this.signOut} to='/' className='link'>
                     <i className='fas fa-sign-out-alt mr-2'></i>
                     <span className='title'>Sign Out</span>
                 </Link>
