@@ -7,16 +7,14 @@ class Conversation extends Component{
     constructor(){
         super();
         this.state = {
-            chat: {
-                messages: []
-            }
+            chat: null
         }
     }
 
     componentDidMount(){
         const {chatId} = this.props;
 
-        if(chatId !== 'home'){
+        if(chatId !== 'home' && chatId !=='new'){
             axios.get(`http://localhost:5000/chats/${chatId}`).then(response =>{
                 this.setState({chat: response.data});
             });
@@ -38,9 +36,9 @@ class Conversation extends Component{
                 </header>
 
                 <section className ='chat-box'>
-                    {chat.messages.map(msg =>
+                    {chat? chat.messages.map(msg =>
                         <MessageBubble msg={msg} uid={uid}/>
-                    )}
+                    ): null}
                 </section>
             </div>
         )

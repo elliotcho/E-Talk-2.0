@@ -13,7 +13,7 @@ const {
 
 const {
     getRecipients
-} = require('./socket/messages');
+} = require('./socket/chats');
 
 const active = {};
 

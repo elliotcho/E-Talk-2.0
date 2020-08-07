@@ -54,7 +54,8 @@ const ChatSchema = new Schema({
     members: [String],
     createdAt: Date,
     createdBy: String,
-    messages: [MessageSchema]
+    messages: [MessageSchema],
+    timeOfLastMessage: Date
 });
 
 exports.User=mongoose.model('user', UserSchema);

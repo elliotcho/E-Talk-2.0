@@ -13,6 +13,16 @@ class MessagesHome extends Component{
         this.handleComposer = this.handleComposer.bind(this);
     }
 
+    componentDidMount(){
+        const {id} = this.props.match.params;
+
+        let messages = [];
+
+        if(id === 'home' && messages.length === 0){
+            this.props.history.push('/chat/new');
+        }
+    }
+
     handleComposer(){
         const {id} = this.props.match.params;
 

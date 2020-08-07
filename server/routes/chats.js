@@ -3,9 +3,9 @@ const {Message, Chat} = require('../dbschemas');
 const router = require('express').Router();
 
 router.get('/:id', async (req, res) =>{
-    const {chatId} = req.body;
+    const {id} = req.params;
 
-    const chat = await Chat.findOne({_id: chatId});
+    const chat = await Chat.findOne({_id: id});
 
     res.json(chat);
 });
@@ -25,7 +25,8 @@ router.post('/create', async (req, res) =>{
         members,
         createdAt: new Date(),
         cratedBy: uid, 
-        messages: []
+        messages: [],
+        timeOfLastMessage: new Date()
     }).save();
 
     const newMessage = new Message({
