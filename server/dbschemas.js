@@ -45,7 +45,6 @@ const PostSchema = new Schema({
 
 const MessageSchema = new Schema({
     uid: String,
-    chatId: String,
     content: String,
     timeSent: Date,
     readBy: [String]

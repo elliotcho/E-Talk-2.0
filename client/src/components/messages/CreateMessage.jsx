@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {io} from '../../App';
 
 class CreateMessage extends Component{
     constructor(){
@@ -44,7 +45,7 @@ class CreateMessage extends Component{
         this.myMessage.value = "";
 
         if(chatId === 'new'){
-           //if chat is new
+           io.emit('CREATE_CHAT', {uid, recipients, content});
         }
 
         else{

@@ -48,3 +48,29 @@ exports.getRecipients = async (data) =>{
 
     return result;
 }
+
+exports.createChat = async (data) =>{
+    const {uid, recipients, content} = data;
+
+    const members = recipients.map(user =>
+        user._id
+    );
+
+    const newChat = await new Chat({
+        members,
+        createdAt: new Date(),
+        cratedBy: uid, 
+        messages: []
+    }).save();
+
+    const newMessage = new Message({
+        uid, 
+        content, 
+        timeSent: new Date(),
+        readBy: []
+    });
+
+    await Chat.updateOne({_id: newChat._id}, {messages: [newMessage]});
+
+    return members;
+}

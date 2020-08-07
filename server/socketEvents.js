@@ -12,7 +12,8 @@ const {
 } = require('./socket/posts');
 
 const {
-    getRecipients
+    getRecipients,
+    createChat
 } = require('./socket/messages');
 
 const active = {};
@@ -106,6 +107,10 @@ module.exports = (io) =>{
                 'COMPOSE_MESSAGE_TO',
                 {queryResult: result}
             );
+        });
+
+        socket.on('CREATE_CHAT', async data=>{
+          
         });
     });
 }
