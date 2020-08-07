@@ -7,7 +7,7 @@ export const handleSocketEvents =
      io, 
      getUnreadRequests, 
      getUnreadNotifs, 
-     getUsersComposedTo
+     getUsersComposedTo,
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -56,5 +56,9 @@ export const handleSocketEvents =
 
     io.on('COMPOSE_MESSAGE_TO', data => {
         getUsersComposedTo(data.queryResult);
+    });
+
+    io.on('CREATE_CHAT', data => {
+       
     });
 }

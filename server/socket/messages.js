@@ -8,7 +8,7 @@ exports.getRecipients = async (data) =>{
     const user = await User.findOne({_id: uid});
     const friends = await User.find({_id: {$in: user.friends}});
 
-    if(friends.length === 0 || query === ''){
+    if(query === ''){
         return [];
     }
 
@@ -56,6 +56,10 @@ exports.createChat = async (data) =>{
         user._id
     );
 
+    if(!members.includes(uid)){
+        members.push(uid);
+    }
+
     const newChat = await new Chat({
         members,
         createdAt: new Date(),
@@ -72,5 +76,5 @@ exports.createChat = async (data) =>{
 
     await Chat.updateOne({_id: newChat._id}, {messages: [newMessage]});
 
-    return members;
+    return [members, newChat._id];
 }

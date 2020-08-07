@@ -32,7 +32,8 @@ class App extends Component{
         io, 
         props.getUnreadRequests, 
         props.getUnreadNotifs,
-        props.getUsersComposedTo
+        props.getUsersComposedTo,
+        props.renderChat
       );
     }
 

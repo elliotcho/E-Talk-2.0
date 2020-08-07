@@ -104,13 +104,31 @@ module.exports = (io) =>{
             const {uid} = data;
 
             io.sockets.to(active[uid]).emit(
-                'COMPOSE_MESSAGE_TO',
-                {queryResult: result}
+                'COMPOSE_MESSAGE_TO', {queryResult: result}
             );
         });
 
         socket.on('CREATE_CHAT', async data=>{
-          
+            const result = await createChat(data);
+
+            const members = result[0];
+            const chatId = result[1];
+
+            for(let i=0;i<members.length;i++){
+                const id = members[i];
+
+                if(id === data.uid){
+                    io.sockets.to(active[id]).emit(
+                        'CREATE_CHAT', {chatId}
+                    );
+                }
+
+                else{
+                    io.sockets.to(active[id]).emit(
+                        'NEW_MESSAGE', {chatId}
+                    );
+                }
+            }
         });
     });
 }
