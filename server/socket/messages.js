@@ -14,7 +14,7 @@ exports.getContacts = async (data) =>{
 
     let result = [];
     let seen = {...isSelected};
-    
+
     for(let i=0, j=0;i<friends.length && j<12; i++){
         let friendFirstName = friends[i].firstName.split(" ").join("").toLowerCase();
         let friendLastName = friends[i].lastName.split(" ").join("").toLowerCase();

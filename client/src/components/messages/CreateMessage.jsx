@@ -10,6 +10,7 @@ class CreateMessage extends Component{
 
     pressEnter(e){
         if(e.keyCode === 13 && e.shiftKey === false){
+            e.preventDefault();
             this.myMessageForm.dispatchEvent(new Event('submit'));
         }
 
