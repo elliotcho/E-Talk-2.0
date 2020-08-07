@@ -1,8 +1,33 @@
 import React, {Component} from 'react';
+import axios from 'axios';
+import MessageBubble from './MesssageBubble';
 import loading from '../../images/loading.jpg';
 
 class Conversation extends Component{
+    constructor(){
+        super();
+        this.state = {
+            chat: {
+                messages: []
+            }
+        }
+    }
+
+    componentDidMount(){
+        const {chatId} = this.props;
+
+        if(chatId !== 'home'){
+            axios.get(`http://localhost:5000/chats/${chatId}`).then(response =>{
+                this.setState({chat: response.data});
+            });
+        }
+    }
+
     render(){
+        const {chat} = this.state;
+
+        const {uid} = this.props;
+
         return(
             <div className ='convo'>
                 <header>
@@ -13,38 +38,9 @@ class Conversation extends Component{
                 </header>
 
                 <section className ='chat-box'>
-                    <div className ='row no-gutters'>
-                        <div className='msg-container'>
-                            <div className ='msg msg-r my-1'>
-                                <div className='msg-content'>
-                                    Hello hello hello hello hello hello
-                                </div>
-
-                                <div className = 'read mx-1 my-1'>
-                                    <img src = {loading} alt ='profile pic'/>
-                                </div>
-                            </div>
-
-                            <img src = {loading} alt ='profile pic'/>
-                        </div>
-                    </div>
-
-                    <div className ='row no-gutters'>
-                        <div className='msg-container'>
-                            <img src = {loading} alt ='profile pic'/>
-
-                            <div className ='msg msg-l my-1'>
-                                <div className='msg-content'>
-                                    Hello hello hello hello hello hello
-                                </div>
-
-                                <div className = 'read my-1 mx-1'>
-                                    <img src = {loading} alt ='profile pic'/>
-                                    <img src = {loading} alt ='profile pic'/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {chat.messages.map(msg =>
+                        <MessageBubble msg={msg} uid={uid}/>
+                    )}
                 </section>
             </div>
         )

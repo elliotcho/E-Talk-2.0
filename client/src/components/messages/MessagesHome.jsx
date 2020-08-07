@@ -74,7 +74,7 @@ class MessagesHome extends Component{
                                 (<Composer 
                                     uid={uid} 
                                 />): 
-                                <Conversation/>
+                                <Conversation chatId={chatId} uid={uid}/>
                             }
 
                             <CreateMessage chatId={chatId}/>

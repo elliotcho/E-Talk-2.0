@@ -8,6 +8,7 @@ export const handleSocketEvents =
      getUnreadRequests, 
      getUnreadNotifs, 
      getUsersComposedTo,
+     addNewChat
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -59,6 +60,6 @@ export const handleSocketEvents =
     });
 
     io.on('CREATE_CHAT', data => {
-       
+       addNewChat(data.chatId);
     });
 }

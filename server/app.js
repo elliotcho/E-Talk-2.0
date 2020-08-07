@@ -39,6 +39,7 @@ app.use('/users', require('./routes/users'));
 app.use('/posts', require('./routes/posts'));
 app.use('/friends', require('./routes/friends'));
 app.use('/notifs', require('./routes/notifs'));
+app.use('/chats', require('./routes/chats'));
 
 const server = app.listen(5000);
 

@@ -33,7 +33,7 @@ class App extends Component{
         props.getUnreadRequests, 
         props.getUnreadNotifs,
         props.getUsersComposedTo,
-        props.renderChat
+        props.addNewChat
       );
     }
 

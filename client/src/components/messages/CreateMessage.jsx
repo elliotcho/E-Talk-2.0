@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import axios from 'axios';
 import {io} from '../../App';
 
 class CreateMessage extends Component{
@@ -45,7 +47,18 @@ class CreateMessage extends Component{
         this.myMessage.value = "";
 
         if(chatId === 'new'){
-           io.emit('CREATE_CHAT', {uid, recipients, content});
+            const config = {headers: {'content-type': 'application/json'}};
+
+            axios.post('http://localhost:5000/chats/create', {uid, recipients, content}, config).then(response =>{
+                const {chatId, members}= response.data;
+
+                io.emit(
+                    'CREATE_CHAT', 
+                    {uid, members}
+                );
+
+                this.props.history.push(`/chat/${chatId}`);
+            });
         }
 
         else{
@@ -81,4 +94,4 @@ const mapStateToProps = (state) =>{
     }
 }
 
-export default connect(mapStateToProps)(CreateMessage);
+export default withRouter(connect(mapStateToProps)(CreateMessage));

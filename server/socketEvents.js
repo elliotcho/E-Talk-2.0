@@ -12,8 +12,7 @@ const {
 } = require('./socket/posts');
 
 const {
-    getRecipients,
-    createChat
+    getRecipients
 } = require('./socket/messages');
 
 const active = {};
@@ -108,24 +107,15 @@ module.exports = (io) =>{
             );
         });
 
-        socket.on('CREATE_CHAT', async data=>{
-            const result = await createChat(data);
-
-            const members = result[0];
-            const chatId = result[1];
+        socket.on('CREATE_CHAT', data=>{
+            const {uid, members} = data;
 
             for(let i=0;i<members.length;i++){
                 const id = members[i];
 
-                if(id === data.uid){
+                if(id !== uid){
                     io.sockets.to(active[id]).emit(
-                        'CREATE_CHAT', {chatId}
-                    );
-                }
-
-                else{
-                    io.sockets.to(active[id]).emit(
-                        'NEW_MESSAGE', {chatId}
+                        'NEW_MESSAGE'
                     );
                 }
             }
