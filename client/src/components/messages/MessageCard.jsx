@@ -2,9 +2,46 @@ import React, {Component} from 'react';
 import loading from '../../images/loading.jpg';
 
 class MessageCard extends Component{
+    constructor(){
+        super();
+
+        this.state = {
+            chat: {}
+        }
+        
+        this.formatContent = this.formatContent.bind(this);
+    }
+
+    formatContent(){
+        let res = "";
+
+        const chat = JSON.parse(this.props.chat);
+        const messages = chat.messages;
+
+        messages.sort((a,b)=> b.timeSent - a.timeSent);
+
+        const content = chat.messages[0].content;
+
+        if(content.length>20){
+            res = content.substring(0, 20) + "...";
+        }
+
+        else{
+            res = content;
+        }
+
+        return res;
+    }
+
     render(){
+        const chat = JSON.parse(this.props.chat);
+        
+        const {activeId} = this.props;
+
+        const active = (activeId === chat._id)? 'active': '';
+
         return(
-            <div className ={`msg-card card flex-row flex-wrap`}>         
+            <div className ={`msg-card ${active} card flex-row flex-wrap`}>         
                     <div className ='card-header border-0'>
                         <img src={loading} alt='profile-pic'/>
                     </div>
@@ -13,7 +50,7 @@ class MessageCard extends Component{
                         <h3>Gugsa Challa</h3>
                         
                         <p>
-                            {'This guy is comedy bbb bbb'.substring(0,20) + '...'}
+                            {this.formatContent()}
                         </p>
                         
                         <p className='text-muted'>October 15, 2019</p>

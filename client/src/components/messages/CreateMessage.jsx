@@ -36,7 +36,7 @@ class CreateMessage extends Component{
     handleSubmit(e){
         e.preventDefault();
 
-        const {uid, recipients, chatId} = this.props;
+        const {uid, recipients, chatId, updateChats} = this.props;
 
         const content = this.myMessage.value;
 
@@ -50,14 +50,14 @@ class CreateMessage extends Component{
             const config = {headers: {'content-type': 'application/json'}};
 
             axios.post('http://localhost:5000/chats/create', {uid, recipients, content}, config).then(response =>{
-                const {chatId, members}= response.data;
+                const {members}= response.data;
 
                 io.emit(
                     'CREATE_CHAT', 
                     {uid, members}
                 );
 
-                this.props.history.push(`/chat/${chatId}`);
+                updateChats();
             });
         }
 

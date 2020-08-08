@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getChats, clearChats} from '../../store/actions/messagesActions';
+import {loadChats, clearChats} from '../../store/actions/messagesActions';
+import axios from 'axios';
 import MessageCard from './MessageCard';
 import SearchContacts from './SearchContacts';
 import Conversation from './Conversation';
@@ -12,31 +13,25 @@ import './Messages.css';
 class MessagesHome extends Component{
     constructor(){
         super();
-        this.handleComposer = this.handleComposer.bind(this);
         this.updateChats = this.updateChats.bind(this);
+        this.handleComposer = this.handleComposer.bind(this);
     }
 
     componentDidMount(){
        this.updateChats();
     }
 
-    componentDidUpdate(prevProps){
-        const {id} = this.props.match.params;
-
-        if(id !== prevProps.match.params.id){
-            this.updateChats();
-        }
-    }
-
     async updateChats(){
         const {
             uid, 
-            getChats
+            loadChats
         } = this.props;
 
-        await getChats(uid);
+        const response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
 
-        const {chats} = this.props;
+        const chats = response.data;
+
+        loadChats(chats);
 
         if(chats.length !== 0){
             this.props.history.push(`/chat/${chats[0]._id}`);
@@ -80,7 +75,7 @@ class MessagesHome extends Component{
         const chatId = this.props.match.params.id;
 
         const messageCards = chats.map(chat=>
-            <MessageCard chat = {JSON.stringify(chat)}/>
+            <MessageCard key={chat._id} chat={JSON.stringify(chat)} activeId={chatId}/>
         );
 
         return(
@@ -117,7 +112,7 @@ class MessagesHome extends Component{
                                 />)
                             }
 
-                            <CreateMessage chatId={chatId}/>
+                            <CreateMessage chatId={chatId} updateChats={this.updateChats}/>
                         </div>
                     </div>
                 </div>
@@ -135,7 +130,7 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        getChats: (uid) => {dispatch(getChats(uid));},
+        loadChats: (chats) => {dispatch(loadChats(chats));},
         clearChats: () => {dispatch(clearChats());}
     }
 }

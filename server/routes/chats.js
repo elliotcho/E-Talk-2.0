@@ -58,7 +58,7 @@ router.post('/create', async (req, res) =>{
     }
 
 
-    res.json({chatId: newChat._id, members});
+    res.json({members});
 });
 
 
