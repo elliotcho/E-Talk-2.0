@@ -15,10 +15,10 @@ class Conversation extends Component{
         this.formatMemberNames = this.formatMemberNames.bind(this);
     }
 
-    async componentDidMount(){
+    async componentDidUpdate(prevProps){
         const {chatId} = this.props;
 
-        if(chatId !== 'new'){
+        if(chatId !== 'new' && prevProps.chatId !== chatId){
             const response  = await axios.get(`http://localhost:5000/chats/${chatId}`);
                 
             const memberNames = await this.formatMemberNames(response.data.members);
@@ -60,6 +60,8 @@ class Conversation extends Component{
         const {chat, memberNames} = this.state;
 
         const {uid} = this.props;
+
+        console.log(chat)
 
         return(
             <div className ='convo'>
