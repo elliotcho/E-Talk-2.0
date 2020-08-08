@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {loadChats, clearChats} from '../../store/actions/messagesActions';
+import {loadChats, seeChats, clearChats} from '../../store/actions/messagesActions';
 import axios from 'axios';
 import MessageCard from './MessageCard';
 import SearchContacts from './SearchContacts';
@@ -18,6 +18,10 @@ class MessagesHome extends Component{
     }
 
     componentDidMount(){
+        const {uid, seeChats} = this.props;
+
+        seeChats(uid);
+
        this.updateChats();
     }
 
@@ -131,7 +135,8 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
     return{
         loadChats: (chats) => {dispatch(loadChats(chats));},
-        clearChats: () => {dispatch(clearChats());}
+        clearChats: () => {dispatch(clearChats());},
+        seeChats: (uid) => {dispatch(seeChats(uid));}
     }
 }
 

@@ -44,7 +44,8 @@ router.post('/create', async (req, res) =>{
         uid, 
         content, 
         timeSent: new Date(),
-        readBy: []
+        readBy: [uid],
+        seenBy: [uid]
     });
 
     await Chat.updateOne({_id: newChat._id}, {messages: [newMessage]});
@@ -57,9 +58,49 @@ router.post('/create', async (req, res) =>{
         await User.updateOne({_id: user._id}, {chats: user.chats});
     }
 
-
     res.json({members});
 });
 
+
+router.get('/unseen/:uid', async (req, res) =>{
+    const {uid} = req.params;
+
+    const user = await User.findOne({_id: uid});
+
+    const {chats} = user;
+    let unseenChats = 0;
+
+    for(let i=0;i<chats.length;i++){
+         const chat = await Chat.findOne({_id: chats[i]});
+   
+        const {messages} = chat;
+
+        let n =messages.length;
+
+        if(n > 0 && !messages[n-1].seenBy.includes(uid)){
+            unseenChats++;
+        }
+    }
+
+    res.json({unseenChats});
+});
+
+router.put('/see/:uid', async (req, res) =>{
+    const {uid} = req.params;
+
+    const user = await User.findOne({_id: uid});
+
+    for(let i=0;i<user.chats.length;i++){
+        const chat = await Chat.findOne({_id: user.chats[i]});
+
+        chat.messages.forEach(msg =>{
+            msg.seenBy = [...msg.seenBy, uid];
+        });
+
+        await Chat.updateOne({_id: chat._id}, {messages: chat.messages});
+    }
+
+    res.json({msg: 'Success'});
+});
 
 module.exports = router;

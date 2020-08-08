@@ -37,7 +37,8 @@ const MessageSchema = new Schema({
     uid: String,
     content: String,
     timeSent: Date,
-    readBy: [String]
+    readBy: [String],
+    seenBy: [String]
 });
 
 const ChatSchema = new Schema({

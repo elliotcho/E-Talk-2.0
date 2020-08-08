@@ -2,7 +2,8 @@ const initState = {
     composedTo: [],
     recipients: [],
     isSelected: {},
-    chats: []
+    chats: [],
+    unseenChats: 0
 }
 
 const messagesReducer = (state = initState, action) =>{
@@ -34,6 +35,16 @@ const messagesReducer = (state = initState, action) =>{
             return{
                 ...state,
                 chats: []
+            }
+        case 'LOAD_UNSEEN_CHATS':
+            return{
+                ...state,
+                unseenChats: action.unseenChats
+            }
+        case 'SEE_CHATS':
+            return{
+                ...state,
+                unseenChats: 0
             }
         default:
             return state;

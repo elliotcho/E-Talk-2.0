@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const getUsersComposedTo = (queryResult) =>{
     return (dispatch) =>{
         dispatch({type:'GET_USERS_COMPOSED_TO', composedTo: queryResult});
@@ -47,5 +49,21 @@ export const loadChats = (chats) =>{
 export const clearChats = () =>{
     return (dispatch) =>{
         dispatch({type: 'CLEAR_CHATS'});
+    }
+}
+
+export const getUnseenChats = (uid) =>{
+    return (dispatch) =>{
+        axios.get(`http://localhost:5000/chats/unseen/${uid}`).then(response =>{
+            dispatch({type: 'LOAD_UNSEEN_CHATS', unseenChats: response.data.unseenChats});
+        });
+    }
+}
+
+export const seeChats = (uid) => {
+    return (dispatch) =>{
+        axios.put(`http://localhost:5000/chats/see/${uid}`).then(response =>{
+            dispatch({type: 'SEE_CHATS'});
+        });
     }
 }
