@@ -47,3 +47,9 @@ export const getChats = (uid) =>{
         });
     }
 }
+
+export const clearChats = () =>{
+    return (dispatch) =>{
+        dispatch({type: 'CLEAR_CHATS'});
+    }
+}

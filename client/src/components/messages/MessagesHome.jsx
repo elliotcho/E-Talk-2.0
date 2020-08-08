@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getChats} from '../../store/actions/messagesActions';
+import {getChats, clearChats} from '../../store/actions/messagesActions';
 import MessageCard from './MessageCard';
 import SearchContacts from './SearchContacts';
 import Conversation from './Conversation';
@@ -51,20 +51,23 @@ class MessagesHome extends Component{
         let msg = "You haven't finished composing your message? Are you sure you want to exit?";
 
         if(id === 'new'){
-            if(chats.length === 0){
-                return;
-            }
+            //if we have no chats we do not exit the composer
+            if(chats.length === 0){return;}
 
-            if(recipients.length !==0 && !window.confirm(msg)){
-                return;
-            }
+            //if we have saved recipients but we want to exit composer confirm with user
+            if(recipients.length !==0 && !window.confirm(msg)){return;}
 
+            //render the chat with the most recently sent message
             this.props.history.push(`/chat/${chats[0]._id}`);
         }
 
         else{
             this.props.history.push('/chat/new');
         }
+    }
+
+    componentWillUnmount(){
+        this.props.clearChats();
     }
 
     render(){
@@ -132,7 +135,8 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        getChats: (uid) => {dispatch(getChats(uid));}
+        getChats: (uid) => {dispatch(getChats(uid));},
+        clearChats: () => {dispatch(clearChats());}
     }
 }
 

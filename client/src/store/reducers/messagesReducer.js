@@ -30,6 +30,11 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 chats: [...action.chats]
             }
+        case 'CLEAR_CHATS':
+            return{
+                ...state,
+                chats: []
+            }
         default:
             return state;
     }
