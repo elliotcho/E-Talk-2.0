@@ -31,6 +31,8 @@ class MessageBubble extends Component{
         return(
             <div className ='row no-gutters'>
                 <div className='msg-container'>
+                    {msgPosition === 'msg-l'? <img src = {ownerImgURL? ownerImgURL: loading} alt ='profile pic'/>: null}
+
                     <div className ={`msg ${msgPosition} my-1`}>
                         <div className='msg-content'>
                             {msg.content}
@@ -42,7 +44,7 @@ class MessageBubble extends Component{
                         </div>
                     </div>
     
-                    <img src = {ownerImgURL? ownerImgURL: loading} alt ='profile pic'/>
+                    {msgPosition === 'msg-r'? <img src = {ownerImgURL? ownerImgURL: loading} alt ='profile pic'/>: null}
                 </div>
             </div>
         )
