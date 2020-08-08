@@ -15,17 +15,17 @@ class Conversation extends Component{
         this.formatMemberNames = this.formatMemberNames.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {chatId} = this.props;
 
-        if(chatId !== 'home' && chatId !=='new'){
-            axios.get(`http://localhost:5000/chats/${chatId}`).then(async response =>{
-                const memberNames = await this.formatMemberNames(response.data.members);
-
-                this.setState({
-                    chat: response.data,
-                    memberNames
-                });
+        if(chatId !== 'new'){
+            const response  = await axios.get(`http://localhost:5000/chats/${chatId}`);
+                
+            const memberNames = await this.formatMemberNames(response.data.members);
+    
+            this.setState({
+                chat: response.data,
+                memberNames
             });
         }
     }

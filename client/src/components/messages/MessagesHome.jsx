@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {getChats} from '../../store/actions/messagesActions';
+import MessageCard from './MessageCard';
 import SearchContacts from './SearchContacts';
 import Conversation from './Conversation';
 import CreateMessage from './CreateMessage';
@@ -12,9 +13,29 @@ class MessagesHome extends Component{
     constructor(){
         super();
         this.handleComposer = this.handleComposer.bind(this);
+        this.updateChats = this.updateChats.bind(this);
     }
 
     componentDidMount(){
+       this.updateChats();
+    }
+
+    componentDidUpdate(prevProps){
+        const {id} = this.props.match.params;
+
+        if(prevProps.id && id !== prevProps.match.params.id){
+            this.updateChats();
+        }
+    }
+
+    async updateChats(){
+        const {
+            uid, 
+            getChats
+        } = this.props;
+
+        await getChats(uid);
+
         const {chats} = this.props;
 
         if(chats.length !== 0){
@@ -30,13 +51,15 @@ class MessagesHome extends Component{
         let msg = "You haven't finished composing your message? Are you sure you want to exit?";
 
         if(id === 'new'){
+            if(chats.length === 0){
+                return;
+            }
+
             if(recipients.length !==0 && !window.confirm(msg)){
                 return;
             }
 
-            if(chats.length !==0){
-                this.props.history.push(`/chat/${chats[0]._id}`);
-            }
+            this.props.history.push(`/chat/${chats[0]._id}`);
         }
 
         else{
@@ -45,7 +68,7 @@ class MessagesHome extends Component{
     }
 
     render(){
-        const {uid} = this.props;
+        const {uid, chats} = this.props;
 
         if(!uid){
             return <Redirect to ='/'/>
@@ -53,7 +76,9 @@ class MessagesHome extends Component{
 
         const chatId = this.props.match.params.id;
 
-        const messageCards = [];
+        const messageCards = chats.map(chat=>
+            <MessageCard chat = {JSON.stringify(chat)}/>
+        );
 
         return(
             <div className='messages'>
@@ -82,12 +107,11 @@ class MessagesHome extends Component{
                         <div className='col-8'>
                             {
                                 chatId === 'new'?  
-                                (<Composer uid={uid} />): 
-                                
-                                chatId === 'home'?
-                                (<h3>No chats available</h3>):
-                                
-                                <Conversation chatId={chatId} uid={uid}/>
+                                (<Composer uid={uid}/>): 
+                                (<Conversation 
+                                        chatId={chatId} 
+                                        uid={uid} 
+                                />)
                             }
 
                             <CreateMessage chatId={chatId}/>

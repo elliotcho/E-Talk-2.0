@@ -43,4 +43,4 @@ app.use('/chats', require('./routes/chats'));
 
 const server = app.listen(5000);
 
-require('./socketEvents')(socket(server)); 
+require('./socketEvents')(socket(server));  
