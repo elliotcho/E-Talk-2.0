@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export const getUsersComposedTo = (queryResult) =>{
     return (dispatch) =>{
         dispatch({type:'GET_USERS_COMPOSED_TO', composedTo: queryResult});
@@ -35,5 +37,13 @@ export const removeRecipient = (recipients, isSelected) => {
             recipients, 
             isSelected
         })
+    }
+}
+
+export const getChats = (uid) =>{
+    return (dispatch) =>{
+        axios.get(`http://localhost:5000/chats/user/${uid}`).then(response =>{
+            dispatch({type: 'LOAD_CHATS', chats: response.data});
+        });
     }
 }

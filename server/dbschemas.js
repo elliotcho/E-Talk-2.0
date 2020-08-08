@@ -1,16 +1,6 @@
 const mongoose=require('mongoose');
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-    firstName: String,
-    lastName: String,
-    email: String,
-    password: String,
-    createdAt: Date,
-    profilePic: String,
-    friends: [String]
-});
-
 const NotificationSchema = new Schema({
     senderId: String,
     receiverId: String,
@@ -56,6 +46,17 @@ const ChatSchema = new Schema({
     createdBy: String,
     messages: [MessageSchema],
     timeOfLastMessage: Date
+});
+
+const UserSchema = new Schema({
+    firstName: String,
+    lastName: String,
+    email: String,
+    password: String,
+    createdAt: Date,
+    profilePic: String,
+    friends: [String],
+    chats: [String]
 });
 
 exports.User=mongoose.model('user', UserSchema);

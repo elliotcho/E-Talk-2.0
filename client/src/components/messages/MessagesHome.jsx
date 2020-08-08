@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {withRouter, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getChats} from '../../store/actions/messagesActions';
 import SearchContacts from './SearchContacts';
 import Conversation from './Conversation';
 import CreateMessage from './CreateMessage';
@@ -14,19 +15,17 @@ class MessagesHome extends Component{
     }
 
     componentDidMount(){
-        const {id} = this.props.match.params;
+        const {chats} = this.props;
 
-        let messages = [];
-
-        if(id === 'home' && messages.length === 0){
-            this.props.history.push('/chat/new');
+        if(chats.length !== 0){
+            this.props.history.push(`/chat/${chats[0]._id}`);
         }
     }
 
     handleComposer(){
         const {id} = this.props.match.params;
 
-        const {recipients} = this.props;
+        const {recipients, chats} = this.props;
 
         let msg = "You haven't finished composing your message? Are you sure you want to exit?";
 
@@ -35,7 +34,9 @@ class MessagesHome extends Component{
                 return;
             }
 
-            this.props.history.push('/chat/home');
+            if(chats.length !==0){
+                this.props.history.push(`/chat/${chats[0]._id}`);
+            }
         }
 
         else{
@@ -80,10 +81,12 @@ class MessagesHome extends Component{
 
                         <div className='col-8'>
                             {
-                              chatId === 'new'?  
-                                (<Composer 
-                                    uid={uid} 
-                                />): 
+                                chatId === 'new'?  
+                                (<Composer uid={uid} />): 
+                                
+                                chatId === 'home'?
+                                (<h3>No chats available</h3>):
+                                
                                 <Conversation chatId={chatId} uid={uid}/>
                             }
 
@@ -98,8 +101,15 @@ class MessagesHome extends Component{
 
 const mapStateToProps = (state) =>{
     return{
-        recipients: state.messages.recipients
+        recipients: state.messages.recipients,
+        chats: state.messages.chats
     }
 }
 
-export default withRouter(connect(mapStateToProps)(MessagesHome));
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        getChats: (uid) => {dispatch(getChats(uid));}
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MessagesHome));

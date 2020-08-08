@@ -41,7 +41,8 @@ router.post('/signup', (req, res)=>{
                     firstName, lastName, email, password,
                     createdAt: new Date(),
                     profilePic: null,
-                    friends: []
+                    friends: [],
+                    chats: []
                 });
 
                 newUser.save().then(user =>{

@@ -1,7 +1,8 @@
 const initState = {
     composedTo: [],
     recipients: [],
-    isSelected: {}
+    isSelected: {},
+    chats: []
 }
 
 const messagesReducer = (state = initState, action) =>{
@@ -23,6 +24,11 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 recipients: [...action.recipients],
                 isSelected: {...action.isSelected}
+            }
+        case 'LOAD_CHATS':
+            return{
+                ...state,
+                chats: [...action.chats]
             }
         default:
             return state;
