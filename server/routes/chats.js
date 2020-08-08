@@ -92,15 +92,38 @@ router.put('/see/:uid', async (req, res) =>{
 
     for(let i=0;i<user.chats.length;i++){
         const chat = await Chat.findOne({_id: user.chats[i]});
+        const messages = chat.messages;
+        const n = messages.length;
+        
+        if(!messages[n-1].seenBy.includes(uid)){
+            messages[n-1].seenBy.push(uid);
+        }
 
-        chat.messages.forEach(msg =>{
-            msg.seenBy = [...msg.seenBy, uid];
-        });
-
-        await Chat.updateOne({_id: chat._id}, {messages: chat.messages});
+        await Chat.updateOne({_id: chat._id}, {messages});
     }
 
     res.json({msg: 'Success'});
+});
+
+router.post('/read', async (req,  res) =>{
+    const {chatId, uid} = req.body;
+
+    const chat = await Chat.findOne({_id: chatId});
+
+    chat.messages.forEach(msg =>{
+        if(!msg.readBy.includes(uid)){
+            msg.readBy.push(uid);
+        }
+    });
+
+    await Chat.updateOne({_id: chat._id}, {messages: chat.messages});
+
+    const user = await User.findOne({_id: uid});
+    const result = await Chat.find({_id: {$in: user.chats}});
+
+    result.sort((a, b) => b.timeOfLastMessage - a.timeOfLastMessage);
+
+    res.json(result);
 });
 
 module.exports = router;

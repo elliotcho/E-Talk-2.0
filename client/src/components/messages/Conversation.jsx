@@ -15,12 +15,18 @@ class Conversation extends Component{
         this.formatMemberNames = this.formatMemberNames.bind(this);
     }
 
+    componentDidMount(){
+        const {uid, chatId, readChat} = this.props;
+        readChat(uid, chatId);
+    }
+
     async componentDidUpdate(prevProps){
-        const {chatId} = this.props;
+        const {uid, chatId, readChat} = this.props;
 
         if(chatId !== 'new' && prevProps.chatId !== chatId){
+            readChat(uid, chatId);
+
             const response  = await axios.get(`http://localhost:5000/chats/${chatId}`);
-                
             const memberNames = await this.formatMemberNames(response.data.members);
     
             this.setState({
@@ -60,8 +66,6 @@ class Conversation extends Component{
         const {chat, memberNames} = this.state;
 
         const {uid} = this.props;
-
-        console.log(chat)
 
         return(
             <div className ='convo'>

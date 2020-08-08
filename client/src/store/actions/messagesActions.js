@@ -67,3 +67,13 @@ export const seeChats = (uid) => {
         });
     }
 }
+
+export const readChat = (uid, chatId) =>{
+    return (dispatch) =>{
+        const config = {headers:{'content-type': 'application/json'}};
+
+        axios.post('http://localhost:5000/chats/read', {uid, chatId}, config).then(response =>{
+            dispatch({type: 'LOAD_CHATS', chats: response.data});
+        });
+    }
+}

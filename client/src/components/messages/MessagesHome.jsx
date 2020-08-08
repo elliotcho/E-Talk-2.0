@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {loadChats, seeChats, clearChats} from '../../store/actions/messagesActions';
+import {loadChats, seeChats, readChat, clearChats} from '../../store/actions/messagesActions';
 import axios from 'axios';
 import MessageCard from './MessageCard';
 import SearchContacts from './SearchContacts';
@@ -40,7 +40,7 @@ class MessagesHome extends Component{
             this.props.history.push(`/chat/${chats[0]._id}`);
         }
     }
-    
+
     handleComposer(){
         const {id} = this.props.match.params;
 
@@ -69,7 +69,7 @@ class MessagesHome extends Component{
     }
 
     render(){
-        const {uid, chats} = this.props;
+        const {uid, chats, readChat} = this.props;
 
         if(!uid){
             return <Redirect to ='/'/>
@@ -117,6 +117,7 @@ class MessagesHome extends Component{
                                 (<Conversation 
                                         chatId={chatId} 
                                         uid={uid} 
+                                        readChat = {readChat}
                                 />)
                             }
 
@@ -140,7 +141,8 @@ const mapDispatchToProps = (dispatch) =>{
     return{
         loadChats: (chats) => {dispatch(loadChats(chats));},
         clearChats: () => {dispatch(clearChats());},
-        seeChats: (uid) => {dispatch(seeChats(uid));}
+        seeChats: (uid) => {dispatch(seeChats(uid));},
+        readChat: (uid, chatId) => {dispatch(readChat(uid, chatId));}
     }
 }
 
