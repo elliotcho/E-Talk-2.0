@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import moment from 'moment';
+import axios from 'axios';
 import loading from '../../images/loading.jpg';
 
 class MessageCard extends Component{
@@ -9,23 +10,28 @@ class MessageCard extends Component{
 
         this.state = {
             chat: {}, 
-            read: false
+            read: false, 
+            memberNames: ''
         }
         
         this.formatContent = this.formatContent.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.formatMemberNames = this.formatMemberNames.bind(this);
         this.formatDate = this.formatDate.bind(this);
     }
 
-    componentDidMount(){
-        const {uid} = this.props;
+    async componentDidMount(){
+        const {uid, chat} = this.props;
+
+        const memberNames = await this.formatMemberNames(JSON.parse(chat).members);
 
         const messages = JSON.parse(this.props.chat).messages;
         const n = messages.length;
 
         if(messages[n-1].readBy.includes(uid)){
             this.setState({
-                read: true
+                read: true,
+                memberNames
             });
         }
     }
@@ -58,6 +64,32 @@ class MessageCard extends Component{
         return messages[n-1].timeSent;
     }
 
+    async formatMemberNames(members){
+        const {uid} = this.props;
+
+        members.splice(members.indexOf(uid), 1);
+
+        let result = "";
+
+        for(let i=0;i<members.length;i++){
+            let id = members[i];
+
+            let user = await axios.get(`http://localhost:5000/users/${id}`);
+
+            result+= `${user.data.firstName} ${user.data.lastName}`
+
+            if(i !== members.length - 1){
+                result+=', ';
+            }
+
+            else{
+                result+='';
+            }
+        }
+
+        return result;
+    }
+
     handleClick(){
         const chat = JSON.parse(this.props.chat);
         this.props.history.push(`/chat/${chat._id}`);
@@ -77,7 +109,7 @@ class MessageCard extends Component{
                     </div>
                       
                    <div className ='card-block'>
-                        <h3>Gugsa Challa</h3>
+                        <h3>{this.state.memberNames}</h3>
                         
                         <p>
                             {this.state.read?

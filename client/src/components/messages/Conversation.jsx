@@ -12,28 +12,36 @@ class Conversation extends Component{
             memberNames: ''
         }
 
+        this.getConvoInfo = this.getConvoInfo.bind(this);
         this.formatMemberNames = this.formatMemberNames.bind(this);
     }
 
-    componentDidMount(){
-        const {uid, chatId, readChat} = this.props;
-        readChat(uid, chatId);
+    async componentDidMount(){
+        if(this.props.chatId !== 'new'){
+            await this.getConvoInfo();
+        }
     }
 
     async componentDidUpdate(prevProps){
-        const {uid, chatId, readChat} = this.props;
+        const {chatId, } = this.props;
 
         if(chatId !== 'new' && prevProps.chatId !== chatId){
-            readChat(uid, chatId);
-
-            const response  = await axios.get(`http://localhost:5000/chats/${chatId}`);
-            const memberNames = await this.formatMemberNames(response.data.members);
-    
-            this.setState({
-                chat: response.data,
-                memberNames
-            });
+            await this.getConvoInfo();
         }
+    }
+
+    async getConvoInfo(){
+        const {uid, chatId, readChat} = this.props;
+
+        readChat(uid, chatId);
+
+        const response  = await axios.get(`http://localhost:5000/chats/${chatId}`);
+        const memberNames = await this.formatMemberNames(response.data.members);
+
+        this.setState({
+            chat: response.data,
+            memberNames
+        });
     }
 
     async formatMemberNames(members){
