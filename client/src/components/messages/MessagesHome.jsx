@@ -23,7 +23,7 @@ class MessagesHome extends Component{
     componentDidUpdate(prevProps){
         const {id} = this.props.match.params;
 
-        if(prevProps.id && id !== prevProps.match.params.id){
+        if(id !== prevProps.match.params.id){
             this.updateChats();
         }
     }
