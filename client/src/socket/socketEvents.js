@@ -60,9 +60,6 @@ export const handleSocketEvents =
     });
 
     io.on('NEW_MESSAGE', data =>{
-        toast(<Toast data={data} msg={`messaged you!`} color={'black'}/>, {
-            position: toast.POSITION.BOTTOM_RIGHT,
-            draggable: false
-        });
+      
     });
 }

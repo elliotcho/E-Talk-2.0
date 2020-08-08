@@ -6,10 +6,24 @@ class MessageCard extends Component{
         super();
 
         this.state = {
-            chat: {}
+            chat: {}, 
+            read: false
         }
         
         this.formatContent = this.formatContent.bind(this);
+    }
+
+    componentDidMount(){
+        const {uid} = this.props;
+
+        const messages = JSON.parse(this.props.chat).messages;
+        const n = messages.length;
+
+        if(messages[n-1].readBy.includes(uid)){
+            this.setState({
+                read: true
+            });
+        }
     }
 
     formatContent(){
@@ -36,9 +50,9 @@ class MessageCard extends Component{
     render(){
         const chat = JSON.parse(this.props.chat);
         
-        const {activeId} = this.props;
+        const {activeChatId} = this.props;
 
-        const active = (activeId === chat._id)? 'active': '';
+        const active = (activeChatId === chat._id)? 'active': '';
 
         return(
             <div className ={`msg-card ${active} card flex-row flex-wrap`}>         
@@ -50,7 +64,10 @@ class MessageCard extends Component{
                         <h3>Gugsa Challa</h3>
                         
                         <p>
-                            {this.formatContent()}
+                            {this.state.read?
+                                this.formatContent():
+                               <strong className ='text-dark'>{this.formatContent()}</strong>
+                            }
                         </p>
                         
                         <p className='text-muted'>October 15, 2019</p>

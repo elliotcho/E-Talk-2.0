@@ -115,8 +115,7 @@ module.exports = (io) =>{
 
                 if(id !== uid){
                     io.sockets.to(active[id]).emit(
-                        'NEW_MESSAGE',
-                        {toastId: uid, receiverId: id, content}
+                        'NEW_MESSAGE'
                     );
                 }
             }

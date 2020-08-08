@@ -79,7 +79,12 @@ class MessagesHome extends Component{
         const chatId = this.props.match.params.id;
 
         const messageCards = chats.map(chat=>
-            <MessageCard key={chat._id} chat={JSON.stringify(chat)} activeId={chatId}/>
+            <MessageCard 
+                key={chat._id} 
+                chat={JSON.stringify(chat)} 
+                activeChatId={chatId}
+                uid = {uid}
+            />
         );
 
         return(
