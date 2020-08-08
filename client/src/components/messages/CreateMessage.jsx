@@ -46,14 +46,14 @@ class CreateMessage extends Component{
 
         this.myMessage.value = "";
 
-        if(chatId === 'new'){
-            const config = {headers: {'content-type': 'application/json'}};
+        const config = {headers: {'content-type': 'application/json'}};
 
+        if(chatId === 'new'){
             axios.post('http://localhost:5000/chats/create', {uid, recipients, content}, config).then(response =>{
                 const {members}= response.data;
 
                 io.emit(
-                    'CREATE_CHAT', 
+                    'SEND_MESSAGE', 
                     {uid, members, content}
                 );
 
@@ -62,7 +62,16 @@ class CreateMessage extends Component{
         }
 
         else{
-            //if we are messaging an existing chat
+           axios.post('http://localhost:5000/chats/message', {uid, chatId, content}, config).then(response =>{
+                const {members} = response.data;
+
+                io.emit(
+                    'SEND_MESSAGE',
+                    {uid, members, content}
+                );
+
+                updateChats();
+           });
         }
     }
 

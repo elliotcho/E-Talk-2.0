@@ -107,7 +107,7 @@ module.exports = (io) =>{
             );
         });
 
-        socket.on('CREATE_CHAT', data=>{
+        socket.on('SEND_MESSAGE', data =>{
             const {uid, members, content} = data;
 
             for(let i=0;i<members.length;i++){

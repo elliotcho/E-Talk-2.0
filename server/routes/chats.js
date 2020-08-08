@@ -126,4 +126,24 @@ router.post('/read', async (req,  res) =>{
     res.json(result);
 });
 
+router.post('/message', async(req, res) =>{
+    const {uid, chatId, content} = req.body;
+
+    const chat = await Chat.findOne({_id: chatId});
+
+    const newMessage = new Message({
+        uid, 
+        content, 
+        timeSent: new Date(),
+        readBy: [uid],
+        seenBy: [uid]
+    });
+
+    chat.messages.push(newMessage);
+
+    await Chat.updateOne({_id: chatId}, {messages: chat.messages});
+
+    res.json({members: chat.members});
+});
+
 module.exports = router;

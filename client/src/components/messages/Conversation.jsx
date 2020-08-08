@@ -23,7 +23,7 @@ class Conversation extends Component{
     }
 
     async componentDidUpdate(prevProps){
-        const {chatId, } = this.props;
+        const {chatId} = this.props;
 
         if(chatId !== 'new' && prevProps.chatId !== chatId){
             await this.getConvoInfo();
