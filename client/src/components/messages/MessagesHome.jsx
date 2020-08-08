@@ -22,7 +22,7 @@ class MessagesHome extends Component{
 
         seeChats(uid);
 
-       this.updateChats();
+        this.updateChats();
     }
 
     async updateChats(){
@@ -32,7 +32,6 @@ class MessagesHome extends Component{
         } = this.props;
 
         const response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
-
         const chats = response.data;
 
         loadChats(chats);
@@ -41,7 +40,7 @@ class MessagesHome extends Component{
             this.props.history.push(`/chat/${chats[0]._id}`);
         }
     }
-
+    
     handleComposer(){
         const {id} = this.props.match.params;
 

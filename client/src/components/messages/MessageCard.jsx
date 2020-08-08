@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import moment from 'moment';
 import loading from '../../images/loading.jpg';
 
 class MessageCard extends Component{
@@ -11,6 +13,8 @@ class MessageCard extends Component{
         }
         
         this.formatContent = this.formatContent.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.formatDate = this.formatDate.bind(this);
     }
 
     componentDidMount(){
@@ -47,6 +51,18 @@ class MessageCard extends Component{
         return res;
     }
 
+    formatDate(){
+        const messages = JSON.parse(this.props.chat).messages;
+        const n = messages.length;
+
+        return messages[n-1].timeSent;
+    }
+
+    handleClick(){
+        const chat = JSON.parse(this.props.chat);
+        this.props.history.push(`/chat/${chat._id}`);
+    }
+
     render(){
         const chat = JSON.parse(this.props.chat);
         
@@ -55,7 +71,7 @@ class MessageCard extends Component{
         const active = (activeChatId === chat._id)? 'active': '';
 
         return(
-            <div className ={`msg-card ${active} card flex-row flex-wrap`}>         
+            <div className ={`msg-card ${active} card flex-row flex-wrap`} onClick = {this.handleClick}>         
                     <div className ='card-header border-0'>
                         <img src={loading} alt='profile-pic'/>
                     </div>
@@ -70,11 +86,11 @@ class MessageCard extends Component{
                             }
                         </p>
                         
-                        <p className='text-muted'>October 15, 2019</p>
+                        <p className='text-muted'>{moment(this.formatDate()).calendar()}</p>
                    </div>
             </div>
         )
     }
 }
 
-export default MessageCard;
+export default withRouter(MessageCard);

@@ -62,7 +62,7 @@ export const getUnseenChats = (uid) =>{
 
 export const seeChats = (uid) => {
     return (dispatch) =>{
-        axios.put(`http://localhost:5000/chats/see/${uid}`).then(response =>{
+        axios.put(`http://localhost:5000/chats/see/${uid}`).then(() =>{
             dispatch({type: 'SEE_CHATS'});
         });
     }
