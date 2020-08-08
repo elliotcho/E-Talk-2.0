@@ -59,7 +59,10 @@ export const handleSocketEvents =
         getUsersComposedTo(data.queryResult);
     });
 
-    io.on('CREATE_CHAT', data => {
-       addNewChat(data.chatId);
+    io.on('NEW_MESSAGE', data =>{
+        toast(<Toast data={data} msg={`messaged you!`} color={'black'}/>, {
+            position: toast.POSITION.BOTTOM_RIGHT,
+            draggable: false
+        });
     });
 }

@@ -108,14 +108,15 @@ module.exports = (io) =>{
         });
 
         socket.on('CREATE_CHAT', data=>{
-            const {uid, members} = data;
+            const {uid, members, content} = data;
 
             for(let i=0;i<members.length;i++){
                 const id = members[i];
 
                 if(id !== uid){
                     io.sockets.to(active[id]).emit(
-                        'NEW_MESSAGE'
+                        'NEW_MESSAGE',
+                        {toastId: uid, receiverId: id, content}
                     );
                 }
             }

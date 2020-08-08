@@ -54,7 +54,7 @@ class CreateMessage extends Component{
 
                 io.emit(
                     'CREATE_CHAT', 
-                    {uid, members}
+                    {uid, members, content}
                 );
 
                 updateChats();
