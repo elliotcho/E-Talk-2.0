@@ -82,6 +82,7 @@ class MessagesHome extends Component{
                 key={chat._id} 
                 chat={JSON.stringify(chat)} 
                 activeChatId={chatId}
+                readChat = {readChat}
                 uid = {uid}
             />
         );
@@ -117,7 +118,6 @@ class MessagesHome extends Component{
                                 (<Conversation 
                                         chatId={chatId} 
                                         uid={uid} 
-                                        readChat = {readChat}
                                         newMsg = {newMsg}
                                 />)
                             }

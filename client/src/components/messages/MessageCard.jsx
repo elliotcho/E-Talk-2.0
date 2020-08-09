@@ -21,7 +21,11 @@ class MessageCard extends Component{
     }
 
     async componentDidMount(){
-        const {uid, chat} = this.props;
+        const {uid, chat, activeChatId, readChat} = this.props;
+
+        if(activeChatId === JSON.parse(chat)._id){
+            await readChat(uid, JSON.parse(chat)._id);
+        }
 
         const memberNames = await this.formatMemberNames(JSON.parse(chat).members);
 
@@ -33,6 +37,14 @@ class MessageCard extends Component{
                 read: true,
                 memberNames
             });
+        }
+    }
+
+    async componentDidUpdate(){
+        const {uid, chat, activeChatId, readChat} = this.props;
+
+        if(activeChatId === JSON.parse(chat)._id){
+            await readChat(uid, JSON.parse(chat)._id);
         }
     }
 

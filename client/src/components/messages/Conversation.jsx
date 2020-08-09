@@ -31,9 +31,7 @@ class Conversation extends Component{
     }
 
     async getConvoInfo(){
-        const {uid, chatId, readChat} = this.props;
-
-        readChat(uid, chatId);
+        const {chatId} = this.props;
 
         const response  = await axios.get(`http://localhost:5000/chats/${chatId}`);
         const memberNames = await this.formatMemberNames(response.data.members);
