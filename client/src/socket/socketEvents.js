@@ -8,7 +8,8 @@ export const handleSocketEvents =
      getUnreadRequests, 
      getUnreadNotifs, 
      getUsersComposedTo,
-     addNewChat
+     getUnseenChats,
+     sendMsg
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -60,6 +61,9 @@ export const handleSocketEvents =
     });
 
     io.on('NEW_MESSAGE', data =>{
-      
+        const {receiverId} = data;
+
+        getUnseenChats(receiverId);
+        sendMsg();  
     });
 }

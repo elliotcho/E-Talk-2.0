@@ -74,7 +74,7 @@ class FriendRequestToast extends Component{
                 
                 <div className ='col-7 mt-2'>
                     <strong>{firstName} {lastName}</strong>
-                    <span> {msg}</span>
+                    <span> {msg.length>30? msg: data.content}</span>
                 </div>
             </div>
         )
