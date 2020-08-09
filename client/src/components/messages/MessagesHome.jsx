@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {loadChats, seeChats, readChat, clearChats} from '../../store/actions/messagesActions';
+import {loadChats, seeChats, readChat, clearChats, sendMsg} from '../../store/actions/messagesActions';
 import axios from 'axios';
 import MessageCard from './MessageCard';
 import SearchContacts from './SearchContacts';
@@ -69,7 +69,7 @@ class MessagesHome extends Component{
     }
 
     render(){
-        const {uid, chats, readChat} = this.props;
+        const {uid, chats, readChat, newMsg, sendMsg} = this.props;
 
         if(!uid){
             return <Redirect to ='/'/>
@@ -118,10 +118,15 @@ class MessagesHome extends Component{
                                         chatId={chatId} 
                                         uid={uid} 
                                         readChat = {readChat}
+                                        newMsg = {newMsg}
                                 />)
                             }
 
-                            <CreateMessage chatId={chatId} updateChats={this.updateChats}/>
+                            <CreateMessage 
+                                chatId={chatId} 
+                                updateChats={this.updateChats}
+                                sendMsg = {sendMsg}
+                            />
                         </div>
                     </div>
                 </div>
@@ -133,7 +138,8 @@ class MessagesHome extends Component{
 const mapStateToProps = (state) =>{
     return{
         recipients: state.messages.recipients,
-        chats: state.messages.chats
+        chats: state.messages.chats,
+        newMsg: state.messages.newMsg
     }
 }
 
@@ -142,7 +148,8 @@ const mapDispatchToProps = (dispatch) =>{
         loadChats: (chats) => {dispatch(loadChats(chats));},
         clearChats: () => {dispatch(clearChats());},
         seeChats: (uid) => {dispatch(seeChats(uid));},
-        readChat: (uid, chatId) => {dispatch(readChat(uid, chatId));}
+        readChat: (uid, chatId) => {dispatch(readChat(uid, chatId));},
+        sendMsg: () => {dispatch(sendMsg());}
     }
 }
 

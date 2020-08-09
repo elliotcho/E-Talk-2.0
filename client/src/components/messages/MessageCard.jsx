@@ -41,10 +41,11 @@ class MessageCard extends Component{
 
         const chat = JSON.parse(this.props.chat);
         const messages = chat.messages;
+        const n = messages.length;
 
         messages.sort((a,b)=> b.timeSent - a.timeSent);
 
-        const content = chat.messages[0].content;
+        const content = chat.messages[n-1].content;
 
         if(content.length>20){
             res = content.substring(0, 20) + "...";

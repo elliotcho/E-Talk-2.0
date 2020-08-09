@@ -77,3 +77,9 @@ export const readChat = (uid, chatId) =>{
         });
     }
 }
+
+export const sendMsg = () =>{
+    return (dispatch) =>{
+        dispatch({type: 'SEND_MSG'});
+    }
+}

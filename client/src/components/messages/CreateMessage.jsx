@@ -36,7 +36,7 @@ class CreateMessage extends Component{
     handleSubmit(e){
         e.preventDefault();
 
-        const {uid, recipients, chatId, updateChats} = this.props;
+        const {uid, recipients, chatId, updateChats, sendMsg} = this.props;
 
         const content = this.myMessage.value;
 
@@ -70,6 +70,7 @@ class CreateMessage extends Component{
                     {uid, members, content}
                 );
 
+                sendMsg();
                 updateChats();
            });
         }

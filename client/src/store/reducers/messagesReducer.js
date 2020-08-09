@@ -3,7 +3,8 @@ const initState = {
     recipients: [],
     isSelected: {},
     chats: [],
-    unseenChats: 0
+    unseenChats: 0,
+    newMsg: false
 }
 
 const messagesReducer = (state = initState, action) =>{
@@ -45,6 +46,11 @@ const messagesReducer = (state = initState, action) =>{
             return{
                 ...state,
                 unseenChats: 0
+            }
+        case 'SEND_MSG':
+            return{
+                ...state,
+                newMsg: !state.newMsg
             }
         default:
             return state;
