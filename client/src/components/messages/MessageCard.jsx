@@ -13,6 +13,7 @@ class MessageCard extends Component{
         }
 
         this.formatContent = this.formatContent.bind(this);
+        this.displayChat = this.displayChat.bind(this);
     }
 
     async componentDidMount(){
@@ -39,6 +40,11 @@ class MessageCard extends Component{
         return content;
     }
 
+    displayChat(){
+        const {chatId} = this.props;
+        this.props.history.push(`/chat/${chatId}`);
+    }
+
     render(){
         const {memberNames} = this.state;
 
@@ -47,7 +53,7 @@ class MessageCard extends Component{
         const active = (isActive) ? 'active': '';
 
         return(
-            <div className ={`msg-card card ${active} flex-row flex-wrap`}>         
+            <div className ={`msg-card card ${active} flex-row flex-wrap`} onClick={this.displayChat}>         
                     <div className ='card-header border-0'>
                         <img src={loading} alt='profile-pic'/>
                     </div>

@@ -124,7 +124,7 @@ router.put('/see/:uid', async (req, res) =>{
 
         if(!messages[n-1].seenBy.includes(uid)){
             messages[n-1].seenBy.push(uid);
-        }
+        } 
     }
 
     res.json({msg: 'Success'});

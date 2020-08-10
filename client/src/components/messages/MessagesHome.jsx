@@ -64,7 +64,7 @@ class MessagesHome extends Component{
             if(chats.length === 0 || (recipients.length!==0 && !window.confirm(msg))){
                 return;
             }
-            
+
             this.props.history.push(`/chat/${chats[0]._id}`);
         }
 
