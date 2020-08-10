@@ -11,6 +11,8 @@ class MessageCard extends Component{
         this.state = {
             memberNames: 'Loading...'
         }
+
+        this.formatContent = this.formatContent.bind(this);
     }
 
     async componentDidMount(){
@@ -24,13 +26,28 @@ class MessageCard extends Component{
         this.setState({memberNames});
     }
 
+    formatContent(){
+        const {messages} = this.props;
+        const n = messages.length;
+
+        const content = messages[n-1].content;
+
+        if(content.length > 20){
+            return content.substring(0, 20) + '...';
+        }
+
+        return content;
+    }
+
     render(){
         const {memberNames} = this.state;
 
-        const {timeOfLastMessage} = this.props;
+        const {timeOfLastMessage, isActive} = this.props;
+
+        const active = (isActive) ? 'active': '';
 
         return(
-            <div className ={`msg-card card flex-row flex-wrap`}>         
+            <div className ={`msg-card card ${active} flex-row flex-wrap`}>         
                     <div className ='card-header border-0'>
                         <img src={loading} alt='profile-pic'/>
                     </div>
@@ -39,7 +56,9 @@ class MessageCard extends Component{
                         <h3>{memberNames}</h3>
                         
                         <p>
-                            {/*this.state.read?
+                            {
+                                this.formatContent()
+                                /*this.state.read?
                                 this.formatContent():
                                <strong className ='text-dark'>{this.formatContent()}</strong>*/
                             }

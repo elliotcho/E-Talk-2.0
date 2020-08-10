@@ -8,7 +8,8 @@ import {
     updateRecipients, 
     clearComposer,
     setMsgsOnDisplay,
-    setDisplayedChatId
+    setDisplayedChatId,
+    seeChats
 } from '../../store/actions/messagesActions';
 
 //components
@@ -23,15 +24,27 @@ import './Messages.css';
 
 class MessagesHome extends Component{
     async componentDidMount(){
-        const {uid, setUserChats} = this.props;
+        const {uid, setUserChats, seeChats} = this.props;
 
         const response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
         const chats = response.data;
 
+        //get all chats and update the global state
         setUserChats(chats);
+
+        //mark all chats as seen
+        seeChats(uid);
 
         if(chats.length !== 0){
             this.props.history.push(chats[0]._id);
+        }
+    }
+
+    componentDidUpdate(){
+        const {uid, unseenChats, seeChats} = this.props;
+
+        if(unseenChats > 0){
+            seeChats(uid);
         }
     }
 
@@ -60,9 +73,10 @@ class MessagesHome extends Component{
             <MessageCard 
                 key={chat._id} 
                 chatId = {chat._id}
+                isActive = {chat._id === chatId}
+                uid={uid}
                 messages = {chat.messages}
                 timeOfLastMessage = {chat.timeOfLastMessage}
-                uid={uid}
             />    
         );
 
@@ -130,7 +144,8 @@ const mapStateToProps = (state) =>{
         recipients: state.messages.recipients,
         composerResults: state.messages.composerResults,
         msgsOnDisplay: state.messages.msgsOnDisplay,
-        displayedChatId: state.messages.displayedChatId
+        displayedChatId: state.messages.displayedChatId,
+        unseenChats: state.messages.unseenChats
     }
 }
 
@@ -140,7 +155,8 @@ const mapDispatchToProps = (dispatch) =>{
         updateRecipients: (recipients) => {dispatch(updateRecipients(recipients));},
         clearComposer: () => {dispatch(clearComposer());},
         setMsgsOnDisplay: (chatId) => {dispatch(setMsgsOnDisplay(chatId));},
-        setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));}
+        setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));},
+        seeChats: (uid) => {dispatch(seeChats(uid));}
     }
 }
 

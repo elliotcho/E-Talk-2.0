@@ -53,6 +53,11 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 unseenChats: action.unseenChats
             }
+        case 'SEE_CHATS':
+            return{
+                ...state,
+                unseenChats: 0
+            }
         default:
             return state;
     }

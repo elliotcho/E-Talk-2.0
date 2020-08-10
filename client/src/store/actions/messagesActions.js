@@ -53,3 +53,10 @@ export const getUnseenChats = (uid) =>{
         dispatch({type: 'LOAD_UNSEEN_CHATS', unseenChats});
     }
 }
+
+export const seeChats = (uid) =>{
+    return async (dispatch) =>{
+        await axios.put(`http://localhost:5000/chats/see/${uid}`);
+        dispatch({type: 'SEE_CHATS'});
+    }
+}
