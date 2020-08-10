@@ -1,57 +1,53 @@
 const initState = {
-    composedTo: [],
-    recipients: [],
-    isSelected: {},
     chats: [],
-    unseenChats: 0,
-    newMsg: false
+    recipients: [],
+    composerResults: [],
+    msgsOnDisplay: [],
+    displayedChatId: null
 }
 
 const messagesReducer = (state = initState, action) =>{
     switch (action.type){
-        case 'GET_USERS_COMPOSED_TO':
-            return{
-                ...state,
-                composedTo: [...action.composedTo]
-            }
-        case 'CLEAR_COMPOSER':
-            return{
-                ...state,
-                composedTo: [],
-                recipients: [],
-                isSelected: {}
-            }
-        case 'UPDATE_RECIPIENTS':
-            return{
-                ...state,
-                recipients: [...action.recipients],
-                isSelected: {...action.isSelected}
-            }
-        case 'LOAD_CHATS':
+        case 'SAVE_CHATS':
             return{
                 ...state,
                 chats: [...action.chats]
             }
-        case 'CLEAR_CHATS':
+        case 'COMPOSER_RESULTS':
             return{
                 ...state,
-                chats: []
+                composerResults: [...action.composerResults]
             }
-        case 'LOAD_UNSEEN_CHATS':
+        case 'UPDATE_RECIPIENTS':
             return{
                 ...state,
-                unseenChats: action.unseenChats
+                recipients: [...action.recipients]
             }
-        case 'SEE_CHATS':
+        case 'CLEAR_COMPOSER':
             return{
                 ...state,
-                unseenChats: 0
+                composerResults: [],
+                recipients: []
             }
-        case 'SEND_MSG':
+        case 'DISPLAY_MESSAGES':
             return{
                 ...state,
-                newMsg: !state.newMsg
+                msgsOnDisplay: [...action.messages]
             }
+        case 'SET_CHAT_ID':
+            return{
+                ...state,
+                displayedChatId: action.chatId
+            }
+        case 'NEW_MESSAGE':
+            if(state.displayedChatId === action.chatId){
+                return{
+                    ...state,
+                    msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
+                }
+            }
+
+            return state;
         default:
             return state;
     }

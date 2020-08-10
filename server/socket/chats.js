@@ -1,7 +1,7 @@
-const {User} = require('../dbschemas');
+const {User, Chat, Message} = require('../dbschemas');
 
 exports.getRecipients = async (data) =>{
-    const {uid, name, isSelected} = data;
+    const {uid, name, recipients} = data;
 
     let query = name.split(" ").join("").toLowerCase();
 
@@ -13,13 +13,15 @@ exports.getRecipients = async (data) =>{
     }
 
     let result = [];
-    let seen = {...isSelected};
+    let seen = {};
+
+    recipients.forEach(user => {
+        seen[user._id] = true
+    });
 
     for(let i=0, j=0;i<friends.length && j<12; i++){
         let friendFirstName = friends[i].firstName.split(" ").join("").toLowerCase();
         let friendLastName = friends[i].lastName.split(" ").join("").toLowerCase();
-
-        
 
         if((friendFirstName + friendLastName).startsWith(query) && !seen[friends[i]._id]){
             seen[friends[i]._id]= true;
@@ -47,4 +49,24 @@ exports.getRecipients = async (data) =>{
     //this section between the 2 comments
 
     return result;
+}
+
+exports.sendMessage = async (data) =>{
+    const {uid, chatId, content} = data;
+
+    const chat = await Chat.findOne({_id: chatId});
+
+   const newMessage = new Message({
+        uid, 
+        content, 
+        timeSent: new Date(),
+        readBy: [uid],
+        seenBy: [uid]
+    });
+
+    chat.messages.push(newMessage);
+
+    await Chat.updateOne({_id: chatId}, {messages: chat.messages});
+
+    return [newMessage, chatId, chat.members];
 }

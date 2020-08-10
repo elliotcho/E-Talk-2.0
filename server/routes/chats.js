@@ -13,15 +13,7 @@ router.get('/user/:uid', async (req, res) =>{
     res.json(chats);
 });
 
-router.get('/:id', async (req, res) =>{
-    const {id} = req.params;
-
-    const chat = await Chat.findOne({_id: id});
-
-    res.json(chat);
-});
-
-router.post('/create', async (req, res) =>{
+router.post('/create', async (req, res)=>{
     const {uid, recipients, content} = req.body;
 
     const members = recipients.map(user =>
@@ -35,7 +27,7 @@ router.post('/create', async (req, res) =>{
     const newChat = await new Chat({
         members,
         createdAt: new Date(),
-        cratedBy: uid, 
+        createdBy: uid, 
         messages: [],
         timeOfLastMessage: new Date()
     }).save();
@@ -58,92 +50,42 @@ router.post('/create', async (req, res) =>{
         await User.updateOne({_id: user._id}, {chats: user.chats});
     }
 
-    res.json({members});
+    res.json({chatId: newChat._id});
 });
 
-
-router.get('/unseen/:uid', async (req, res) =>{
-    const {uid} = req.params;
-
-    const user = await User.findOne({_id: uid});
-
-    const {chats} = user;
-    let unseenChats = 0;
-
-    for(let i=0;i<chats.length;i++){
-         const chat = await Chat.findOne({_id: chats[i]});
-   
-        const {messages} = chat;
-
-        let n =messages.length;
-
-        if(n > 0 && !messages[n-1].seenBy.includes(uid)){
-            unseenChats++;
-        }
-    }
-
-    res.json({unseenChats});
-});
-
-router.put('/see/:uid', async (req, res) =>{
-    const {uid} = req.params;
-
-    const user = await User.findOne({_id: uid});
-
-    for(let i=0;i<user.chats.length;i++){
-        const chat = await Chat.findOne({_id: user.chats[i]});
-        const messages = chat.messages;
-        const n = messages.length;
-        
-        if(!messages[n-1].seenBy.includes(uid)){
-            messages[n-1].seenBy.push(uid);
-        }
-
-        await Chat.updateOne({_id: chat._id}, {messages});
-    }
-
-    res.json({msg: 'Success'});
-});
-
-router.post('/read', async (req,  res) =>{
-    const {chatId, uid} = req.body;
+router.get('/messages/:chatId', async (req, res) =>{
+    const {chatId} = req.params;
 
     const chat = await Chat.findOne({_id: chatId});
 
-    chat.messages.forEach(msg =>{
-        if(!msg.readBy.includes(uid)){
-            msg.readBy.push(uid);
-        }
-    });
-
-    await Chat.updateOne({_id: chat._id}, {messages: chat.messages});
-
-    const user = await User.findOne({_id: uid});
-    const result = await Chat.find({_id: {$in: user.chats}});
-
-    result.sort((a, b) => b.timeOfLastMessage - a.timeOfLastMessage);
-
-    res.json(result);
+    res.json(chat.messages);
 });
 
-router.post('/message', async(req, res) =>{
-    const {uid, chatId, content} = req.body;
+router.post('/members', async (req, res) =>{
+    const {uid, chatId} = req.body;
+
+    let result = '';
 
     const chat = await Chat.findOne({_id: chatId});
+    const members = chat.members;
 
-    const newMessage = new Message({
-        uid, 
-        content, 
-        timeSent: new Date(),
-        readBy: [uid],
-        seenBy: [uid]
-    });
+    members.splice(members.indexOf(uid), 1);
 
-    chat.messages.push(newMessage);
+    for(let i=0;i<members.length;i++){
+        const user = await User.findOne({_id: members[i]});
 
-    await Chat.updateOne({_id: chatId}, {messages: chat.messages});
+        let name = `${user.firstName} ${user.lastName}`;
 
-    res.json({members: chat.members});
+        if(i !== members.length-1){
+            result+=`${name}, `;
+        }
+
+        else{
+            result+=`${name}`
+        }
+    }
+
+    res.json({memberNames: result});
 });
 
 module.exports = router;

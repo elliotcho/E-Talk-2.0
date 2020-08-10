@@ -6,10 +6,10 @@ export const handleSocketEvents =
     (
      io, 
      getUnreadRequests, 
-     getUnreadNotifs, 
-     getUsersComposedTo,
-     getUnseenChats,
-     sendMsg
+     getUnreadNotifs,
+     setComposerResults,
+     setUserChats,
+     handleNewMessage
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -56,14 +56,18 @@ export const handleSocketEvents =
         });
     });
 
-    io.on('COMPOSE_MESSAGE_TO', data => {
-        getUsersComposedTo(data.queryResult);
+    io.on('SEARCH_COMPOSER', data =>{
+        setComposerResults(data.queryResult);
+    });
+
+    io.on('CREATE_CHAT', data =>{
+        setUserChats(data.chats);
     });
 
     io.on('NEW_MESSAGE', data =>{
-        const {receiverId} = data;
+        const {chatId, newMessage, chats} = data;
 
-        getUnseenChats(receiverId);
-        sendMsg();  
+        handleNewMessage(newMessage, chatId);
+        setUserChats(chats);
     });
 }

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 import {io} from '../../App';
 
 class CreateMessage extends Component{
@@ -12,18 +11,21 @@ class CreateMessage extends Component{
     }
 
     pressEnter(e){
+        //user doesn't press shift enter
         if(e.keyCode === 13 && e.shiftKey === false){
             e.preventDefault();
             this.myMessageForm.dispatchEvent(new Event('submit'));
         }
 
+        //user presses shift enter
         else{
-           setTimeout(() =>{
-            this.myMessage.style.height = "";
-            this.myMessage.style.height = this.myMessage.scrollHeight + 'px';
-           }, 0);
+            setTimeout(()=>{
+                this.myMessage.style.height = "";
+                this.myMessage.style.height = this.myMessage.scrollHeight + 'px';
+            }, 0);
         }
 
+        //adjust overflow based on scroll height
         if(this.myMessage.scrollHeight > 200){
             this.myMessage.style.overflow = 'auto';
         }
@@ -33,53 +35,46 @@ class CreateMessage extends Component{
         }
     }
 
-    handleSubmit(e){
+    async handleSubmit(e){
         e.preventDefault();
 
-        const {uid, recipients, chatId, updateChats, sendMsg} = this.props;
-
+        const {uid, chatId, recipients} = this.props;
+        
         const content = this.myMessage.value;
 
-        if((recipients.length === 0 && chatId === 'new') || content.trim() === ""){
+        if(content.trim() === ""){
             return;
         }
 
-        this.myMessage.value = "";
-
-        const config = {headers: {'content-type': 'application/json'}};
-
         if(chatId === 'new'){
-            axios.post('http://localhost:5000/chats/create', {uid, recipients, content}, config).then(response =>{
-                const {members}= response.data;
+            if(recipients.length === 0){
+                return;
+            }
 
-                io.emit(
-                    'SEND_MESSAGE', 
-                    {uid, members, content}
-                );
+            let response = await axios.post('http://localhost:5000/chats/create', {uid, recipients, content});
+            const newChatId = response.data.chatId;
 
-                updateChats();
-            });
+            response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
+            const chats = response.data;
+
+            //update list of message cards
+            this.props.setUserChats(chats);
+
+            //render the chat you just created
+            this.props.history.push(`/chat/${newChatId}`);
         }
-
+        
         else{
-           axios.post('http://localhost:5000/chats/message', {uid, chatId, content}, config).then(response =>{
-                const {members} = response.data;
-
-                io.emit(
-                    'SEND_MESSAGE',
-                    {uid, members, content}
-                );
-
-                sendMsg();
-                updateChats();
-           });
+            io.emit('SEND_MESSAGE', {chatId, uid, content});
         }
+
+        this.myMessage.value="";
     }
 
     render(){
         return(
             <div className ='create-msg'>
-                <form ref = {ele => this.myMessageForm = ele} onSubmit={this.handleSubmit}>
+                <form ref = {ele => this.myMessageForm = ele} onSubmit = {this.handleSubmit}>
                     <textarea
                         className ='form-control'
                         rows ='1'
@@ -97,11 +92,4 @@ class CreateMessage extends Component{
     }
 }
 
-const mapStateToProps = (state) =>{
-    return {
-        uid: state.auth.uid, 
-        recipients: state.messages.recipients
-    }
-}
-
-export default withRouter(connect(mapStateToProps)(CreateMessage));
+export default withRouter(CreateMessage);

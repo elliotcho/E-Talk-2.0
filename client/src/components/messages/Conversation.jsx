@@ -6,72 +6,48 @@ import loading from '../../images/loading.jpg';
 class Conversation extends Component{
     constructor(){
         super();
-
+        
         this.state = {
-            chat: null,
-            memberNames: ''
+            memberNames: 'Loading...'
         }
-
-        this.getConvoInfo = this.getConvoInfo.bind(this);
-        this.formatMemberNames = this.formatMemberNames.bind(this);
     }
 
     async componentDidMount(){
-        if(this.props.chatId !== 'new'){
-            await this.getConvoInfo();
-        }
+        const {uid, chatId} = this.props;
+
+        //get and render messages
+       this.props.setMsgsOnDisplay(chatId);
+       this.props.setDisplayedChatId(chatId);
+
+        //get member names
+        const config = {headers: {'content-type': 'application/json'}};
+        const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+        const memberNames = response.data.memberNames;
+
+        this.setState({memberNames});
     }
 
     async componentDidUpdate(prevProps){
-        const {chatId, newMsg} = this.props;
+        const {uid, chatId} = this.props;
 
-        if(chatId !== 'new' && (prevProps.chatId !== chatId || prevProps.newMsg !== newMsg)){
-            await this.getConvoInfo();
+        if(prevProps.chatId !== chatId && chatId !== 'new'){
+            //get and render messages
+            this.props.setMsgsOnDisplay(chatId);
+            this.props.setDisplayedChatId(chatId);
+            
+            //get member names
+            const config = {headers: {'content-type': 'application/json'}};
+            const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+            const memberNames = response.data.memberNames;
+
+            this.setState({memberNames});
         }
-    }
-
-    async getConvoInfo(){
-        const {chatId} = this.props;
-
-        const response  = await axios.get(`http://localhost:5000/chats/${chatId}`);
-        const memberNames = await this.formatMemberNames(response.data.members);
-
-        this.setState({
-            chat: response.data,
-            memberNames
-        });
-    }
-
-    async formatMemberNames(members){
-        const {uid} = this.props;
-
-        members.splice(members.indexOf(uid), 1);
-
-        let result = "";
-
-        for(let i=0;i<members.length;i++){
-            let id = members[i];
-
-            let user = await axios.get(`http://localhost:5000/users/${id}`);
-
-            result+= `${user.data.firstName} ${user.data.lastName}`
-
-            if(i !== members.length - 1){
-                result+=', ';
-            }
-
-            else{
-                result+='';
-            }
-        }
-
-        return result;
     }
 
     render(){
-        const {chat, memberNames} = this.state;
+        const {uid, msgsOnDisplay} = this.props;
 
-        const {uid} = this.props;
+        const {memberNames} = this.state;
 
         return(
             <div className ='convo'>
@@ -85,9 +61,13 @@ class Conversation extends Component{
                 </header>
 
                 <section className ='chat-box'>
-                    {chat? chat.messages.map(msg =>
-                        <MessageBubble key={msg._id} msg={msg} uid={uid}/>
-                    ): null}
+                    {msgsOnDisplay.map(msg =>
+                        <MessageBubble 
+                            key ={msg._id} 
+                            uid={uid} 
+                            msg={msg}
+                        />
+                    )}
                 </section>
             </div>
         )

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import loading from '../../images/loading.jpg';
 
-class UserComposedTo extends Component{
+class ComposerResult extends Component{
     constructor(){
         super();
 
@@ -28,8 +28,10 @@ class UserComposedTo extends Component{
     render(){
         const {firstName, lastName, imgURL} = this.state;
 
+        const {addRecipient, user} = this.props;
+
         return(
-            <div className ='user-composed-to' onClick = {this.props.clickUser}>
+            <div className ='user-composed-to' onClick = {()=>{addRecipient(user)}}>
                 <img src={imgURL? imgURL: loading} alt = 'profile-pic'/>
                 <p>
                     {firstName} {lastName}
@@ -39,4 +41,4 @@ class UserComposedTo extends Component{
     }
 }
 
-export default UserComposedTo;
+export default ComposerResult;

@@ -12,8 +12,11 @@ const {
 } = require('./socket/posts');
 
 const {
-    getRecipients
+    getRecipients,
+    sendMessage
 } = require('./socket/chats');
+
+const axios = require('axios');
 
 const active = {};
 
@@ -97,28 +100,33 @@ module.exports = (io) =>{
             await removeComment(data);
         });
 
-        socket.on('COMPOSE_MESSAGE_TO', async data =>{
+        socket.on('SEARCH_COMPOSER', async data =>{
             const result = await getRecipients(data);
 
             const {uid} = data;
 
             io.sockets.to(active[uid]).emit(
-                'COMPOSE_MESSAGE_TO', {queryResult: result}
+                'SEARCH_COMPOSER', {queryResult: result}
             );
         });
 
-        socket.on('SEND_MESSAGE', data =>{
-            const {uid, members, content} = data;
+        socket.on('SEND_MESSAGE', async data =>{
+            const result = await sendMessage(data);
+
+            const newMessage = result[0];
+            const chatId = result[1];
+            const members = result[2];
 
             for(let i=0;i<members.length;i++){
                 const id = members[i];
 
-                if(id !== uid){
-                    io.sockets.to(active[id]).emit(
-                        'NEW_MESSAGE',
-                        {receiverId: id}
-                    );
-                }
+                const response = await axios.get(`http://localhost:5000/chats/user/${id}`);
+                const chats= response.data;
+
+                io.sockets.to(active[id]).emit(
+                    'NEW_MESSAGE',
+                    {chatId, newMessage, chats}
+                );
             }
         });
     });

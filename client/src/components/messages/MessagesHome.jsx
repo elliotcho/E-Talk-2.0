@@ -1,75 +1,54 @@
 import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {loadChats, seeChats, readChat, clearChats, sendMsg} from '../../store/actions/messagesActions';
-import axios from 'axios';
-import MessageCard from './MessageCard';
+
+//actions 
+import {
+    setUserChats, 
+    updateRecipients, 
+    clearComposer,
+    setMsgsOnDisplay,
+    setDisplayedChatId
+} from '../../store/actions/messagesActions';
+
+//components
 import SearchContacts from './SearchContacts';
 import Conversation from './Conversation';
 import CreateMessage from './CreateMessage';
 import Composer from './Composer';
+import MessageCard from './MessageCard';
+
+import axios from 'axios';
 import './Messages.css';
 
 class MessagesHome extends Component{
-    constructor(){
-        super();
-        this.updateChats = this.updateChats.bind(this);
-        this.handleComposer = this.handleComposer.bind(this);
-    }
-
-    componentDidMount(){
-        const {uid, seeChats} = this.props;
-
-        seeChats(uid);
-
-        this.updateChats();
-    }
-
-    async updateChats(){
-        const {
-            uid, 
-            loadChats
-        } = this.props;
+    async componentDidMount(){
+        const {uid, setUserChats} = this.props;
 
         const response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
         const chats = response.data;
 
-        loadChats(chats);
+        setUserChats(chats);
 
         if(chats.length !== 0){
-            this.props.history.push(`/chat/${chats[0]._id}`);
+            this.props.history.push(chats[0]._id);
         }
-    }
-
-    handleComposer(){
-        const {id} = this.props.match.params;
-
-        const {recipients, chats} = this.props;
-
-        let msg = "You haven't finished composing your message? Are you sure you want to exit?";
-
-        if(id === 'new'){
-            //if we have no chats we do not exit the composer
-            if(chats.length === 0){return;}
-
-            //if we have saved recipients but we want to exit composer confirm with user
-            if(recipients.length !==0 && !window.confirm(msg)){return;}
-
-            //render the chat with the most recently sent message
-            this.props.history.push(`/chat/${chats[0]._id}`);
-        }
-
-        else{
-            this.props.history.push('/chat/new');
-        }
-    }
-
-    componentWillUnmount(){
-        this.props.clearChats();
     }
 
     render(){
-        const {uid, chats, readChat, newMsg, sendMsg} = this.props;
+        const {
+            uid, 
+            chats, 
+            recipients, 
+            composerResults,
+            displayedChatId,
+            msgsOnDisplay,
+            setUserChats,
+            setMsgsOnDisplay,
+            setDisplayedChatId,
+            updateRecipients, 
+            clearComposer
+        } = this.props;
 
         if(!uid){
             return <Redirect to ='/'/>
@@ -77,14 +56,8 @@ class MessagesHome extends Component{
 
         const chatId = this.props.match.params.id;
 
-        const messageCards = chats.map(chat=>
-            <MessageCard 
-                key={chat._id} 
-                chat={JSON.stringify(chat)} 
-                activeChatId={chatId}
-                readChat = {readChat}
-                uid = {uid}
-            />
+        const messageCards = chats.map(() =>
+            <MessageCard/>    
         );
 
         return(
@@ -96,8 +69,8 @@ class MessagesHome extends Component{
                                 <h3>Chats</h3>
                                 
                                 {chatId ==='new'?
-                                    (<i className = 'fas fa-times' onClick = {this.handleComposer}/>)
-                                    : (<i className ='fas fa-paper-plane' onClick = {this.handleComposer}/>)
+                                    (<i className = 'fas fa-times'/>)
+                                    : (<i className ='fas fa-paper-plane'/>)
                                 }
                             </div>
  
@@ -114,18 +87,28 @@ class MessagesHome extends Component{
                         <div className='col-8'>
                             {
                                 chatId === 'new'?  
-                                (<Composer uid={uid}/>): 
-                                (<Conversation 
-                                        chatId={chatId} 
-                                        uid={uid} 
-                                        newMsg = {newMsg}
+                                (<Composer 
+                                    uid = {uid}
+                                    recipients= {recipients} 
+                                    composerResults= {composerResults}
+                                    updateRecipients = {updateRecipients}
+                                    clearComposer = {clearComposer}
+                                />) 
+                                :(<Conversation 
+                                    uid = {uid}
+                                    chatId = {chatId}
+                                    displayedChatId = {displayedChatId}
+                                    msgsOnDisplay = {msgsOnDisplay}
+                                    setDisplayedChatId = {setDisplayedChatId}
+                                    setMsgsOnDisplay = {setMsgsOnDisplay}
                                 />)
                             }
 
                             <CreateMessage 
-                                chatId={chatId} 
-                                updateChats={this.updateChats}
-                                sendMsg = {sendMsg}
+                                uid ={uid}
+                                recipients = {recipients}
+                                chatId = {chatId}
+                                setUserChats = {setUserChats}
                             />
                         </div>
                     </div>
@@ -137,19 +120,21 @@ class MessagesHome extends Component{
 
 const mapStateToProps = (state) =>{
     return{
-        recipients: state.messages.recipients,
         chats: state.messages.chats,
-        newMsg: state.messages.newMsg
+        recipients: state.messages.recipients,
+        composerResults: state.messages.composerResults,
+        msgsOnDisplay: state.messages.msgsOnDisplay,
+        displayedChatId: state.messages.displayedChatId
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        loadChats: (chats) => {dispatch(loadChats(chats));},
-        clearChats: () => {dispatch(clearChats());},
-        seeChats: (uid) => {dispatch(seeChats(uid));},
-        readChat: (uid, chatId) => {dispatch(readChat(uid, chatId));},
-        sendMsg: () => {dispatch(sendMsg());}
+        setUserChats: (chats) => {dispatch(setUserChats(chats))},
+        updateRecipients: (recipients) => {dispatch(updateRecipients(recipients));},
+        clearComposer: () => {dispatch(clearComposer());},
+        setMsgsOnDisplay: (chatId) => {dispatch(setMsgsOnDisplay(chatId));},
+        setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));}
     }
 }
 

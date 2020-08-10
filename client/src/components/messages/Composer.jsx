@@ -1,51 +1,54 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import { clearComposer, addRecipient, removeRecipient} from '../../store/actions/messagesActions';
-import UserComposedTo from './UserComposedTo';
+import ComposerResult from './ComposerResult';
 import {io} from '../../App';
 
 class Composer extends Component{
     constructor(){
         super();
 
-        this.state= {
+        this.state = {
             query: ''
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.clickUser = this.clickUser.bind(this);
-        this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.addRecipient = this.addRecipient.bind(this);
+        this.deleteRecipient = this.deleteRecipient.bind(this);
     }
 
     handleChange(e){
-        const {uid, isSelected} = this.props;
+        const {uid, recipients} = this.props;
 
-        io.emit('COMPOSE_MESSAGE_TO', {
+        io.emit('SEARCH_COMPOSER', {
             uid, 
-            name: e.target.value, 
-            isSelected
+            recipients,
+            name: e.target.value
         });
 
         this.setState({query: e.target.value});
     }
 
-    clickUser(userinfo){
-        const {uid, recipients, isSelected, addRecipient} = this.props;
+    addRecipient(user){
+        const {uid, recipients, updateRecipients} = this.props;
 
-        addRecipient(userinfo, recipients, isSelected);
-
-        this.setState({query: ''}, ()=>{
-            io.emit('COMPOSE_MESSAGE_TO', {uid, name: ''})
+        io.emit('SEARCH_COMPOSER', {
+            uid,
+            recipients,
+            name: ''
         });
+
+        recipients.push(user);
+        updateRecipients(recipients);
+
+        this.setState({query: ''});
     }
 
-    handleKeyDown(e){
+    deleteRecipient(e){
+        const {recipients, updateRecipients} = this.props;
         const {query} = this.state;
 
-        const {recipients, isSelected, removeRecipient} = this.props;
-
         if(e.keyCode === 8 && recipients.length > 0 && query === ''){
-            removeRecipient(recipients, isSelected);
+            recipients.pop();
+            updateRecipients(recipients);
         }
     }
 
@@ -54,13 +57,13 @@ class Composer extends Component{
     }
 
     render(){
-        const {composedTo, recipients} = this.props;
+        const {composerResults, recipients} = this.props;
 
         return(
             <div className='composer'>
                 <div className ='recipients-container'>
-                    {recipients.map(user => 
-                        <div key={user._id} className ='user-block text-white'>
+                    {recipients.map(user =>
+                        <div key={user._id} className='user-block text-white'>
                             {user.firstName} {user.lastName}
                         </div>
                     )}
@@ -69,37 +72,21 @@ class Composer extends Component{
                         type ='text' 
                         placeholder='Type a name...' 
                         onChange = {this.handleChange}
-                        onKeyDown = {this.handleKeyDown}
+                        onKeyDown = {this.deleteRecipient}
                         value = {this.state.query}
                     />
                 </div>
 
-                {composedTo.map(user =>
-                    <UserComposedTo 
-                        key = {user._id}
-                        user = {user}
-                        clickUser = {() => {this.clickUser(user)}}
+                {composerResults.map(user =>
+                    <ComposerResult 
+                        key={user._id} 
+                        user={user}
+                        addRecipient = {this.addRecipient}
                     />
-                )}  
+                )}
             </div>
         )
     }
 }
 
-const mapStateToProps = (state) =>{
-    return{
-        composedTo: state.messages.composedTo,
-        recipients: state.messages.recipients,
-        isSelected: state.messages.isSelected
-    }
-}
-
-const mapDispatchToProps = (dispatch) =>{
-    return {
-        clearComposer: () => {dispatch(clearComposer());},
-        addRecipient: (userinfo, recipients, isSelected) => {dispatch(addRecipient(userinfo, recipients, isSelected));},
-        removeRecipient: (recipients, isSelected) => {dispatch(removeRecipient(recipients, isSelected));}
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Composer);
+export default Composer;

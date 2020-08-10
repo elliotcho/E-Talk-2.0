@@ -1,85 +1,46 @@
 import axios from 'axios';
 
-export const getUsersComposedTo = (queryResult) =>{
+export const setUserChats = (chats) =>{
     return (dispatch) =>{
-        dispatch({type:'GET_USERS_COMPOSED_TO', composedTo: queryResult});
+        dispatch({type: 'SAVE_CHATS', chats});
     }
 }
 
-export const clearComposer= () =>{
+export const setComposerResults = (results) =>{
+    return (dispatch) =>{
+        dispatch({type: 'COMPOSER_RESULTS', composerResults: results});
+    }
+}
+
+export const updateRecipients = (recipients) =>{
+    return(dispatch) =>{
+        dispatch({type: 'UPDATE_RECIPIENTS', recipients});
+    }
+}
+
+export const clearComposer = () =>{
     return (dispatch) =>{
         dispatch({type: 'CLEAR_COMPOSER'});
     }
 }
 
-export const addRecipient = (userinfo, recipients, isSelected) =>{
-    return (dispatch) =>{
-        recipients.push(userinfo);
+export const setMsgsOnDisplay = (chatId) =>{
+    return async (dispatch) => {
+        const response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
+        const messages = response.data;
 
-        isSelected[userinfo._id] = true;
-
-        dispatch({
-            type: 'UPDATE_RECIPIENTS',
-            recipients, 
-            isSelected
-        });
+        dispatch({type: 'DISPLAY_MESSAGES', messages});
     }
 }
 
-export const removeRecipient = (recipients, isSelected) => {
-    return (dispatch) =>{
-        const user = recipients.pop();
-
-        delete isSelected[user._id];
-
-        dispatch({
-            type: 'UPDATE_RECIPIENTS',
-            recipients, 
-            isSelected
-        })
+export const setDisplayedChatId = (chatId) =>{
+    return (dispatch) =>{ 
+        dispatch({type: 'SET_CHAT_ID', chatId});
     }
 }
 
-export const loadChats = (chats) =>{
-    return (dispatch) =>{
-        dispatch({type: 'LOAD_CHATS', chats});
-    }
-}
-
-export const clearChats = () =>{
-    return (dispatch) =>{
-        dispatch({type: 'CLEAR_CHATS'});
-    }
-}
-
-export const getUnseenChats = (uid) =>{
-    return (dispatch) =>{
-        axios.get(`http://localhost:5000/chats/unseen/${uid}`).then(response =>{
-            dispatch({type: 'LOAD_UNSEEN_CHATS', unseenChats: response.data.unseenChats});
-        });
-    }
-}
-
-export const seeChats = (uid) => {
-    return (dispatch) =>{
-        axios.put(`http://localhost:5000/chats/see/${uid}`).then(() =>{
-            dispatch({type: 'SEE_CHATS'});
-        });
-    }
-}
-
-export const readChat = (uid, chatId) =>{
-    return (dispatch) =>{
-        const config = {headers:{'content-type': 'application/json'}};
-
-        axios.post('http://localhost:5000/chats/read', {uid, chatId}, config).then(response =>{
-            dispatch({type: 'LOAD_CHATS', chats: response.data});
-        });
-    }
-}
-
-export const sendMsg = () =>{
-    return (dispatch) =>{
-        dispatch({type: 'SEND_MSG'});
+export const handleNewMessage = (newMessage, chatId) =>{
+    return (dispatch) => {
+        dispatch({type: 'NEW_MESSAGE', chatId, newMessage});
     }
 }
