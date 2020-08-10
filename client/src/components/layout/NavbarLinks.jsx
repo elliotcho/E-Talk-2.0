@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {io} from '../../App';
 
 class NavbarLinks extends Component{
@@ -7,6 +7,7 @@ class NavbarLinks extends Component{
         super();
         this.signOut = this.signOut.bind(this);
         this.computeInitials = this.computeInitials.bind(this);
+        this.toChats = this.toChats.bind(this);
     }
 
     componentDidMount(){
@@ -49,6 +50,17 @@ class NavbarLinks extends Component{
         return "99+";
     }
 
+    toChats(e){
+        if(this.props.location.pathname.startsWith('/chat')){
+            e.preventDefault();
+            return;
+        }
+
+        else{
+            this.props.history.push('/chat/new');
+        }
+    }
+
     render(){
         const {uid, firstName, lastName, unreadRequests, unseenChats, unreadNotifs} = this.props;
 
@@ -73,7 +85,7 @@ class NavbarLinks extends Component{
                     </div>)}
                 </Link>
                         
-                <Link to ='/chat/new' className ={`link ${msgIcon}`}>
+                <Link onClick={this.toChats} to='/chat/new' className={`link ${msgIcon}`}>
                     <i className='fas fa-comment mr-2'></i>
                     <span className='title'>Messages</span>
 
@@ -117,4 +129,4 @@ class NavbarLinks extends Component{
     }
 }
 
-export default NavbarLinks;
+export default withRouter(NavbarLinks);
