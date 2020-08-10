@@ -88,4 +88,27 @@ router.post('/members', async (req, res) =>{
     res.json({memberNames: result});
 });
 
+router.get('/unseen/:uid', async (req, res) =>{
+    const {uid} = req.params;
+
+    const user = await User.findOne({_id: uid});
+    const {chats} = user;
+
+    let count = 0;
+
+    for(let i=0;i<chats.length;i++){
+        const chat = await Chat.findOne({_id: chats[i]});
+        const {messages} = chat;
+        const n = messages.length;
+
+        if(messages[n-1].seenBy.includes(uid)){
+            continue;
+        }
+
+        count++;
+    }
+
+    res.json({unseenChats: count});
+});
+
 module.exports = router;

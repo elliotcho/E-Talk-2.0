@@ -14,12 +14,14 @@ class NavbarLinks extends Component{
             uid, 
             getUserInfo, 
             getUnreadRequests, 
-            getUnreadNotifs,
+            getUnseenChats,
+            getUnreadNotifs
         } = this.props;
 
         getUserInfo(uid);
 
         getUnreadRequests(uid);
+        getUnseenChats(uid);
         getUnreadNotifs(uid);
     }
 
@@ -48,9 +50,10 @@ class NavbarLinks extends Component{
     }
 
     render(){
-        const {uid, firstName, lastName, unreadRequests, unreadNotifs} = this.props;
+        const {uid, firstName, lastName, unreadRequests, unseenChats, unreadNotifs} = this.props;
 
         const friendIcon = (unreadRequests === 0)? '': 'text-white';
+        const msgIcon = (unseenChats === 0)? '' : 'text-white';
         const notifIcon = (unreadNotifs === 0)? '': 'text-white';
 
         return(
@@ -70,14 +73,14 @@ class NavbarLinks extends Component{
                     </div>)}
                 </Link>
                         
-                <Link to ='/chat/new' className ={`link`}>
+                <Link to ='/chat/new' className ={`link ${msgIcon}`}>
                     <i className='fas fa-comment mr-2'></i>
                     <span className='title'>Messages</span>
 
-                    {/*unseenChats === 0? null:
+                    {unseenChats === 0? null:
                     (<div className ='count-box msg'>
                         {this.formatCount(unseenChats)}
-                    </div>)*/}
+                    </div>)}
                 </Link>
                     
                 <Link to ='/notifications' className={`link ${notifIcon}`}>

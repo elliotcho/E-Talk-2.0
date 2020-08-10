@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getUserInfo} from '../../store/actions/profileActions';
 import {getUnreadRequests} from '../../store/actions/friendsActions';
+import {getUnseenChats} from '../../store/actions/messagesActions';
 import {getUnreadNotifs} from '../../store/actions/notificationActions';
 import {saveQuery} from '../../store/actions/searchActions';
 import {Link, withRouter} from 'react-router-dom';
@@ -74,9 +75,11 @@ class Navbar extends Component{
                             firstName={this.props.firstName} 
                             lastName={this.props.lastName}
                             unreadRequests={this.props.unreadRequests}
+                            unseenChats = {this.props.unseenChats}
                             unreadNotifs = {this.props.unreadNotifs}
                             getUserInfo ={this.props.getUserInfo}
                             getUnreadRequests = {this.props.getUnreadRequests}
+                            getUnseenChats = {this.props.getUnseenChats}
                             getUnreadNotifs = {this.props.getUnreadNotifs}
                         />
                     </div>
@@ -93,7 +96,8 @@ const mapStateToProps = (state) =>{
         lastName: state.profile.lastName,
         query: state.search.query,
         unreadRequests: state.friends.unreadRequests,
-        unreadNotifs: state.notifs.unreadNotifs
+        unreadNotifs: state.notifs.unreadNotifs,
+        unseenChats: state.messages.unseenChats
     }
 }
 
@@ -102,7 +106,8 @@ const mapDispatchToProps = (dispatch) =>{
         getUserInfo: (uid) => {dispatch(getUserInfo(uid));},
         saveQuery: (query) => {dispatch(saveQuery(query));},
         getUnreadRequests: (uid) => {dispatch(getUnreadRequests(uid));},
-        getUnreadNotifs: (uid) => {dispatch(getUnreadNotifs(uid));}
+        getUnreadNotifs: (uid) => {dispatch(getUnreadNotifs(uid));},
+        getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));}
     }
 }
 

@@ -9,7 +9,8 @@ export const handleSocketEvents =
      getUnreadNotifs,
      setComposerResults,
      setUserChats,
-     handleNewMessage
+     handleNewMessage,
+     getUnseenChats
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -65,9 +66,15 @@ export const handleSocketEvents =
     });
 
     io.on('NEW_MESSAGE', data =>{
-        const {chatId, newMessage, chats} = data;
+        const {chatId, newMessage, chats, uid} = data;
 
+        //light up navbar if you're not on messages page
+        getUnseenChats(uid)
+
+        //re render the convo to include the new message
         handleNewMessage(newMessage, chatId);
+
+        //reset message cards so that chat with chatId is now on top
         setUserChats(chats);
     });
 }

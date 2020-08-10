@@ -56,8 +56,14 @@ class MessagesHome extends Component{
 
         const chatId = this.props.match.params.id;
 
-        const messageCards = chats.map(() =>
-            <MessageCard/>    
+        const messageCards = chats.map(chat =>
+            <MessageCard 
+                key={chat._id} 
+                chatId = {chat._id}
+                messages = {chat.messages}
+                timeOfLastMessage = {chat.timeOfLastMessage}
+                uid={uid}
+            />    
         );
 
         return(

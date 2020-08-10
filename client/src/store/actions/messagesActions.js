@@ -44,3 +44,12 @@ export const handleNewMessage = (newMessage, chatId) =>{
         dispatch({type: 'NEW_MESSAGE', chatId, newMessage});
     }
 }
+
+export const getUnseenChats = (uid) =>{
+    return async (dispatch) =>{
+        const response = await axios.get(`http://localhost:5000/chats/unseen/${uid}`);
+        const unseenChats= response.data.unseenChats;
+
+        dispatch({type: 'LOAD_UNSEEN_CHATS', unseenChats});
+    }
+}

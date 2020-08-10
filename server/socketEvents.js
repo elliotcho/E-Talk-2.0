@@ -123,10 +123,12 @@ module.exports = (io) =>{
                 const response = await axios.get(`http://localhost:5000/chats/user/${id}`);
                 const chats= response.data;
 
-                io.sockets.to(active[id]).emit(
-                    'NEW_MESSAGE',
-                    {chatId, newMessage, chats}
-                );
+                io.sockets.to(active[id]).emit('NEW_MESSAGE', {
+                    chatId, 
+                    newMessage, 
+                    chats, 
+                    uid: id
+                });
             }
         });
     });

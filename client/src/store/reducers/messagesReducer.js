@@ -3,7 +3,8 @@ const initState = {
     recipients: [],
     composerResults: [],
     msgsOnDisplay: [],
-    displayedChatId: null
+    displayedChatId: null,
+    unseenChats: 0
 }
 
 const messagesReducer = (state = initState, action) =>{
@@ -46,8 +47,12 @@ const messagesReducer = (state = initState, action) =>{
                     msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
                 }
             }
-
             return state;
+        case 'LOAD_UNSEEN_CHATS':
+            return{
+                ...state,
+                unseenChats: action.unseenChats
+            }
         default:
             return state;
     }

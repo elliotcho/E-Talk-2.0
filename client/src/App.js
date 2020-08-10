@@ -7,7 +7,8 @@ import {getUnreadNotifs} from './store/actions/notificationActions';
 import {
   setUserChats, 
   setComposerResults,
-  handleNewMessage
+  handleNewMessage,
+  getUnseenChats
 } from './store/actions/messagesActions';
 
 import socket from 'socket.io-client';
@@ -40,7 +41,8 @@ class App extends Component{
         props.getUnreadNotifs,
         props.setComposerResults,
         props.setUserChats,
-        props.handleNewMessage
+        props.handleNewMessage,
+        props.getUnseenChats
       );
     }
 
@@ -87,7 +89,8 @@ const mapDispatchToProps = (dispatch) =>{
         getUnreadNotifs: (uid)  => {dispatch(getUnreadNotifs(uid));},
         setComposerResults: (results) => {dispatch(setComposerResults(results));},
         setUserChats: (chats) => {dispatch(setUserChats(chats));},
-        handleNewMessage: (newMessage, chatId) => {dispatch(handleNewMessage(newMessage, chatId));}
+        handleNewMessage: (newMessage, chatId) => {dispatch(handleNewMessage(newMessage, chatId));},
+        getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));}
     }
 }
 
