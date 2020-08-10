@@ -66,7 +66,7 @@ exports.sendMessage = async (data) =>{
 
     chat.messages.push(newMessage);
 
-    await Chat.updateOne({_id: chatId}, {messages: chat.messages});
+    await Chat.updateOne({_id: chatId}, {messages: chat.messages, timeOfLastMessage: new Date()});
 
     return [newMessage, chatId, chat.members];
 }
