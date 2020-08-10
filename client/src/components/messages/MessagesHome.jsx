@@ -23,6 +23,11 @@ import axios from 'axios';
 import './Messages.css';
 
 class MessagesHome extends Component{
+    constructor(){
+        super();
+        this.handleComposer = this.handleComposer.bind(this);
+    }
+
     async componentDidMount(){
         const {uid, setUserChats, seeChats} = this.props;
 
@@ -45,6 +50,26 @@ class MessagesHome extends Component{
 
         if(unseenChats > 0){
             seeChats(uid);
+        }
+    }
+
+    handleComposer(){
+        const {id} = this.props.match.params;
+
+        const {chats, recipients} = this.props;
+
+        let msg = "You haven't finished composing your message? Are you sure you want to exit?";
+
+        if(id === 'new'){
+            if(chats.length === 0 || (recipients.length!==0 && !window.confirm(msg))){
+                return;
+            }
+            
+            this.props.history.push(`/chat/${chats[0]._id}`);
+        }
+
+        else{
+            this.props.history.push('/chat/new');
         }
     }
 
@@ -89,8 +114,8 @@ class MessagesHome extends Component{
                                 <h3>Chats</h3>
                                 
                                 {chatId ==='new'?
-                                    (<i className = 'fas fa-times'/>)
-                                    : (<i className ='fas fa-paper-plane'/>)
+                                    (<i className = 'fas fa-times' onClick = {this.handleComposer}/>)
+                                    : (<i className ='fas fa-paper-plane' onClick = {this.handleComposer}/>)
                                 }
                             </div>
  
