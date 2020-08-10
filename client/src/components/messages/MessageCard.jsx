@@ -9,7 +9,8 @@ class MessageCard extends Component{
         super();
 
         this.state = {
-            memberNames: 'Loading...'
+            memberNames: 'Loading...',
+            isRead: false
         }
 
         this.formatContent = this.formatContent.bind(this);
@@ -17,14 +18,45 @@ class MessageCard extends Component{
     }
 
     async componentDidMount(){
-        const {uid, chatId} = this.props;
+        const {uid, chatId, messages} = this.props;
+        const n = messages.length;
+
+        //check if the last message in the chat has been read
+        const isRead = messages[n-1].readBy.includes(uid);
 
         //get member names
         const config = {headers: {'content-type': 'application/json'}};
         const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
         const memberNames = response.data.memberNames;
-   
-        this.setState({memberNames});
+
+        this.setState({
+            memberNames,
+            isRead
+        });
+    }
+
+    async componentDidUpdate(prevProps){
+        const {uid, chatId} = this.props;
+
+        //current props
+        const {messages} = this.props;
+        const readBy = messages[messages.length-1].readBy;
+
+        //previous props
+        const prevMsgs = prevProps.messages;
+        const prevReadBy = prevMsgs[prevMsgs.length-1].readBy;
+       
+        if(readBy.includes(uid) && !prevReadBy.includes(uid)){
+            //get member names
+            const config = {headers: {'content-type': 'application/json'}};
+            const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+            const memberNames = response.data.memberNames;
+
+            this.setState({
+                isRead: true,
+                memberNames
+            });
+        }
     }
 
     formatContent(){
@@ -46,7 +78,7 @@ class MessageCard extends Component{
     }
 
     render(){
-        const {memberNames} = this.state;
+        const {memberNames, isRead} = this.state;
 
         const {timeOfLastMessage, isActive} = this.props;
 
@@ -63,10 +95,11 @@ class MessageCard extends Component{
                         
                         <p>
                             {
+                                isRead? 
                                 this.formatContent()
-                                /*this.state.read?
-                                this.formatContent():
-                               <strong className ='text-dark'>{this.formatContent()}</strong>*/
+                               :(<strong className ='text-dark'>
+                                   {this.formatContent()}
+                                </strong>)
                             }
                         </p>
                         

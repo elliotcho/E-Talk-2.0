@@ -13,7 +13,7 @@ router.get('/unread/:uid', async (req, res) =>{
 });
 
 router.put('/read/:uid', async (req, res) =>{
-    const {uid} = req.params;
+    const {uid} = req.params; 
 
     await Notification.updateMany({receiverId: uid}, {seen: true});
 

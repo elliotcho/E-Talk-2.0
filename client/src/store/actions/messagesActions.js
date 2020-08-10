@@ -24,12 +24,17 @@ export const clearComposer = () =>{
     }
 }
 
-export const setMsgsOnDisplay = (chatId) =>{
+export const setMsgsOnDisplay = (chatId, uid) =>{
     return async (dispatch) => {
-        const response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
+        const config = {headers: {'content-type': 'application/json'}};
+
+        let response = await axios.post('http://localhost:5000/chats/messages/read', {chatId, uid}, config);
         const messages = response.data;
 
-        dispatch({type: 'DISPLAY_MESSAGES', messages});
+        response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
+        const chats = response.data;
+
+        dispatch({type: 'DISPLAY_MESSAGES', messages, chats});
     }
 }
 

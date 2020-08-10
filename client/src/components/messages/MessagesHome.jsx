@@ -182,7 +182,7 @@ const mapDispatchToProps = (dispatch) =>{
         setUserChats: (chats) => {dispatch(setUserChats(chats))},
         updateRecipients: (recipients) => {dispatch(updateRecipients(recipients));},
         clearComposer: () => {dispatch(clearComposer());},
-        setMsgsOnDisplay: (chatId) => {dispatch(setMsgsOnDisplay(chatId));},
+        setMsgsOnDisplay: (chatId, uid) => {dispatch(setMsgsOnDisplay(chatId, uid));},
         setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));},
         seeChats: (uid) => {dispatch(seeChats(uid));}
     }

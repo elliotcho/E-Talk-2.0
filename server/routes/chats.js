@@ -53,12 +53,23 @@ router.post('/create', async (req, res)=>{
     res.json({chatId: newChat._id});
 });
 
-router.get('/messages/:chatId', async (req, res) =>{
-    const {chatId} = req.params;
+router.post('/messages/read', async (req, res) =>{
+    const {chatId, uid} = req.body;
 
     const chat = await Chat.findOne({_id: chatId});
+    const {messages} = chat;
 
-    res.json(chat.messages);
+    for(let i =0;i<messages.length;i++){
+        if(messages[i].readBy.includes(uid)){
+            continue;
+        }
+
+        messages[i].readBy.push(uid);
+    }
+
+    await Chat.updateOne({_id: chatId}, {messages});
+
+    res.json(messages);
 });
 
 router.post('/members', async (req, res) =>{
@@ -125,6 +136,8 @@ router.put('/see/:uid', async (req, res) =>{
         if(!messages[n-1].seenBy.includes(uid)){
             messages[n-1].seenBy.push(uid);
         } 
+
+        await Chat.updateOne({_id: chats[i]}, {messages});
     }
 
     res.json({msg: 'Success'});
