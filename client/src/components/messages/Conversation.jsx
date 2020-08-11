@@ -67,7 +67,7 @@ class Conversation extends Component{
                             uid={uid} 
                             msg={msg}
                         />
-                    ).reverse()}
+                    )}
                 </section>
             </div>
         )

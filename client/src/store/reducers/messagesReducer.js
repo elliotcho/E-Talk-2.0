@@ -33,8 +33,7 @@ const messagesReducer = (state = initState, action) =>{
         case 'DISPLAY_MESSAGES':
             return{
                 ...state,
-                msgsOnDisplay: [...action.messages],
-                chats: [...action.chats]
+                msgsOnDisplay: [...action.messages]
             }
         case 'SET_CHAT_ID':
             return{

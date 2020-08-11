@@ -10,22 +10,46 @@ class MessageCard extends Component{
 
         this.state = {
             memberNames: 'Loading...',
-            isRead: false
+            isRead: true
         }
 
+        this.getCardInfo = this.getCardInfo.bind(this);
         this.formatContent = this.formatContent.bind(this);
         this.displayChat = this.displayChat.bind(this);
     }
 
     async componentDidMount(){
-        const {uid, chatId, messages} = this.props;
+        await this.getCardInfo();
+    }
+
+    async componentDidUpdate(){
+        const {uid, isActive} = this.props;
+
+        const {messages} = this.props;
         const n = messages.length;
 
-        //check if the last message in the chat has been read
-        const isRead = messages[n-1].readBy.includes(uid);
+        if(isActive && !messages[n-1].readBy.includes(uid)){
+            await this.getCardInfo();
+        }
+    }
+
+    async getCardInfo(){
+        const {uid, chatId, isActive} = this.props;
+
+        const {messages} = this.props;
+        const n = messages.length;
+
+        //check if the last message in the chat has been read or if the chat is rendering
+        const isRead = messages[n-1].readBy.includes(uid) || isActive;
+
+        //config for post requests
+        const config = {headers: {'content-type': 'application/json'}};
+
+        if(isActive){
+            await axios.post('http://localhost:5000/chats/messages/read', {uid, chatId}, config);
+        }
 
         //get member names
-        const config = {headers: {'content-type': 'application/json'}};
         const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
         const memberNames = response.data.memberNames;
 
@@ -33,30 +57,6 @@ class MessageCard extends Component{
             memberNames,
             isRead
         });
-    }
-
-    async componentDidUpdate(prevProps){
-        const {uid, chatId} = this.props;
-
-        //current props
-        const {messages} = this.props;
-        const readBy = messages[messages.length-1].readBy;
-
-        //previous props
-        const prevMsgs = prevProps.messages;
-        const prevReadBy = prevMsgs[prevMsgs.length-1].readBy;
-       
-        if(readBy.includes(uid) && !prevReadBy.includes(uid)){
-            //get member names
-            const config = {headers: {'content-type': 'application/json'}};
-            const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
-            const memberNames = response.data.memberNames;
-
-            this.setState({
-                isRead: true,
-                memberNames
-            });
-        }
     }
 
     formatContent(){

@@ -39,7 +39,7 @@ router.post('/create', async (req, res)=>{
         readBy: [uid],
         seenBy: [uid]
     });
-
+ 
     await Chat.updateOne({_id: newChat._id}, {messages: [newMessage]});
 
     for(let i=0;i<members.length;i++){
@@ -53,13 +53,22 @@ router.post('/create', async (req, res)=>{
     res.json({chatId: newChat._id});
 });
 
+router.get('/messages/:chatId', async (req, res) =>{
+    const {chatId} = req.params;
+
+    const chat = await Chat.findOne({_id: chatId});
+    const {messages} = chat;
+
+    res.json(messages);
+});
+
 router.post('/messages/read', async (req, res) =>{
     const {chatId, uid} = req.body;
 
     const chat = await Chat.findOne({_id: chatId});
     const {messages} = chat;
 
-    for(let i =0;i<messages.length;i++){
+    for(let i=0;i<messages.length;i++){
         if(messages[i].readBy.includes(uid)){
             continue;
         }
@@ -69,7 +78,7 @@ router.post('/messages/read', async (req, res) =>{
 
     await Chat.updateOne({_id: chatId}, {messages});
 
-    res.json(messages);
+    res.json({msg: 'Success'});
 });
 
 router.post('/members', async (req, res) =>{

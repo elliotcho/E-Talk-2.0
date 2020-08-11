@@ -26,15 +26,10 @@ export const clearComposer = () =>{
 
 export const setMsgsOnDisplay = (chatId, uid) =>{
     return async (dispatch) => {
-        const config = {headers: {'content-type': 'application/json'}};
-
-        let response = await axios.post('http://localhost:5000/chats/messages/read', {chatId, uid}, config);
+        const response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
         const messages = response.data;
 
-        response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
-        const chats = response.data;
-
-        dispatch({type: 'DISPLAY_MESSAGES', messages, chats});
+        dispatch({type: 'DISPLAY_MESSAGES', messages});
     }
 }
 
