@@ -13,7 +13,8 @@ const {
 
 const {
     getRecipients,
-    sendMessage
+    sendMessage, 
+    createChat
 } = require('./socket/chats');
 
 const axios = require('axios');
@@ -108,6 +109,28 @@ module.exports = (io) =>{
             io.sockets.to(active[uid]).emit(
                 'SEARCH_COMPOSER', {queryResult: result}
             );
+        });
+
+        socket.on('CREATE_MESSAGE', async data =>{
+            const result = await createChat(data);
+
+            const newMessage = result[0];
+            const chatId = result[1];
+            const members = result[2];
+
+            for(let i=0;i<members.length;i++){
+                const id = members[i];
+
+                const response = await axios.get(`http://localhost:5000/chats/user/${id}`);
+                const chats= response.data;
+
+                io.sockets.to(active[id]).emit('NEW_MESSAGE', {
+                    chatId, 
+                    newMessage, 
+                    chats, 
+                    uid: id
+                });
+            }
         });
 
         socket.on('SEND_MESSAGE', async data =>{

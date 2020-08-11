@@ -51,6 +51,15 @@ exports.getRecipients = async (data) =>{
     return result;
 }
 
+exports.createChat = async (data) =>{
+    const {uid, chatId} = data;
+
+    const chat = await Chat.findOne({_id: chatId});
+    const n = chat.messages.length;
+
+    return [chat.messages[n-1], chatId, chat.members];
+}
+
 exports.sendMessage = async (data) =>{
     const {uid, chatId, content} = data;
 
