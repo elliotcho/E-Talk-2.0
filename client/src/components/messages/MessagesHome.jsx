@@ -116,7 +116,7 @@ class MessagesHome extends Component{
                 <div className='container-fluid'>
                     <div className='row no-gutters'>
                         <div className ='col-4'>
-                            <div className ='card-list-header'>
+                            <div className ='cards-container-header'>
                                 <h3>Chats</h3>
                                 
                                 {chatId ==='new'?
@@ -125,12 +125,12 @@ class MessagesHome extends Component{
                                 }
                             </div>
  
-                            <div className ='card-list'>
+                            <div className ='cards-container'>
                                 <SearchContacts/>
 
                                 {messageCards.length === 0?
                                     <h3 className='no-cards'>No messages available</h3>:
-                                    messageCards
+                                    <div className='cards-list'>{messageCards}</div>
                                 }
                             </div>
                         </div>

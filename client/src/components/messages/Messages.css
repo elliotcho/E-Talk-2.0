@@ -8,14 +8,14 @@
     padding: 0;
 }
 
-.messages .card-list-header{
+.messages .cards-container-header{
     position: relative;
     background: #e8e8e8;
     height: 60px;
     margin: 0;
 }
 
-.messages .card-list-header h3{
+.messages .cards-container-header h3{
     display: inline-block;
     text-align: left;
     margin-left: 20px;
@@ -24,8 +24,8 @@
     font-family: 'Helvetica';
 }
 
-.messages .card-list-header .fa-paper-plane,
-.messages .card-list-header .fa-times{
+.messages .cards-container-header .fa-paper-plane,
+.messages .cards-container-header .fa-times{
     float: right;
     cursor: pointer;
     font-size: 2rem;
@@ -33,17 +33,17 @@
     margin-right: 20px;
 }
 
-.messages .card-list-header .fa-paper-plane:hover,
-.messages .card-list-header .fa-times:hover{
+.messages .cards-container-header .fa-paper-plane:hover,
+.messages .cards-container-header .fa-times:hover{
     color: #6d6d6d;
 }
 
-.messages .card-list{
-    background: lightgray;
+.messages .cards-container{
     height: 100vh;
+    background: lightgray;
 }
 
-.messages .card-list .no-cards{
+.messages .cards-container .no-cards{
     font-family: 'Helvetica';
     margin-top: 50px;
     text-align: center;
@@ -64,8 +64,8 @@
     border: 2px lightblue solid;
 }
 
-.messages .card-list{
-    height: 100vh;
+.cards-list{
+    height: 70vh;
     overflow-y: auto;
 }
 
