@@ -47,6 +47,7 @@ const messagesReducer = (state = initState, action) =>{
                     msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
                 }
             }
+            
             return state;
         case 'LOAD_UNSEEN_CHATS':
             return{
@@ -57,6 +58,11 @@ const messagesReducer = (state = initState, action) =>{
             return{
                 ...state,
                 unseenChats: 0
+            }
+        case 'READ_CHAT':
+            return{
+                ...state,
+                chats: [...action.chats]
             }
         default:
             return state;

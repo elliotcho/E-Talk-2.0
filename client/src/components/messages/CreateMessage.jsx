@@ -58,7 +58,7 @@ class CreateMessage extends Component{
             const chats = response.data;
 
             //broadcast message
-            io.emit('CREATE_MESSAGE', {uid, chatId: newChatId});
+            io.emit('CREATE_CHAT', {uid, chatId: newChatId});
 
             //update list of message cards
             this.props.setUserChats(chats);

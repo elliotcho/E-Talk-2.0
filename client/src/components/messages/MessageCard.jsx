@@ -13,50 +13,54 @@ class MessageCard extends Component{
             isRead: true
         }
 
-        this.getCardInfo = this.getCardInfo.bind(this);
+        this.isCardRead = this.isCardRead.bind(this);
         this.formatContent = this.formatContent.bind(this);
         this.displayChat = this.displayChat.bind(this);
     }
 
     async componentDidMount(){
-        await this.getCardInfo();
+         const {uid, chatId, messages} = this.props;
+
+        await this.isCardRead(messages, messages.length);
+
+         //get member names
+         const config = {headers: {'content-type': 'application/json'}};
+         const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+         let memberNames = response.data.memberNames;
+ 
+         if(memberNames > 20){
+             memberNames = memberNames.substring(0, 20) + "...";
+         }
+ 
+         this.setState({
+             memberNames
+         });
     }
 
-    async componentDidUpdate(){
-        const {uid, isActive} = this.props;
+    async componentDidUpdate(prevProps){
+        const {isActive, messages, timeOfLastMessage} = this.props;
 
-        const {messages} = this.props;
-        const n = messages.length;
-
-        if(isActive && !messages[n-1].readBy.includes(uid)){
-            await this.getCardInfo();
+        if((isActive !== prevProps.isActive) || (timeOfLastMessage!== prevProps.timeOfLastMessage)){
+            await this.isCardRead(messages, messages.length);
         }
     }
 
-    async getCardInfo(){
+    async isCardRead(messages, n){
         const {uid, chatId, isActive} = this.props;
 
-        const {messages} = this.props;
-        const n = messages.length;
-
-        //check if the last message in the chat has been read or if the chat is rendering
-        const isRead = messages[n-1].readBy.includes(uid) || isActive;
-
-        //config for post requests
-        const config = {headers: {'content-type': 'application/json'}};
-
         if(isActive){
-            await axios.post('http://localhost:5000/chats/messages/read', {uid, chatId}, config);
+            const config = {headers: {'content-type': 'application/json'}};
+            
+            await axios.post('http://localhost:5000/chats/messages/read', {uid, chatId}, config);    
+            
+            this.props.readChat();
+            
+            this.setState({isRead: true});
         }
 
-        //get member names
-        const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
-        const memberNames = response.data.memberNames;
-
-        this.setState({
-            memberNames,
-            isRead
-        });
+        else{
+            this.setState({isRead:messages[n-1].readBy.includes(uid)});
+        }
     }
 
     formatContent(){

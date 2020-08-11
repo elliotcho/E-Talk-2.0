@@ -24,9 +24,9 @@ export const clearComposer = () =>{
     }
 }
 
-export const setMsgsOnDisplay = (chatId, uid) =>{
+export const setMsgsOnDisplay = (chatId) =>{
     return async (dispatch) => {
-        const response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
+        let response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
         const messages = response.data;
 
         dispatch({type: 'DISPLAY_MESSAGES', messages});
@@ -58,5 +58,22 @@ export const seeChats = (uid) =>{
     return async (dispatch) =>{
         await axios.put(`http://localhost:5000/chats/see/${uid}`);
         dispatch({type: 'SEE_CHATS'});
+    }
+}
+
+export const readChat = (chats, chatId, uid) =>{
+    return (dispatch) => {
+        for(let i=0;i<chats.length;i++){
+            if(chats[i]._id === chatId){
+                const {messages} = chats[i];
+                const n = messages.length;
+
+                messages[n-1].readBy.push(uid);
+
+                break;
+            }
+        }
+
+        dispatch({type: 'READ_CHAT', chats});
     }
 }

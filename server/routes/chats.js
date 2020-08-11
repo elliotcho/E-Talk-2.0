@@ -87,25 +87,28 @@ router.post('/members', async (req, res) =>{
     let result = '';
 
     const chat = await Chat.findOne({_id: chatId});
-    const members = chat.members;
 
-    members.splice(members.indexOf(uid), 1);
+    if(chat !== null){
+        const members = chat.members;
 
-    for(let i=0;i<members.length;i++){
-        const user = await User.findOne({_id: members[i]});
-
-        let name = `${user.firstName} ${user.lastName}`;
-
-        if(i !== members.length-1){
-            result+=`${name}, `;
+        members.splice(members.indexOf(uid), 1);
+    
+        for(let i=0;i<members.length;i++){
+            const user = await User.findOne({_id: members[i]});
+    
+            let name = `${user.firstName} ${user.lastName}`;
+    
+            if(i !== members.length-1){
+                result+=`${name}, `;
+            }
+    
+            else{
+                result+=`${name}`
+            }
         }
-
-        else{
-            result+=`${name}`
-        }
+    
+        res.json({memberNames: result});
     }
-
-    res.json({memberNames: result});
 });
 
 router.get('/unseen/:uid', async (req, res) =>{

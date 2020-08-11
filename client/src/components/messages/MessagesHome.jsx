@@ -9,7 +9,8 @@ import {
     clearComposer,
     setMsgsOnDisplay,
     setDisplayedChatId,
-    seeChats
+    seeChats,
+    readChat
 } from '../../store/actions/messagesActions';
 
 //components
@@ -85,6 +86,7 @@ class MessagesHome extends Component{
             displayedChatId,
             msgsOnDisplay,
             setUserChats,
+            readChat,
             setMsgsOnDisplay,
             setDisplayedChatId,
             updateRecipients, 
@@ -105,6 +107,7 @@ class MessagesHome extends Component{
                 uid={uid}
                 messages = {chat.messages}
                 timeOfLastMessage = {chat.timeOfLastMessage}
+                readChat = {() => {readChat(chats, chatId, uid)}}
             />    
         );
 
@@ -184,7 +187,8 @@ const mapDispatchToProps = (dispatch) =>{
         clearComposer: () => {dispatch(clearComposer());},
         setMsgsOnDisplay: (chatId, uid) => {dispatch(setMsgsOnDisplay(chatId, uid));},
         setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));},
-        seeChats: (uid) => {dispatch(seeChats(uid));}
+        seeChats: (uid) => {dispatch(seeChats(uid));},
+        readChat: (chats, chatId, uid) => {dispatch(readChat(chats, chatId, uid));}
     }
 }
 

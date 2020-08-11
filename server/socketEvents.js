@@ -111,7 +111,7 @@ module.exports = (io) =>{
             );
         });
 
-        socket.on('CREATE_MESSAGE', async data =>{
+        socket.on('CREATE_CHAT', async data =>{
             const result = await createChat(data);
 
             const newMessage = result[0];
