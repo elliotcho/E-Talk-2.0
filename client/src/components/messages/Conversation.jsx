@@ -70,6 +70,18 @@ class Conversation extends Component{
 
         const {memberNames} = this.state;
 
+        const messages = msgsOnDisplay.map((msg, i) =>
+            <MessageBubble 
+                key={msg._id} 
+                uid={uid} 
+                msg={msg}
+                showRead = {
+                    i === msgsOnDisplay.length -1 ||
+                    msgsOnDisplay[i].uid !== msgsOnDisplay[i+1].uid
+                }   
+            />
+        );
+      
         return(
             <div className ='convo'>
                 <header>
@@ -82,13 +94,7 @@ class Conversation extends Component{
                 </header>
 
                 <section className ='chat-box' ref = {ele => this.chatBox = ele}>
-                    {msgsOnDisplay.map(msg =>
-                        <MessageBubble 
-                            key ={msg._id} 
-                            uid={uid} 
-                            msg={msg}
-                        />
-                    )}
+                    {messages}
                 </section>
             </div>
         )

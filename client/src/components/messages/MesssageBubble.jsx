@@ -12,7 +12,7 @@ class MessageBubble extends Component{
     }
 
     async componentDidMount(){
-        const {msg} = this.props;
+        const {msg, showRead} = this.props;
 
         fetch(`http://localhost:5000/users/profilepic/${msg.uid}`, {
             method: 'GET'
@@ -21,21 +21,23 @@ class MessageBubble extends Component{
             this.setState({ownerImgURL: URL.createObjectURL(file)});
         });
 
-        const {readBy} = this.props.msg;
-        const readReceipts = [];
-
-        for(let i =0;i<readBy.length;i++){
-            if(readBy[i] === msg.uid){
-                continue;
+        if(showRead){
+            const {readBy} = this.props.msg;
+            const readReceipts = [];
+    
+            for(let i =0;i<readBy.length;i++){
+                if(readBy[i] === msg.uid){
+                    continue;
+                }
+    
+                const response = await fetch(`http://localhost:5000/users/profilepic/${readBy[i]}`);
+                const file = await response.blob();
+    
+                readReceipts.push(URL.createObjectURL(file));
             }
-
-            const response = await fetch(`http://localhost:5000/users/profilepic/${readBy[i]}`);
-            const file = await response.blob();
-
-            readReceipts.push(URL.createObjectURL(file));
-        }
-
-        this.setState({readReceipts});
+    
+            this.setState({readReceipts});
+        }   
     }
 
     render(){
