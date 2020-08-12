@@ -6,11 +6,12 @@ class MessageBubble extends Component{
         super();
 
         this.state = {
-            ownerImgURL: null
+            ownerImgURL: null,
+            readReceipts: []
         }
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {msg} = this.props;
 
         fetch(`http://localhost:5000/users/profilepic/${msg.uid}`, {
@@ -19,12 +20,28 @@ class MessageBubble extends Component{
         .then(file => {
             this.setState({ownerImgURL: URL.createObjectURL(file)});
         });
+
+        const {readBy} = this.props.msg;
+        const readReceipts = [];
+
+        for(let i =0;i<readBy.length;i++){
+            if(readBy[i] === msg.uid){
+                continue;
+            }
+
+            const response = await fetch(`http://localhost:5000/users/profilepic/${readBy[i]}`);
+            const file = await response.blob();
+
+            readReceipts.push(URL.createObjectURL(file));
+        }
+
+        this.setState({readReceipts});
     }
 
     render(){
         const {msg, uid} = this.props;
 
-        const {ownerImgURL} = this.state;
+        const {ownerImgURL, readReceipts} = this.state;
 
         const msgPosition = (msg.uid === uid)? 'msg-r': 'msg-l';
 
@@ -39,8 +56,9 @@ class MessageBubble extends Component{
                         </div>
     
                         <div className = 'read mx-1 my-1'>
-                            {/*<img src = {loading} alt ='profile pic'/>
-                            <img src = {loading} alt ='profile pic'/>*/}
+                            {readReceipts.map(imgURL =>
+                                <img src = {imgURL} alt ='profile pic'/>
+                            )}
                         </div>
                     </div>
     
