@@ -24,6 +24,9 @@ class Conversation extends Component{
         const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
         const memberNames = response.data.memberNames;
 
+        //make sure that the messages are shown from bottom to top
+        this.chatBox.scrollTop = this.chatBox.scrollHeight;
+
         this.setState({memberNames});
     }
 
@@ -40,7 +43,25 @@ class Conversation extends Component{
             const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
             const memberNames = response.data.memberNames;
 
+            //make sure that the messages are shown from bottom to top
+            this.chatBox.scrollTop = this.chatBox.scrollHeight;
+
             this.setState({memberNames});
+        }
+
+        const {msgsOnDisplay} = this.props;
+        const m = msgsOnDisplay.length;
+
+        const prevMsgsOnDisplay = prevProps.msgsOnDisplay;
+        const n = prevMsgsOnDisplay.length;
+
+        //check if we're rendering the same conversation as before the update
+        if(prevProps.chatId === chatId && chatId !=='new' && m>0 && n>0){
+
+            //reset scroll on new message
+            if(msgsOnDisplay[m-1]._id !== prevMsgsOnDisplay[n-1]._id){
+                this.chatBox.scrollTop = this.chatBox.scrollHeight;
+            }
         }
     }
 
@@ -60,7 +81,7 @@ class Conversation extends Component{
                     </div>
                 </header>
 
-                <section className ='chat-box'>
+                <section className ='chat-box' ref = {ele => this.chatBox = ele}>
                     {msgsOnDisplay.map(msg =>
                         <MessageBubble 
                             key ={msg._id} 
