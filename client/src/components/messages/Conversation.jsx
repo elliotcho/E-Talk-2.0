@@ -10,6 +10,8 @@ class Conversation extends Component{
         this.state = {
             memberNames: 'Loading...'
         }
+
+        this.handleScroll = this.handleScroll.bind(this);
     }
 
     async componentDidMount(){
@@ -24,15 +26,13 @@ class Conversation extends Component{
         const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
         const memberNames = response.data.memberNames;
 
-        //make sure that the messages are shown from bottom to top
-        this.chatBox.scrollTop = this.chatBox.scrollHeight;
-
         this.setState({memberNames});
     }
 
     async componentDidUpdate(prevProps){
         const {uid, chatId} = this.props;
 
+        //logic for rendering a new chat
         if(prevProps.chatId !== chatId && chatId !== 'new'){
             //get and render messages
             this.props.setMsgsOnDisplay(chatId);
@@ -43,26 +43,12 @@ class Conversation extends Component{
             const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
             const memberNames = response.data.memberNames;
 
-            //make sure that the messages are shown from bottom to top
-            this.chatBox.scrollTop = this.chatBox.scrollHeight;
-
             this.setState({memberNames});
         }
+    }
 
-        const {msgsOnDisplay} = this.props;
-        const m = msgsOnDisplay.length;
-
-        const prevMsgsOnDisplay = prevProps.msgsOnDisplay;
-        const n = prevMsgsOnDisplay.length;
-
-        //check if we're rendering the same conversation as before the update
-        if(prevProps.chatId === chatId && chatId !=='new' && m>0 && n>0){
-
-            //reset scroll on new message
-            if(msgsOnDisplay[m-1]._id !== prevMsgsOnDisplay[n-1]._id){
-                this.chatBox.scrollTop = this.chatBox.scrollHeight;
-            }
-        }
+    handleScroll(){
+        this.chatBox.scrollTop = this.chatBox.scrollHeight;
     }
 
     render(){
@@ -75,6 +61,7 @@ class Conversation extends Component{
                 key={msg._id} 
                 uid={uid} 
                 msg={msg}
+                handleScroll = {this.handleScroll}
                 showRead = {
                     i === msgsOnDisplay.length -1 ||
                     msgsOnDisplay[i].uid !== msgsOnDisplay[i+1].uid
