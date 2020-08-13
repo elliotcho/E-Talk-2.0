@@ -108,7 +108,12 @@ class MessageCard extends Component{
         return(
             <div className ={`msg-card card ${active} flex-row flex-wrap`} onClick={this.displayChat}>         
                     <div className ='card-header border-0'>
-                        <img src={chatPics.length? chatPics[0]: loading} alt='profile-pic'/>
+                        {
+                            chatPics.length > 1? 
+                            ([<img key={0} src={chatPics[0]} alt='profile-pic' className='first-pic'/>,
+                            <img  key ={1} src={chatPics[1]} alt ='profile-pic' className='second-pic'/>]):
+                            (<img src={chatPics.length? chatPics[0]: loading} alt='profile-pic'/>)
+                        }
                     </div>
                       
                    <div className ='card-block'>

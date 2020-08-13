@@ -100,6 +100,19 @@
     border-radius: 50%;
 }
 
+.msg-card .first-pic{
+    position: relative;
+    top: 20px;
+    left: 10px;
+    z-index: 2;
+}
+
+.msg-card .second-pic{
+    position: absolute;
+    left: 0px;
+    top: 10px;
+}
+
 .convo{
     height: 100vh;
     background: #fff;
