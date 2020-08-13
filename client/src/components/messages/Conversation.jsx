@@ -18,7 +18,7 @@ class Conversation extends Component{
         const {uid, chatId} = this.props;
 
         //get and render messages
-       this.props.setMsgsOnDisplay(chatId);
+       this.props.setMsgsOnDisplay(chatId, uid);
        this.props.setDisplayedChatId(chatId);
 
         //get member names
@@ -35,7 +35,7 @@ class Conversation extends Component{
         //logic for rendering a new chat
         if(prevProps.chatId !== chatId && chatId !== 'new'){
             //get and render messages
-            this.props.setMsgsOnDisplay(chatId);
+            this.props.setMsgsOnDisplay(chatId, uid);
             this.props.setDisplayedChatId(chatId);
             
             //get member names
