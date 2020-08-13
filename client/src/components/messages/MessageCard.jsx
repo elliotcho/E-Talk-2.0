@@ -10,7 +10,8 @@ class MessageCard extends Component{
 
         this.state = {
             memberNames: 'Loading...',
-            isRead: true
+            isRead: true,
+            chatPics: []
         }
 
         this.isCardRead = this.isCardRead.bind(this);
@@ -23,9 +24,24 @@ class MessageCard extends Component{
 
         await this.isCardRead(messages, messages.length);
 
+        //config for post requests
+        const config = {headers: {'content-type': 'application/json'}};
+
+        //get chat photo
+        let response = await axios.post('http://localhost:5000/chats/photo', {uid, chatId}, config);
+        const usersInPic = response.data;
+       
+        let chatPics = [];
+
+        for(let i=0;i<usersInPic.length;i++){
+            response = await fetch(`http://localhost:5000/users/profilepic/${usersInPic[i]}`);
+            const file = await response.blob();
+ 
+            chatPics.push(URL.createObjectURL(file));
+        }
+
          //get member names
-         const config = {headers: {'content-type': 'application/json'}};
-         const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+         response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
          let memberNames = response.data.memberNames;
  
          if(memberNames > 20){
@@ -33,7 +49,8 @@ class MessageCard extends Component{
          }
  
          this.setState({
-             memberNames
+             memberNames,
+             chatPics
          });
     }
 
@@ -82,7 +99,7 @@ class MessageCard extends Component{
     }
 
     render(){
-        const {memberNames, isRead} = this.state;
+        const {memberNames, isRead, chatPics} = this.state;
 
         const {timeOfLastMessage, isActive} = this.props;
 
@@ -91,7 +108,7 @@ class MessageCard extends Component{
         return(
             <div className ={`msg-card card ${active} flex-row flex-wrap`} onClick={this.displayChat}>         
                     <div className ='card-header border-0'>
-                        <img src={loading} alt='profile-pic'/>
+                        <img src={chatPics.length? chatPics[0]: loading} alt='profile-pic'/>
                     </div>
                       
                    <div className ='card-block'>

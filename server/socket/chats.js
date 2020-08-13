@@ -52,7 +52,7 @@ exports.getRecipients = async (data) =>{
 }
 
 exports.createChat = async (data) =>{
-    const {uid, chatId} = data;
+    const {chatId} = data;
 
     const chat = await Chat.findOne({_id: chatId});
     const n = chat.messages.length;

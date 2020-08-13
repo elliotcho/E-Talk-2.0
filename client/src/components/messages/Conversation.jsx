@@ -8,7 +8,8 @@ class Conversation extends Component{
         super();
         
         this.state = {
-            memberNames: 'Loading...'
+            memberNames: 'Loading...',
+            chatPics: []
         }
 
         this.handleScroll = this.handleScroll.bind(this);
@@ -21,12 +22,27 @@ class Conversation extends Component{
        this.props.setMsgsOnDisplay(chatId, uid);
        this.props.setDisplayedChatId(chatId);
 
+       //config for post requests
+       const config = {headers: {'content-type': 'application/json'}};
+
+       //get chat photo
+       let response = await axios.post('http://localhost:5000/chats/photo', {uid, chatId}, config);
+       const usersInPic = response.data;
+       
+       let chatPics = [];
+
+       for(let i=0;i<usersInPic.length;i++){
+            response = await fetch(`http://localhost:5000/users/profilepic/${usersInPic[i]}`);
+            const file = await response.blob();
+ 
+            chatPics.push(URL.createObjectURL(file));
+       }
+
         //get member names
-        const config = {headers: {'content-type': 'application/json'}};
-        const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+        response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
         const memberNames = response.data.memberNames;
 
-        this.setState({memberNames});
+        this.setState({memberNames, chatPics});
     }
 
     async componentDidUpdate(prevProps){
@@ -37,13 +53,28 @@ class Conversation extends Component{
             //get and render messages
             this.props.setMsgsOnDisplay(chatId, uid);
             this.props.setDisplayedChatId(chatId);
+
+            //config for post requests
+            const config = {headers: {'content-type': 'application/json'}};
+
+            //get chat photo
+            let response = await axios.post('http://localhost:5000/chats/photo', {uid, chatId}, config);
+            const usersInPic = response.data;
+       
+            let chatPics = [];
+
+            for(let i=0;i<usersInPic.length;i++){
+                response = await fetch(`http://localhost:5000/users/profilepic/${usersInPic[i]}`);
+                const file = await response.blob();
+ 
+                chatPics.push(URL.createObjectURL(file));
+            }
             
             //get member names
-            const config = {headers: {'content-type': 'application/json'}};
-            const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+            response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
             const memberNames = response.data.memberNames;
 
-            this.setState({memberNames});
+            this.setState({memberNames, chatPics});
         }
     }
 
@@ -58,14 +89,13 @@ class Conversation extends Component{
     render(){
         const {uid, msgsOnDisplay} = this.props;
 
-        const {memberNames} = this.state;
+        const {memberNames, chatPics} = this.state;
 
         const messages = msgsOnDisplay.map((msg, i) =>
             <MessageBubble 
                 key={msg._id} 
                 uid={uid} 
                 msg={msg}
-                lastMsg = {i === msgsOnDisplay.length-1}
                 handleScroll = {this.handleScroll}
                 showRead = {
                     i === msgsOnDisplay.length -1 ||
@@ -78,7 +108,7 @@ class Conversation extends Component{
             <div className ='convo'>
                 <header>
                     <div className ='chat-info'>
-                        <img src={loading} className='chat-pic' alt='chat pic'/>
+                        <img src={chatPics.length? chatPics[0]: loading} className='chat-pic' alt='chat pic'/>
                         <h2>
                             {memberNames}
                         </h2>

@@ -28,9 +28,14 @@ export const setMsgsOnDisplay = (chatId, uid) =>{
     return async (dispatch) => {
         let response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
         const messages = response.data;
+        const n = messages.length;
 
-        for(let i=0;i<messages.length;i++){
+        for(let i=0;i<n;i++){
             if(messages[i].readBy.includes(uid)){
+                continue;
+            }
+
+            else if(i !== n || messages[i].uid === messages[i+1].uid){
                 continue;
             }
 

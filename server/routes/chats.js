@@ -13,6 +13,33 @@ router.get('/user/:uid', async (req, res) =>{
     res.json(chats);
 });
 
+router.post('/photo', async (req, res) =>{
+    const {chatId, uid} = req.body;
+
+    const chat = await Chat.findOne({_id: chatId});
+    const {members} = chat;
+
+    if(members.length === 1){
+        res.json([uid]);
+    }
+
+    else{
+        const result = [];
+        const numUsers = (members.length === 2)? 1: 2
+    
+        for(let i=members.length-1, j=0;i>=0 && j<numUsers;i--){
+            if(members[i] === uid){
+                continue;
+            }
+    
+            result.push(members[i]);
+            j++;
+        }
+        
+        res.json(result);
+    }
+ });
+
 router.post('/create', async (req, res)=>{
     const {uid, recipients, content} = req.body;
 
