@@ -36,7 +36,9 @@ class MessageBubble extends Component{
                 readReceipts.push(URL.createObjectURL(file));
             }
     
-            this.setState({readReceipts}, ()=> this.props.handleScroll());
+            this.setState({readReceipts}, ()=>{
+                this.props.handleScroll();
+            });
         }   
     }
 

@@ -9,6 +9,7 @@ import {
     clearComposer,
     setMsgsOnDisplay,
     setDisplayedChatId,
+    clearChatOnDisplay,
     seeChats,
     readChat
 } from '../../store/actions/messagesActions';
@@ -89,6 +90,7 @@ class MessagesHome extends Component{
             readChat,
             setMsgsOnDisplay,
             setDisplayedChatId,
+            clearChatOnDisplay,
             updateRecipients, 
             clearComposer
         } = this.props;
@@ -152,6 +154,7 @@ class MessagesHome extends Component{
                                     msgsOnDisplay = {msgsOnDisplay}
                                     setDisplayedChatId = {setDisplayedChatId}
                                     setMsgsOnDisplay = {setMsgsOnDisplay}
+                                    clearChatOnDisplay = {clearChatOnDisplay}
                                 />)
                             }
 
@@ -187,6 +190,7 @@ const mapDispatchToProps = (dispatch) =>{
         clearComposer: () => {dispatch(clearComposer());},
         setMsgsOnDisplay: (chatId, uid) => {dispatch(setMsgsOnDisplay(chatId, uid));},
         setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));},
+        clearChatOnDisplay: () => {dispatch(clearChatOnDisplay());},
         seeChats: (uid) => {dispatch(seeChats(uid));},
         readChat: (chats, chatId, uid) => {dispatch(readChat(chats, chatId, uid));}
     }

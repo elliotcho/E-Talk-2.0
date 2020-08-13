@@ -51,6 +51,10 @@ class Conversation extends Component{
         this.chatBox.scrollTop = this.chatBox.scrollHeight;
     }
 
+    componentWillUnmount(){
+        this.props.clearChatOnDisplay();
+    }
+
     render(){
         const {uid, msgsOnDisplay} = this.props;
 
@@ -61,6 +65,7 @@ class Conversation extends Component{
                 key={msg._id} 
                 uid={uid} 
                 msg={msg}
+                lastMsg = {i === msgsOnDisplay.length-1}
                 handleScroll = {this.handleScroll}
                 showRead = {
                     i === msgsOnDisplay.length -1 ||

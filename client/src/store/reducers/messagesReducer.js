@@ -40,6 +40,12 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 displayedChatId: action.chatId
             }
+        case 'CLEAR_DISPLAYED_CHAT':
+            return{
+                ...state,
+                msgsOnDisplay: [],
+                displayedChatId: null
+            }
         case 'NEW_MESSAGE':
             if(state.displayedChatId === action.chatId){
                 return{

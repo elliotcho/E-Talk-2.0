@@ -39,6 +39,12 @@ export const setDisplayedChatId = (chatId) =>{
     }
 }
 
+export const clearChatOnDisplay = () => {
+    return (dispatch) =>{
+        dispatch({type: 'CLEAR_DISPLAYED_CHAT'});
+    }
+}
+
 export const handleNewMessage = (newMessage, chatId) =>{
     return (dispatch) => {
         dispatch({type: 'NEW_MESSAGE', chatId, newMessage});
