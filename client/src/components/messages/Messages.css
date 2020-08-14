@@ -145,15 +145,11 @@
     display: inline-block;
     border-radius: 50%;
     margin: auto 5px;
-    border: gray solid;
+    margin-left: 15px;
 }
 
 .convo .chat-pic.second-pic{
     margin-right: 32px;
-}
-
-.convo .chat-pic:last-child{
-    margin: auto 32px;
 }
 
 .convo .chat-info h2{
