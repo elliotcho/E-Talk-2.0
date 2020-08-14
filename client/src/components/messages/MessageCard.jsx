@@ -44,7 +44,7 @@ class MessageCard extends Component{
          response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
          let memberNames = response.data.memberNames;
  
-         if(memberNames > 20){
+         if(memberNames.length > 20){
              memberNames = memberNames.substring(0, 20) + "...";
          }
  
@@ -110,14 +110,16 @@ class MessageCard extends Component{
                     <div className ='card-header border-0'>
                         {
                             chatPics.length > 1? 
-                            ([<img key={0} src={chatPics[0]} alt='profile-pic' className='first-pic'/>,
-                            <img  key ={1} src={chatPics[1]} alt ='profile-pic' className='second-pic'/>]):
-                            (<img src={chatPics.length? chatPics[0]: loading} alt='profile-pic'/>)
+                            (<div className ='combined-img'>
+                                <img src={chatPics[0]} alt='profile-pic' className='first-pic'/>
+                                <img  src={chatPics[1]} alt ='profile-pic' className='second-pic'/>
+                            </div>)
+                            :(<img src={chatPics.length? chatPics[0]: loading} alt='profile-pic'/>)
                         }
                     </div>
                       
                    <div className ='card-block'>
-                        <h3>{memberNames}</h3>
+                        <h5>{memberNames}</h5>
                         
                         <p>
                             {

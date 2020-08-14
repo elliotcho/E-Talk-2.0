@@ -35,7 +35,7 @@ router.post('/photo', async (req, res) =>{
             result.push(members[i]);
             j++;
         }
-        
+         
         res.json(result);
     }
  });

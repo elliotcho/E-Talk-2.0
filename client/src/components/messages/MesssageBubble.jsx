@@ -61,7 +61,7 @@ class MessageBubble extends Component{
     
                         <div className = 'read mx-1 my-1'>
                             {readReceipts.map(imgURL =>
-                                <img src = {imgURL} alt ='profile pic'/>
+                                <img key={imgURL} src = {imgURL} alt ='profile pic'/>
                             )}
                         </div>
                     </div>

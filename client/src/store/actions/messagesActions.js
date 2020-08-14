@@ -35,10 +35,6 @@ export const setMsgsOnDisplay = (chatId, uid) =>{
                 continue;
             }
 
-            else if(i !== n || messages[i].uid === messages[i+1].uid){
-                continue;
-            }
-
             messages[i].readBy.push(uid);
         }
 
