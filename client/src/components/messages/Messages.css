@@ -99,27 +99,28 @@
     width: 75px;
     height: 75px;
     border-radius: 50%;
+    border: solid #8a8787;
 }
 
 .msg-card .combined-img{
    display: flex;
    flex-direction: column;
-   max-width: 75px;
-   margin-right: 5px;
+   width: 75px;
+   height: 75px;
+   position: relative;
+   bottom: 10px;
 }
 
 .msg-card .first-pic{
     width: 3rem;
     height: 3rem;
     margin-right: 2rem;
-    border: solid black;
 }
 
 .msg-card .second-pic{
     width: 3rem;
     height: 3rem;
     margin-left: 2rem;
-    border: solid black;
 }
 
 .convo{
@@ -143,6 +144,15 @@
     height: 50px;
     display: inline-block;
     border-radius: 50%;
+    margin: auto 5px;
+    border: gray solid;
+}
+
+.convo .chat-pic.second-pic{
+    margin-right: 32px;
+}
+
+.convo .chat-pic:last-child{
     margin: auto 32px;
 }
 
@@ -313,6 +323,10 @@
     .msg-card .card-block{
         display: block;
     }
+
+    .msg-card .combined-img{
+        bottom: 0;
+    }
 }
 
 @media screen and (min-width: 994px){
@@ -327,6 +341,16 @@
         margin-right: 1rem;
     }
 
+    .msg-card .card-block{
+        max-width: 200px;
+    }
+
+    .msg-card .combined-img{
+        bottom: 10px;
+    }
+}
+
+@media screen and (min-width: 1100px){
     .msg-card .card-block{
         max-width: 210px;
     }

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import loading from '../../images/loading.jpg';
 
 class MessageBubble extends Component{
@@ -9,6 +10,8 @@ class MessageBubble extends Component{
             ownerImgURL: null,
             readReceipts: []
         }
+
+        this.toProfile = this.toProfile.bind(this);
     }
 
     async componentDidMount(){
@@ -42,6 +45,11 @@ class MessageBubble extends Component{
         }   
     }
 
+    toProfile(){
+        const profileId = this.props.msg.uid;
+        this.props.history.push(`/profile/${profileId}/posts`);
+    }
+
     render(){
         const {msg, uid} = this.props;
 
@@ -52,7 +60,10 @@ class MessageBubble extends Component{
         return(
             <div className ='row no-gutters'>
                 <div className='msg-container'>
-                    {msgPosition === 'msg-l'? <img src = {ownerImgURL? ownerImgURL: loading} alt ='profile pic'/>: null}
+                    {msgPosition === 'msg-l'? 
+                        <img src = {ownerImgURL? ownerImgURL: loading} alt ='profile pic' onClick={this.toProfile}/>: 
+                        null
+                    }
 
                     <div className ={`msg ${msgPosition} my-1`}>
                         <div className='msg-content'>
@@ -66,11 +77,14 @@ class MessageBubble extends Component{
                         </div>
                     </div>
     
-                    {msgPosition === 'msg-r'? <img src = {ownerImgURL? ownerImgURL: loading} alt ='profile pic'/>: null}
+                    {msgPosition === 'msg-r'? 
+                        <img src = {ownerImgURL? ownerImgURL: loading} alt ='profile pic' onClick={this.toProfile}/>:
+                         null
+                    }
                 </div>
             </div>
         )
     }
 }
 
-export default MessageBubble;
+export default withRouter(MessageBubble);

@@ -108,10 +108,16 @@ class Conversation extends Component{
             <div className ='convo'>
                 <header>
                     <div className ='chat-info'>
-                        <img src={chatPics.length? chatPics[0]: loading} className='chat-pic' alt='chat pic'/>
-                        <h2>
-                            {memberNames}
-                        </h2>
+                        {chatPics.length > 1?
+                            ([
+                                <img key={0} src={chatPics[0]} alt='profile-pic' className='chat-pic'/>,
+                                <img  key={1} src={chatPics[1]} alt ='profile-pic' className='chat-pic second-pic'/>
+                            ])
+                            :(<img src={chatPics.length? chatPics[0]: loading} alt='profile-pic' className='chat-pic'/>)
+                        }
+
+
+                        <h2>{memberNames}</h2>
                     </div>
                 </header>
 
