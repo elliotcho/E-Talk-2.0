@@ -78,7 +78,12 @@ class CreateMessage extends Component{
     handleChange(e){
         const {chatId, uid, typingMsgs} = this.props;
 
-        if(e.target.value.trim() === ''){
+        if(e.target.value.includes('\n')){
+            this.myMessage.dispatchEvent(new Event('keydown'))
+            return;
+        }
+
+        if(e.target.value === ''){
             for(let i =0; i<typingMsgs.length;i++){
                 if(typingMsgs[i].typingId === uid){
                     typingMsgs.splice(i, 1);
@@ -115,7 +120,7 @@ class CreateMessage extends Component{
                         ref = {ele =>this.myMessage = ele}
                         placeholder ='Type a message...'
                         onChange = {this.handleChange}
-                        onKeyPress = {this.onKeyPress}
+                        onKeyDown = {this.pressEnter}
                     />
 
                     <label>
