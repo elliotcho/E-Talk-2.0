@@ -2,6 +2,14 @@ const {User, Message, Chat} = require('../dbschemas');
 
 const router = require('express').Router();
 
+router.get('/:chatId', async (req, res) =>{
+    const {chatId} = req.params;
+
+    const chat = await Chat.findOne({_id: chatId});
+
+    res.json(chat);
+});
+
 router.get('/user/:uid', async (req, res) =>{
     const {uid} = req.params;
 

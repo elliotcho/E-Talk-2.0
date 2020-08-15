@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import MessageBubble from './MesssageBubble';
+import TypingBubble from './TypingBubble';
 import loading from '../../images/loading.jpg';
 
 class Conversation extends Component{
@@ -87,7 +88,7 @@ class Conversation extends Component{
     }
 
     render(){
-        const {uid, msgsOnDisplay} = this.props;
+        const {uid, msgsOnDisplay, typingMsgs} = this.props;
 
         const {memberNames, chatPics} = this.state;
 
@@ -123,6 +124,15 @@ class Conversation extends Component{
 
                 <section className ='chat-box' ref = {ele => this.chatBox = ele}>
                     {messages}
+                    {typingMsgs.map(user =>
+                        <TypingBubble
+                            key = {user.typingId}
+                            typingId = {user.typingId}
+                            msg = {user.msg}
+                            handleScroll = {this.handleScroll}
+                            display = {user.typingId !== uid}
+                        />
+                    )}
                 </section>
             </div>
         )

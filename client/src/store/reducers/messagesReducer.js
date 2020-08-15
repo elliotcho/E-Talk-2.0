@@ -4,6 +4,7 @@ const initState = {
     composerResults: [],
     msgsOnDisplay: [],
     displayedChatId: null,
+    typingMsgs: [],
     unseenChats: 0
 }
 
@@ -70,6 +71,19 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 chats: [...action.chats]
             }
+        case 'IS_TYPING':
+            if(state.displayedChatId === action.chatId){
+                const {typingMsgs} = state;
+
+                const {typingId, msg} = action;
+
+                return{
+                    ...state,
+                    typingMsgs: [...typingMsgs, {typingId, msg}]
+                }
+            }
+
+            return state;
         default:
             return state;
     }

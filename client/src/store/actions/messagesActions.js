@@ -92,3 +92,14 @@ export const readChat = (chats, chatId, uid) =>{
         dispatch({type: 'READ_CHAT', chats});
     }
 }
+
+export const handleTyping = (chatId, typingId) =>{
+    return async (dispatch) =>{
+        const user = await axios.get(`http://localhost:5000/users/${typingId}`);
+        const {firstName, lastName} = user.data;
+        
+        const msg = `${firstName} ${lastName} is typing...`;
+
+        dispatch({type: 'IS_TYPING', chatId, msg, typingId});
+    }
+}

@@ -8,7 +8,8 @@ import {
   setUserChats, 
   setComposerResults,
   handleNewMessage,
-  getUnseenChats
+  getUnseenChats,
+  handleTyping
 } from './store/actions/messagesActions';
 
 import socket from 'socket.io-client';
@@ -42,7 +43,8 @@ class App extends Component{
         props.setComposerResults,
         props.setUserChats,
         props.handleNewMessage,
-        props.getUnseenChats
+        props.getUnseenChats,
+        props.handleTyping
       );
     }
 
@@ -90,7 +92,8 @@ const mapDispatchToProps = (dispatch) =>{
         setComposerResults: (results) => {dispatch(setComposerResults(results));},
         setUserChats: (chats) => {dispatch(setUserChats(chats));},
         handleNewMessage: (newMessage, chatId) => {dispatch(handleNewMessage(newMessage, chatId));},
-        getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));}
+        getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));},
+        handleTyping: (chatId, uid) => {dispatch(handleTyping(chatId, uid));}
     }
 }
 

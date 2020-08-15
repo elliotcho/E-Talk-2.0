@@ -10,7 +10,8 @@ export const handleSocketEvents =
      setComposerResults,
      setUserChats,
      handleNewMessage,
-     getUnseenChats
+     getUnseenChats,
+     handleTyping
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -76,5 +77,11 @@ export const handleSocketEvents =
 
         //reset message cards so that chat with chatId is now on top
         setUserChats(chats);
+    });
+
+    io.on('IS_TYPING', data =>{
+        const {chatId, uid} = data;
+
+        handleTyping(chatId, uid);
     });
 }

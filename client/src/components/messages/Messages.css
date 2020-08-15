@@ -173,12 +173,14 @@
     max-height: 70vh;
 }
 
-.convo .msg-container{
+.convo .msg-container,
+.typing-container{
     display: flex;
     width: 100%;
 }
 
-.convo .msg-container img{
+.convo .msg-container img,
+.typing-container img{
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
@@ -186,7 +188,7 @@
     cursor: pointer;
 }
 
-.convo .msg{
+.convo .msg, .typing-bubble{
     max-width: 400px;
     padding: 1rem 1.4rem;
     border-radius: 0.9rem;
@@ -217,6 +219,10 @@
 .convo .msg.msg-l{
     background: lightgray;
     margin-left: 2rem;
+    margin-right: auto;
+}
+
+.typing-bubble{
     margin-right: auto;
 }
 

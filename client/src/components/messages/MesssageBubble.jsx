@@ -66,7 +66,7 @@ class MessageBubble extends Component{
                     }
 
                     <div className ={`msg ${msgPosition} my-1`}>
-                        <div className='msg-content'>
+                        <div>
                             {msg.content}
                         </div>
     

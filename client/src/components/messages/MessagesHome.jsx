@@ -86,6 +86,7 @@ class MessagesHome extends Component{
             composerResults,
             displayedChatId,
             msgsOnDisplay,
+            typingMsgs,
             setUserChats,
             readChat,
             setMsgsOnDisplay,
@@ -155,6 +156,7 @@ class MessagesHome extends Component{
                                     setDisplayedChatId = {setDisplayedChatId}
                                     setMsgsOnDisplay = {setMsgsOnDisplay}
                                     clearChatOnDisplay = {clearChatOnDisplay}
+                                    typingMsgs = {typingMsgs}
                                 />)
                             }
 
@@ -163,6 +165,7 @@ class MessagesHome extends Component{
                                 recipients = {recipients}
                                 chatId = {chatId}
                                 setUserChats = {setUserChats}
+                                typingMsgs = {typingMsgs}
                             />
                         </div>
                     </div>
@@ -179,7 +182,8 @@ const mapStateToProps = (state) =>{
         composerResults: state.messages.composerResults,
         msgsOnDisplay: state.messages.msgsOnDisplay,
         displayedChatId: state.messages.displayedChatId,
-        unseenChats: state.messages.unseenChats
+        unseenChats: state.messages.unseenChats,
+        typingMsgs: state.messages.typingMsgs
     }
 }
 
