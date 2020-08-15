@@ -51,6 +51,10 @@ class Conversation extends Component{
 
         //logic for rendering a new chat
         if(prevProps.chatId !== chatId && chatId !== 'new'){
+
+            //clear the messages that shows that users are typing from the previous convo
+            this.props.clearTyping();
+
             //get and render messages
             this.props.setMsgsOnDisplay(chatId, uid);
             this.props.setDisplayedChatId(chatId);
@@ -84,6 +88,7 @@ class Conversation extends Component{
     }
 
     componentWillUnmount(){
+        this.props.clearTyping();
         this.props.clearChatOnDisplay();
     }
 

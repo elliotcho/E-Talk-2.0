@@ -11,7 +11,8 @@ export const handleSocketEvents =
      setUserChats,
      handleNewMessage,
      getUnseenChats,
-     handleTyping
+     handleTyping,
+     stopTyping
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -83,5 +84,11 @@ export const handleSocketEvents =
         const {chatId, uid} = data;
 
         handleTyping(chatId, uid);
+    });
+
+    io.on('STOP_TYPING', data =>{
+        const {chatId, typingMsgs} = data;
+
+        stopTyping(chatId, typingMsgs);
     });
 }

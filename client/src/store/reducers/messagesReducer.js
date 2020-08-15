@@ -84,6 +84,20 @@ const messagesReducer = (state = initState, action) =>{
             }
 
             return state;
+        case 'STOP_TYPING':
+            if(state.displayedChatId === action.chatId){
+                return{
+                    ...state,
+                    typingMsgs: [...action.typingMsgs]
+                }
+            }
+
+            return state;
+        case 'CLEAR_TYPING':
+            return{
+                ...state,
+                typingMsgs: []
+            }
         default:
             return state;
     }

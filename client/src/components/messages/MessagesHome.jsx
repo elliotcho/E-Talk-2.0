@@ -11,7 +11,8 @@ import {
     setDisplayedChatId,
     clearChatOnDisplay,
     seeChats,
-    readChat
+    readChat,
+    clearTyping
 } from '../../store/actions/messagesActions';
 
 //components
@@ -93,7 +94,8 @@ class MessagesHome extends Component{
             setDisplayedChatId,
             clearChatOnDisplay,
             updateRecipients, 
-            clearComposer
+            clearComposer,
+            clearTyping
         } = this.props;
 
         if(!uid){
@@ -157,6 +159,7 @@ class MessagesHome extends Component{
                                     setMsgsOnDisplay = {setMsgsOnDisplay}
                                     clearChatOnDisplay = {clearChatOnDisplay}
                                     typingMsgs = {typingMsgs}
+                                    clearTyping = {clearTyping}
                                 />)
                             }
 
@@ -196,7 +199,8 @@ const mapDispatchToProps = (dispatch) =>{
         setDisplayedChatId: (chatId, uid) => {dispatch(setDisplayedChatId(chatId, uid));},
         clearChatOnDisplay: () => {dispatch(clearChatOnDisplay());},
         seeChats: (uid) => {dispatch(seeChats(uid));},
-        readChat: (chats, chatId, uid) => {dispatch(readChat(chats, chatId, uid));}
+        readChat: (chats, chatId, uid) => {dispatch(readChat(chats, chatId, uid));},
+        clearTyping: () => {dispatch(clearTyping());}
     }
 }
 

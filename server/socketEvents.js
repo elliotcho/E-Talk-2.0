@@ -170,5 +170,21 @@ module.exports = (io) =>{
                 });
             }
         });
+
+        socket.on('STOP_TYPING', async data =>{
+            const {chatId, typingMsgs} = data;
+
+            const response = await axios.get(`http://localhost:5000/chats/${chatId}`);
+            const chat = response.data;
+            const {members} = chat;
+
+            for(let i=0;i<members.length;i++){
+                const id = members[i];
+ 
+                io.sockets.to(active[id]).emit('STOP_TYPING', {
+                    typingMsgs, chatId
+                });
+            }
+        });
     });
 }

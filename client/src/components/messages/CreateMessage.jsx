@@ -8,7 +8,7 @@ class CreateMessage extends Component{
         super();
         this.pressEnter = this.pressEnter.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.onKeyPress = this.onKeyPress.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     pressEnter(e){
@@ -75,8 +75,21 @@ class CreateMessage extends Component{
         this.myMessage.value="";
     }
 
-    onKeyPress(){
+    handleChange(e){
         const {chatId, uid, typingMsgs} = this.props;
+
+        if(e.target.value.trim() === ''){
+            for(let i =0; i<typingMsgs.length;i++){
+                if(typingMsgs[i].typingId === uid){
+                    typingMsgs.splice(i, 1);
+                    break;
+                }
+            }
+            
+            io.emit('STOP_TYPING', {chatId, typingMsgs});
+            
+            return;
+        }
 
         let found = false;
 
@@ -101,7 +114,7 @@ class CreateMessage extends Component{
                         rows ='1'
                         ref = {ele =>this.myMessage = ele}
                         placeholder ='Type a message...'
-                        onKeyDown = {this.pressEnter}
+                        onChange = {this.handleChange}
                         onKeyPress = {this.onKeyPress}
                     />
 

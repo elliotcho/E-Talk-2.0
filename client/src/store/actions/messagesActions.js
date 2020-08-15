@@ -103,3 +103,15 @@ export const handleTyping = (chatId, typingId) =>{
         dispatch({type: 'IS_TYPING', chatId, msg, typingId});
     }
 }
+
+export const stopTyping = (chatId, typingMsgs) =>{
+    return (dispatch) =>{
+        dispatch({type: 'STOP_TYPING', typingMsgs, chatId});
+    }
+}
+
+export const clearTyping = () =>{
+    return (dispatch) =>{
+        dispatch({type: 'CLEAR_TYPING'});
+    }
+}
