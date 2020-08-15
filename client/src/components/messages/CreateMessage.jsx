@@ -9,6 +9,7 @@ class CreateMessage extends Component{
         this.pressEnter = this.pressEnter.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleStopTyping = this.handleStopTyping.bind(this);
     }
 
     pressEnter(e){
@@ -69,6 +70,7 @@ class CreateMessage extends Component{
         }
         
         else{
+            this.handleStopTyping();
             io.emit('SEND_MESSAGE', {chatId, uid, content});
         }
 
@@ -84,15 +86,7 @@ class CreateMessage extends Component{
         }
 
         if(e.target.value === ''){
-            for(let i =0; i<typingMsgs.length;i++){
-                if(typingMsgs[i].typingId === uid){
-                    typingMsgs.splice(i, 1);
-                    break;
-                }
-            }
-            
-            io.emit('STOP_TYPING', {chatId, typingMsgs});
-            
+            this.handleStopTyping();
             return;
         }
 
@@ -108,6 +102,21 @@ class CreateMessage extends Component{
         if(chatId !== 'new' && !found){
             io.emit('IS_TYPING', {chatId, uid});
         }
+    }
+
+    handleStopTyping(){
+        const {typingMsgs, uid, chatId} = this.props;
+
+        for(let i =0; i<typingMsgs.length;i++){
+            if(typingMsgs[i].typingId === uid){
+                typingMsgs.splice(i, 1);
+                break;
+            }
+        }
+        
+        io.emit('STOP_TYPING', {chatId, typingMsgs});
+        
+        return;
     }
 
     render(){
