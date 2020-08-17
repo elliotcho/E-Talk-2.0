@@ -12,7 +12,7 @@ export const handleSocketEvents =
      handleNewMessage,
      getUnseenChats,
      handleTyping,
-     stopTyping
+     stopTyping,
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -74,7 +74,7 @@ export const handleSocketEvents =
         getUnseenChats(uid)
 
         //re render the convo to include the new message
-        handleNewMessage(newMessage, chatId);
+        handleNewMessage(newMessage, chatId, uid, io);
 
         //reset message cards so that chat with chatId is now on top
         setUserChats(chats);

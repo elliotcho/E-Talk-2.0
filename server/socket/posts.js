@@ -52,7 +52,7 @@ exports.addComment = async (data) =>{
         return [post.uid, post.content];
     }
     
-    else{
+    else{ 
         return [null, null];
     }
 }

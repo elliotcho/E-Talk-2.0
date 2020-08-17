@@ -25,6 +25,11 @@ router.post('/photo', async (req, res) =>{
     const {chatId, uid} = req.body;
 
     const chat = await Chat.findOne({_id: chatId});
+
+    if(chat === null){
+        res.json({msg: 'Chat not found'});
+    }
+
     const {members} = chat;
 
     if(members.length === 1){

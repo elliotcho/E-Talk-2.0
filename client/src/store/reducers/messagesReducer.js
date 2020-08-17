@@ -49,6 +49,10 @@ const messagesReducer = (state = initState, action) =>{
             }
         case 'NEW_MESSAGE':
             if(state.displayedChatId === action.chatId){
+                if(!action.newMessage.readBy.includes(action.uid)){
+                    action.newMessage.readBy.push(action.uid);
+                }
+
                 return{
                     ...state,
                     msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]

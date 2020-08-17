@@ -54,9 +54,9 @@ export const clearChatOnDisplay = () => {
     }
 }
 
-export const handleNewMessage = (newMessage, chatId) =>{
+export const handleNewMessage = (newMessage, chatId, uid,  io) =>{
     return (dispatch) => {
-        dispatch({type: 'NEW_MESSAGE', chatId, newMessage});
+        dispatch({type: 'NEW_MESSAGE', newMessage, chatId, uid, io});
     }
 }
 
@@ -76,7 +76,7 @@ export const seeChats = (uid) =>{
     }
 }
 
-export const readChat = (chats, chatId, uid) =>{
+export const readChat = (chats, chatId, uid, io) =>{
     return (dispatch) => {
         for(let i=0;i<chats.length;i++){
             if(chats[i]._id === chatId){

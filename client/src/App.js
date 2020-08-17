@@ -93,7 +93,7 @@ const mapDispatchToProps = (dispatch) =>{
         getUnreadNotifs: (uid)  => {dispatch(getUnreadNotifs(uid));},
         setComposerResults: (results) => {dispatch(setComposerResults(results));},
         setUserChats: (chats) => {dispatch(setUserChats(chats));},
-        handleNewMessage: (newMessage, chatId) => {dispatch(handleNewMessage(newMessage, chatId));},
+        handleNewMessage: (newMessage, chatId, uid, io) => {dispatch(handleNewMessage(newMessage, chatId, uid, io));},
         getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));},
         handleTyping: (chatId, uid) => {dispatch(handleTyping(chatId, uid));},
         stopTyping: (chatId, typingMsgs) => {dispatch(stopTyping(chatId, typingMsgs));}

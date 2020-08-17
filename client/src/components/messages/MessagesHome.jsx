@@ -21,7 +21,6 @@ import Conversation from './Conversation';
 import CreateMessage from './CreateMessage';
 import Composer from './Composer';
 import MessageCard from './MessageCard';
-
 import axios from 'axios';
 import './Messages.css';
 
@@ -199,7 +198,7 @@ const mapDispatchToProps = (dispatch) =>{
         setDisplayedChatId: (chatId, uid) => {dispatch(setDisplayedChatId(chatId, uid));},
         clearChatOnDisplay: () => {dispatch(clearChatOnDisplay());},
         seeChats: (uid) => {dispatch(seeChats(uid));},
-        readChat: (chats, chatId, uid) => {dispatch(readChat(chats, chatId, uid));},
+        readChat: (chats, chatId, uid, io) => {dispatch(readChat(chats, chatId, uid, io));},
         clearTyping: () => {dispatch(clearTyping());}
     }
 }

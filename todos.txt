@@ -1,9 +1,10 @@
 For next 2 hour session:
-[ ] Message page design
-[ ] Message to  person design
-[ ] Message to person backend
-[ ] Message form data backend
-
+[ ] Message auto read
+[ ] Send images 
+[ ] setInterval for stop typing?
+[ ] search messages
+[ ] limit chats you can have with 1 person
+ 
 Overall:
 [ ] Rework search bar backend
 
