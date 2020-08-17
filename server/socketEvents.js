@@ -186,5 +186,21 @@ module.exports = (io) =>{
                 });
             }
         });
+
+        socket.on('READ_RECEIPTS', async data =>{
+            const {chatId, messages} = data;
+
+            const response = await axios.get(`http://localhost:5000/chats/${chatId}`);
+            const chat = response.data;
+            const {members} = chat;
+
+            for(let i=0;i<members.length;i++){
+                const id = members[i];
+ 
+                io.sockets.to(active[id]).emit('READ_RECEIPTS', {
+                    messages, chatId
+                });
+            }
+        });
     });
 }

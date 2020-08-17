@@ -10,7 +10,8 @@ import {
   handleNewMessage,
   getUnseenChats,
   handleTyping,
-  stopTyping
+  stopTyping,
+  handleReadReceipts
 } from './store/actions/messagesActions';
 
 import socket from 'socket.io-client';
@@ -46,7 +47,8 @@ class App extends Component{
         props.handleNewMessage,
         props.getUnseenChats,
         props.handleTyping,
-        props.stopTyping
+        props.stopTyping,
+        props.handleReadReceipts
       );
     }
 
@@ -96,7 +98,8 @@ const mapDispatchToProps = (dispatch) =>{
         handleNewMessage: (newMessage, chatId, uid, io) => {dispatch(handleNewMessage(newMessage, chatId, uid, io));},
         getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));},
         handleTyping: (chatId, uid) => {dispatch(handleTyping(chatId, uid));},
-        stopTyping: (chatId, typingMsgs) => {dispatch(stopTyping(chatId, typingMsgs));}
+        stopTyping: (chatId, typingMsgs) => {dispatch(stopTyping(chatId, typingMsgs));},
+        handleReadReceipts: (chatId, messages) => {dispatch(handleReadReceipts(chatId, messages));}
     }
 }
 

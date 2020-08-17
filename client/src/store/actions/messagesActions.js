@@ -115,3 +115,9 @@ export const clearTyping = () =>{
         dispatch({type: 'CLEAR_TYPING'});
     }
 }
+
+export const handleReadReceipts = (chatId, messages) =>{
+    return (dispatch) =>{
+        dispatch({type: 'READ_RECEIPTS', chatId, messages});
+    }
+}

@@ -49,13 +49,22 @@ const messagesReducer = (state = initState, action) =>{
             }
         case 'NEW_MESSAGE':
             if(state.displayedChatId === action.chatId){
-                if(!action.newMessage.readBy.includes(action.uid)){
-                    action.newMessage.readBy.push(action.uid);
+                const {chatId, newMessage, uid, io} = action;
+
+                const {msgsOnDisplay} = state;
+
+                if(!newMessage.readBy.includes(uid)){
+                    newMessage.readBy.push(uid);
+
+                    io.emit('READ_RECEIPTS', {
+                        chatId, 
+                        messages: [...msgsOnDisplay, newMessage]
+                    });
                 }
 
                 return{
                     ...state,
-                    msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
+                    msgsOnDisplay: [...msgsOnDisplay, newMessage]
                 }
             }
             
@@ -102,6 +111,17 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 typingMsgs: []
             }
+        case 'READ_RECEIPTS':
+            if(state.displayedChatId === action.chatId){
+                const {messages} = action;
+
+                return{
+                    ...state,
+                    msgsOnDisplay: [...messages]
+                }
+            }
+
+            return state;
         default:
             return state;
     }

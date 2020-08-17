@@ -45,6 +45,30 @@ class MessageBubble extends Component{
         }   
     }
 
+    async componentDidUpdate(prevProps){
+        const {showRead} = this.props;
+        const {readBy, uid} = this.props.msg;
+
+        if(prevProps.msg.readBy.length < readBy.length && showRead){
+            const readReceipts = [];
+    
+            for(let i =0;i<readBy.length;i++){
+                if(readBy[i] === uid){
+                    continue;
+                }
+    
+                const response = await fetch(`http://localhost:5000/users/profilepic/${readBy[i]}`);
+                const file = await response.blob();
+    
+                readReceipts.push(URL.createObjectURL(file));
+            }
+    
+            this.setState({readReceipts}, ()=>{
+                this.props.handleScroll();
+            });
+        }
+    }
+
     toProfile(){
         const profileId = this.props.msg.uid;
         this.props.history.push(`/profile/${profileId}/posts`);
