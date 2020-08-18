@@ -1,5 +1,4 @@
 For next 2 hour session:
-[ ] Message auto read
 [ ] Send images 
 [ ] setInterval for stop typing?
 [ ] search messages

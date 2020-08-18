@@ -74,7 +74,11 @@ class FriendRequestToast extends Component{
                 
                 <div className ='col-7 mt-2'>
                     <strong>{firstName} {lastName}</strong>
-                    <span> {msg.length>30? msg: data.content}</span>
+                    <span> 
+                         {(!data.content || data.content.length>30)? 
+                            msg: data.content
+                         }
+                    </span>
                 </div>
             </div>
         )

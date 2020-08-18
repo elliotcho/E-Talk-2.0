@@ -18,7 +18,7 @@ exports.likePost = async (data) =>{
 
         await newNotification.save();
 
-        return [post.uid, post.content];
+        return [post.uid, ` ${newNotification.msg} ${post.content}`];
     }
 }
 
@@ -49,7 +49,7 @@ exports.addComment = async (data) =>{
 
         await newNotification.save();
 
-        return [post.uid, post.content];
+        return [post.uid, ` ${newNotification.msg} ${post.content}`];
     }
     
     else{ 

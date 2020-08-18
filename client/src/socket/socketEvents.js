@@ -21,7 +21,7 @@ export const handleSocketEvents =
 
         getUnreadRequests(uid);
 
-        toast.info(<Toast data={data} msg={'sent you a friend request!'}/>, {
+        toast.info(<Toast data={data} msg={' sent you a friend request!'}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false
         });
@@ -32,7 +32,7 @@ export const handleSocketEvents =
 
         getUnreadNotifs(uid);
 
-        toast.success(<Toast data={data} msg ={'accepted your friend request!'}/>, {
+        toast.success(<Toast data={data} msg ={' accepted your friend request!'}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false       
          });
@@ -43,7 +43,7 @@ export const handleSocketEvents =
 
         getUnreadNotifs(uid);
 
-        toast.error(<Toast data={data} msg={`liked your post: ${content.substring(0,30)}...`}/>, {
+        toast.error(<Toast data={data} msg={` liked your post: ${content.substring(0,30)}...`}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false
         });
@@ -54,7 +54,7 @@ export const handleSocketEvents =
 
         getUnreadNotifs(uid);
 
-        toast(<Toast data={data} msg={`commented on your: ${content.substring(0,30)}...`} color={'black'}/>, {
+        toast(<Toast data={data} msg={` commented on your: ${content.substring(0,30)}...`} color={'black'}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false
         });
