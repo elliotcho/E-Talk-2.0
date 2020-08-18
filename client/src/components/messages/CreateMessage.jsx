@@ -3,6 +3,8 @@ import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 import {io} from '../../App';
 
+const intervals = [];
+
 class CreateMessage extends Component{
     constructor(){
         super();
@@ -80,16 +82,38 @@ class CreateMessage extends Component{
     handleChange(e){
         const {chatId, uid, typingMsgs} = this.props;
 
+        //if the user presses enter
         if(e.target.value.includes('\n')){
             this.myMessage.dispatchEvent(new Event('keydown'))
             return;
         }
 
+        //if the output is blank stop typing
         if(e.target.value === ''){
             this.handleStopTyping();
             return;
         }
 
+        /*
+            If the msg doesn't change for 10 seconds,
+            stop showing that the user is typing
+        */
+        for(let i =0;i<intervals.length;i++){
+            clearInterval(intervals[i]);
+        }
+
+        const typingInterval = setInterval(() =>{
+            clearInterval(typingInterval);
+            this.handleStopTyping();
+        }, 10000);
+
+        intervals.push(typingInterval);
+
+
+        /*
+            check if we are already showing the user typing
+            if not show that the user is typing
+        */
         let found = false;
 
         for(let i=0;i<typingMsgs.length;i++){
@@ -100,17 +124,6 @@ class CreateMessage extends Component{
         }
 
         if(chatId !== 'new' && !found){
-            const prevMsg = this.myMessage.value;
-
-            const typingInterval = (prevMsg) => setInterval(() =>{
-                if(this.myMessage.value !== prevMsg){
-                    clearInterval(typingInterval);
-                    this.handleStopTyping();
-                }
-            }, 3000);
-
-            typingInterval(prevMsg);
-
             io.emit('IS_TYPING', {chatId, uid});
         }
     }
