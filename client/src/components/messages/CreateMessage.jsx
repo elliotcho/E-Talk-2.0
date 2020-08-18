@@ -100,6 +100,17 @@ class CreateMessage extends Component{
         }
 
         if(chatId !== 'new' && !found){
+            const prevMsg = this.myMessage.value;
+
+            const typingInterval = (prevMsg) => setInterval(() =>{
+                if(this.myMessage.value !== prevMsg){
+                    clearInterval(typingInterval);
+                    this.handleStopTyping();
+                }
+            }, 3000);
+
+            typingInterval(prevMsg);
+
             io.emit('IS_TYPING', {chatId, uid});
         }
     }
