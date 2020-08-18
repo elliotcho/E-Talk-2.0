@@ -1,8 +1,8 @@
 For next 2 hour session:
-[ ] Send images 
-[ ] setInterval for stop typing?
-[ ] search messages
 [ ] limit chats you can have with 1 person
+[ ] message button on profile
+[ ] Send images 
+[ ] search messages
  
 Overall:
 [ ] Rework search bar backend

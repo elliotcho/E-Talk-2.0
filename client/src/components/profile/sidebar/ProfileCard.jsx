@@ -14,7 +14,8 @@ class UserCard extends Component{
             status: 'Add Friend'
         }
 
-        this.handleClick = this.handleClick.bind(this);
+        this.changeFriendStatus = this.changeFriendStatus.bind(this);
+        this.messageUser = this.messageUser.bind(this);
     }
 
     componentDidMount(){
@@ -36,7 +37,7 @@ class UserCard extends Component{
         });
     }
 
-    handleClick(){
+    changeFriendStatus(){
         const {status} = this.state;
         
         const {firstName, lastName} = this.state;
@@ -72,6 +73,10 @@ class UserCard extends Component{
         }
     }
 
+    messageUser(){
+        this.props.history.push('/chat/new');
+    }
+
     render(){
         const {firstName, lastName, status} = this.state;
 
@@ -89,8 +94,13 @@ class UserCard extends Component{
 
                 {uid === profileId? null: 
                 (<section className='user-buttons'>
-                    <button className='btn btn-secondary btn-small' onClick = {this.handleClick}>{status}</button>
-                    <button className='btn btn-primary btn-small'>Message</button>
+                    <button className='btn btn-secondary btn-small' onClick = {this.changeFriendStatus}>
+                        {status}
+                    </button>
+                    
+                    <button className='btn btn-primary btn-small' onClick = {this.messageUser}>
+                        Message
+                    </button>
                 </section>)}
             </div>
         )
