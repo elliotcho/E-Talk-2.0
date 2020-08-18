@@ -89,7 +89,7 @@ export const readChat = (chats, chatId, uid, io) =>{
             }
         }
 
-        dispatch({type: 'READ_CHAT', chats});
+        dispatch({type: 'READ_CHAT', chats, chatId, uid, io});
     }
 }
 

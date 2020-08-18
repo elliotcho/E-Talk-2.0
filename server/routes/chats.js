@@ -30,26 +30,28 @@ router.post('/photo', async (req, res) =>{
         res.json({msg: 'Chat not found'});
     }
 
-    const {members} = chat;
-
-    if(members.length === 1){
-        res.json([uid]);
-    }
-
     else{
-        const result = [];
-        const numUsers = (members.length === 2)? 1: 2
-    
-        for(let i=members.length-1, j=0;i>=0 && j<numUsers;i--){
-            if(members[i] === uid){
-                continue;
-            }
-    
-            result.push(members[i]);
-            j++;
+        const {members} = chat;
+
+        if(members.length === 1){
+            res.json([uid]);
         }
-         
-        res.json(result);
+
+        else{
+            const result = [];
+            const numUsers = (members.length === 2)? 1: 2
+        
+            for(let i=members.length-1, j=0;i>=0 && j<numUsers;i--){
+                if(members[i] === uid){
+                    continue;
+                }
+        
+                result.push(members[i]);
+                j++;
+            }
+            
+            res.json(result);
+        }
     }
  });
 

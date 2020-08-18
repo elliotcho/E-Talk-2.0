@@ -24,6 +24,8 @@ import MessageCard from './MessageCard';
 import axios from 'axios';
 import './Messages.css';
 
+import {io} from '../../App';
+
 class MessagesHome extends Component{
     constructor(){
         super();
@@ -111,7 +113,7 @@ class MessagesHome extends Component{
                 uid={uid}
                 messages = {chat.messages}
                 timeOfLastMessage = {chat.timeOfLastMessage}
-                readChat = {() => {readChat(chats, chatId, uid)}}
+                readChat = {() => {readChat(chats, chatId, uid, io)}}
             />    
         );
 
