@@ -37,7 +37,6 @@ class NotifCard extends Component{
 
         if(postId){
             axios.get(`http://localhost:5000/posts/${postId}`).then(response =>{
-                console.log(response.data);
                 this.setState({content: response.data[0].content});
             });
         }

@@ -5,7 +5,9 @@ router.get('/:id', (req, res) =>{
     const {id} = req.params; 
 
     Post.findOne({_id: id}).then(result =>{
-        res.json([result]); 
+        if(result !== null){
+            res.json([result]); 
+        }
     }); 
 });  
  
