@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {updateRecipients} from '../../../store/actions/messagesActions';
 import ProfilePic from './ProfilePic';
 import {withRouter} from 'react-router-dom';
 import {io} from '../../../App';
 import axios from 'axios';
 
-class UserCard extends Component{
+class ProfileCard extends Component{
     constructor(){
         super();
 
@@ -73,7 +75,13 @@ class UserCard extends Component{
         }
     }
 
-    messageUser(){
+    async messageUser(){
+        const {firstName, lastName} = this.state;
+
+        const {profileId, updateRecipients} = this.props;
+
+        updateRecipients([{_id: profileId, firstName, lastName}]);
+
         this.props.history.push('/chat/new');
     }
 
@@ -107,4 +115,10 @@ class UserCard extends Component{
     }
 }
 
-export default withRouter(UserCard);
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        updateRecipients: (recipients) => {dispatch(updateRecipients(recipients));}
+    }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(ProfileCard));
