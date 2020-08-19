@@ -3,7 +3,7 @@ import axios from 'axios';
 import {withRouter} from 'react-router-dom';
 import {io} from '../../App';
 
-const intervals = [];
+let intervals = [];
 
 class CreateMessage extends Component{
     constructor(){
@@ -102,13 +102,14 @@ class CreateMessage extends Component{
             clearInterval(intervals[i]);
         }
 
+        intervals = [];
+
         const typingInterval = setInterval(() =>{
             clearInterval(typingInterval);
             this.handleStopTyping();
         }, 10000);
 
         intervals.push(typingInterval);
-
 
         /*
             check if we are already showing the user typing
