@@ -45,8 +45,12 @@ class MessagesHome extends Component{
         //the chat id in the route parameter
         const chatId = this.props.match.params.id;
 
-        if(chats.length !== 0 && chatId === 'new'){
+        if(chats.length !== 0 && chatId === 'home'){
             this.props.history.push(chats[0]._id);
+        }
+
+        else{
+            this.props.history.push('/chat/new');
         }
     }
 

@@ -55,10 +55,6 @@ class NavbarLinks extends Component{
             e.preventDefault();
             return;
         }
-
-        else{
-            this.props.history.push('/chat/new');
-        }
     }
 
     render(){
@@ -85,7 +81,7 @@ class NavbarLinks extends Component{
                     </div>)}
                 </Link>
                         
-                <Link onClick={this.toChats} to='/chat/new' className={`link ${msgIcon}`}>
+                <Link onClick={this.toChats} to='/chat/home' className={`link ${msgIcon}`}>
                     <i className='fas fa-comment mr-2'></i>
                     <span className='title'>Messages</span>
 

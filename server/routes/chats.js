@@ -5,9 +5,11 @@ const router = require('express').Router();
 router.get('/:chatId', async (req, res) =>{
     const {chatId} = req.params;
 
-    const chat = await Chat.findOne({_id: chatId});
+    if(chatId !== 'home' && chatId !== 'new'){
+        const chat = await Chat.findOne({_id: chatId});
 
-    res.json(chat);
+        res.json(chat);
+    }
 });
 
 router.get('/user/:uid', async (req, res) =>{
@@ -24,33 +26,35 @@ router.get('/user/:uid', async (req, res) =>{
 router.post('/photo', async (req, res) =>{
     const {chatId, uid} = req.body;
 
-    const chat = await Chat.findOne({_id: chatId});
+    if(chatId !== 'home' && chatId !== 'new'){
+        const chat = await Chat.findOne({_id: chatId});
 
-    if(chat === null){
-        res.json({msg: 'Chat not found'});
-    }
-
-    else{
-        const {members} = chat;
-
-        if(members.length === 1){
-            res.json([uid]);
+        if(chat === null){
+            res.json({msg: 'Chat not found'});
         }
-
+    
         else{
-            const result = [];
-            const numUsers = (members.length === 2)? 1: 2
-        
-            for(let i=members.length-1, j=0;i>=0 && j<numUsers;i--){
-                if(members[i] === uid){
-                    continue;
-                }
-        
-                result.push(members[i]);
-                j++;
+            const {members} = chat;
+    
+            if(members.length === 1){
+                res.json([uid]);
             }
+    
+            else{
+                const result = [];
+                const numUsers = (members.length === 2)? 1: 2
             
-            res.json(result);
+                for(let i=members.length-1, j=0;i>=0 && j<numUsers;i--){
+                    if(members[i] === uid){
+                        continue;
+                    }
+            
+                    result.push(members[i]);
+                    j++;
+                }
+                
+                res.json(result);
+            }
         }
     }
  });
@@ -98,58 +102,64 @@ router.post('/create', async (req, res)=>{
 router.get('/messages/:chatId', async (req, res) =>{
     const {chatId} = req.params;
 
-    const chat = await Chat.findOne({_id: chatId});
-    const {messages} = chat;
-
-    res.json(messages);
+    if(chatId !== 'home' && chatId !=='new'){
+        const chat = await Chat.findOne({_id: chatId});
+        const {messages} = chat;
+    
+        res.json(messages);
+    }
 });
 
 router.post('/messages/read', async (req, res) =>{
     const {chatId, uid} = req.body;
 
-    const chat = await Chat.findOne({_id: chatId});
-    const {messages} = chat;
-
-    for(let i=0;i<messages.length;i++){
-        if(messages[i].readBy.includes(uid)){
-            continue;
+    if(chatId !== 'home' && chatId !== 'new'){
+        const chat = await Chat.findOne({_id: chatId});
+        const {messages} = chat;
+    
+        for(let i=0;i<messages.length;i++){
+            if(messages[i].readBy.includes(uid)){
+                continue;
+            }
+    
+            messages[i].readBy.push(uid);
         }
-
-        messages[i].readBy.push(uid);
+    
+        await Chat.updateOne({_id: chatId}, {messages});
+    
+        res.json({msg: 'Success'});
     }
-
-    await Chat.updateOne({_id: chatId}, {messages});
-
-    res.json({msg: 'Success'});
 });
 
 router.post('/members', async (req, res) =>{
     const {uid, chatId} = req.body;
 
-    let result = '';
+    if(chatId !== 'home' && chatId !== 'new'){
+        let result = '';
 
-    const chat = await Chat.findOne({_id: chatId});
+        const chat = await Chat.findOne({_id: chatId});
 
-    if(chat !== null){
-        const members = chat.members;
+        if(chat !== null){
+            const members = chat.members;
 
-        members.splice(members.indexOf(uid), 1);
+            members.splice(members.indexOf(uid), 1);
     
-        for(let i=0;i<members.length;i++){
-            const user = await User.findOne({_id: members[i]});
+            for(let i=0;i<members.length;i++){
+                const user = await User.findOne({_id: members[i]});
     
-            let name = `${user.firstName} ${user.lastName}`;
+                let name = `${user.firstName} ${user.lastName}`;
     
-            if(i !== members.length-1){
-                result+=`${name}, `;
-            }
+                if(i !== members.length-1){
+                    result+=`${name}, `;
+                }
     
-            else{
-                result+=`${name}`
-            }
+                else{
+                    result+=`${name}`
+                }
+            } 
+    
+            res.json({memberNames: result});
         }
-    
-        res.json({memberNames: result});
     }
 });
 
