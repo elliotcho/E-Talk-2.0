@@ -91,6 +91,7 @@ class MessagesHome extends Component{
             displayedChatId,
             msgsOnDisplay,
             typingMsgs,
+            composerChatId,
             setUserChats,
             readChat,
             setMsgsOnDisplay,
@@ -189,7 +190,8 @@ const mapStateToProps = (state) =>{
         msgsOnDisplay: state.messages.msgsOnDisplay,
         displayedChatId: state.messages.displayedChatId,
         unseenChats: state.messages.unseenChats,
-        typingMsgs: state.messages.typingMsgs
+        typingMsgs: state.messages.typingMsgs,
+        composerChatId: state.messages.composerChatId
     }
 }
 

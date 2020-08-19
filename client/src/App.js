@@ -11,7 +11,8 @@ import {
   getUnseenChats,
   handleTyping,
   stopTyping,
-  handleReadReceipts
+  handleReadReceipts,
+  renderComposerChat
 } from './store/actions/messagesActions';
 
 import socket from 'socket.io-client';
@@ -48,7 +49,8 @@ class App extends Component{
         props.getUnseenChats,
         props.handleTyping,
         props.stopTyping,
-        props.handleReadReceipts
+        props.handleReadReceipts,
+        props.renderComposerChat
       );
     }
 
@@ -99,7 +101,8 @@ const mapDispatchToProps = (dispatch) =>{
         getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));},
         handleTyping: (chatId, uid) => {dispatch(handleTyping(chatId, uid));},
         stopTyping: (chatId, typingMsgs) => {dispatch(stopTyping(chatId, typingMsgs));},
-        handleReadReceipts: (chatId, messages) => {dispatch(handleReadReceipts(chatId, messages));}
+        handleReadReceipts: (chatId, messages) => {dispatch(handleReadReceipts(chatId, messages));},
+        renderComposerChat: (chatId) =>{dispatch(renderComposerChat(chatId))}
     }
 }
 

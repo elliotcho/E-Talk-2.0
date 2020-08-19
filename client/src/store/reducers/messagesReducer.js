@@ -5,7 +5,8 @@ const initState = {
     msgsOnDisplay: [],
     displayedChatId: null,
     typingMsgs: [],
-    unseenChats: 0
+    unseenChats: 0,
+    composerChatId: null
 }
 
 const messagesReducer = (state = initState, action) =>{
@@ -129,6 +130,12 @@ const messagesReducer = (state = initState, action) =>{
             }
 
             return state;
+        
+        case 'RENDER_COMPOSER_CHAT':
+            return{
+                ...state,
+                composerChatId: action.chatId
+            }
         default:
             return state;
     }

@@ -121,3 +121,9 @@ export const handleReadReceipts = (chatId, messages) =>{
         dispatch({type: 'READ_RECEIPTS', chatId, messages});
     }
 }
+
+export const renderComposerChat = (chatId) =>{
+  return (dispatch) =>{
+      dispatch({type: 'RENDER_COMPOSER_CHAT', chatId});
+  }
+}

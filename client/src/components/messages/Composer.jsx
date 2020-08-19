@@ -36,6 +36,13 @@ class Composer extends Component{
             name: ''
         });
 
+        if(recipients.length === 0){
+            io.emit('RENDER_COMPOSER_CHAT', {
+                members: [uid, user._id],
+                uid
+            });
+        }
+
         recipients.push(user);
         updateRecipients(recipients);
 

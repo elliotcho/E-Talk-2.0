@@ -62,12 +62,16 @@ router.post('/photo', async (req, res) =>{
 router.post('/create', async (req, res)=>{
     const {uid, recipients, content} = req.body;
 
-    const members = recipients.map(user =>
-        user._id
-    );
+    const members = recipients.map(user => user._id);
+    const chatKeys = [];
 
     if(!members.includes(uid)){
         members.push(uid);
+    }
+
+    if(members.length === 2){
+        chatKeys.push(members[0] + members[1]);
+        chatKeys.push(members[1] + members[0]);
     }
 
     const newChat = await new Chat({
@@ -75,7 +79,9 @@ router.post('/create', async (req, res)=>{
         createdAt: new Date(),
         createdBy: uid, 
         messages: [],
-        timeOfLastMessage: new Date()
+        timeOfLastMessage: new Date(),
+        chatKey1: chatKeys[0]? chatKeys[0]: null,
+        chatKey2: chatKeys[1]? chatKeys[1]: null
     }).save();
 
     const newMessage = new Message({

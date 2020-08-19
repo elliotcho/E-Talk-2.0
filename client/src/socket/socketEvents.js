@@ -13,7 +13,8 @@ export const handleSocketEvents =
      getUnseenChats,
      handleTyping,
      stopTyping,
-     handleReadReceipts
+     handleReadReceipts,
+     renderComposerChat
     ) =>{
     
     io.on('CHANGE_FRIEND_STATUS', data =>{
@@ -97,5 +98,11 @@ export const handleSocketEvents =
         const {chatId, messages} = data;
 
         handleReadReceipts(chatId, messages);
+    });
+
+    io.on('RENDER_COMPOSER_CHAT', data =>{
+        const {chatId} = data;
+
+        renderComposerChat(chatId);
     });
 }

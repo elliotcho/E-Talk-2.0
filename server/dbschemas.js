@@ -46,7 +46,9 @@ const ChatSchema = new Schema({
     createdAt: Date,
     createdBy: String,
     messages: [MessageSchema],
-    timeOfLastMessage: Date
+    timeOfLastMessage: Date,
+    chatKey1: String,
+    chatKey2: String
 });
 
 const UserSchema = new Schema({

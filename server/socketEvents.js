@@ -14,7 +14,8 @@ const {
 const {
     getRecipients,
     sendMessage, 
-    createChat
+    createChat,
+    renderChat
 } = require('./socket/chats');
 
 const axios = require('axios');
@@ -199,6 +200,18 @@ module.exports = (io) =>{
  
                 io.sockets.to(active[id]).emit('READ_RECEIPTS', {
                     messages, chatId
+                });
+            }
+        });
+
+        socket.on('RENDER_COMPOSER_CHAT', async data =>{
+            const chatId = await renderChat(data);
+            
+            const {uid} = data;
+
+            if(chatId){
+                io.sockets.to(active[uid]).emit('RENDER_COMPOSER_CHAT', {
+                    chatId
                 });
             }
         });
