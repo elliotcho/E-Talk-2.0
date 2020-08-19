@@ -3,6 +3,7 @@ For next 2 hour session:
 [ ] message button on profile
 [ ] Send images 
 [ ] search messages
+[ ] mount then new then msg card no msg renders
  
 Overall:
 [ ] Rework search bar backend

@@ -24,8 +24,6 @@ import MessageCard from './MessageCard';
 import axios from 'axios';
 import './Messages.css';
 
-import {io} from '../../App';
-
 class MessagesHome extends Component{
     constructor(){
         super();
@@ -113,7 +111,7 @@ class MessagesHome extends Component{
                 uid={uid}
                 messages = {chat.messages}
                 timeOfLastMessage = {chat.timeOfLastMessage}
-                readChat = {() => {readChat(chats, chatId, uid, io)}}
+                readChat = {() => {readChat(chats, chatId, uid)}}
             />    
         );
 
@@ -196,11 +194,11 @@ const mapDispatchToProps = (dispatch) =>{
         setUserChats: (chats) => {dispatch(setUserChats(chats))},
         updateRecipients: (recipients) => {dispatch(updateRecipients(recipients));},
         clearComposer: () => {dispatch(clearComposer());},
-        setMsgsOnDisplay: (chatId, uid) => {dispatch(setMsgsOnDisplay(chatId, uid));},
-        setDisplayedChatId: (chatId, uid) => {dispatch(setDisplayedChatId(chatId, uid));},
+        setMsgsOnDisplay: (chatId, uid, io) => {dispatch(setMsgsOnDisplay(chatId, uid, io));},
+        setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));},
         clearChatOnDisplay: () => {dispatch(clearChatOnDisplay());},
         seeChats: (uid) => {dispatch(seeChats(uid));},
-        readChat: (chats, chatId, uid, io) => {dispatch(readChat(chats, chatId, uid, io));},
+        readChat: (chats, chatId, uid) => {dispatch(readChat(chats, chatId, uid));},
         clearTyping: () => {dispatch(clearTyping());}
     }
 }

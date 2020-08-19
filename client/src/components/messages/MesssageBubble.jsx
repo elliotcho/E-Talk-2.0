@@ -74,6 +74,12 @@ class MessageBubble extends Component{
         this.props.history.push(`/profile/${profileId}/posts`);
     }
 
+    componentWillUnmount(){
+        this.setState = () =>{
+            return;
+        }
+    }
+
     render(){
         const {msg, uid} = this.props;
 

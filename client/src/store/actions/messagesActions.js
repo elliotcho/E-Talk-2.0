@@ -24,7 +24,7 @@ export const clearComposer = () =>{
     }
 }
 
-export const setMsgsOnDisplay = (chatId, uid) =>{
+export const setMsgsOnDisplay = (chatId, uid, io) =>{
     return async (dispatch) => {
         let response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
         const messages = response.data;
@@ -38,7 +38,7 @@ export const setMsgsOnDisplay = (chatId, uid) =>{
             messages[i].readBy.push(uid);
         }
 
-        dispatch({type: 'DISPLAY_MESSAGES', messages});
+        dispatch({type: 'DISPLAY_MESSAGES', messages, chatId, io});
     }
 }
 
@@ -54,7 +54,7 @@ export const clearChatOnDisplay = () => {
     }
 }
 
-export const handleNewMessage = (newMessage, chatId, uid,  io) =>{
+export const handleNewMessage = (newMessage, chatId, uid, io) =>{
     return (dispatch) => {
         dispatch({type: 'NEW_MESSAGE', newMessage, chatId, uid, io});
     }
@@ -76,7 +76,7 @@ export const seeChats = (uid) =>{
     }
 }
 
-export const readChat = (chats, chatId, uid, io) =>{
+export const readChat = (chats, chatId, uid) =>{
     return (dispatch) => {
         for(let i=0;i<chats.length;i++){
             if(chats[i]._id === chatId){
@@ -89,7 +89,7 @@ export const readChat = (chats, chatId, uid, io) =>{
             }
         }
 
-        dispatch({type: 'READ_CHAT', chats, chatId, uid, io});
+        dispatch({type: 'READ_CHAT', chats, chatId, uid});
     }
 }
 

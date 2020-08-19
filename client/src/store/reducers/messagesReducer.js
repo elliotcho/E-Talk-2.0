@@ -32,9 +32,16 @@ const messagesReducer = (state = initState, action) =>{
                 recipients: []
             }
         case 'DISPLAY_MESSAGES':
+            const {messages, chatId, io} = action;
+            
+            io.emit('READ_RECEIPTS', {
+                chatId, 
+                messages: [...messages]
+            });
+            
             return{
                 ...state,
-                msgsOnDisplay: [...action.messages]
+                msgsOnDisplay: [...messages]
             }
         case 'SET_CHAT_ID':
             return{
@@ -80,23 +87,6 @@ const messagesReducer = (state = initState, action) =>{
                 unseenChats: 0
             }
         case 'READ_CHAT':
-            if(state.displayedChatId === action.chatId){
-                const {chatId, uid, io} = action;
-
-                const {msgsOnDisplay} = state;
-
-                for(let i=0;i<msgsOnDisplay.length;i++){
-                    if(!msgsOnDisplay[i].readBy.includes(uid)){
-                        msgsOnDisplay[i].push(uid);
-                    }
-                }
-                
-                io.emit('READ_RECEIPTS', {
-                    chatId, 
-                    messages: [...msgsOnDisplay]
-                });
-            }
-            
             return{
                 ...state,
                 chats: [...action.chats]

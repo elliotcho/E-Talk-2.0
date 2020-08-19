@@ -4,6 +4,8 @@ import MessageBubble from './MesssageBubble';
 import TypingBubble from './TypingBubble';
 import loading from '../../images/loading.jpg';
 
+import {io} from '../../App';
+
 class Conversation extends Component{
     constructor(){
         super();
@@ -20,9 +22,9 @@ class Conversation extends Component{
         const {uid, chatId} = this.props;
 
         //get and render messages
-       this.props.setMsgsOnDisplay(chatId, uid);
        this.props.setDisplayedChatId(chatId);
-
+       this.props.setMsgsOnDisplay(chatId, uid, io);
+    
        //config for post requests
        const config = {headers: {'content-type': 'application/json'}};
 
@@ -56,7 +58,7 @@ class Conversation extends Component{
             this.props.clearTyping();
 
             //get and render messages
-            this.props.setMsgsOnDisplay(chatId, uid);
+            this.props.setMsgsOnDisplay(chatId, uid, io);
             this.props.setDisplayedChatId(chatId);
 
             //config for post requests
@@ -109,7 +111,7 @@ class Conversation extends Component{
                 }   
             />
         );
-      
+        
         return(
             <div className ='convo'>
                 <header>
