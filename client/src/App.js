@@ -54,13 +54,17 @@ class App extends Component{
       );
     }
 
-  
-    render(){
+    componentDidMount(){
         const {uid} = this.props;
 
         if(uid){
           io.emit('USER_AUTHENTICATED', {uid});
         }
+    }
+
+  
+    render(){
+        const {uid} = this.props;
 
         return(
             <BrowserRouter>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ComposerResult from './ComposerResult';
+//import Conversation from './Conversation';
 import {io} from '../../App';
 
 class Composer extends Component{
@@ -43,6 +44,10 @@ class Composer extends Component{
             });
         }
 
+        else{
+            this.props.clearComposerChat();
+        }
+
         recipients.push(user);
         updateRecipients(recipients);
 
@@ -50,16 +55,29 @@ class Composer extends Component{
     }
 
     deleteRecipient(e){
-        const {recipients, updateRecipients} = this.props;
+        const {uid, recipients, updateRecipients} = this.props;
+        
         const {query} = this.state;
 
         if(e.keyCode === 8 && recipients.length > 0 && query === ''){
+            if(recipients.length === 2){
+                io.emit('RENDER_COMPOSER_CHAT', {
+                    members: [uid, recipients[0]._id],
+                    uid
+                });
+            }
+
+            else{
+                this.props.clearComposerChat();
+            }
+
             recipients.pop();
             updateRecipients(recipients);
         }
     }
 
     componentWillUnmount(){
+        this.props.clearComposerChat();
         this.props.clearComposer();
     }
 
@@ -91,6 +109,18 @@ class Composer extends Component{
                         addRecipient = {this.addRecipient}
                     />
                 )}
+
+                {/*this.props.composerChatId? <Conversation
+                    uid = {this.props.uid}
+                    chatId = {this.props.composerChatId}
+                    displayedChatId = {this.props.displayedChatId}
+                    msgsOnDisplay = {this.props.msgsOnDisplay}
+                    typingMsgs = {this.props.typingMsgs}
+                    setDisplayedChatId = {this.props.setDisplayedChatId}
+                    setMsgsOnDisplay = {this.props.setMsgsOnDisplay}
+                    clearChatOnDisplay = {this.props.clearChatOnDisplay}
+                    clearTyping = {this.props.clearTyping}
+                />: null*/}
             </div>
         )
     }

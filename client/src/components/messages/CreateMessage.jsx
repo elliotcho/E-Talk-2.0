@@ -42,7 +42,7 @@ class CreateMessage extends Component{
     async handleSubmit(e){
         e.preventDefault();
 
-        const {uid, chatId, recipients} = this.props;
+        const {uid, chatId, composerChatId, recipients} = this.props;
         
         const content = this.myMessage.value;
 
@@ -50,7 +50,20 @@ class CreateMessage extends Component{
             return;
         }
 
-        if(chatId === 'new'){
+        if(composerChatId !== null){
+            this.handleStopTyping();
+            io.emit('SEND_MESSAGE', {chatId: composerChatId, uid, content});
+
+            const response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
+            const chats = response.data;
+
+            //update list of message cards
+            this.props.setUserChats(chats);
+
+            this.props.history.push(`/chat/${composerChatId}`);
+        }
+        
+        else if(chatId === 'new'){
             if(recipients.length === 0){
                 return;
             }

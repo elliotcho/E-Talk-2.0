@@ -7,12 +7,9 @@ import {
     setUserChats, 
     updateRecipients, 
     clearComposer,
-    setMsgsOnDisplay,
-    setDisplayedChatId,
-    clearChatOnDisplay,
     seeChats,
     readChat,
-    clearTyping
+    clearComposerChat
 } from '../../store/actions/messagesActions';
 
 //components
@@ -94,12 +91,9 @@ class MessagesHome extends Component{
             composerChatId,
             setUserChats,
             readChat,
-            setMsgsOnDisplay,
-            setDisplayedChatId,
-            clearChatOnDisplay,
             updateRecipients, 
             clearComposer,
-            clearTyping
+            clearComposerChat
         } = this.props;
 
         if(!uid){
@@ -151,19 +145,17 @@ class MessagesHome extends Component{
                                     uid = {uid}
                                     recipients= {recipients} 
                                     composerResults= {composerResults}
+                                    composerChatId = {composerChatId}
                                     updateRecipients = {updateRecipients}
                                     clearComposer = {clearComposer}
+                                    clearComposerChat = {clearComposerChat}
                                 />) 
                                 :(<Conversation 
                                     uid = {uid}
                                     chatId = {chatId}
                                     displayedChatId = {displayedChatId}
                                     msgsOnDisplay = {msgsOnDisplay}
-                                    setDisplayedChatId = {setDisplayedChatId}
-                                    setMsgsOnDisplay = {setMsgsOnDisplay}
-                                    clearChatOnDisplay = {clearChatOnDisplay}
                                     typingMsgs = {typingMsgs}
-                                    clearTyping = {clearTyping}
                                 />)
                             }
 
@@ -171,6 +163,7 @@ class MessagesHome extends Component{
                                 uid ={uid}
                                 recipients = {recipients}
                                 chatId = {chatId}
+                                composerChatId = {composerChatId}
                                 setUserChats = {setUserChats}
                                 typingMsgs = {typingMsgs}
                             />
@@ -200,12 +193,9 @@ const mapDispatchToProps = (dispatch) =>{
         setUserChats: (chats) => {dispatch(setUserChats(chats))},
         updateRecipients: (recipients) => {dispatch(updateRecipients(recipients));},
         clearComposer: () => {dispatch(clearComposer());},
-        setMsgsOnDisplay: (chatId, uid, io) => {dispatch(setMsgsOnDisplay(chatId, uid, io));},
-        setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));},
-        clearChatOnDisplay: () => {dispatch(clearChatOnDisplay());},
         seeChats: (uid) => {dispatch(seeChats(uid));},
         readChat: (chats, chatId, uid) => {dispatch(readChat(chats, chatId, uid));},
-        clearTyping: () => {dispatch(clearTyping());}
+        clearComposerChat: () => {dispatch(clearComposerChat());}
     }
 }
 

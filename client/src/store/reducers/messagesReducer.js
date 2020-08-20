@@ -136,6 +136,11 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 composerChatId: action.chatId
             }
+        case 'CLEAR_COMPOSER_CHAT':
+            return{
+                ...state,
+                composerChatId: null
+            }
         default:
             return state;
     }

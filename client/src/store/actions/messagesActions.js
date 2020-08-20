@@ -127,3 +127,9 @@ export const renderComposerChat = (chatId) =>{
       dispatch({type: 'RENDER_COMPOSER_CHAT', chatId});
   }
 }
+
+export const clearComposerChat = () =>{
+    return (dispatch) =>{
+        dispatch({type: 'CLEAR_COMPOSER_CHAT'});
+    }
+}

@@ -1,9 +1,18 @@
 import React, {Component} from 'react';
+
+import {connect} from 'react-redux';
+
+import {
+    setDisplayedChatId, 
+    setMsgsOnDisplay,
+    clearChatOnDisplay, 
+    clearTyping
+} from '../../store/actions/messagesActions';
+
 import axios from 'axios';
 import MessageBubble from './MesssageBubble';
 import TypingBubble from './TypingBubble';
 import loading from '../../images/loading.jpg';
-
 import {io} from '../../App';
 
 class Conversation extends Component{
@@ -146,4 +155,13 @@ class Conversation extends Component{
     }
 }
 
-export default Conversation;
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        setMsgsOnDisplay: (chatId, uid, io) => {dispatch(setMsgsOnDisplay(chatId, uid, io));},
+        setDisplayedChatId: (chatId) => {dispatch(setDisplayedChatId(chatId));},
+        clearChatOnDisplay: () => {dispatch(clearChatOnDisplay());},
+        clearTyping: () => {dispatch(clearTyping());}
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Conversation);
