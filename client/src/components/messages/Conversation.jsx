@@ -104,7 +104,7 @@ class Conversation extends Component{
     }
 
     render(){
-        const {uid, msgsOnDisplay, typingMsgs} = this.props;
+        const {uid, msgsOnDisplay, typingMsgs, isComposerChat} = this.props;
 
         const {memberNames, chatPics} = this.state;
 
@@ -116,14 +116,15 @@ class Conversation extends Component{
                 handleScroll = {this.handleScroll}
                 showRead = {
                     i === msgsOnDisplay.length -1 ||
-                    msgsOnDisplay[i].uid !== msgsOnDisplay[i+1].uid
+                    msgsOnDisplay[i].uid !== msgsOnDisplay[i+1].uid ||
+                    msgsOnDisplay[i].readBy.length !== msgsOnDisplay[i+1].readBy.length
                 }   
             />
         );
         
         return(
             <div className ='convo'>
-                <header>
+                {!isComposerChat? (<header>
                     <div className ='chat-info'>
                         {chatPics.length > 1?
                             ([
@@ -136,7 +137,7 @@ class Conversation extends Component{
 
                         <h2>{memberNames}</h2>
                     </div>
-                </header>
+                </header>): null}
 
                 <section className ='chat-box' ref = {ele => this.chatBox = ele}>
                     {messages}
@@ -155,6 +156,15 @@ class Conversation extends Component{
     }
 }
 
+const mapStateToProps = (state) =>{
+    return{
+        uid: state.auth.uid,
+        msgsOnDisplay: state.messages.msgsOnDisplay,
+        displayedChatId: state.messages.displayedChatId,
+        typingMsgs: state.messages.typingMsgs
+    }
+}
+
 const mapDispatchToProps = (dispatch) =>{
     return{
         setMsgsOnDisplay: (chatId, uid, io) => {dispatch(setMsgsOnDisplay(chatId, uid, io));},
@@ -164,4 +174,4 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
-export default connect(null, mapDispatchToProps)(Conversation);
+export default connect(mapStateToProps, mapDispatchToProps)(Conversation);

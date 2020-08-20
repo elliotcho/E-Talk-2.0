@@ -27,7 +27,7 @@ class MessageBubble extends Component{
         if(showRead){
             const {readBy} = this.props.msg;
             const readReceipts = [];
-    
+
             for(let i =0;i<readBy.length;i++){
                 if(readBy[i] === msg.uid){
                     continue;
@@ -35,7 +35,7 @@ class MessageBubble extends Component{
     
                 const response = await fetch(`http://localhost:5000/users/profilepic/${readBy[i]}`);
                 const file = await response.blob();
-    
+
                 readReceipts.push(URL.createObjectURL(file));
             }
     

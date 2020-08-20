@@ -1,6 +1,8 @@
 For next 2 hour session:
-[ ] limit chats you can have with 1 person
+[ ] optimize component did mount for convo
+[ ] redesigin recipients dropdown  
 [ ] message button on profile
+
 [ ] Send images 
 [ ] search messages
 

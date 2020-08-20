@@ -39,10 +39,7 @@ class MessagesHome extends Component{
         //mark all chats as seen
         seeChats(uid);
 
-        //the chat id in the route parameter
-        const chatId = this.props.match.params.id;
-
-        if(chats.length !== 0 && chatId === 'home'){
+        if(chats.length !== 0){
             this.props.history.push(chats[0]._id);
         }
 
@@ -85,8 +82,6 @@ class MessagesHome extends Component{
             chats, 
             recipients, 
             composerResults,
-            displayedChatId,
-            msgsOnDisplay,
             typingMsgs,
             composerChatId,
             setUserChats,
@@ -150,13 +145,7 @@ class MessagesHome extends Component{
                                     clearComposer = {clearComposer}
                                     clearComposerChat = {clearComposerChat}
                                 />) 
-                                :(<Conversation 
-                                    uid = {uid}
-                                    chatId = {chatId}
-                                    displayedChatId = {displayedChatId}
-                                    msgsOnDisplay = {msgsOnDisplay}
-                                    typingMsgs = {typingMsgs}
-                                />)
+                                :(<Conversation chatId = {chatId} isComposerChat={false}/>)
                             }
 
                             <CreateMessage 
@@ -180,8 +169,6 @@ const mapStateToProps = (state) =>{
         chats: state.messages.chats,
         recipients: state.messages.recipients,
         composerResults: state.messages.composerResults,
-        msgsOnDisplay: state.messages.msgsOnDisplay,
-        displayedChatId: state.messages.displayedChatId,
         unseenChats: state.messages.unseenChats,
         typingMsgs: state.messages.typingMsgs,
         composerChatId: state.messages.composerChatId

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ComposerResult from './ComposerResult';
-//import Conversation from './Conversation';
+import Conversation from './Conversation';
 import {io} from '../../App';
 
 class Composer extends Component{
@@ -82,7 +82,7 @@ class Composer extends Component{
     }
 
     render(){
-        const {composerResults, recipients} = this.props;
+        const {composerChatId, composerResults, recipients} = this.props;
 
         return(
             <div className='composer'>
@@ -110,17 +110,10 @@ class Composer extends Component{
                     />
                 )}
 
-                {/*this.props.composerChatId? <Conversation
-                    uid = {this.props.uid}
-                    chatId = {this.props.composerChatId}
-                    displayedChatId = {this.props.displayedChatId}
-                    msgsOnDisplay = {this.props.msgsOnDisplay}
-                    typingMsgs = {this.props.typingMsgs}
-                    setDisplayedChatId = {this.props.setDisplayedChatId}
-                    setMsgsOnDisplay = {this.props.setMsgsOnDisplay}
-                    clearChatOnDisplay = {this.props.clearChatOnDisplay}
-                    clearTyping = {this.props.clearTyping}
-                />: null*/}
+                {composerChatId? 
+                    <Conversation chatId = {composerChatId} isComposerChat = {true}/>: 
+                    null
+                }
             </div>
         )
     }
