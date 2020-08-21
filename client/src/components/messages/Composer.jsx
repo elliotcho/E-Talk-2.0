@@ -111,7 +111,9 @@ class Composer extends Component{
                 </div>
 
                 
-                {composerResults}
+                {<div style = {{position: 'absolute'}}>
+                    {composerResults}
+                </div>}
 
                 {composerChatId? 
                     <Conversation chatId = {composerChatId} isComposerChat = {true}/>: 

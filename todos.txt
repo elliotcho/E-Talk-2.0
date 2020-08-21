@@ -1,6 +1,4 @@
 For next 2 hour session:
-[ ] redesigin recipients dropdown  
-
 [ ] Send images 
 [ ] search messages
 
