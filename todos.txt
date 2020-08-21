@@ -1,5 +1,4 @@
 For next 2 hour session:
-[ ] optimize component did mount for convo
 [ ] redesigin recipients dropdown  
 [ ] message button on profile
 

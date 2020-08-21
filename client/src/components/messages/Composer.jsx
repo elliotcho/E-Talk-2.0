@@ -82,7 +82,15 @@ class Composer extends Component{
     }
 
     render(){
-        const {composerChatId, composerResults, recipients} = this.props;
+        const {composerChatId, recipients} = this.props;
+
+        const composerResults = this.props.composerResults.map(user =>
+            <ComposerResult 
+                key={user._id} 
+                user={user}
+                addRecipient = {this.addRecipient}
+            />
+        );
 
         return(
             <div className='composer'>
@@ -102,13 +110,8 @@ class Composer extends Component{
                     />
                 </div>
 
-                {composerResults.map(user =>
-                    <ComposerResult 
-                        key={user._id} 
-                        user={user}
-                        addRecipient = {this.addRecipient}
-                    />
-                )}
+                
+                {composerResults}
 
                 {composerChatId? 
                     <Conversation chatId = {composerChatId} isComposerChat = {true}/>: 

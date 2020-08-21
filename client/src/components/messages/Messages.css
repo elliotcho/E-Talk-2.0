@@ -287,16 +287,21 @@
     display: inline-block;
 }
 
+.user.composed-to-list{
+    position: absolute;
+}
+
 .user-composed-to{
-    max-width: 300px;
+    width: 300px;
     cursor: pointer;
     margin-left: 15px;
     border: solid black 1px;
     border-bottom: none;
+    border-top: none;
 }
 
 .user-composed-to:last-child{
-    border-bottom: solid black 1px;;
+    border-bottom: solid black 1px;
 }
 
 .user-composed-to:hover{
@@ -310,7 +315,7 @@
 
 .user-composed-to p{
     display: inline-block;
-    margin-left: 10px;
+    margin-left: 15px;
 }
 
 @media screen and (min-width:768px){

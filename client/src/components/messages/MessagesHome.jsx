@@ -39,7 +39,7 @@ class MessagesHome extends Component{
         //mark all chats as seen
         seeChats(uid);
 
-        if(chats.length !== 0){
+        if(chats.length !== 0 && this.props.match.params.id !== 'new'){
             this.props.history.push(chats[0]._id);
         }
 

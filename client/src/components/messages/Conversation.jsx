@@ -24,41 +24,33 @@ class Conversation extends Component{
             chatPics: []
         }
 
+        this.getChatPics = this.getChatPics.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
     }
 
     async componentDidMount(){
-        const {uid, chatId} = this.props;
+        const {uid, chatId, isComposerChat} = this.props;
 
         //get and render messages
        this.props.setDisplayedChatId(chatId);
        this.props.setMsgsOnDisplay(chatId, uid, io);
     
-       //config for post requests
-       const config = {headers: {'content-type': 'application/json'}};
+       if(!isComposerChat){
+            //config for post requests
+            const config = {headers: {'content-type': 'application/json'}};
 
-       //get chat photo
-       let response = await axios.post('http://localhost:5000/chats/photo', {uid, chatId}, config);
-       const usersInPic = response.data;
-       
-       let chatPics = [];
+            await this.getChatPics(config);
 
-       for(let i=0;i<usersInPic.length;i++){
-            response = await fetch(`http://localhost:5000/users/profilepic/${usersInPic[i]}`);
-            const file = await response.blob();
- 
-            chatPics.push(URL.createObjectURL(file));
+            //get member names
+            const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+            const memberNames = response.data.memberNames;
+
+            this.setState({memberNames});
        }
-
-        //get member names
-        response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
-        const memberNames = response.data.memberNames;
-
-        this.setState({memberNames, chatPics});
     }
 
     async componentDidUpdate(prevProps){
-        const {uid, chatId} = this.props;
+        const {uid, chatId, isComposerChat} = this.props;
 
         //logic for rendering a new chat
         if(prevProps.chatId !== chatId && chatId !== 'new'){
@@ -70,28 +62,38 @@ class Conversation extends Component{
             this.props.setMsgsOnDisplay(chatId, uid, io);
             this.props.setDisplayedChatId(chatId);
 
-            //config for post requests
-            const config = {headers: {'content-type': 'application/json'}};
+            if(!isComposerChat){
+                //config for post requests
+                const config = {headers: {'content-type': 'application/json'}};
 
-            //get chat photo
-            let response = await axios.post('http://localhost:5000/chats/photo', {uid, chatId}, config);
-            const usersInPic = response.data;
-       
-            let chatPics = [];
-
-            for(let i=0;i<usersInPic.length;i++){
-                response = await fetch(`http://localhost:5000/users/profilepic/${usersInPic[i]}`);
-                const file = await response.blob();
- 
-                chatPics.push(URL.createObjectURL(file));
-            }
+                await this.getChatPics(config);
             
-            //get member names
-            response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
-            const memberNames = response.data.memberNames;
+                //get member names
+                const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+                const memberNames = response.data.memberNames;
 
-            this.setState({memberNames, chatPics});
+                this.setState({memberNames});
+            }
         }
+    }
+
+    async getChatPics(config){
+          const {uid, chatId} = this.props;
+
+          //get chat photo
+          let response = await axios.post('http://localhost:5000/chats/photo', {uid, chatId}, config);
+          const usersInPic = response.data;
+     
+          let chatPics = [];
+
+          for(let i=0;i<usersInPic.length;i++){
+              response = await fetch(`http://localhost:5000/users/profilepic/${usersInPic[i]}`);
+              const file = await response.blob();
+
+              chatPics.push(URL.createObjectURL(file));
+          }
+
+          this.setState({chatPics});
     }
 
     handleScroll(){
