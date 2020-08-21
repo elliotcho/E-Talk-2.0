@@ -1,5 +1,7 @@
 const {User, Chat, Message} = require('../dbschemas');
 
+const axios = require('axios');
+
 exports.getRecipients = async (data) =>{
     const {uid, name, recipients} = data;
 
@@ -83,23 +85,12 @@ exports.sendMessage = async (data) =>{
 exports.renderChat = async (data) =>{
     const {members} = data;
 
-    const key1 = members[0] + members[1];
-    const key2 = members[1] + members[0];
+    const config = {headers: {'content-type': 'application/json'}};
 
-    let chat = await Chat.findOne({chatKey1: key1}) !== null? 
-               await Chat.findOne({chatKey1: key1}) :
+    const response = await axios.post('http://localhost:5000/chats/exists', {members}, config);
+    const {chat} = response.data;
 
-               await Chat.findOne({chatKey2: key1}) !== null?
-               await Chat.findOne({chatKey2: key1}) :
-
-               await Chat.findOne({chatKey1: key2}) !== null?
-               await Chat.findOne({chatKey1: key2}) : 
-               
-               await Chat.findOne({chatKey2: key2}) !== null?
-               await Chat.findOne({chatKey2: key2}) :
-               null;
-
-    if(chat === null){
+    if(!chat){
         return false;
     }
 

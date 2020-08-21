@@ -77,12 +77,21 @@ class ProfileCard extends Component{
 
     async messageUser(){
         const {firstName, lastName} = this.state;
+        const {uid, profileId, updateRecipients} = this.props;
 
-        const {profileId, updateRecipients} = this.props;
+        const config = {headers: {'content-type': 'application/json'}};
 
-        updateRecipients([{_id: profileId, firstName, lastName}]);
+        const response = await axios.post('http://localhost:5000/chats/exists', {members: [uid, profileId]}, config);
+        const {chat} = response.data;
 
-        this.props.history.push('/chat/new');
+        if(chat){
+            this.props.history.push(`/chat/${chat._id}`);
+        }
+
+        else{
+            updateRecipients([{_id: profileId, firstName, lastName}]);
+            this.props.history.push('/chat/new');
+        }
     }
 
     render(){
