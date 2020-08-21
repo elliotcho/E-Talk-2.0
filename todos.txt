@@ -1,6 +1,5 @@
 For next 2 hour session:
 [ ] redesigin recipients dropdown  
-[ ] message button on profile
 
 [ ] Send images 
 [ ] search messages

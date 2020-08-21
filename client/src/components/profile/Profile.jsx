@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {changeQueryToProfile} from '../../store/actions/searchActions';
+import {changeQueryToProfile, clearQuery} from '../../store/actions/searchActions';
 import ProfileSidebar from './sidebar/ProfileSidebar';
 import PostList from '../posts/PostList';
 import ProfileBio from './content/ProfileBio';
@@ -25,6 +25,10 @@ class Profile extends Component{
         }
         
         window.scrollTo(0, 0);
+    }
+
+    componentWillUnmount(){
+        this.props.clearQuery();
     }
 
     render(){
@@ -55,7 +59,8 @@ class Profile extends Component{
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        changeQueryToProfile: (profileId) =>{dispatch(changeQueryToProfile(profileId));}
+        changeQueryToProfile: (profileId) =>{dispatch(changeQueryToProfile(profileId));},
+        clearQuery: () => {dispatch(clearQuery());}
     }
 }
 
