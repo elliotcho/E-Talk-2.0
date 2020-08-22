@@ -1,4 +1,4 @@
-const {User, Post, Comment} = require('../dbschemas');
+const {User, Notification, Post, Comment} = require('../dbschemas');
 const router = require('express').Router();
 
 router.get('/:id', (req, res) =>{
@@ -11,10 +11,13 @@ router.get('/:id', (req, res) =>{
     }); 
 });  
  
-router.delete('/:id', (req, res) =>{
-    Post.deleteOne({_id: req.params.id}).then(()=>{
-        res.json("Success"); 
-    });
+router.delete('/:id', async (req, res) =>{
+    const {id} = req.params;
+
+    await Post.deleteOne({_id: id});
+    await Notification.deleteMany({postId: id});
+
+    res.json({msg: "Success"});
 }); 
   
 router.post('/', (req, res) =>{   

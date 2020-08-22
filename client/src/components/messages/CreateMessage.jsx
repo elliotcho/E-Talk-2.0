@@ -8,10 +8,17 @@ let intervals = [];
 class CreateMessage extends Component{
     constructor(){
         super();
+
+        this.state = {
+            photo: []
+        }
+
         this.pressEnter = this.pressEnter.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleStopTyping = this.handleStopTyping.bind(this);
+        this.attachPhoto = this.attachPhoto.bind(this);
+        this.removePhoto = this.removePhoto.bind(this);
     }
 
     pressEnter(e){
@@ -157,9 +164,28 @@ class CreateMessage extends Component{
         return;
     }
 
+    attachPhoto(e){
+        this.setState({photo: e.target.files});
+    }    
+
+    removePhoto(){
+        document.getElementById('msgPic').value = "";
+        this.setState({photo: []});
+    }
+
     render(){
+        const {photo} = this.state;
+
         return(
             <div className ='create-msg'>
+                {photo.length !== 0?
+                    (<div className = 'photo-block text-white d-inline-block'>
+                        {photo[0].name}
+                        <i className = 'fas fa-times' onClick={this.removePhoto}/>
+                    </div>)
+                    :null
+                }
+
                 <form ref = {ele => this.myMessageForm = ele} onSubmit = {this.handleSubmit}>
                     <textarea
                         className ='form-control'
@@ -170,9 +196,15 @@ class CreateMessage extends Component{
                         onKeyDown = {this.pressEnter}
                     />
 
-                    <label>
+                    <label htmlFor = 'msgPic'>
                         <i className ='fas fa-file-image'/>
                     </label>
+
+                    <input type = 'file'
+                           id = 'msgPic'
+                           accept = 'jpg jpeg png'
+                           onChange = {this.attachPhoto}
+                    />
                 </form>
             </div>
         )

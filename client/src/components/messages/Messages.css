@@ -235,6 +235,17 @@
    font-family: 'Tahoma';
 }
 
+.create-msg .photo-block{
+    cursor: pointer;
+    background: blue;
+    padding: 0 10px;
+}
+
+.create-msg .photo-block i{
+    position: relative;
+    left: 5px;
+}
+
 .create-msg textarea{
     position: relative;
     top: 10px;
@@ -257,6 +268,11 @@
 
 .create-msg label:hover{
     color: white;
+}
+
+.create-msg input{
+    height: 0;
+    width: 0;
 }
 
 .messages .composer{
