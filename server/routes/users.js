@@ -9,143 +9,144 @@ const {
     upload
 } = require('../app.js');
 
-router.post('/login', (req, res) =>{
+router.post('/login', async (req, res) =>{
     const {email, password} = req.body;
-    
-    User.findOne({email}).then(result =>{
-        if(result === null || password !== result.password){
-            res.json({msg: "Email or password is incorrect"});
-        }
 
-        else{
-            res.json({msg: "Success", ...result})
-        }
-    });
+    const user = await User.findOne({email});
+
+    if(user === null || user.password !== password){
+        res.json({msg: "Email or password is incorrect"});
+    }
+
+    else{
+        res.json({msg: "Success", ...user});
+    }
 });
 
-router.post('/signup', (req, res)=>{
-    const {firstName, lastName, email, password, confirmPassword} = req.body;
+router.post('/signup', async (req, res)=>{
+    const {
+        firstName, 
+        lastName, 
+        email, 
+        password, 
+        confirmPassword
+    } = req.body;
 
     if(password !== confirmPassword){
         res.json({msg: 'Passwords do not match'});
     }
 
     else{
-        User.findOne({email}).then(result =>{
-            if(result!==null){
-                res.json({msg: 'Email is already taken by another user'});
-            }
+        const user = await User.findOne({email});
 
-            else{
-                const newUser = new User({
-                    firstName, lastName, email, password,
-                    createdAt: new Date(),
-                    profilePic: null,
-                    friends: [],
-                    chats: []
-                });
+        if(user !== null){
+            res.json({msg: 'Email is already taken by another user'});
+        }
 
-                newUser.save().then(user =>{
-                    res.json({msg: 'Success', ...user});
-                });
-            }
-        });
+        else{
+            const newUser = new User({
+                firstName, 
+                lastName, 
+                email, 
+                password,
+                createdAt: new Date(),
+                profilePic: null,
+                friends: [], 
+                chats: []
+            });
+
+            const user = await newUser.save();
+
+            res.json({msg: 'Success', ...user});
+        }
     }
 });
 
-router.get('/:uid', (req, res) =>{
-    User.findOne({_id: req.params.uid}).then(result =>{
-        res.json({
-            firstName: result.firstName,
-            lastName: result.lastName
-        });
+router.get('/:uid', async (req, res) =>{
+    const user = await User.findOne({_id: req.params.uid});
+
+    const {firstName, lastName} = user;
+
+    res.json({
+        firstName, 
+        lastName
     });
 });
 
 router.post('/profilepic', (req, res) =>{
-    upload(req ,res , err => {
+    upload(req ,res , async err => {
         if(err){
             console.log(err);
         }
 
-        User.findOne({_id: req.body.uid}).then(result => {
-            if(result.profilePic !== null){
-                fs.unlink(path.join(__dirname, '../', `images/${result.profilePic}`), err =>{
-                    if(err){
-                        console.log(err);
-                    }
-                });
-            }
+        const {uid} = req.body;
 
-            User.updateOne({_id: req.body.uid}, {profilePic: req.file.filename}).then(() =>{
-                res.json({msg: 'Success'});
-            });
-        });
-    });
-});
+        const user = await User.findOne({_id: uid});
 
-router.get('/profilepic/:uid', (req, res)=>{
-    User.findOne({_id: req.params.uid}).then(result =>{
-        if(result.profilePic === null){
-            res.sendFile(path.join(__dirname, '../', `images/avatar.jpg`));
-        }
-
-        else{
-            res.sendFile(path.join(__dirname, '../', `images/${result.profilePic}`));
-        }
-    });
-});
-
-router.get('/search/:name', (req, res) =>{
-   let {name} = req.params;
-
-   let listOfNames = [];
-
-   if(name.includes(" ")){
-       split = name.split(" ");
-
-       split.forEach(word =>{
-           listOfNames.push(word.toLowerCase());
-        });
-   }
-
-   else{
-       listOfNames.push(name.toLowerCase());
-   }
-
-   User.find({}).then(result =>{
-        const users = [];
-
-        for(let i = 0; i < result.length; i++){
-            let fName = result[i].firstName.toLowerCase();
-            let lName = result[i].lastName.toLowerCase();
-
-            let userNames = `${fName} ${lName}`.split(" ");
-
-            for(let j=0;j<userNames.length;j++){
-                let found = false;
-
-                for(let k = 0; k < listOfNames.length; k++){
-                    if(userNames[j].startsWith(listOfNames[k])){
-                        if(j == 0){
-                            users.unshift(result[i]);
-                        }
-
-                        else{
-                            users.push(result[i]);
-                        }
-
-                        found = true;
-                        break;
-                    }
+        if(user.profilePic !== null){
+            fs.unlink(path.join(__dirname, '../', `images/${user.profilePic}`), err =>{
+                if(err){
+                    console.log(err);
                 }
-
-                if(found){break;}
-            }
+            });
+            
+            await User.updateOne({_id: uid}, {profilePic: req.file.filename});
         }
 
-        res.json({users});
-   });
+        res.json({msg: 'Success'});
+    });
+});
+
+router.get('/profilepic/:uid', async (req, res)=>{
+    const user = await User.findOne({_id: req.params.uid});
+
+    if(user.profilePic === null){
+        res.sendFile(path.join(__dirname, '../', `images/avatar.jpg`));
+    }
+
+    else{
+        res.sendFile(path.join(__dirname, '../', `images/${user.profilePic}`));
+    }
+});
+
+router.post('/search', async (req, res) =>{
+   let {query, uid} = req.body;
+  
+   query = query.split(" ").join("").toLowerCase();
+
+   const user = await User.findOne({_id: uid});
+   const friends = await User.find({_id: {$in: user.friends}});
+
+   const result = [];
+   const seen = {};
+
+   for(let i=0, j=0; i<friends && j<12; i++){
+       let friendFirstName = friends[i].firstName.split(" ").join("").toLowerCase();
+       let friendLastName = friends[i].lastName.split(" ").join("").toLowerCase();
+
+       if((friendFirstName + friendFirstName).startsWith(query)){
+           seen[friends[i]._id] = true;
+           
+           result.push(friends[i]);
+           
+           j++;
+       }
+   }
+
+    //improve search algorithm
+    const users = await User.find({});
+
+    for(let i=0, j=0;i<users.length && j<12;i++){
+        let userFirstName = users[i].firstName.split(" ").join("").toLowerCase();
+        let userLastName = users[i].lastName.split(" ").join("").toLowerCase();
+   
+        if((userFirstName+userLastName).startsWith(query) && !seen[users[i]._id]){
+            result.push(users[i]);
+            j++;
+        }
+    }
+
+    res.json(result);
 });
 
 module.exports = router;

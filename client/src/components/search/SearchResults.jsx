@@ -8,9 +8,10 @@ import './SearchResults.css';
 class SearchResults extends Component{
     componentDidMount(){
         const {query} = this.props.match.params;
+        const {uid} = this.props;
 
         this.props.saveQuery(query);
-        this.props.applySearch(query);
+        this.props.applySearch(query, uid);
     }
 
     componentWillUpdate(prevProps){
@@ -53,7 +54,7 @@ const mapStateToProps = (state) =>{
 const mapDispatchToProps = (dispatch) =>{
     return {
         saveQuery: (query) => {dispatch(saveQuery(query));},
-        applySearch: (query) => {dispatch(applySearch(query));}
+        applySearch: (query, uid) => {dispatch(applySearch(query, uid));}
     }
 }
 

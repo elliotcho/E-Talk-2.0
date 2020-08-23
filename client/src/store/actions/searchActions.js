@@ -25,14 +25,13 @@ export const clearQuery = () =>{
     }
 }
 
-export const applySearch = (query) =>{
+export const applySearch = (query, uid) =>{
     return (dispatch) =>{
-        axios.get(`http://localhost:5000/users/search/${query}`).then(response =>{
-            const {
-                users
-            } = response.data;
+        const config = {headers: {'content-type': 'application/json'}};
 
-            dispatch({type: "SEARCH_APPLIED", results: users});
+        axios.post('http://localhost:5000/users/search', {query, uid}, config).then(response =>{
+            const results = response.data;
+            dispatch({type: "SEARCH_APPLIED", results});
         });
     }
 }
