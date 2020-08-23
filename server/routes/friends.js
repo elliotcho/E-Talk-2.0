@@ -2,65 +2,63 @@ const {User, FriendRequest} = require('../dbschemas');
 
 const router = require('express').Router();
 
-router.get('/:profileId', (req, res) =>{
+router.get('/:profileId', async (req, res) =>{
     const {profileId} = req.params;
 
-    User.findOne({_id: profileId}).then(user =>{
-        User.find({_id: {$in: user.friends}}).then(result =>{
-            result.sort((a, b) => 
-                a.firstName === b.firstName?
-                a.lastName - b.lastName:
-                a.firstName - b.firstName
-            );
-            
-            res.json(result);
-        });
-    });
+    const user = await User.findOne({_id: profileId});
+    const friends = await User.find({_id: {$in: user.friends}});
+
+    friends.sort((a, b) => a.firstName === b.firstName? 
+        a.lastName - b.lastName: 
+        a.firstName - b.firstName
+    );
+
+    res.json(friends);
 });
 
-router.post('/status', (req, res)=>{
+router.post('/status', async (req, res)=>{
     const {senderId, receiverId} = req.body;
 
-    FriendRequest.findOne({senderId, receiverId}).then(result=>{
-        if(result !== null){
-            res.json({status: "Pending"});
+    const fr = await FriendRequest.findOne({senderId, receiverId});
+
+    if(fr !== null){
+        res.json({status: 'Pending'});
+    }
+
+    else{
+        const user = await User.findOne({_id: receiverId});
+
+        if(user.friends.includes(senderId)){
+            res.json({status: 'Friends'});
         }
 
         else{
-            User.findOne({_id: receiverId}).then(user =>{
-                if(user.friends.includes(senderId)){
-                    res.json({status: "Friends"});
-                }
-    
-                else{
-                    res.json({status: "Add Friend"});
-                }
-            });
+            res.json({status: 'Add Friend'});
         }
-    });
+    }
 });
 
-router.get('/unreadrequests/:uid',  (req, res) =>{
+router.get('/unreadrequests/:uid',  async (req, res) =>{
     const {uid} = req.params;
 
-    FriendRequest.find({receiverId: uid}).then(result =>{
-        const requests = result.filter(request =>{
-            return request.seen === false
-        });
+    const fr = await FriendRequest.find({receiverId: uid});
 
-        res.json({unreadRequests: requests.length});
-    });
+    const requests = fr.filter(request =>
+        request.seen === false
+    );
+
+    res.json({unreadRequests: requests.length});
 });
 
-router.put('/readrequests/:uid', (req, res) =>{
+router.put('/readrequests/:uid', async (req, res) =>{
     const {uid} = req.params;
 
-    FriendRequest.updateMany({receiverId: uid}, {seen: true}).then(() =>{
-        FriendRequest.find({receiverId: uid}).then(result =>{
-            result.sort((a, b) => b.date - a.date);
-            res.json(result);
-        });
-    });
+    await FriendRequest.updateMany({receiverId: uid}, {seen: true});
+
+    const requests = await FriendRequest.find({receiverId: uid});
+    requests.sort((a, b) => b.date - a.date);
+
+    res.json(requests);
 });
 
 module.exports = router; 

@@ -20,6 +20,10 @@ exports.likePost = async (data) =>{
 
         return [post.uid, ` ${newNotification.msg} ${post.content}`];
     }
+
+    else{
+        return [null, null];
+    }
 }
 
 exports.unlikePost = async (data) =>{
@@ -36,7 +40,7 @@ exports.addComment = async (data) =>{
 
     const post = await Post.findOne({_id: postId});
 
-    if(post!==null && post.uid!== senderId){
+    if(post !== null && post.uid !== senderId){
         const newNotification = new Notification({
             receiverId: post.uid, 
             senderId: senderId,

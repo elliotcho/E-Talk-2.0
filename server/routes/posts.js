@@ -1,161 +1,162 @@
 const {User, Notification, Post, Comment} = require('../dbschemas');
+
 const router = require('express').Router();
 
-router.get('/:id', (req, res) =>{
-    const {id} = req.params; 
+router.get('/:postId', async (req, res) =>{
+    const {postId} = req.params; 
 
-    Post.findOne({_id: id}).then(result =>{
-        if(result !== null){
-            res.json([result]); 
-        }
-    }); 
+    const post = await Post.findOne({_id: postId});
+
+    if(post !== null){
+        res.json([post]);
+    }
 });  
  
-router.delete('/:id', async (req, res) =>{
-    const {id} = req.params;
+router.delete('/:postId', async (req, res) =>{
+    const {postId} = req.params;
 
-    await Post.deleteOne({_id: id});
-    await Notification.deleteMany({postId: id});
+    await Post.deleteOne({_id: postId});
+    await Notification.deleteMany({postId});
 
     res.json({msg: "Success"});
 }); 
   
-router.post('/', (req, res) =>{   
+router.post('/', async (req, res) =>{   
     const {uid, profileId} = req.body;
 
     if(profileId !== "empty"){
-        Post.find({uid: profileId}).then(result =>{
-            result.sort((a, b) => b.createdAt - a.createdAt);
-            res.json(result); 
-        });
+        const posts = await Post.find({uid: profileId});
+
+        posts.sort((a, b) => b.createdAt - a.createdAt);
+
+        res.json(posts);
     }
 
     else{
-        User.findOne({_id: uid}).then(result =>{
-            const {friends} = result; 
+        const user = await User.findOne({_id: uid});
 
-            friends.push(uid);
+        const {friends} = user;
+        friends.push(uid);
 
-            Post.find({uid: {$in: friends}}).then(posts =>{
-                posts.sort((a, b) => b.createdAt - a.createdAt);
-                res.json(posts);
-            });
-        });
+        const posts = await Post.find({uid: {$in: friends}});
+
+        posts.sort((a, b) => b.createdAt - a.createdAt);
+
+        res.json(posts);
     }
 });
 
-router.post('/create', (req, res) =>{
+router.post('/create', async (req, res) =>{
+    const {uid, content} = req.body
+
     const newPost = new Post({ 
-        uid: req.body.uid,
+        uid,
         createdAt: new Date(),
-        content: req.body.content,
+        content,
         likes: [],
         comments: []
     });
 
-    newPost.save().then(() =>{
-        res.json("Success");
-    });
+    await newPost.save();
+
+    res.json({msg: "Success"});
 });
 
-router.post('/like', (req, res) =>{  
+router.post('/like', async (req, res) =>{  
     const {uid, postId, userLiked} = req.body;
 
-    Post.findOne({_id: postId}).then(result=>{ 
-        const likes = [...result.likes];
+    const post = await Post.findOne({_id: postId});
+    const {likes} = post;
 
-        if(userLiked){
-            likes.push(uid);
+    if(userLiked){
+        likes.push(uid);
 
-            Post.updateOne({_id: postId}, {likes}).then(()=>{
-                res.json({msg: "Post was liked"});
-            }); 
-        }
+        await Post.updateOne({_id: postId}, {likes});
 
-        else{
-            likes.splice(likes.indexOf(uid), 1);
+        res.json({msg: "Post was liked"});
+    }
 
-            Post.updateOne({_id: postId}, {likes}).then(()=>{
-                res.json({msg: "Post was unliked"});
-            });
-        }
-    });
+    else{
+        likes.splice(likes.indexOf(uid), 1);
+
+        await Post.updateOne({_id: postId}, {likes});
+
+        res.json({msg: "Post was unliked"});
+    }
 });
 
-router.post('/userliked', (req, res) =>{
+router.post('/userliked', async (req, res) =>{
     const {postId, uid} = req.body;
- 
-    Post.findOne({_id: postId}).then(result =>{ 
-        if(result === null){
-            res.json({msg: 'Post no longer exists'});
-        }
- 
-        else{
-            const {likes} = result;
 
-            if(likes.includes(uid)){ 
-                res.json({userLiked: true, likes});
-            }
-    
-            else{ 
-                res.json({userLiked: false, likes});
-            }
+    const post = await Post.findOne({_id: postId});
+
+    if(post === null){
+        res.json({msg: 'Post no longer exists'});
+    }
+
+    else{
+        const {likes} = post;
+
+        if(likes.includes(uid)){
+            res.json({userLiked: true, likes});
         }
-    });
+
+        else{
+            res.json({userLiked: false, likes});
+        }
+    }
 });
 
-router.post('/comment', (req, res)=>{
+router.post('/comment', async (req, res)=>{
     const {postId, uid, content} = req.body;
 
-    Post.findOne({_id: postId}).then(result =>{
-        if(result === null){
-            res.json({msg:"Post not found"});
-        }
+    const post = await Post.findOne({_id: postId});
 
-        else{
-            const {comments} = result;
+    if(post === null){
+        res.json({msg: "Post not found"});
+    }
 
-            const newComment = new Comment({
-                uid,
-                createdAt: new Date(),
-                content,
-                likes: []
-            });
+    else{
+        const {comments} = post;
 
-            comments.push(newComment);
+        const newComment = new Comment({
+            uid,
+            createdAt: new Date(),
+            content
+        });
 
-            comments.sort((a,b) => b.createdAt - a.createdAt);
+        comments.push(newComment);
+        comments.sort((a, b) => b.createdAt - a.createdAt);
 
-            Post.updateOne({_id: postId}, {comments}).then(() =>{
-                res.json(comments);
-            });
-        }
-    });
+        await Post.updateOne({_id: postId}, {comments});
+
+        res.json(comments);
+    }
 });
 
-router.post('/deletecomment', (req, res) =>{
+router.post('/deletecomment', async (req, res) =>{
     const {postId, commentId} = req.body;
 
-    Post.findOne({_id: postId}).then(result =>{
-        if(result === null){
-            res.json({msg: 'Post not found'});
-        }
+    const post = await Post.findOne({_id: postId});
 
-        else{
-            const {comments} = result;
+    if(post === null){
+        res.json({msg: 'Post not found'});
+    }
 
-            for(let i=0;i<comments.length;i++){
-                if(String(comments[i]._id) === commentId){
-                    comments.splice(i, 1);
-                    break;
-                }
+    else{
+        const {comments} = post;
+
+        for(let i=0;i<comments.length;i++){
+            if(String(comments[i]._id) === commentId){
+                comments.splice(i, 1);
+                break;
             }
-
-            Post.updateOne({_id: postId}, {comments}).then(()=>{
-                res.json(comments);
-            });
         }
-    });
+
+        await Post.updateOne({_id: postId}, {comments});
+
+        res.json(comments);
+    }
 });
 
 module.exports = router;

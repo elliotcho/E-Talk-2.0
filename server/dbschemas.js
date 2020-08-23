@@ -21,8 +21,7 @@ const FriendRequestSchema = new Schema({
 const CommentSchema = new Schema({
     uid: String,
     createdAt: Date,
-    content: String,
-    likes: [String]
+    content: String
 });
 
 const PostSchema = new Schema({
