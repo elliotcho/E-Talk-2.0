@@ -1,4 +1,5 @@
-const {User, Message, Chat} = require('../dbschemas');
+const {User} = require('../models/user');
+const {Message, Chat} = require('../models/chat');
 
 const router = require('express').Router();
 

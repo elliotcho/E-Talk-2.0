@@ -1,4 +1,5 @@
-const {User, Chat, Message} = require('../dbschemas');
+const {User}  = require('../models/user');
+const {Message, Chat} = require('../models/chat');
 
 const axios = require('axios');
 

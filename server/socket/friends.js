@@ -1,4 +1,7 @@
-const {User, FriendRequest, Notification} = require('../dbschemas');
+const {User}  = require('../models/user');
+const {FriendRequest} = require('../models/friendRequest');
+const {Notification} = require('../models/notif');
+
 const axios = require('axios');
 
 exports.declineRequest = async (data) =>{

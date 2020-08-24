@@ -35,11 +35,11 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //initialize routes
-app.use('/users', require('./routes/users'));
-app.use('/posts', require('./routes/posts'));
+app.use('/users', require('./routes/user'));
+app.use('/posts', require('./routes/post'));
 app.use('/friends', require('./routes/friends'));
-app.use('/notifs', require('./routes/notifs'));
-app.use('/chats', require('./routes/chats'));
+app.use('/notifs', require('./routes/notif'));
+app.use('/chats', require('./routes/chat'));
  
 const server = app.listen(5000);
 

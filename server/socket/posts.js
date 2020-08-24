@@ -1,4 +1,5 @@
-const {Post, Notification} = require('../dbschemas');
+const {Post}  = require('../models/post');
+const {Notification} = require('../models/notif');
 
 exports.likePost = async (data) =>{
     const {senderId, postId} = data;

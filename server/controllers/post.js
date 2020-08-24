@@ -1,8 +1,8 @@
-const {User, Notification, Post, Comment} = require('../dbschemas');
+const {User} = require('../models/user');
+const {Comment, Post} = require('../models/post');
+const {Notification} = require('../models/notif');
 
-const router = require('express').Router();
-
-router.get('/:postId', async (req, res) =>{
+exports.getPost = async (req, res) =>{
     const {postId} = req.params; 
 
     const post = await Post.findOne({_id: postId});
@@ -10,18 +10,18 @@ router.get('/:postId', async (req, res) =>{
     if(post !== null){
         res.json([post]);
     }
-});  
- 
-router.delete('/:postId', async (req, res) =>{
+}
+
+exports.deletePost = async (req, res) =>{
     const {postId} = req.params;
 
     await Post.deleteOne({_id: postId});
     await Notification.deleteMany({postId});
 
     res.json({msg: "Success"});
-}); 
-  
-router.post('/', async (req, res) =>{   
+}
+
+exports.getPagePosts = async (req, res) =>{   
     const {uid, profileId} = req.body;
 
     if(profileId !== "empty"){
@@ -44,15 +44,12 @@ router.post('/', async (req, res) =>{
 
         res.json(posts);
     }
-});
+}
 
-router.post('/create', async (req, res) =>{
-    const {uid, content} = req.body
-
+exports.createPost = async (req, res) =>{
     const newPost = new Post({ 
-        uid,
+        ...req.body,
         createdAt: new Date(),
-        content,
         likes: [],
         comments: []
     });
@@ -60,9 +57,9 @@ router.post('/create', async (req, res) =>{
     await newPost.save();
 
     res.json({msg: "Success"});
-});
+}
 
-router.post('/like', async (req, res) =>{  
+exports.handlePostLike = async (req, res) =>{  
     const {uid, postId, userLiked} = req.body;
 
     const post = await Post.findOne({_id: postId});
@@ -83,9 +80,9 @@ router.post('/like', async (req, res) =>{
 
         res.json({msg: "Post was unliked"});
     }
-});
+}
 
-router.post('/userliked', async (req, res) =>{
+exports.checkUserLike = async (req, res) =>{
     const {postId, uid} = req.body;
 
     const post = await Post.findOne({_id: postId});
@@ -105,9 +102,9 @@ router.post('/userliked', async (req, res) =>{
             res.json({userLiked: false, likes});
         }
     }
-});
+}
 
-router.post('/comment', async (req, res)=>{
+exports.createComment = async (req, res)=>{
     const {postId, uid, content} = req.body;
 
     const post = await Post.findOne({_id: postId});
@@ -132,9 +129,9 @@ router.post('/comment', async (req, res)=>{
 
         res.json(comments);
     }
-});
+}
 
-router.post('/deletecomment', async (req, res) =>{
+exports.deleteComment =  async (req, res) =>{
     const {postId, commentId} = req.body;
 
     const post = await Post.findOne({_id: postId});
@@ -157,6 +154,4 @@ router.post('/deletecomment', async (req, res) =>{
 
         res.json(comments);
     }
-});
-
-module.exports = router;
+}
