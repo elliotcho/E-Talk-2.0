@@ -1,7 +1,7 @@
 .createpost{
     max-width: 600px;
     margin: 20px;
-    font-family: 'Nunito';
+    font-family: 'Nunito Sans';
 }
 
 .createpost textarea{
@@ -29,7 +29,7 @@
     max-width: 600px;
     margin: 50px;
     color: lightgray;
-    font-family: 'Nunito';
+    font-family: 'Nunito Sans';
 }
 
 .post{

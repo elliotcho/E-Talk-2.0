@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {Redirect, withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {signUp} from '../../store/actions/authActions';
+import {Redirect, withRouter, Link} from 'react-router-dom';
 import './Auth.css';
 
 class Signup extends Component{
@@ -32,7 +32,7 @@ class Signup extends Component{
     }
 
     handleSubmit(e){
-        e.preventDefault();
+       e.preventDefault();
        this.props.signUp(this.state);
     }
 
@@ -97,10 +97,18 @@ class Signup extends Component{
                     
                     <button className='btn btn-lg btn-success'>Sign up</button>
 
-                    <p onClick={this.toLogin} className='mt-3'>Already have an account? Sign in here!</p>
+                    <p onClick={this.toLogin} className='mt-3'>
+                        Already have an account? Sign in here!
+                    </p>
                 </form>
             </div>
         )
+    }
+}
+
+const mapStateToProps = (state) =>{
+    return{
+        uid: state.auth.uid
     }
 }
 
@@ -110,4 +118,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(Signup));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Signup));

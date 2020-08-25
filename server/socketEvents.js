@@ -9,14 +9,14 @@ const {
     unlikePost,
     addComment,
     removeComment
-} = require('./socket/posts');
+} = require('./socket/post');
 
 const {
     getRecipients,
     sendMessage, 
     createChat,
     renderChat
-} = require('./socket/chats');
+} = require('./socket/chat');
 
 const axios = require('axios');
 

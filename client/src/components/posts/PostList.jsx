@@ -1,6 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getPosts, createPost, deletePost} from '../../store/actions/postActions';
+
+import {
+    getFeedPosts,
+    getProfilePosts, 
+    createPost, 
+    deletePost
+} from '../../store/actions/postActions';
+
 import CreatePost from './CreatePost';
 import Post from './post/Post';
 import './Posts.css';
@@ -13,14 +20,14 @@ class PostsList extends Component{
     }
 
     componentDidMount(){
-        const {getPosts, uid, profileId}  = this.props;
+        const {uid, profileId}  = this.props;
 
         if(profileId === null){
-            getPosts(uid);
+            this.props.getFeedPosts(uid);
         }
 
         else{
-            getPosts(uid, profileId);
+            this.props.getProfilePosts(uid, profileId);
         }
     }
 
@@ -41,20 +48,13 @@ class PostsList extends Component{
             return;
         }
 
-        const {uid, profileId} = this.props;
-
-        if(profileId === null){
-            this.props.deletePost(uid, postId);
-        }
-
-        else{
-            this.props.deletePost(uid, postId, profileId);
-        }
+        this.props.deletePost(postId);
     }
 
     render(){
         const posts = this.props.posts.map(post =>(
-            <Post key = {post._id}  
+            <Post 
+                  key = {post._id}  
                   postId = {post._id} 
                   ownerId = {post.uid}
                   uid = {this.props.uid}
@@ -87,15 +87,16 @@ class PostsList extends Component{
 const mapStateToProps = (state) =>{
     return {
         uid: state.auth.uid,
-        posts: state.posts.list
+        posts: state.posts.posts
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        createPost: (uid, content, profileId) => {dispatch(createPost(uid, content, profileId));},
-        getPosts: (uid, profileId) => {dispatch(getPosts(uid, profileId));},
-        deletePost: (uid, postId, profileId) => {dispatch(deletePost(uid, postId, profileId));}
+        createPost: (uid, content) => {dispatch(createPost(uid, content));},
+        getFeedPosts: (uid) => {dispatch(getFeedPosts(uid));},
+        getProfilePosts: (uid, profileId) => {dispatch(getProfilePosts(uid, profileId));},
+        deletePost: (postId) => {dispatch(deletePost(postId));}
     }
 }
 

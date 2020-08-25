@@ -4,7 +4,7 @@
 
 .network .no-requests{
     color: lightgray;
-    font-family: 'Nunito';
+    font-family: 'Nunito Sans';
 }
 
 .network .request{
@@ -21,7 +21,7 @@
 }
 
 .network .request p{
-    font-family: 'Nunito';
+    font-family: 'Nunito Sans';
     font-size: 1.5rem;
     color: #e8e8e8;
 }

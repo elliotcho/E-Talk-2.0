@@ -21,29 +21,29 @@ exports.deletePost = async (req, res) =>{
     res.json({msg: "Success"});
 }
 
-exports.getPagePosts = async (req, res) =>{   
+exports.getFeedPosts = async (req, res) =>{   
+    const {uid} = req.params;
+        
+    const user = await User.findOne({_id: uid});
+
+    const {friends} = user;
+    friends.push(uid);
+
+    const posts = await Post.find({uid: {$in: friends}});
+
+    posts.sort((a, b) => b.createdAt - a.createdAt);
+
+    res.json(posts);
+}
+
+exports.getProfilePosts = async (req, res) =>{
     const {uid, profileId} = req.body;
 
-    if(profileId !== "empty"){
-        const posts = await Post.find({uid: profileId});
+    const posts = await Post.find({uid: profileId});
 
-        posts.sort((a, b) => b.createdAt - a.createdAt);
+    posts.sort((a, b) => b.createdAt - a.createdAt);
 
-        res.json(posts);
-    }
-
-    else{
-        const user = await User.findOne({_id: uid});
-
-        const {friends} = user;
-        friends.push(uid);
-
-        const posts = await Post.find({uid: {$in: friends}});
-
-        posts.sort((a, b) => b.createdAt - a.createdAt);
-
-        res.json(posts);
-    }
+    res.json(posts);
 }
 
 exports.createPost = async (req, res) =>{
@@ -54,9 +54,9 @@ exports.createPost = async (req, res) =>{
         comments: []
     });
 
-    await newPost.save();
+    const post = await newPost.save();
 
-    res.json({msg: "Success"});
+    res.json(post);
 }
 
 exports.handlePostLike = async (req, res) =>{  

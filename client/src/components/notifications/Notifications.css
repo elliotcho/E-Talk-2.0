@@ -1,5 +1,5 @@
 .toast-notif{
-    font-family: 'Nunito';
+    font-family: 'Nunito Sans';
     color: #e8e8e8;
 }
 
@@ -20,7 +20,7 @@
 
 .notifications .no-notifs{
     color: lightgray;
-    font-family: 'Nunito';
+    font-family: 'Nunito Sans';
 }
 
 .notifications .notif-card{
@@ -37,13 +37,13 @@
 }
 
 .notifications .notif-card p{
-    font-family: 'Nunito';
+    font-family: 'Nunito Sans';
     font-size: 1.5rem;
     color: #e8e8e8;
 }
 
 .notifications .notif-card .notif-date{
-    font-family: 'Nunito';
+    font-family: 'Nunito Sans';
     font-size: 1.0rem;
     color: silver;
 }

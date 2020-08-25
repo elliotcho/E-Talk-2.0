@@ -9,8 +9,11 @@ const {
     searchUser
 } = require('../controllers/user');
 
+//auth routes
 router.post('/login', login);
 router.post('/signup', signUp);
+
+
 router.get('/:uid', getUserInfo);
 router.post('/profilepic', updateProfilePic);
 router.get('/profilepic/:uid', loadProfilePic);

@@ -1,39 +1,37 @@
 import axios from 'axios';
 
+//user login: updates uid in global state
 export const login = (credentials) =>{
-    return (dispatch) =>{
+    return async (dispatch) =>{
         const config={headers: {'content-type': 'application/json'}};
 
-        axios.post('http://localhost:5000/users/login', {...credentials}, config)
-        .then(response =>{
-            const {msg, _doc} = response.data;
+        const response = await axios.post('http://localhost:5000/users/login', {...credentials}, config)
+        const {msg, user} = response.data;
+    
+        if(msg === 'Success'){
+            dispatch({type: 'LOGIN_SUCCESS', uid: user._id});
+        }
 
-            if(msg==='Success'){
-                dispatch({type: 'LOGIN_SUCCESS', uid: _doc._id});
-            }
-
-            else{
-                alert(msg);
-            }
-        });   
+        else{
+            alert(msg);
+        }
     }
 }
 
+//user sign up: updates uid in global state
 export const signUp = (credentials) =>{
-    return (dispatch) =>{
+    return async (dispatch) =>{
         const config={headers: {'content-type': 'application/json'}};
 
-        axios.post('http://localhost:5000/users/signup', {...credentials}, config).then(response =>{
-            const {msg, _doc} = response.data;
+        const response = await axios.post('http://localhost:5000/users/signup', {...credentials}, config);
+        const {msg, user} = response.data;
 
-            if(msg === 'Success'){
-                dispatch({type: 'LOGIN_SUCCESS', uid: _doc._id});
-            }
+        if(msg === 'Success'){
+            dispatch({type: 'LOGIN_SUCCESS', uid: user._id});
+        }
 
-            else{
-                alert(msg);
-            }
-        });
+        else{
+            alert(msg);
+        }
     }
 }
-

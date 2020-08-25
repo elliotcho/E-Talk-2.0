@@ -1,11 +1,10 @@
 For next 2 hour session:
 [ ] Send images 
 [ ] search messages
+[ ] Non existent routes client
 
 Overall:
 [ ] Rework search bar backend
-
-[ ] Non existent routes client
 
 [ ] Profile Bio Design
 [ ] Profile Bio backend

@@ -72,8 +72,8 @@ class App extends Component{
 
               <main style = {uid? {marginTop: '120px'}: null}>
                 <Switch>
-                  <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login uid = {uid}/>}/>
-                  <Route path='/signup' render ={() => <Signup uid = {uid}/>}/>
+                  <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login/>}/>
+                  <Route path='/signup' render ={() => <Signup/>}/>
                   <Route path ='/profile/:id/:type' render ={() => <Profile uid = {uid}/>}/>
                   <Route path = '/mynetwork' render = {() => <Network uid = {uid}/>}/>
                   <Route path = '/search/:query' render = {() => <SearchResults uid = {uid}/>}/>

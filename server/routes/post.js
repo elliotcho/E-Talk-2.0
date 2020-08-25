@@ -3,7 +3,8 @@ const router = require('express').Router();
 const {
     getPost,
     deletePost,
-    getPagePosts,
+    getFeedPosts,
+    getProfilePosts,
     createPost,
     handlePostLike,
     checkUserLike,
@@ -13,7 +14,8 @@ const {
 
 router.get('/:postId', getPost);  
 router.delete('/:postId', deletePost); 
-router.post('/', getPagePosts);
+router.get('/feed/:uid', getFeedPosts);
+router.post('/profile', getProfilePosts);
 router.post('/create', createPost);
 router.post('/like', handlePostLike);
 router.post('/userliked', checkUserLike);

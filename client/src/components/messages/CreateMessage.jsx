@@ -50,14 +50,14 @@ class CreateMessage extends Component{
         e.preventDefault();
 
         const {uid, chatId, composerChatId, recipients} = this.props;
-        
+     
         const content = this.myMessage.value;
 
         if(content.trim() === ""){
             return;
         }
 
-        if(composerChatId !== null){
+        else if(composerChatId !== null){
             this.handleStopTyping();
             io.emit('SEND_MESSAGE', {chatId: composerChatId, uid, content});
 
