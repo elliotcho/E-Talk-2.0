@@ -52,7 +52,7 @@ exports.getChatPhoto = async (req, res) =>{
                     j++;
                 }
                 
-                res.json(result);
+                res.json({members: result});
             }
         }
     }

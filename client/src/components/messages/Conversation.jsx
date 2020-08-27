@@ -82,12 +82,12 @@ class Conversation extends Component{
 
           //get chat photo
           let response = await axios.post('http://localhost:5000/chats/photo', {uid, chatId}, config);
-          const usersInPic = response.data;
+          const {members} = response.data;
      
           let chatPics = [];
 
-          for(let i=0;i<usersInPic.length;i++){
-              response = await fetch(`http://localhost:5000/users/profilepic/${usersInPic[i]}`);
+          for(let i=0;i<members.length;i++){
+              response = await fetch(`http://localhost:5000/users/profilepic/${members[i]}`);
               const file = await response.blob();
 
               chatPics.push(URL.createObjectURL(file));

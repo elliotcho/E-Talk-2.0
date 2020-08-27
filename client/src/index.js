@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import App from './App';
+import Routes from './Routes';
+
 import * as serviceWorker from './serviceWorker';
 
 import {Provider} from 'react-redux';
@@ -14,7 +17,7 @@ const store=createStore(rootReducer, applyMiddleware(thunk));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <App/>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
