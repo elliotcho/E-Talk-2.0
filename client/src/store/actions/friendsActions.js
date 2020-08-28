@@ -1,15 +1,21 @@
+import * as types from '../constants/actionTypes';
 import axios from 'axios';
 
 export const getFriends = (uid) =>{
-    return (dispatch) =>{
-        axios.get(`http://localhost:5000/friends/${uid}`).then(response =>{
-            dispatch({type: 'LOAD_FRIENDS', friends: response.data});
-        });
+    return async (dispatch) =>{
+        const response = await axios.get(`http://localhost:5000/friends/${uid}`);
+
+        dispatch({
+            type: types.LOAD_FRIENDS,
+            friends: response.data
+        })
     }
 }
 
 export const getUnreadRequests = (uid) =>{
     return (dispatch) =>{
+
+        
         axios.get(`http://localhost:5000/friends/unreadrequests/${uid}`).then(response =>{
             dispatch({type: 'LOAD_UNREAD_REQUESTS', unreadRequests: response.data.unreadRequests});
         });

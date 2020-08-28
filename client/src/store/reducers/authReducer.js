@@ -1,8 +1,12 @@
+import {
+    LOGIN_SUCCESS
+} from '../constants/actionTypes';
+
 const initState = {uid: null || window.localStorage.getItem('uid')}
 
 const authReducer = (state = initState, action) =>{
     switch(action.type){
-        case "LOGIN_SUCCESS":
+        case LOGIN_SUCCESS:
             window.localStorage.setItem('uid', action.uid);
 
             return {

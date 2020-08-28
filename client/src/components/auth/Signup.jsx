@@ -33,7 +33,11 @@ class Signup extends Component{
 
     handleSubmit(e){
        e.preventDefault();
-       this.props.signUp(this.state);
+        
+       const {dispatch} = this.props;
+       const {signUp} = authActions;
+
+       signUp(this.state);
     }
 
     render(){
@@ -112,10 +116,6 @@ const mapStateToProps = (state) =>{
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return{
-        signUp: (creds) => {dispatch(authActions.signUp(creds));}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Signup));

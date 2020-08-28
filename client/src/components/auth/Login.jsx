@@ -31,7 +31,10 @@ class Login extends Component{
     handleSubmit(e){
         e.preventDefault();   
         
-        this.props.dispatch(authActions.login(this.state));
+        const {dispatch} = this.props;
+        const {login} = authActions;
+
+        dispatch(login(this.state));
     }
 
     render(){
@@ -83,10 +86,6 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return{
-        dispatch
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

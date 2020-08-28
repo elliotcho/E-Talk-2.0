@@ -1,20 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getUnreadRequests} from './store/actions/friendsActions';
-import {getUnreadNotifs} from './store/actions/notificationActions';
-
-import {
-  setUserChats, 
-  setComposerResults,
-  handleNewMessage,
-  getUnseenChats,
-  handleTyping,
-  stopTyping,
-  handleReadReceipts,
-  renderComposerChat
-} from './store/actions/messagesActions';
-
 import socket from 'socket.io-client';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
@@ -41,16 +27,7 @@ class App extends Component{
 
       handleSocketEvents(
         io, 
-        props.getUnreadRequests, 
-        props.getUnreadNotifs,
-        props.setComposerResults,
-        props.setUserChats,
-        props.handleNewMessage,
-        props.getUnseenChats,
-        props.handleTyping,
-        props.stopTyping,
-        props.handleReadReceipts,
-        props.renderComposerChat
+        props.dispatch
       );
     }
 
@@ -103,20 +80,7 @@ const mapStateToProps = (state) =>{
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        getUnreadRequests: (uid) => {dispatch(getUnreadRequests(uid));},
-        getUnreadNotifs: (uid)  => {dispatch(getUnreadNotifs(uid));},
-        setComposerResults: (results) => {dispatch(setComposerResults(results));},
-        setUserChats: (chats) => {dispatch(setUserChats(chats));},
-        handleNewMessage: (newMessage, chatId, uid, io) => {dispatch(handleNewMessage(newMessage, chatId, uid, io));},
-        getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));},
-        handleTyping: (chatId, uid) => {dispatch(handleTyping(chatId, uid));},
-        stopTyping: (chatId, typingMsgs) => {dispatch(stopTyping(chatId, typingMsgs));},
-        handleReadReceipts: (chatId, messages) => {dispatch(handleReadReceipts(chatId, messages));},
-        renderComposerChat: (chatId) =>{dispatch(renderComposerChat(chatId))}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export {io};
 export default connect(mapStateToProps, mapDispatchToProps)(App);

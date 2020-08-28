@@ -6,7 +6,11 @@ import './ProfileContent.css';
 
 class Friends extends Component{
     componentDidMount(){
-        this.props.getFriends(this.props.profileId);
+        const {
+            dispatch
+        } = this.props;
+
+        dispatch(getFriends(this.props.profileId));
     }
 
     render(){
@@ -36,10 +40,6 @@ const mapStateToProps = (state) =>{
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return {
-        getFriends: (uid) => {dispatch(getFriends(uid));}
-    }
-}
+const mapDispatchToProps = (dispatch) =>({dispatch});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Friends);
