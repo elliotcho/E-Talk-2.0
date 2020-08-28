@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-
-import {
-    getFeedPosts,
-    getProfilePosts, 
-    createPost, 
-    deletePost
-} from '../../store/actions/postActions';
-
+import * as postActions from '../../store/actions/postActions';
 import CreatePost from './CreatePost';
 import Post from './post/Post';
 import './Posts.css';
@@ -93,10 +86,10 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        createPost: (uid, content) => {dispatch(createPost(uid, content));},
-        getFeedPosts: (uid) => {dispatch(getFeedPosts(uid));},
-        getProfilePosts: (uid, profileId) => {dispatch(getProfilePosts(uid, profileId));},
-        deletePost: (postId) => {dispatch(deletePost(postId));}
+        createPost: (uid, content) => {dispatch(postActions.createPost(uid, content));},
+        getFeedPosts: (uid) => {dispatch(postActions.getFeedPosts(uid));},
+        getProfilePosts: (uid, profileId) => {dispatch(postActions.getProfilePosts(uid, profileId));},
+        deletePost: (postId) => {dispatch(postActions.deletePost(postId));}
     }
 }
 

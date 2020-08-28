@@ -42,15 +42,13 @@ export const deletePost = (postId) => {
     }
 }
 
-export const deleteFromPostDetails = (postId, posts) =>{
-    return (dispatch) =>{
-        for(let i=0;i<posts.length;i++){
-            if(posts[i]._id === postId){
-                posts.splice(i, 1);
-                break;
-            }
-        }
-
-        dispatch({type: "POSTS_UPDATED", posts});
+export const deleteFromPostDetails = (postId) =>{
+    return async () =>{
+        await axios.delete(`http://localhost:5000/posts/${postId}`);
     }
+}
+
+export const getPost = async (postId) =>{
+    const response = await axios.get(`http://localhost:5000/posts/${postId}`); 
+    return response.data;
 }

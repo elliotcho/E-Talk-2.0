@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {login} from '../../store/actions/authActions';
+import React, {Component} from 'react'
 import {Redirect, withRouter, Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import * as authActions from '../../store/actions/authActions';
 import './Auth.css';
 
 class Login extends Component{
@@ -30,7 +30,8 @@ class Login extends Component{
 
     handleSubmit(e){
         e.preventDefault();   
-        this.props.login(this.state);
+        
+        this.props.dispatch(authActions.login(this.state));
     }
 
     render(){
@@ -84,7 +85,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        login: (creds) => {dispatch(login(creds));}
+        dispatch
     }
 }
 

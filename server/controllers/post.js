@@ -8,7 +8,7 @@ exports.getPost = async (req, res) =>{
     const post = await Post.findOne({_id: postId});
 
     if(post !== null){
-        res.json([post]);
+        res.json(post);
     }
 }
 

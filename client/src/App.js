@@ -54,6 +54,14 @@ class App extends Component{
       );
     }
 
+    componentDidMount(){
+        const {uid} = this.props;
+
+        if(uid){
+          io.emit('USER_AUTHENTICATED', {uid});
+        }
+    }
+
     componentDidUpdate(prevProps){
         const {uid} = this.props;
 

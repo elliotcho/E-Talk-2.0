@@ -1,3 +1,4 @@
+import * as types from '../constants/actionTypes';
 import axios from 'axios';
 
 //user login: updates uid in global state
@@ -9,7 +10,7 @@ export const login = (credentials) =>{
         const {msg, user} = response.data;
     
         if(msg === 'Success'){
-            dispatch({type: 'LOGIN_SUCCESS', uid: user._id});
+            dispatch({type: types.LOGIN_SUCCESS, uid: user._id});
         }
 
         else{
@@ -27,7 +28,7 @@ export const signUp = (credentials) =>{
         const {msg, user} = response.data;
 
         if(msg === 'Success'){
-            dispatch({type: 'LOGIN_SUCCESS', uid: user._id});
+            dispatch({type: types.LOGIN_SUCCESS, uid: user._id});
         }
 
         else{

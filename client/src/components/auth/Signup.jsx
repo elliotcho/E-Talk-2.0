@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {signUp} from '../../store/actions/authActions';
 import {Redirect, withRouter, Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import * as authActions from '../../store/actions/authActions';
 import './Auth.css';
 
 class Signup extends Component{
@@ -114,7 +114,7 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) => {
     return{
-        signUp: (creds) => {dispatch(signUp(creds));}
+        signUp: (creds) => {dispatch(authActions.signUp(creds));}
     }
 }
 

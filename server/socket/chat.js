@@ -50,7 +50,6 @@ exports.getRecipients = async (data) =>{
         }
     }
     //this section between the 2 comments
-
     return result;
 }
 
