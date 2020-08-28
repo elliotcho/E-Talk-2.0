@@ -13,25 +13,34 @@ export const getFriends = (uid) =>{
 }
 
 export const getUnreadRequests = (uid) =>{
-    return (dispatch) =>{
+    return async (dispatch) =>{
+        const response = await axios.get(`http://localhost:5000/friends/unreadrequests/${uid}`);
+        const {unreadRequests} = response.data;
 
-        
-        axios.get(`http://localhost:5000/friends/unreadrequests/${uid}`).then(response =>{
-            dispatch({type: 'LOAD_UNREAD_REQUESTS', unreadRequests: response.data.unreadRequests});
+        dispatch({
+            type: types.LOAD_UNREAD_REQUESTS,
+            unreadRequests
         });
     }
 }
 
 export const readRequests = (uid) =>{
-    return (dispatch) =>{
-        axios.put(`http://localhost:5000/friends/readrequests/${uid}`).then(response =>{
-            dispatch({type: 'READ_REQUESTS', requests: response.data});
+    return async (dispatch) =>{
+        const response = await axios.put(`http://localhost:5000/friends/readrequests/${uid}`);
+        const requests = response.data;
+
+        dispatch({
+            type: types.READ_REQUESTS,
+            requests
         });
     }
 }
 
-export const removeRequest = (requestId, requests) =>{
-    return (dispatch) =>{
+export const removeRequest = (requestId) =>{
+    return (dispatch, getState) =>{
+        const state = getState();
+        const {requests} = state.friends;
+
         for(let i=0;i<requests.length;i++){
             if(requests[i]._id === requestId){
                 requests.splice(i, 1);
@@ -39,6 +48,6 @@ export const removeRequest = (requestId, requests) =>{
             }
         }
 
-        dispatch({type: 'REMOVE_REQUEST', requests});
+        dispatch({type: types.READ_REQUESTS, requests});
     }
 }

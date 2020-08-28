@@ -76,8 +76,11 @@ export const seeChats = (uid) =>{
     }
 }
 
-export const readChat = (chats, chatId, uid) =>{
-    return (dispatch) => {
+export const readChat = (chatId, uid) =>{
+    return (dispatch, getState) => {
+        const state = getState();
+        const {chats} = state.messages;
+
         for(let i=0;i<chats.length;i++){
             if(chats[i]._id === chatId){
                 const {messages} = chats[i];

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 
 import {connect} from 'react-redux';
 
+import {getProfilePic} from '../../store/actions/profileActions';
+
 import {
     setDisplayedChatId, 
     setMsgsOnDisplay,
@@ -87,10 +89,8 @@ class Conversation extends Component{
           let chatPics = [];
 
           for(let i=0;i<members.length;i++){
-              response = await fetch(`http://localhost:5000/users/profilepic/${members[i]}`);
-              const file = await response.blob();
-
-              chatPics.push(URL.createObjectURL(file));
+              const imgURL = await getProfilePic(members[i]);
+              chatPics.push(imgURL);
           }
 
           this.setState({chatPics});

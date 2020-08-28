@@ -17,11 +17,10 @@ class Network extends Component{
     
     deleteRequest(id){
         const {
-            requests,
             removeRequest
         } = this.props;
 
-        removeRequest(id, requests);
+        removeRequest(id);
     }
 
     componentDidUpdate(prevProps){

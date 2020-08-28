@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PostLikes from './likes/PostLikes';
 import PostComments from './comments/PostComments';
 import PostHeader from './PostHeader';
+import PostBody from './PostBody';
 
 class Post extends Component{
     constructor(){
@@ -45,33 +46,6 @@ class Post extends Component{
         }
     }
 
-    computeContent(content){
-        let res = "";
-        let charsLeft =312;
-        let limitExceeded = false;
-
-        for(let i =0;i<content.length;i++){
-            if(charsLeft <=0 ){
-                limitExceeded=true;
-                break;
-            }
-
-            else if(content[i] === '\n'){
-                res+=content[i];
-                charsLeft-=63;
-            }
-
-            else{
-                res+=content[i];
-                charsLeft--;
-            }
-        }
-
-        if(limitExceeded){res += "...";}
-
-        return [res, limitExceeded];
-    }
-
     toPostDetails(){
         const {postId} = this.props;
 
@@ -98,8 +72,6 @@ class Post extends Component{
             seeMore
         } = this.props;
         
-        const contentArray = (seeMore)? [content, false] : this.computeContent(content);
-
         return(
             <div className ='post bg-white'>
                  <PostHeader
@@ -111,14 +83,11 @@ class Post extends Component{
                     deletePost = {deletePost}
                 />
 
-                <main className='content'>
-                    {contentArray[1]? 
-                    (<div> 
-                        {contentArray[0] + '\n'} 
-                        <span className ='ml-1 see-more' onClick ={this.toPostDetails}>See More</span>
-                    </div>):
-                    contentArray[0]}
-                </main>
+               <PostBody
+                    content = {content}
+                    seeMore = {seeMore}
+                    toPostDetails = {this.toPostDetails}
+               />
 
                 <section className='mt-4'>
                     <PostLikes

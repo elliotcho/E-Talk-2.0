@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PostSettings from './PostSettings';
 import {withRouter} from 'react-router-dom';
+import {getProfilePic} from '../../../store/actions/profileActions';
 import axios from 'axios';
 import moment from 'moment';
 import loading from '../../../images/loading.jpg';
@@ -19,7 +20,7 @@ class PostHeader extends Component{
         this.toPostDetails = this.toPostDetails.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {ownerId} = this.props;
 
         axios.get(`http://localhost:5000/users/${ownerId}`).then(response => {
@@ -29,12 +30,8 @@ class PostHeader extends Component{
             });
         });
 
-        fetch(`http://localhost:5000/users/profilepic/${ownerId}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)});
-        });
+        const imgURL = await getProfilePic(ownerId);
+        this.setState({imgURL});
     }
 
     toOwnerProfile(){

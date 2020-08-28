@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {getProfilePic} from '../../store/actions/profileActions';
 import loading from '../../images/loading.jpg';
 import axios from 'axios';
 import {io} from '../../App';
@@ -18,19 +19,15 @@ class UserCard extends Component{
         this.handleClick = this.handleClick.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {_id} = this.props.user;
 
         const {uid} = this.props;
 
         const config = {headers: {'content-type': 'application/json'}};
 
-        fetch(`http://localhost:5000/users/profilepic/${_id}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)});
-        });
+        const imgURL = await getProfilePic(_id);
+        this.setState({imgURL});
 
         axios.post('http://localhost:5000/friends/status', {receiverId: _id, senderId: uid}, config).then(response =>{
             this.setState({status: response.data.status});

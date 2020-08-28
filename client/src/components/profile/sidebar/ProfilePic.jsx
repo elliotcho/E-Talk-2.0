@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {changeProfilePic} from '../../../store/actions/profileActions';
+import {getProfilePic, changeProfilePic} from '../../../store/actions/profileActions';
 import loading from '../../../images/loading.jpg';
 
 class ProfilePic extends Component{
@@ -18,17 +18,14 @@ class ProfilePic extends Component{
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {profileId, uid} = this.props;
 
-        fetch(`http://localhost:5000/users/profilepic/${profileId}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({
-                canChange: profileId === uid,
-                imgURL: URL.createObjectURL(file)
-            });
+        const imgURL = await getProfilePic(profileId);
+
+        this.setState({
+            imgURL,
+            canChange: uid === profileId
         });
     }
 
@@ -41,7 +38,8 @@ class ProfilePic extends Component{
     }
 
     handleChange(e){
-        this.props.changeProfilePic(this.props.uid, e.target.files[0]);
+        const {dispatch} = this.props;
+        dispatch(changeProfilePic(this.props.uid, e.target.files[0]));
     }
 
     render(){
@@ -68,10 +66,6 @@ class ProfilePic extends Component{
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        changeProfilePic: (uid, profilePic) => {dispatch(changeProfilePic(uid, profilePic));}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export default connect(null, mapDispatchToProps)(ProfilePic);

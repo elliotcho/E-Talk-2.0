@@ -6,7 +6,7 @@ import {withRouter} from 'react-router-dom';
 import {io} from '../../../App';
 import axios from 'axios';
 
-class ProfileCard extends Component{
+class ProfileTop extends Component{
     constructor(){
         super();
 
@@ -130,4 +130,4 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(ProfileCard));
+export default withRouter(connect(null, mapDispatchToProps)(ProfileTop));

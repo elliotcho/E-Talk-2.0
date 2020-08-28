@@ -105,7 +105,7 @@ class MessagesHome extends Component{
                 uid={uid}
                 messages = {chat.messages}
                 timeOfLastMessage = {chat.timeOfLastMessage}
-                readChat = {() => {readChat(chats, chatId, uid)}}
+                readChat = {() => {readChat(chatId, uid)}}
             />    
         );
 
@@ -181,7 +181,7 @@ const mapDispatchToProps = (dispatch) =>{
         updateRecipients: (recipients) => {dispatch(updateRecipients(recipients));},
         clearComposer: () => {dispatch(clearComposer());},
         seeChats: (uid) => {dispatch(seeChats(uid));},
-        readChat: (chats, chatId, uid) => {dispatch(readChat(chats, chatId, uid));},
+        readChat: (chats, chatId, uid) => {dispatch(readChat(chatId, uid));},
         clearComposerChat: () => {dispatch(clearComposerChat());}
     }
 }

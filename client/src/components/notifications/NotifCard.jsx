@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {getProfilePic} from '../../store/actions/profileActions';
 import moment from 'moment';
 import axios from 'axios';
 import loading from '../../images/loading.jpg';
@@ -18,7 +19,7 @@ class NotifCard extends Component{
         this.handleClick = this.handleClick.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {senderId, postId} = this.props.notif;
 
         axios.get(`http://localhost:5000/users/${senderId}`).then(response => {
@@ -28,16 +29,12 @@ class NotifCard extends Component{
             });
         });
 
-        fetch(`http://localhost:5000/users/profilepic/${senderId}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)});
-        });
+        const imgURL = await getProfilePic(senderId);
+        this.setState({imgURL});
 
         if(postId){
             axios.get(`http://localhost:5000/posts/${postId}`).then(response =>{
-                this.setState({content: response.data[0].content});
+                this.setState({content: response.data.content});
             });
         }
     }

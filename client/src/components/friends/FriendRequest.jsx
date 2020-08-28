@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {getProfilePic} from '../../store/actions/profileActions';
 import axios from 'axios';
 import {io} from '../../App';
 import loading from '../../images/loading.jpg';
@@ -19,7 +20,7 @@ class FriendRequest extends Component{
         this.handleClick = this.handleClick.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {receiverId, senderId} = this.props.request;
 
         axios.get(`http://localhost:5000/users/${senderId}`).then(response => {
@@ -29,12 +30,8 @@ class FriendRequest extends Component{
             });
         });
 
-        fetch(`http://localhost:5000/users/profilepic/${senderId}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)});
-        });
+        const imgURL = await getProfilePic(senderId);
+        this.setState({imgURL});
 
         const config = {headers: {'content-type': 'application/json'}};
 

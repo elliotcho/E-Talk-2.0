@@ -53,13 +53,7 @@ exports.signUp = async (req, res) => {
 
 exports.getUserInfo = async (req, res) =>{
     const user = await User.findOne({_id: req.params.uid});
-
-    const {firstName, lastName} = user;
-
-    res.json({
-        firstName, 
-        lastName
-    });
+    res.json(user);
 }
 
 exports.updateProfilePic = (req, res) =>{

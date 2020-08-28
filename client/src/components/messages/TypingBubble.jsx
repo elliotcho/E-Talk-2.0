@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {getProfilePic} from '../../store/actions/profileActions';
 import loading from '../../images/loading.jpg';
 
 class TypingBubble extends Component{
@@ -10,17 +11,12 @@ class TypingBubble extends Component{
         }
     }
 
-    componentDidMount(){
+   async componentDidMount(){
         const {typingId, handleScroll} = this.props;
 
-        fetch(`http://localhost:5000/users/profilepic/${typingId}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)}, () =>{
-                handleScroll()
-            });
-        });
+        const imgURL = await getProfilePic(typingId);
+        
+        this.setState({imgURL}, () => {handleScroll();})
     }
 
     render(){

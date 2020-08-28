@@ -3,7 +3,6 @@ import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as postActions from '../../store/actions/postActions';
 import Post from './post/Post';
-import axios from 'axios';
 import './Posts.css'
 
 class PostDetails extends Component{

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {getProfilePic} from '../../store/actions/profileActions';
 import loading from '../../images/loading.jpg';
 
 class ComposerResult extends Component{
@@ -12,16 +13,15 @@ class ComposerResult extends Component{
         }
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {_id, firstName, lastName} = this.props.user;
 
-        this.setState({firstName, lastName});
+        const imgURL = await getProfilePic(_id);
 
-        fetch(`http://localhost:5000/users/profilepic/${_id}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)});
+        this.setState({
+            firstName, 
+            lastName,
+            imgURL
         });
     }
 

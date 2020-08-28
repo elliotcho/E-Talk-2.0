@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Redirect, withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as authActions from '../../store/actions/authActions';
+import {login} from '../../store/actions/authActions';
 import './Auth.css';
 
 class Login extends Component{
@@ -32,7 +32,6 @@ class Login extends Component{
         e.preventDefault();   
         
         const {dispatch} = this.props;
-        const {login} = authActions;
 
         dispatch(login(this.state));
     }

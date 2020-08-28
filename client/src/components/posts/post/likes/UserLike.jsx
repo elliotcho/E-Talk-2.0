@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {getProfilePic} from '../../../../store/actions/profileActions';
 import loading from '../../../../images/loading.jpg';
 import axios from 'axios';
 
@@ -16,7 +17,7 @@ class UserLike extends Component{
         this.toProfile = this.toProfile.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {uid} = this.props;
 
         axios.get(`http://localhost:5000/users/${uid}`).then(response => {
@@ -26,12 +27,8 @@ class UserLike extends Component{
             });
         });
 
-        fetch(`http://localhost:5000/users/profilepic/${uid}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)});
-        });
+        const imgURL = await getProfilePic(uid);
+        this.setState({imgURL});
     }
 
     toProfile(){

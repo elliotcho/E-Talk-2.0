@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
+import {getProfilePic} from '../../../../store/actions/profileActions';
 import axios from 'axios';
 import CommentSettings from './CommentSettings';
 import loading from '../../../../images/loading.jpg';
@@ -18,7 +19,7 @@ class UserComment extends Component{
         this.toProfile = this.toProfile.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const commenterId = this.props.comment.uid;
 
         axios.get(`http://localhost:5000/users/${commenterId}`).then(response => {
@@ -27,13 +28,9 @@ class UserComment extends Component{
                 lastName: response.data.lastName
             });
         });
-
-        fetch(`http://localhost:5000/users/profilepic/${commenterId}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)});
-        });
+        
+        const imgURL = await getProfilePic(commenterId);
+        this.setState({imgURL});
     }
 
 

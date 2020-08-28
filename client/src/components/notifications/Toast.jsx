@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {getProfilePic} from '../../store/actions/profileActions';
 import {toast} from 'react-toastify';
 import loading from '../../images/loading.jpg';
 import axios from 'axios';
@@ -19,7 +20,7 @@ class FriendRequestToast extends Component{
         this.toNotifs = this.toNotifs.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {toastId} = this.props.data;
 
         axios.get(`http://localhost:5000/users/${toastId}`).then(response => {
@@ -29,12 +30,9 @@ class FriendRequestToast extends Component{
             });
         });
 
-        fetch(`http://localhost:5000/users/profilepic/${toastId}`, {
-            method: 'GET'
-        }).then(response => response.blob())
-        .then(file => {
-            this.setState({imgURL: URL.createObjectURL(file)});
-        });
+        const imgURL = await getProfilePic(toastId);
+
+        this.setState({imgURL});
     }
 
     toNetwork(){
