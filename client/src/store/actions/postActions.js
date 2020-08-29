@@ -31,7 +31,7 @@ export const createPost = (uid, content) =>{
     }
 }
 
-export const deletePost = (postId) => {
+export const deletePostFromList = (postId) => {
     return async (dispatch) =>{
         await axios.delete(`http://localhost:5000/posts/${postId}`);
         
@@ -42,13 +42,46 @@ export const deletePost = (postId) => {
     }
 }
 
-export const deleteFromPostDetails = (postId) =>{
-    return async () =>{
-        await axios.delete(`http://localhost:5000/posts/${postId}`);
-    }
+export const deleteFromPostDetails = async (postId) =>{
+    await axios.delete(`http://localhost:5000/posts/${postId}`);
 }
 
 export const getPost = async (postId) =>{
     const response = await axios.get(`http://localhost:5000/posts/${postId}`); 
+    return response.data;
+}
+
+export const checkIfUserLiked = async (uid, postId) =>{
+    const config = {headers: {'content-type': 'application/json'}};
+
+    const response = await axios.post('http://localhost:5000/posts/userliked', {uid, postId}, config);
+    const {userLiked} = response.data;
+
+    return userLiked;
+}
+
+export const handleLike = async (uid, postId, userLiked) =>{
+    const config = {headers: {'content-type': 'application/json'}};
+
+    const data = {uid, postId, userLiked: !userLiked};
+
+    await axios.post('http://localhost:5000/posts/like', data , config);
+}
+
+export const createComment = async (postId, uid, content) =>{
+    const config = {headers: {'content-type': 'application/json'}};
+
+    const data = {postId, uid, content};
+
+    const response =  await axios.post('http://localhost:5000/posts/comment',  data , config);
+    return response.data;
+}
+
+export const deleteComment = async (postId, commentId) =>{
+    const config = {headers: {'content-type': 'application/json'}};
+
+    const data = {postId, commentId};
+
+    const response =  await axios.post('http://localhost:5000/posts/deletecomment', data, config);
     return response.data;
 }

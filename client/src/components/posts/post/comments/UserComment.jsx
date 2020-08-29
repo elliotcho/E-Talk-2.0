@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import moment from 'moment';
 import {withRouter} from 'react-router-dom';
-import {getProfilePic} from '../../../../store/actions/profileActions';
-import axios from 'axios';
+import {getUserData, getProfilePic} from '../../../../store/actions/profileActions';
 import CommentSettings from './CommentSettings';
 import loading from '../../../../images/loading.jpg';
 
@@ -22,18 +21,21 @@ class UserComment extends Component{
     async componentDidMount(){
         const commenterId = this.props.comment.uid;
 
-        axios.get(`http://localhost:5000/users/${commenterId}`).then(response => {
-            this.setState({
-                firstName: response.data.firstName,
-                lastName: response.data.lastName
-            });
-        });
+        const user = await getUserData(commenterId);
+
+        const {
+            firstName,
+            lastName
+        } = user;
         
         const imgURL = await getProfilePic(commenterId);
-        this.setState({imgURL});
+
+        this.setState({
+            firstName,
+            lastName,
+            imgURL
+        });
     }
-
-
 
     toProfile(){
         const commenterId = this.props.comment.uid;

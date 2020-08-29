@@ -13,27 +13,26 @@ class PostsList extends Component{
     }
 
     componentDidMount(){
-        const {uid, profileId}  = this.props;
+        const {dispatch, uid, profileId}  = this.props;
 
+        const {getFeedPosts, getProfilePosts} = postActions;
+
+        //if profileId is null load the user feed's posts
         if(profileId === null){
-            this.props.getFeedPosts(uid);
+            dispatch(getFeedPosts(uid));
         }
 
+        //otherwise load the profile's posts
         else{
-            this.props.getProfilePosts(uid, profileId);
+            dispatch(getProfilePosts(uid, profileId));
         }
     }
 
     addPost(content){
-        const {uid, profileId} = this.props;
+        const {dispatch, uid} = this.props;
+        const {createPost} = postActions;
 
-        if(profileId === null){
-            this.props.createPost(uid, content);
-        }
-
-        else{
-            this.props.createPost(uid, content, profileId);
-        }
+        dispatch(createPost(uid, content));
     }
 
     deletePost(postId){
@@ -41,17 +40,22 @@ class PostsList extends Component{
             return;
         }
 
-        this.props.deletePost(postId);
+        const {dispatch} = this.props;
+        const {deletePostFromList} = postActions;
+
+        dispatch(deletePostFromList(postId));
     }
 
     render(){
+        const {uid, profileId} = this.props;
+
         const posts = this.props.posts.map(post =>(
             <Post 
                   key = {post._id}  
                   postId = {post._id} 
                   ownerId = {post.uid}
-                  uid = {this.props.uid}
-                  profileId = {this.props.profileId}
+                  uid = {uid}
+                  profileId = {profileId}
                   createdAt = {post.createdAt}
                   content = {post.content}
                   likes = {post.likes}
@@ -61,17 +65,19 @@ class PostsList extends Component{
             />
         ));
 
-        const {uid, profileId} = this.props;
-
         return(
             <div className='mb-5'>
                 {(profileId === null || profileId === uid)? 
                     <CreatePost addPost ={this.addPost}/>: 
-                    null}
+                    null
+                }
                 
-                {posts.length === 0 ? 
-                    <h1 className='noposts text-center'>No posts available</h1>: 
-                    posts}
+                {posts.length !== 0 ? 
+                    posts:
+                    (<h1 className='noposts text-center'>
+                        No posts available
+                    </h1>)
+                }
             </div>
         )
     }
@@ -84,13 +90,6 @@ const mapStateToProps = (state) =>{
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        createPost: (uid, content) => {dispatch(postActions.createPost(uid, content));},
-        getFeedPosts: (uid) => {dispatch(postActions.getFeedPosts(uid));},
-        getProfilePosts: (uid, profileId) => {dispatch(postActions.getProfilePosts(uid, profileId));},
-        deletePost: (postId) => {dispatch(postActions.deletePost(postId));}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList);

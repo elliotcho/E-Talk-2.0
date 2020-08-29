@@ -14,6 +14,11 @@ export const getUserInfo = (uid) =>{
     }
 }
 
+export const getUserData = async (uid) =>{
+    const response = await axios.get(`http://localhost:5000/users/${uid}`);
+    return response.data;
+}
+
 export const changeProfilePic = (uid, profilePic) =>{
     return () =>{
         const formData = new FormData();

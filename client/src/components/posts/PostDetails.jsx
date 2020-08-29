@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as postActions from '../../store/actions/postActions';
+import {deleteFromPostDetails, getPost} from '../../store/actions/postActions';
 import Post from './post/Post';
 import './Posts.css'
 
@@ -19,17 +19,17 @@ class PostDetails extends Component{
     async componentDidMount(){
         const postId = this.props.match.params.id;
         
-        const post = await postActions.getPost(postId);
+        const post = await getPost(postId);
    
-        this.setState({post})
+        this.setState({post});
     }
 
-    deletePost(postId){
+    async deletePost(postId){
         if(!window.confirm("Are you sure you want to delete this post?")){
             return;
         }
-        
-        this.props.deleteFromPostDetails(postId);
+
+        await deleteFromPostDetails(postId);
         
         this.props.history.push('/'); 
     }
@@ -66,10 +66,6 @@ const mapStateToProps = (state) =>{
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        deleteFromPostDetails: (postId) => {dispatch(postActions.deleteFromPostDetails(postId));}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostDetails));

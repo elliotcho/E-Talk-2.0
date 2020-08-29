@@ -95,11 +95,11 @@ exports.checkUserLike = async (req, res) =>{
         const {likes} = post;
 
         if(likes.includes(uid)){
-            res.json({userLiked: true, likes});
+            res.json({userLiked: true});
         }
 
         else{
-            res.json({userLiked: false, likes});
+            res.json({userLiked: false});
         }
     }
 }

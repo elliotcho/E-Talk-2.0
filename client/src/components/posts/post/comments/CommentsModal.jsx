@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
+import {createComment, deleteComment} from '../../../../store/actions/postActions';
 import UserComment from './UserComment';
 import {io} from '../../../../App';
-import axios from 'axios';
 
 class CommentsModal extends Component{
     constructor(){
@@ -54,7 +54,7 @@ class CommentsModal extends Component{
         this.setState({[e.target.id]: e.target.value});
     }
 
-    handleSubmit(e){
+    async handleSubmit(e){
         e.preventDefault();
 
         let {commentContent} = this.state;
@@ -76,11 +76,8 @@ class CommentsModal extends Component{
 
         io.emit('COMMENT_ON_POST', {postId, senderId: uid});
 
-        const config = {headers: {'content-type': 'application/json'}};
-
-        axios.post('http://localhost:5000/posts/comment', {postId, uid, content: commentContent}, config).then(response =>{
-            this.setState({comments: response.data});
-        });
+        const data = await createComment(postId, uid, commentContent);
+        this.setState({comments: data});
 
         updateCommentsCount(1);
 
@@ -88,7 +85,7 @@ class CommentsModal extends Component{
         this.myComment.style.height = "";
     }
 
-    deleteComment(commentId){
+    async deleteComment(commentId){
         if(!window.confirm("Are you sure you want to delete this comment?")){
             return;
         }
@@ -98,13 +95,9 @@ class CommentsModal extends Component{
         io.emit('REMOVE_COMMENT', {postId, senderId: uid});
 
         updateCommentsCount(-1);
-
-        const data = {postId, commentId};
-        const config = {headers: {'content-type': 'application/json'}};
-
-        axios.post('http://localhost:5000/posts/deletecomment', data, config).then(response =>{
-            this.setState({comments: response.data});
-        });
+    
+        const data = await deleteComment(postId, commentId);
+        this.setState({comments: data});
     }
 
     render(){

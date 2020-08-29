@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import LikesModal from './LikesModal';
 import {withRouter} from 'react-router-dom';
+import {checkIfUserLiked, handleLike} from '../../../../store/actions/postActions';
+import LikesModal from './LikesModal';
 import {io} from '../../../../App';
-import axios from 'axios';
 import './Likes.css';
 
 class PostLikes extends Component{
@@ -16,21 +16,15 @@ class PostLikes extends Component{
         this.handleLike = this.handleLike.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {uid, postId} = this.props;
 
-        const config = {headers: {'content-type': 'application/json'}};
-
-        axios.post('http://localhost:5000/posts/userliked', {uid, postId}, config).then(response =>{
-            const {userLiked} = response.data;
-
-            this.setState({
-                userLiked
-            });
-        });
+        const userLiked = await checkIfUserLiked(uid, postId);
+      
+        this.setState({userLiked});
     }
 
-    handleLike(e){
+    async handleLike(e){
         let {uid, postId, likes} = this.props;
         let {userLiked} = this.state;
 
@@ -50,10 +44,8 @@ class PostLikes extends Component{
             io.emit('LIKE_POST', {senderId: uid, postId});
         }
 
-        const config = {headers: {'content-type': 'application/json'}};
-
-        axios.post('http://localhost:5000/posts/like', {uid, postId, userLiked: !userLiked}, config);
-
+        await handleLike(uid, postId, userLiked);
+    
         this.setState({userLiked: !userLiked});
     }
 

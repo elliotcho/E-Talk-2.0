@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
-import {getProfilePic} from '../../../../store/actions/profileActions';
+import {getUserData, getProfilePic} from '../../../../store/actions/profileActions';
 import loading from '../../../../images/loading.jpg';
-import axios from 'axios';
 
 class UserLike extends Component{
     constructor(){
@@ -20,15 +19,20 @@ class UserLike extends Component{
     async componentDidMount(){
         const {uid} = this.props;
 
-        axios.get(`http://localhost:5000/users/${uid}`).then(response => {
-            this.setState({
-                firstName: response.data.firstName,
-                lastName: response.data.lastName
-            });
-        });
+        const user = await getUserData(uid);
+
+        const {
+            firstName,
+            lastName
+        } = user;
 
         const imgURL = await getProfilePic(uid);
-        this.setState({imgURL});
+
+        this.setState({
+            firstName,
+            lastName,
+            imgURL
+        });
     }
 
     toProfile(){

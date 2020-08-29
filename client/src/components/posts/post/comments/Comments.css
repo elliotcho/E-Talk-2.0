@@ -7,6 +7,10 @@
      color:brown;
  }
 
+.comments .modal-open[style]{
+    padding-right: 0px !important;
+}
+
 .comments .modal-header{
     font-family: 'Helvetica';
 }

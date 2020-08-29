@@ -9,7 +9,6 @@ class CreatePost extends Component{
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.checkForEmptyContent = this.checkForEmptyContent.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -17,11 +16,11 @@ class CreatePost extends Component{
         this.setState({[e.target.id]: e.target.value});
     }
 
-    checkForEmptyContent(s){
+    checkIfContentEmpty(s){
         let split = s.split('\n');
 
         for(let i=0;i<split.length;i++){
-            if(split[i].length>0){
+            if(split[i].length > 0){
                 return false;
             }
         }
@@ -34,16 +33,18 @@ class CreatePost extends Component{
 
         const {content} = this.state;
 
-        if(this.checkForEmptyContent(content)){
+        if(this.checkIfContentEmpty(content)){
             return; 
         }
 
-        this.setState({content: ""});
-
         this.props.addPost(content);
+        
+        this.setState({content: ""});
     }
 
     render(){
+        const {content} = this.state;
+
         return(
             <div className='createpost text-white'>
                 <h2 className='mt-5 mb-4'>What's on your mind?</h2>
@@ -53,7 +54,7 @@ class CreatePost extends Component{
                               maxLength = '600000'
                               id = 'content'
                               onChange = {this.handleChange}
-                              value = {this.state.content}
+                              value = {content}
                               required = {true}
                     />
 
