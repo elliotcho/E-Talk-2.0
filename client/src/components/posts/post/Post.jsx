@@ -71,6 +71,7 @@ class Post extends Component{
                     profileId = {profileId}
                     createdAt = {createdAt}
                     deletePost = {deletePost}
+                    toPostDetails = {this.toPostDetails}
                 />
 
                 <PostBody

@@ -46,11 +46,19 @@ class UserLike extends Component{
     }
 
     render(){
-        const {firstName, lastName, imgURL} = this.state; 
+        const {
+            firstName, 
+            lastName, 
+            imgURL
+        } = this.state; 
 
         return(
             <div className ='user-like'>
-                <img src={imgURL? imgURL: loading} onClick = {this.toProfile} alt ='profile pic'/>
+                <img 
+                    src={imgURL? imgURL: loading} 
+                    onClick = {this.toProfile} 
+                    alt ='profile pic'
+                />
 
                 <h4 className ='text-primary d-inline-block ml-4' onClick = {this.toProfile}>
                     {firstName} {lastName}

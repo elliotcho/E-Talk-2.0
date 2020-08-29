@@ -3,15 +3,24 @@ import UserLike from './UserLike';
 
 function LikesModal({likes, postId}){
     const userLikes = likes.map(like =>
-        <UserLike key={like} uid ={like} postId={postId}/>
+        <UserLike 
+            key={like} 
+            uid ={like} 
+            postId={postId}
+        />
     );
+
+    const modalId = `closeLikesFor${postId}`;
 
     return(
         <div className ='modal-dialog modal-dialog-centered'>
             <div className ='modal-content'>
                 <div className ='modal-header'>
-                    <h5 className ='mt-2'>Post Liked By...</h5>
-                    <button id= {`closeLikesFor${postId}`} className='close' data-dismiss='modal'>
+                    <h5 className ='mt-2'>
+                        Post Liked By...
+                    </h5>
+                    
+                    <button id= {modalId} className='close' data-dismiss='modal'>
                         <span>&times;</span>
                     </button>
                 </div>

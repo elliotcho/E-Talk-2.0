@@ -1,5 +1,10 @@
 import axios from 'axios';
 
+export const getPost = async (postId) =>{
+    const response = await axios.get(`http://localhost:5000/posts/${postId}`); 
+    return response.data;
+}
+
 export const getFeedPosts = (uid) =>{
     return async (dispatch) =>{
         const response = await axios.get(`http://localhost:5000/posts/feed/${uid}`);
@@ -46,10 +51,6 @@ export const deleteFromPostDetails = async (postId) =>{
     await axios.delete(`http://localhost:5000/posts/${postId}`);
 }
 
-export const getPost = async (postId) =>{
-    const response = await axios.get(`http://localhost:5000/posts/${postId}`); 
-    return response.data;
-}
 
 export const checkIfUserLiked = async (uid, postId) =>{
     const config = {headers: {'content-type': 'application/json'}};
@@ -63,7 +64,11 @@ export const checkIfUserLiked = async (uid, postId) =>{
 export const handleLike = async (uid, postId, userLiked) =>{
     const config = {headers: {'content-type': 'application/json'}};
 
-    const data = {uid, postId, userLiked: !userLiked};
+    const data = {
+        uid, 
+        postId, 
+        userLiked: !userLiked
+    };
 
     await axios.post('http://localhost:5000/posts/like', data , config);
 }

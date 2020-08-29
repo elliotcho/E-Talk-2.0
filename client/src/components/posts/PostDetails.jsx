@@ -60,12 +60,6 @@ class PostDetails extends Component{
     }
 }
 
-const mapStateToProps = (state) =>{
-    return {
-        posts: state.posts.list
-    }
-}
-
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostDetails));
+export default withRouter(connect(null, mapDispatchToProps)(PostDetails));
