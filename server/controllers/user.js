@@ -14,7 +14,7 @@ exports.login = async (req, res) =>{
     }
 
     else{
-        res.json({msg: "Success", user});
+        res.json({msg: "Success", uid: user._id});
     }
 }
 
@@ -46,7 +46,7 @@ exports.signUp = async (req, res) => {
     
                 const user = await newUser.save();
     
-                res.json({msg: 'Success', user});
+                res.json({msg: 'Success', uid: user._id});
             }
         }
 }

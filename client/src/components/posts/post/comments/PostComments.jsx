@@ -10,14 +10,18 @@ class PostComments extends Component{
             commentsCount: 0
         }
 
-        this.updateCommentsCount = this.updateCommentsCount.bind(this);
+        this.updateCount = this.updateCount.bind(this);
     }
 
     componentDidMount(){
-        this.setState({commentsCount: JSON.parse(this.props.comments).length});
+        const comments = JSON.parse(this.props.comments);
+
+        this.setState({
+            commentsCount: comments.length
+        });
     }
 
-    updateCommentsCount(num){
+    updateCount(num){
         const {commentsCount} = this.state;
 
         this.setState({
@@ -26,21 +30,35 @@ class PostComments extends Component{
     }
 
     render(){
-        const {uid, postId, formatCount, comments} = this.props;
+        const {
+            uid, 
+            postId, 
+            formatCount, 
+            comments
+        } = this.props;
 
         const {commentsCount} = this.state;
+
+        const iconMargin = (commentsCount === 0)? 'ml-1': 'ml-2';
     
         return(
             <div className ='d-inline-block comments'>
-                <i className ='fas fa-comment-alt' data-toggle ='modal' data-target ={`#commentsModalFor${postId}`}/>
-                    
-                <span 
-                    className={commentsCount === 0? 'ml-1': 'ml-2'} 
+                <i 
+                    className ='fas fa-comment-alt' 
                     data-toggle ='modal' 
                     data-target ={`#commentsModalFor${postId}`}
-                >    
-                    {commentsCount === 0? null: formatCount(commentsCount)} 
-                    {commentsCount>1? " Comments": " Comment"}
+                />
+                    
+                <span className ={iconMargin} data-toggle ='modal' data-target ={`#commentsModalFor${postId}`}>    
+                    {commentsCount === 0? 
+                        null: 
+                        formatCount(commentsCount)
+                    } 
+                    
+                    {commentsCount > 1? 
+                        " Comments": 
+                        " Comment"
+                    }
                 </span>
     
                 <div className='modal fade' id= {`commentsModalFor${postId}`} data-backdrop='static'>
@@ -48,7 +66,7 @@ class PostComments extends Component{
                         postId={postId} 
                         uid={uid} 
                         comments={comments}
-                        updateCommentsCount = {this.updateCommentsCount}
+                        updateCount = {this.updateCount}
                     />
                 </div>
             </div>

@@ -7,10 +7,13 @@ export const login = (credentials) =>{
         const config={headers: {'content-type': 'application/json'}};
 
         const response = await axios.post('http://localhost:5000/users/login', {...credentials}, config)
-        const {msg, user} = response.data;
+        const {msg, uid} = response.data;
     
         if(msg === 'Success'){
-            dispatch({type: types.LOGIN_SUCCESS, uid: user._id});
+            dispatch({
+                type: types.LOGIN_SUCCESS, 
+                uid
+            });
         }
 
         else{
@@ -25,10 +28,13 @@ export const signUp = (credentials) =>{
         const config={headers: {'content-type': 'application/json'}};
 
         const response = await axios.post('http://localhost:5000/users/signup', {...credentials}, config);
-        const {msg, user} = response.data;
+        const {msg, uid} = response.data;
 
         if(msg === 'Success'){
-            dispatch({type: types.LOGIN_SUCCESS, uid: user._id});
+            dispatch({
+                type: types.LOGIN_SUCCESS, 
+                uid
+            });
         }
 
         else{

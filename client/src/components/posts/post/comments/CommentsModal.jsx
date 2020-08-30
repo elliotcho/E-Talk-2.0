@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {createComment, deleteComment} from '../../../../store/actions/postActions';
+import CreateComment from './CreateComment';
 import UserComment from './UserComment';
 import {io} from '../../../../App';
 
@@ -8,13 +9,10 @@ class CommentsModal extends Component{
         super();
 
         this.state = {
-            commentContent: '',
             comments: []
         }
 
-        this.pressEnter = this.pressEnter.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.createComment = this.createComment.bind(this);
         this.deleteComment = this.deleteComment.bind(this);
     }
 
@@ -28,124 +26,92 @@ class CommentsModal extends Component{
         });
     }
 
-    pressEnter(e){
-        if(e.keyCode === 13 && e.shiftKey === false){
-            e.preventDefault();
-            this.myCommentForm.dispatchEvent(new Event('submit'));
-        }
+    async createComment(content){
+        const {uid, postId} = this.props;
 
-        else{
-           setTimeout(()=>{
-            this.myComment.style.height = "";
-            this.myComment.style.height = this.myComment.scrollHeight + 'px';
-           }, 0);
-        }
+        const comments = await createComment(postId, uid, content);
 
-        if(this.myComment.scrollHeight > 200){
-            this.myComment.style.overflow = 'auto';
-        }
-
-        else{
-            this.myComment.style.overflow = 'hidden';
-        }
-    }
-
-    handleChange(e){
-        this.setState({[e.target.id]: e.target.value});
-    }
-
-    async handleSubmit(e){
-        e.preventDefault();
-
-        let {commentContent} = this.state;
-        let n = commentContent.length;
-
-        if(commentContent.trim() === ""){
-            commentContent = commentContent.substring(0, n-1);
-            
-            this.setState({commentContent});
-
-            return;
-        }
-
-        const {
-            postId, 
-            uid, 
-            updateCommentsCount
-        } = this.props;
-
-        io.emit('COMMENT_ON_POST', {postId, senderId: uid});
-
-        const data = await createComment(postId, uid, commentContent);
-        this.setState({comments: data});
-
-        updateCommentsCount(1);
-
-        this.setState({commentContent: ''});
-        this.myComment.style.height = "";
-    }
+        this.setState({
+            comments
+        });
+    }    
 
     async deleteComment(commentId){
         if(!window.confirm("Are you sure you want to delete this comment?")){
             return;
         }
 
-        const {postId, uid, updateCommentsCount} = this.props;
+        const {
+            uid,
+            postId,
+            updateCount
+        } = this.props;
 
-        io.emit('REMOVE_COMMENT', {postId, senderId: uid});
+        updateCount(-1);
 
-        updateCommentsCount(-1);
+        io.emit('REMOVE_COMMENT', {
+            postId, 
+            senderId: uid
+        });
     
-        const data = await deleteComment(postId, commentId);
-        this.setState({comments: data});
+        const comments = await deleteComment(postId, commentId);
+
+        this.setState({
+            comments
+        });
     }
 
     render(){
-        const {postId, uid} = this.props;
+        const {
+            uid,
+            postId,
+            updateCount
+        } = this.props;
 
-        const {commentContent} = this.state;
-
-        const userComments = this.state.comments.map(comment =>
+        const comments = this.state.comments.map(comment =>
             <UserComment 
-                key={comment.uid} 
+                key={comment._id} 
                 myId={uid} 
                 postId={postId} 
-                comment={comment}
+                commentId = {comment._id}
+                commenterId = {comment.uid}
+                createdAt = {comment.createdAt}
+                content = {comment.content}
                 deleteComment = {this.deleteComment}
             />
         );
+
+        const modalId = `closeCommentsFor${postId}`;
 
         return(
             <div className ='modal-dialog modal-dialog-centered'>
                 <div className ='modal-content'>
                     <div className ='modal-header'>
-                        <h5 className ='mt-2'>Comments</h5>
+                        <h5 className ='mt-2'>
+                            Comments
+                        </h5>
                         
-                        <button id={`closeCommentsFor${postId}`} className='close' data-dismiss='modal'>
+                        <button id={modalId} className='close' data-dismiss='modal'>
                             <span>&times;</span>
                         </button>
                     </div>
 
-                    <div className ='modal-body' onSubmit={this.handleSubmit}>
+                    <div className ='modal-body'>
                         <div className ='comments-container'>
-                            {userComments.length === 0? <h4 className ='no-comments'>No Comments Available</h4>: 
-                            userComments}
+                            {comments.length === 0? 
+                                (<h4 className ='no-comments'>
+                                    No Comments Available
+                                </h4>): 
+                                comments
+                            }
                         </div>
 
-                        <div className ='comment-form'> 
-                            <form ref ={ele => this.myCommentForm = ele}>
-                                <textarea 
-                                        className = 'form-control'
-                                        rows='1' 
-                                        ref = {ele => this.myComment = ele}
-                                        onKeyDown={this.pressEnter} 
-                                        value = {commentContent}
-                                        id = 'commentContent'
-                                        onChange = {this.handleChange}
-                                        placeholder = 'Write a comment...'
-                                />
-                            </form>
-                        </div>
+                        <CreateComment
+                            uid = {uid}
+                            postId = {postId}
+                            updateCount = {updateCount}
+                            createComment = {this.createComment}
+                        />
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ class UserComment extends Component{
     }
 
     async componentDidMount(){
-        const commenterId = this.props.comment.uid;
+        const {commenterId} = this.props;
 
         const user = await getUserData(commenterId);
 
@@ -38,9 +38,7 @@ class UserComment extends Component{
     }
 
     toProfile(){
-        const commenterId = this.props.comment.uid;
-
-        const {postId} = this.props;
+        const {postId, commenterId} = this.props;
 
         document.getElementById(`closeCommentsFor${postId}`).click();
 
@@ -50,9 +48,20 @@ class UserComment extends Component{
     }
 
     render(){
-        const {createdAt, content} = this.props.comment;
+        const {
+            myId,
+            commentId,
+            commenterId,
+            createdAt, 
+            content,
+            deleteComment
+        } = this.props;
 
-        const {firstName, lastName, imgURL} = this.state;
+        const {
+            firstName, 
+            lastName, 
+            imgURL
+        } = this.state;
 
         return(
             <div className ='user-comment'>
@@ -62,16 +71,21 @@ class UserComment extends Component{
                     </div>
 
                     <div className ='col-7 mt-1'>
-                        <h5 className ='text-primary' onClick={this.toProfile}>{firstName} {lastName}</h5>
-                        <p className ='text-muted'>{moment(createdAt).calendar()}</p>
+                        <h5 className ='text-primary' onClick={this.toProfile}>
+                            {firstName} {lastName}
+                        </h5>
+                        
+                        <p className ='text-muted'>
+                            {moment(createdAt).calendar()}
+                        </p>
                     </div>
 
                     <div className='col-3 text-right'>
                         <CommentSettings 
-                            commentId = {this.props.comment._id}
-                            myId={this.props.myId} 
-                            commenterId={this.props.comment.uid}
-                            deleteComment = {this.props.deleteComment}
+                            commentId = {commentId}
+                            myId={myId} 
+                            commenterId={commenterId}
+                            deleteComment = {deleteComment}
                         />
                     </div>
 
