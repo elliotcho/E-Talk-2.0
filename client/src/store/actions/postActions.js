@@ -11,7 +11,10 @@ export const getFeedPosts = (uid) =>{
         const response = await axios.get(`http://localhost:5000/posts/feed/${uid}`);
         const posts = response.data;
 
-        dispatch({type: types.LOAD_POSTS, posts});
+        dispatch({
+            type: types.LOAD_POSTS, 
+            posts
+        });
     }
 }
 
@@ -22,7 +25,10 @@ export const getProfilePosts = (uid, profileId) =>{
         const response = await axios.post('http://localhost:5000/posts/profile', {uid, profileId}, config);
         const posts = response.data;
 
-        dispatch({type: types.LOAD_POSTS, posts});
+        dispatch({
+            type: types.LOAD_POSTS, 
+            posts
+        });
     }
 }
 
@@ -33,7 +39,10 @@ export const createPost = (uid, content) =>{
         const response = await axios.post('http://localhost:5000/posts/create', {uid, content}, config);
         const newPost = response.data;
 
-        dispatch({type: types.CREATE_POST, newPost});
+        dispatch({
+            type: types.CREATE_POST, 
+            newPost
+        });
     }
 }
 
@@ -42,7 +51,7 @@ export const deletePostFromList = (postId) => {
         await axios.delete(`http://localhost:5000/posts/${postId}`);
 
         const state = getState();
-        const {posts} = state.post;
+        const {posts} = state.posts;
 
         for(let i=0;i<posts.length;i++){
             if(posts[i]._id === postId){

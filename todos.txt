@@ -6,6 +6,8 @@ For next 2 hour session:
 Overall:
 [ ] Rework search bar backend
 
+[ ] Message card persists refresh/composer switch
+
 [ ] Profile Bio Design
 [ ] Profile Bio backend
 

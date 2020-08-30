@@ -75,12 +75,12 @@ export const handleSocketEvents =
     });
 
     io.on('NEW_MESSAGE', data =>{
-        const {chatId, newMessage, chats, uid} = data;
+        const {chatId, newMessage, uid} = data;
 
         const {
             getUnseenChats,
             handleNewMessage,
-            setUserChats
+            getUserChats
         } = messageActions
 
         //light up navbar if you're not on messages page
@@ -90,7 +90,7 @@ export const handleSocketEvents =
         dispatch(handleNewMessage(newMessage, chatId, uid, io));
 
         //reset message cards so that chat with chatId is now on top
-        dispatch(setUserChats(chats));
+        dispatch(getUserChats(uid));
     });
 
     io.on('IS_TYPING', data =>{

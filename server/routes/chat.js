@@ -3,23 +3,25 @@ const router = require('express').Router();
 const {
     getChat, 
     getUserChats,
-    getChatPhoto,
+    getChatMemberIds,
     createChat,
     getChatMessages,
     markChatAsRead,
-    getChatMembers,
+    getMemberNames,
     getUnseenChats,
     seeChats,
-    checkIfChatExists
+    checkIfChatExists,
+    createMessage
 } = require('../controllers/chat');
 
 router.get('/:chatId', getChat);
 router.get('/user/:uid', getUserChats);
-router.post('/photo', getChatPhoto);
+router.post('/memberids', getChatMemberIds);
 router.post('/create',createChat);
+router.post('/message', createMessage);
 router.get('/messages/:chatId', getChatMessages);
 router.post('/messages/read', markChatAsRead);
-router.post('/members', getChatMembers);
+router.post('/members', getMemberNames);
 router.get('/unseen/:uid', getUnseenChats);
 router.put('/see/:uid', seeChats);
 router.post('/exists', checkIfChatExists);

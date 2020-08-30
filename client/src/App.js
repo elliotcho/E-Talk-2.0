@@ -64,7 +64,7 @@ class App extends Component{
                   <Route path = '/search/:query' render = {() => <SearchResults uid = {uid}/>}/>
                   <Route path = '/notifications' render = {()=><Notifications uid={uid}/>}/>
                   <Route path = '/post/:id' render = {() => <PostDetails uid={uid}/>}/>
-                  <Route path = '/chat/:id' render = {() => <MessagesHome uid={uid}/>}/>
+                  <Route path = '/chat/:id' render = {() => <MessagesHome/>}/>
                 </Switch>
 
                 <ToastContainer style = {{fontFamily: 'Trebuchet MS'}}/>

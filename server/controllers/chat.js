@@ -1,6 +1,32 @@
 const {User} = require('../models/user');
 const {Message, Chat} = require('../models/chat');
 
+exports.createMessage = async (req,res) =>{
+    const {uid, content, chatId} = req.body;
+    
+    const chat = await Chat.findOne({_id:chatId});
+    const {messages} = chat;
+
+    const newMessage = new Message({
+        uid,
+        content,
+        timeSent: new Date(),
+        readBy: [uid],
+        seenBy: [uid]
+    });
+
+    messages.push(newMessage);
+    
+    const {timeSent} = newMessage;
+    
+    await Chat.updateOne(
+        {_id:chatId},
+        {messages, timeOfLastMessage: timeSent}
+    );
+    
+    res.json(newMessage);
+}
+
 exports.getChat = async (req, res) =>{
     const {chatId} = req.params;
 
@@ -21,42 +47,6 @@ exports.getUserChats = async (req, res) =>{
 
     res.json(chats);
 }
-
-exports.getChatPhoto = async (req, res) =>{
-    const {chatId, uid} = req.body;
-
-    if(chatId !== 'home' && chatId !== 'new'){
-        const chat = await Chat.findOne({_id: chatId});
-
-        if(chat === null){
-            res.json({msg: 'Chat not found'});
-        }
-    
-        else{
-            const {members} = chat;
-    
-            if(members.length === 1){
-                res.json([uid]);
-            }
-    
-            else{
-                const result = [];
-                const numUsers = (members.length === 2)? 1: 2
-            
-                for(let i=members.length-1, j=0;i>=0 && j<numUsers;i--){
-                    if(members[i] === uid){
-                        continue;
-                    }
-            
-                    result.push(members[i]);
-                    j++;
-                }
-                
-                res.json({members: result});
-            }
-        }
-    }
- }
 
  exports.createChat =  async (req, res)=>{
     const {uid, recipients, content} = req.body;
@@ -136,7 +126,43 @@ exports.markChatAsRead = async (req, res) =>{
     }
 }
 
-exports.getChatMembers = async (req, res) =>{
+exports.getChatMemberIds = async (req, res) => {
+    const {chatId, uid} = req.body;
+
+    if(chatId !== 'home' && chatId !== 'new'){
+        const chat = await Chat.findOne({_id: chatId});
+
+        if(chat === null){
+            res.json({msg: 'Chat not found'});
+        }
+    
+        else{
+            const {members} = chat;
+    
+            if(members.length === 1){
+                res.json([uid]);
+            }
+    
+            else{
+                const result = [];
+                const numUsers = (members.length === 2)? 1: 2
+            
+                for(let i=members.length-1, j=0;i>=0 && j<numUsers;i--){
+                    if(members[i] === uid){
+                        continue;
+                    }
+            
+                    result.push(members[i]);
+                    j++;
+                }
+                
+                res.json({members: result});
+            }
+        }
+    }
+}
+
+exports.getMemberNames = async (req, res) =>{
     const {uid, chatId} = req.body;
 
     if(chatId !== 'home' && chatId !== 'new'){

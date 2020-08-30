@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
+import * as msgActions from '../../store/actions/messagesActions';
 import ComposerResult from './ComposerResult';
-import Conversation from './Conversation';
+import Conversation from './convo/Conversation';
 import {io} from '../../App';
 
 class Composer extends Component{
@@ -29,7 +30,12 @@ class Composer extends Component{
     }
 
     addRecipient(user){
-        const {uid, recipients, updateRecipients} = this.props;
+        const {uid, recipients, dispatch} = this.props;
+
+        const {
+            clearComposerChat,
+            updateRecipients
+        } = msgActions
 
         io.emit('SEARCH_COMPOSER', {
             uid,
@@ -45,17 +51,22 @@ class Composer extends Component{
         }
 
         else{
-            this.props.clearComposerChat();
+            dispatch(clearComposerChat());
         }
 
         recipients.push(user);
-        updateRecipients(recipients);
+        dispatch(updateRecipients(recipients));
 
         this.setState({query: ''});
     }
 
     deleteRecipient(e){
-        const {uid, recipients, updateRecipients} = this.props;
+        const {uid, recipients, dispatch} = this.props;
+
+        const {
+            clearComposerChat,
+            updateRecipients
+        } = msgActions
         
         const {query} = this.state;
 
@@ -68,17 +79,24 @@ class Composer extends Component{
             }
 
             else{
-                this.props.clearComposerChat();
+                dispatch(clearComposerChat());
             }
 
             recipients.pop();
-            updateRecipients(recipients);
+            dispatch(updateRecipients(recipients));
         }
     }
 
     componentWillUnmount(){
-        this.props.clearComposerChat();
-        this.props.clearComposer();
+        const {dispatch} = this.props;
+
+        const {
+            clearComposer,
+            clearComposerChat
+        } = msgActions
+
+        dispatch(clearComposer());
+        dispatch(clearComposerChat());
     }
 
     render(){

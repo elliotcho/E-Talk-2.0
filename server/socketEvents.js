@@ -134,25 +134,15 @@ module.exports = (io) =>{
             }
         });
 
-        socket.on('SEND_MESSAGE', async data =>{
-            const result = await sendMessage(data);
-
-            const newMessage = result[0];
-            const chatId = result[1];
-            const members = result[2];
+        socket.on('SEND_MESSAGE', data =>{
+            const {members, newMessage, chatId} = data;
 
             for(let i=0;i<members.length;i++){
                 const id = members[i];
 
-                const response = await axios.get(`http://localhost:5000/chats/user/${id}`);
-                const chats= response.data;
-
-                io.sockets.to(active[id]).emit('NEW_MESSAGE', {
-                    chatId, 
-                    newMessage, 
-                    chats, 
-                    uid: id
-                });
+                io.sockets.to(active[id]).emit(
+                    'NEW_MESSAGE', {chatId, newMessage, uid: id}
+                );
             }
         });
 

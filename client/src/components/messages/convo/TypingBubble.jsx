@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {getProfilePic} from '../../store/actions/profileActions';
-import loading from '../../images/loading.jpg';
+import {getProfilePic} from '../../../store/actions/profileActions';
+import loading from '../../../images/loading.jpg';
 
 class TypingBubble extends Component{
     constructor(){

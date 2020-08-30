@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import {sendMessage, getMemberIds} from '../../store/actions/messagesActions';
 import {withRouter} from 'react-router-dom';
 import {io} from '../../App';
 
@@ -93,7 +94,11 @@ class CreateMessage extends Component{
         
         else{
             this.handleStopTyping();
-            io.emit('SEND_MESSAGE', {chatId, uid, content});
+
+            const newMessage =  await sendMessage(chatId, uid, content);
+            const members = await getMemberIds(chatId, uid);
+
+            io.emit('SEND_MESSAGE', {chatId, members: [...members, uid], newMessage});
         }
 
         this.myMessage.value="";

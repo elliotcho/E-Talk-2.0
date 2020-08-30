@@ -62,26 +62,6 @@ exports.createChat = async (data) =>{
     return [chat.messages[n-1], chatId, chat.members];
 }
 
-exports.sendMessage = async (data) =>{
-    const {uid, chatId, content} = data;
-
-    const chat = await Chat.findOne({_id: chatId});
-
-   const newMessage = new Message({
-        uid, 
-        content, 
-        timeSent: new Date(),
-        readBy: [uid],
-        seenBy: [uid]
-    });
-
-    chat.messages.push(newMessage);
-
-    await Chat.updateOne({_id: chatId}, {messages: chat.messages, timeOfLastMessage: new Date()});
- 
-    return [newMessage, chatId, chat.members];
-}
-
 exports.renderChat = async (data) =>{
     const {members} = data;
 

@@ -56,27 +56,10 @@ const messagesReducer = (state = initState, action) =>{
                 displayedChatId: null
             }
         case 'NEW_MESSAGE':
-            if(state.displayedChatId === action.chatId){
-                const {chatId, newMessage, uid, io} = action;
-
-                const {msgsOnDisplay} = state;
-
-                if(!newMessage.readBy.includes(uid)){
-                    newMessage.readBy.push(uid);
-
-                    io.emit('READ_RECEIPTS', {
-                        chatId, 
-                        messages: [...msgsOnDisplay, newMessage]
-                    });
-                }
-
-                return{
-                    ...state,
-                    msgsOnDisplay: [...msgsOnDisplay, newMessage]
-                }
+            return{
+                ...state,
+                msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
             }
-            
-            return state;
         case 'LOAD_UNSEEN_CHATS':
             return{
                 ...state,
