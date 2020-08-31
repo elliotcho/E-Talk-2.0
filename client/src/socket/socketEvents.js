@@ -1,19 +1,11 @@
 import React from 'react';
-
 import * as messageActions from '../store/actions/messagesActions';
 import {getUnreadRequests} from '../store/actions/friendsActions';
 import {getUnreadNotifs} from '../store/actions/notificationActions';
-
-
 import Toast from '../components/notifications/Toast';
 import {toast} from 'react-toastify';
 
-export const handleSocketEvents = 
-    (
-     io, 
-     dispatch
-    ) =>{
-    
+export const handleSocketEvents = (io, dispatch) =>{
     io.on('CHANGE_FRIEND_STATUS', data =>{
         const {uid} =data;
 
@@ -107,6 +99,7 @@ export const handleSocketEvents =
         const {chatId, typingMsgs} = data;
 
         const {stopTyping} = messageActions
+        
 
         dispatch(stopTyping(chatId, typingMsgs));
     });

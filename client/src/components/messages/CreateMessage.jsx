@@ -16,6 +16,7 @@ class CreateMessage extends Component{
         this.pressEnter = this.pressEnter.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleIsTyping = this.handleIsTyping.bind(this);
         this.handleStopTyping = this.handleStopTyping.bind(this);
         this.attachPhoto = this.attachPhoto.bind(this);
         this.removePhoto = this.removePhoto.bind(this);
@@ -70,14 +71,14 @@ class CreateMessage extends Component{
             }
 
             const chatId = await createChat(uid, recipients, content);
-
-            //broadcast message
+      
+            //update the message cards of recipients
             io.emit('CREATE_CHAT', {recipients});
 
-            //update list of message cards
+            //reshuffle message cards
             await dispatch(getUserChats(uid));
 
-            //render the chat you just created
+            //render the new chat
             this.props.history.push(`/chat/${chatId}`);
         }
         
@@ -102,8 +103,6 @@ class CreateMessage extends Component{
     }
 
     handleChange(e){
-        const {chatId, uid, typingMsgs} = this.props;
-
         //if the user presses enter
         if(e.target.value.includes('\n')){
             this.myMessage.dispatchEvent(new Event('keydown'))
@@ -116,14 +115,14 @@ class CreateMessage extends Component{
             return;
         }
 
-        /*
-            If the msg doesn't change for 10 seconds,
-            stop showing that the user is typing
-        */
-        for(let i =0;i<intervals.length;i++){
-            clearInterval(intervals[i]);
-        }
+        this.handleIsTyping();
+    }
 
+    async handleIsTyping(){
+        const {chatId, uid, typingMsgs} = this.props;
+        const {getMemberIds} = msgActions;
+
+        intervals.forEach(interval => clearInterval(interval));
         intervals = [];
 
         const typingInterval = setInterval(() =>{
@@ -133,12 +132,9 @@ class CreateMessage extends Component{
 
         intervals.push(typingInterval);
 
-        /*
-            check if we are already showing the user typing
-            if not show that the user is typing
-        */
+        //check if we are already typing
         let found = false;
-
+        
         for(let i=0;i<typingMsgs.length;i++){
             if(typingMsgs[i].typingId === uid){
                 found = true;
@@ -147,12 +143,20 @@ class CreateMessage extends Component{
         }
 
         if(chatId !== 'new' && !found){
-            io.emit('IS_TYPING', {chatId, uid});
+            const members = await getMemberIds(chatId, uid);
+
+            io.emit('IS_TYPING', {
+                chatId,
+                members: [...members, uid],
+                uid
+            });
         }
     }
 
-    handleStopTyping(){
+    async handleStopTyping(){
         const {typingMsgs, uid, chatId} = this.props;
+        const {getMemberIds} = msgActions;
+
 
         for(let i =0; i<typingMsgs.length;i++){
             if(typingMsgs[i].typingId === uid){
@@ -160,8 +164,14 @@ class CreateMessage extends Component{
                 break;
             }
         }
+
+        const members = await getMemberIds(chatId, uid);
         
-        io.emit('STOP_TYPING', {chatId, typingMsgs});
+        io.emit('STOP_TYPING', {
+            chatId, 
+            typingMsgs,
+            members: [...members, uid]
+        });
         
         return;
     }
@@ -172,7 +182,10 @@ class CreateMessage extends Component{
 
     removePhoto(){
         document.getElementById('msgPic').value = "";
-        this.setState({photo: []});
+
+        this.setState({
+            photo: []
+        });
     }
 
     render(){

@@ -128,36 +128,28 @@ module.exports = (io) =>{
             const {members, newMessage, chatId} = data;
 
             for(let i=0;i<members.length;i++){
-                const id = members[i];
+                const uid = members[i];
 
-                io.sockets.to(active[id]).emit(
-                    'NEW_MESSAGE', {chatId, newMessage, uid: id}
+                io.sockets.to(active[uid]).emit(
+                    'NEW_MESSAGE', {chatId, newMessage, uid}
                 );
             }
         });
 
         socket.on('IS_TYPING', async data=>{
-            const {chatId, uid} = data;
-
-            const response = await axios.get(`http://localhost:5000/chats/${chatId}`);
-            const chat = response.data;
-            const {members} = chat;
+            const {members, uid, chatId} = data;
 
             for(let i=0;i<members.length;i++){
                 const id = members[i];
  
                 io.sockets.to(active[id]).emit('IS_TYPING', {
-                    uid, chatId, 
+                    uid, chatId
                 });
             }
         });
 
         socket.on('STOP_TYPING', async data =>{
-            const {chatId, typingMsgs} = data;
-
-            const response = await axios.get(`http://localhost:5000/chats/${chatId}`);
-            const chat = response.data;
-            const {members} = chat;
+            const {chatId, typingMsgs, members} = data;
 
             for(let i=0;i<members.length;i++){
                 const id = members[i];

@@ -106,7 +106,9 @@ class Conversation extends Component{
                 uid={uid} 
                 msg={msg}
                 handleScroll = {this.handleScroll}
-                showRead = {this.getShowRead(i)}   
+                showRead = {i === msgsOnDisplay.length -1 ||
+                    msgsOnDisplay[i].uid !== msgsOnDisplay[i+1].uid ||
+                    msgsOnDisplay[i].readBy.length !== msgsOnDisplay[i+1].readBy.length}   
             />
         );
         
