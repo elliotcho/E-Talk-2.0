@@ -29,9 +29,14 @@ class Composer extends Component{
         this.setState({query: e.target.value});
     }
 
-    addRecipient(user){
+    async addRecipient(user){
         const {uid, recipients, dispatch} = this.props;
-        const {updateRecipients, clearComposerChat} = msgActions
+
+        const {
+            updateRecipients, 
+            checkIfChatExists,
+            clearComposerChat
+        } = msgActions
 
         io.emit('SEARCH_COMPOSER', {
             uid,
@@ -40,10 +45,16 @@ class Composer extends Component{
         });
 
         if(recipients.length === 0){
-            io.emit('RENDER_COMPOSER_CHAT', {
-                members: [uid, user._id],
-                uid
-            });
+            const members = [uid, user._id];
+
+            const chatId = await checkIfChatExists(members);
+
+            if(chatId){
+                io.emit('RENDER_COMPOSER_CHAT', {
+                    chatId,
+                    uid
+                });
+            }
         }
 
         else{
@@ -58,18 +69,29 @@ class Composer extends Component{
         });
     }
 
-    deleteRecipient(e){
+    async deleteRecipient(e){
         const {uid, recipients, dispatch} = this.props;
-        const {updateRecipients, clearComposerChat} = msgActions
+
+        const {
+            updateRecipients, 
+            checkIfChatExists,
+            clearComposerChat,
+        } = msgActions
         
         const {query} = this.state;
 
         if(e.keyCode === 8 && recipients.length > 0 && query === ''){
             if(recipients.length === 2){
-                io.emit('RENDER_COMPOSER_CHAT', {
-                    members: [uid, recipients[0]._id],
-                    uid
-                });
+                const members = [uid, recipients[0]._id];
+
+                const chatId = await checkIfChatExists(members);
+
+                if(chatId){
+                    io.emit('RENDER_COMPOSER_CHAT', {
+                        chatId,
+                        uid
+                    });
+                }
             }
 
             else{

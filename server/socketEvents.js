@@ -113,22 +113,12 @@ module.exports = (io) =>{
         });
 
         socket.on('CREATE_CHAT', async data =>{
-            const result = await createChat(data);
+            const {recipients} = data;
 
-            const newMessage = result[0];
-            const chatId = result[1];
-            const members = result[2];
+            for(let i=0;i<recipients.length;i++){
+                const id = recipients[i]._id;
 
-            for(let i=0;i<members.length;i++){
-                const id = members[i];
-
-                const response = await axios.get(`http://localhost:5000/chats/user/${id}`);
-                const chats= response.data;
-
-                io.sockets.to(active[id]).emit('NEW_MESSAGE', {
-                    chatId, 
-                    newMessage, 
-                    chats, 
+                io.sockets.to(active[id]).emit('CREATE_CHAT', {
                     uid: id
                 });
             }
@@ -195,15 +185,11 @@ module.exports = (io) =>{
         });
 
         socket.on('RENDER_COMPOSER_CHAT', async data =>{
-            const chatId = await renderChat(data);
-            
-            const {uid} = data;
+            const {chatId, uid} = data;
 
-            if(chatId){
-                io.sockets.to(active[uid]).emit('RENDER_COMPOSER_CHAT', {
-                    chatId
-                });
-            }
+            io.sockets.to(active[uid]).emit('RENDER_COMPOSER_CHAT', {
+                chatId
+            });
         });
     });
 } 

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import * as msgActions from '../../store/actions/messagesActions';
-import axios from 'axios';
 import {io} from '../../App';
 
 let intervals = [];
@@ -50,46 +49,36 @@ class CreateMessage extends Component{
     async handleSubmit(e){
         e.preventDefault();
 
-        const {uid, chatId, composerChatId, recipients} = this.props;
+        const {
+            uid, 
+            chatId, 
+            composerChatId, 
+            recipients, 
+            dispatch
+        } = this.props;
      
         const content = this.myMessage.value;
+        const {createChat, getUserChats} = msgActions;
 
         if(content.trim() === ""){
             return;
         }
-
-        else if(composerChatId !== null){
-            this.handleStopTyping();
-            io.emit('SEND_MESSAGE', {chatId: composerChatId, uid, content});
-
-            const response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
-            const chats = response.data;
-
-            //update list of message cards
-            this.props.setUserChats(chats);
-
-            this.props.history.push(`/chat/${composerChatId}`);
-        }
-        
-        else if(chatId === 'new'){
+     
+        else if(chatId === 'new' && !composerChatId){
             if(recipients.length === 0){
                 return;
             }
 
-            let response = await axios.post('http://localhost:5000/chats/create', {uid, recipients, content});
-            const newChatId = response.data.chatId;
-
-            response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
-            const chats = response.data;
+            const chatId = await createChat(uid, recipients, content);
 
             //broadcast message
-            io.emit('CREATE_CHAT', {uid, chatId: newChatId});
+            io.emit('CREATE_CHAT', {recipients});
 
             //update list of message cards
-            this.props.setUserChats(chats);
+            await dispatch(getUserChats(uid));
 
             //render the chat you just created
-            this.props.history.push(`/chat/${newChatId}`);
+            this.props.history.push(`/chat/${chatId}`);
         }
         
         else{
@@ -97,11 +86,13 @@ class CreateMessage extends Component{
 
             const {sendMessage, getMemberIds} = msgActions;
 
-            const newMessage =  await sendMessage(chatId, uid, content);
-            const members = await getMemberIds(chatId, uid);
+            const currChatId = (composerChatId) ? composerChatId: chatId;
+
+            const newMessage =  await sendMessage(currChatId, uid, content);
+            const members = await getMemberIds(currChatId, uid);
 
             io.emit('SEND_MESSAGE', {
-                chatId, 
+                chatId: currChatId, 
                 members: [...members, uid], 
                 newMessage
             });

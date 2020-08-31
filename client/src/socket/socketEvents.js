@@ -68,10 +68,12 @@ export const handleSocketEvents =
 
     io.on('CREATE_CHAT', data =>{
         const {
-            setUserChats
+            getUserChats,
+            getUnseenChats
         } = messageActions;
 
-        dispatch(setUserChats(data.chats));
+        dispatch(getUserChats(data.uid));
+        dispatch(getUnseenChats(data.uid));
     });
 
     io.on('NEW_MESSAGE', data =>{

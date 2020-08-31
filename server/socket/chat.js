@@ -1,5 +1,4 @@
 const {User}  = require('../models/user');
-const {Message, Chat} = require('../models/chat');
 
 const axios = require('axios');
 
@@ -53,14 +52,6 @@ exports.getRecipients = async (data) =>{
     return result;
 }
 
-exports.createChat = async (data) =>{
-    const {chatId} = data;
-
-    const chat = await Chat.findOne({_id: chatId});
-    const n = chat.messages.length;
-
-    return [chat.messages[n-1], chatId, chat.members];
-}
 
 exports.renderChat = async (data) =>{
     const {members} = data;
