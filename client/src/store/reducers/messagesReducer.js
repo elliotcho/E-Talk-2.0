@@ -1,17 +1,27 @@
 const initState = {
     chats: [],
+    unseenChats: 0,
     recipients: [],
     composerResults: [],
     msgsOnDisplay: [],
     displayedChatId: null,
     typingMsgs: [],
-    unseenChats: 0,
     composerChatId: null
 }
 
 const messagesReducer = (state = initState, action) =>{
     switch (action.type){
         case 'SAVE_CHATS':
+            return{
+                ...state,
+                chats: [...action.chats]
+            }
+        case 'SEE_CHATS':
+            return{
+                ...state,
+                unseenChats: 0
+            }
+        case 'READ_CHAT':
             return{
                 ...state,
                 chats: [...action.chats]
@@ -64,16 +74,6 @@ const messagesReducer = (state = initState, action) =>{
             return{
                 ...state,
                 unseenChats: action.unseenChats
-            }
-        case 'SEE_CHATS':
-            return{
-                ...state,
-                unseenChats: 0
-            }
-        case 'READ_CHAT':
-            return{
-                ...state,
-                chats: [...action.chats]
             }
         case 'IS_TYPING':
             if(state.displayedChatId === action.chatId){

@@ -26,8 +26,12 @@ class ComposerResult extends Component{
     }
 
     render(){
-        const {firstName, lastName, imgURL} = this.state;
-
+        const {
+            firstName, 
+            lastName, 
+            imgURL
+        } = this.state;
+        
         const {addRecipient, user} = this.props;
 
         return(

@@ -16,13 +16,14 @@ class MessagesHome extends Component{
     }
 
     async componentDidMount(){
+        const chatId = this.props.match.params.id;
         const {uid,  dispatch} = this.props;
 
         //get user chats and mark them as seen
         const chats = await dispatch(getUserChats(uid));
         dispatch(seeChats(uid));
 
-        if(chats.length === 0 || this.props.match.params.id === 'new'){
+        if(chats.length === 0 || chatId === 'new'){
             this.props.history.push('/chat/new');
         }
 

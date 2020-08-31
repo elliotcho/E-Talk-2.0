@@ -10,8 +10,8 @@ class MessageCard extends Component{
         super();
 
         this.state = {
-            memberNames: 'Loading...',
             isRead: true,
+            memberNames: 'Loading...',
             chatPics: []
         }
 
@@ -24,7 +24,7 @@ class MessageCard extends Component{
              uid, 
              chatId, 
              messages, 
-             isActive, 
+             isActive,
              dispatch
          } = this.props;
 
@@ -34,6 +34,7 @@ class MessageCard extends Component{
              readChat
          } = msgActions;
 
+     
         const isRead = await dispatch(readChat(chatId, uid, messages, isActive));
         const chatPics = await getChatPics(chatId, uid, getProfilePic);
         let memberNames = await getMemberNames(chatId, uid);
@@ -41,7 +42,7 @@ class MessageCard extends Component{
         if(memberNames.length > 20){
             memberNames = memberNames.substring(0, 20) + "...";
         }
-        
+
          this.setState({
              memberNames,
              chatPics,
@@ -59,8 +60,12 @@ class MessageCard extends Component{
             dispatch
         } = this.props;
 
-        if((isActive !== prevProps.isActive) || (timeOfLastMessage!== prevProps.timeOfLastMessage)){
-            await dispatch(msgActions.readChat(chatId, uid, messages, isActive));
+        if((isActive !== prevProps.isActive) || (timeOfLastMessage !== prevProps.timeOfLastMessage)){
+            const {readChat} = msgActions;
+
+            const isRead = await dispatch(readChat(chatId, uid, messages, isActive));
+
+            this.setState({isRead});
         }
     }
 
@@ -78,24 +83,18 @@ class MessageCard extends Component{
     }
 
     displayChat(){
-        const {
-            chatId
-        } = this.props;
-        
+        const {chatId} = this.props;
         this.props.history.push(`/chat/${chatId}`);
     }
 
     render(){
         const {
-            memberNames, 
             isRead, 
+            memberNames, 
             chatPics
         } = this.state;
 
-        const {
-            isActive,
-            timeOfLastMessage
-        } = this.props;
+        const {isActive,timeOfLastMessage} = this.props;
 
         const active = (isActive) ? 'active': '';
 
@@ -116,7 +115,7 @@ class MessageCard extends Component{
                         <h5>{memberNames}</h5>
                         
                         <p>
-                            {isRead? 
+                            {isRead || isActive? 
                                 this.formatContent()
                                :(<strong className ='text-dark'>
                                    {this.formatContent()}

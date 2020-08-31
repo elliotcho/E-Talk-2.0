@@ -39,18 +39,15 @@ export const readChat = (chatId, uid, messages, isActive) =>{
                     const n = messages.length;
 
                     messages[n-1].readBy.push(uid);
-
+            
                     break;
                 }
             }
 
             dispatch({type: 'READ_CHAT', chats});
-
-            return true;
         }
 
         const n = messages.length;
-
         return messages[n-1].readBy.includes(uid);
     }
 }

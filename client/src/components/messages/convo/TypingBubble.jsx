@@ -16,7 +16,9 @@ class TypingBubble extends Component{
 
         const imgURL = await getProfilePic(typingId);
         
-        this.setState({imgURL}, () => {handleScroll();})
+        this.setState({imgURL}, () => {
+            handleScroll();
+        });
     }
 
     render(){
@@ -24,7 +26,9 @@ class TypingBubble extends Component{
 
         const {imgURL} = this.state; 
 
-        const style = (display)? {display: 'flex'} : {display: 'none'};
+        const style = (display)? 
+            {display: 'flex'} : 
+            {display: 'none'};
 
         return(
             <div className = 'typing-container' style = {style}>

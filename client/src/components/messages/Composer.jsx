@@ -31,11 +31,7 @@ class Composer extends Component{
 
     addRecipient(user){
         const {uid, recipients, dispatch} = this.props;
-
-        const {
-            clearComposerChat,
-            updateRecipients
-        } = msgActions
+        const {updateRecipients, clearComposerChat} = msgActions
 
         io.emit('SEARCH_COMPOSER', {
             uid,
@@ -57,16 +53,14 @@ class Composer extends Component{
         recipients.push(user);
         dispatch(updateRecipients(recipients));
 
-        this.setState({query: ''});
+        this.setState({
+            query: ''
+        });
     }
 
     deleteRecipient(e){
         const {uid, recipients, dispatch} = this.props;
-
-        const {
-            clearComposerChat,
-            updateRecipients
-        } = msgActions
+        const {updateRecipients, clearComposerChat} = msgActions
         
         const {query} = this.state;
 
@@ -89,11 +83,7 @@ class Composer extends Component{
 
     componentWillUnmount(){
         const {dispatch} = this.props;
-
-        const {
-            clearComposer,
-            clearComposerChat
-        } = msgActions
+        const {clearComposer, clearComposerChat} = msgActions
 
         dispatch(clearComposer());
         dispatch(clearComposerChat());
@@ -129,12 +119,15 @@ class Composer extends Component{
                 </div>
 
                 
-                {<div style = {{position: 'absolute'}}>
+                <div style = {{position: 'absolute'}}>
                     {composerResults}
-                </div>}
+                </div>
 
                 {composerChatId? 
-                    <Conversation chatId = {composerChatId} isComposerChat = {true}/>: 
+                    <Conversation 
+                        chatId = {composerChatId} 
+                        isComposerChat = {true}
+                    />: 
                     null
                 }
             </div>
