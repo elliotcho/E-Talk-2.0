@@ -57,33 +57,28 @@ export const clearComposer = () =>{
     }
 }
 
+export const getMemberNames = async (chatId, uid) => {
+    const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
+    let {memberNames} = response.data;
+ 
+    return memberNames;
+ }
 
+export const getChatPics = async (chatId, uid, getProfilePic) => {
+    const response = await axios.post('http://localhost:5000/chats/memberids', {uid, chatId}, config);
+    const {members} = response.data;
+   
+    let chatPics = [];
 
-
-
-
-export const getUserChats = (uid) => {
-    return async (dispatch) => {
-        const response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
-        const chats = response.data;
-
-        dispatch({
-            type: 'SAVE_CHATS', 
-            chats
-        });
-
-        return chats;
+    for(let i=0;i<members.length;i++){
+        const imgURL = await getProfilePic(members[i]);
+        chatPics.push(imgURL);
     }
+
+    return chatPics;
 }
 
-export const seeChats = (uid) =>{
-    return async (dispatch) =>{
-        await axios.put(`http://localhost:5000/chats/see/${uid}`);
-        dispatch({type: 'SEE_CHATS'});
-    }
-}
-
-export const readChat = (chatId, uid, messages, isActive) =>{
+export const readChat = (chatId, uid, msgs, isActive) =>{
     return async (dispatch, getState) => {
         if(isActive){
             await axios.post('http://localhost:5000/chats/messages/read', {uid, chatId}, config);    
@@ -102,34 +97,62 @@ export const readChat = (chatId, uid, messages, isActive) =>{
                 }
             }
 
-            dispatch({type: 'READ_CHAT', chats});
+            dispatch({
+                type: types.READ_CHAT, 
+                chats
+            });
         }
 
-        const n = messages.length;
-        return messages[n-1].readBy.includes(uid);
+        const n = msgs.length;
+        return msgs[n-1].readBy.includes(uid);
     }
 }
 
-export const getChatPics = async (chatId, uid, getProfilePic) => {
-     const response = await axios.post('http://localhost:5000/chats/memberids', {uid, chatId}, config);
-     const {members} = response.data;
+export const getUserChats = (uid, cancelSource = null) => {
+    return async (dispatch) => {
+        const route = `http://localhost:5000/chats/user/${uid}`;
+
+        const response = (cancelSource)? 
+            await axios.get(route, {cancelToken: cancelSource.token}):
+            await axios.get(route);
+        
+        const chats = response.data;
+
+        dispatch({
+            type: types.LOAD_CHATS, 
+            chats
+        });
     
-     let chatPics = [];
-
-     for(let i=0;i<members.length;i++){
-         const imgURL = await getProfilePic(members[i]);
-         chatPics.push(imgURL);
-     }
-
-     return chatPics;
+        return chats;
+    }
 }
 
-export const getMemberNames = async (chatId, uid) => {
-    const response = await axios.post(`http://localhost:5000/chats/members`, {uid, chatId}, config);
-    let {memberNames} = response.data;
-
-    return memberNames;
+export const seeChats = (uid) =>{
+    return async (dispatch) =>{
+        await axios.put(`http://localhost:5000/chats/see/${uid}`);
+        dispatch({type: types.SEE_CHATS});
+    }
 }
+
+export const clearChats = () => {
+    return (dispatch) => {
+        dispatch({type: types.CLEAR_CHATS});
+    }
+}
+
+
+
+
+
+export const getUnseenChats = (uid) =>{
+    return async (dispatch) =>{
+        const response = await axios.get(`http://localhost:5000/chats/unseen/${uid}`);
+        const unseenChats= response.data.unseenChats;
+
+        dispatch({type: 'LOAD_UNSEEN_CHATS', unseenChats});
+    }
+}
+
 
 export const createChat = async (uid, recipients, content) => {
     const data = {
@@ -231,15 +254,6 @@ export const setDisplayedChatId = (chatId) =>{
 export const clearChatOnDisplay = () => {
     return (dispatch) =>{
         dispatch({type: 'CLEAR_DISPLAYED_CHAT'});
-    }
-}
-
-export const getUnseenChats = (uid) =>{
-    return async (dispatch) =>{
-        const response = await axios.get(`http://localhost:5000/chats/unseen/${uid}`);
-        const unseenChats= response.data.unseenChats;
-
-        dispatch({type: 'LOAD_UNSEEN_CHATS', unseenChats});
     }
 }
 

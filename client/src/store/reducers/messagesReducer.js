@@ -40,24 +40,30 @@ const messagesReducer = (state = initState, action) =>{
                 recipients: [],
                 composerChatId: null
         }
-
-
-        
-        case 'SAVE_CHATS':
+        case types.READ_CHAT:
             return{
                 ...state,
                 chats: [...action.chats]
             }
-        case 'SEE_CHATS':
+        case types.LOAD_CHATS:
+            return{
+                ...state,
+                chats: [...action.chats]
+            }
+        case types.SEE_CHATS:
             return{
                 ...state,
                 unseenChats: 0
             }
-        case 'READ_CHAT':
+
+        case types.CLEAR_CHATS:   
             return{
                 ...state,
-                chats: [...action.chats]
+                chats: []
             }
+       
+
+            
         case 'DISPLAY_MESSAGES':
             const {messages, chatId, io} = action;
             

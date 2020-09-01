@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getUserChats, seeChats} from '../../store/actions/messagesActions';
+import * as msgActions from '../../store/actions/messagesActions';
 import SearchContacts from './SearchContacts';
 import Conversation from './convo/Conversation';
 import CreateMessage from './CreateMessage';
 import Composer from './Composer';
 import MessageCard from './MessageCard';
+import axios from 'axios';
 import './Messages.css';
 
 class MessagesHome extends Component{
@@ -17,10 +18,14 @@ class MessagesHome extends Component{
 
     async componentDidMount(){
         const chatId = this.props.match.params.id;
+
         const {uid,  dispatch} = this.props;
+        const {getUserChats, seeChats} = msgActions;
+
+        this.cancelSource = axios.CancelToken.source();
 
         //get user chats and mark them as seen
-        const chats = await dispatch(getUserChats(uid));
+        const chats = await dispatch(getUserChats(uid, this.cancelSource));
         dispatch(seeChats(uid));
 
         if(chats.length === 0 || chatId === 'new'){
@@ -34,6 +39,7 @@ class MessagesHome extends Component{
 
     componentDidUpdate(){
         const {uid, unseenChats, dispatch} = this.props;
+        const {seeChats} = msgActions;
 
         if(unseenChats > 0){
            dispatch(seeChats(uid));
@@ -50,12 +56,21 @@ class MessagesHome extends Component{
         else{
             const msg = "Are you sure you want to exit?";
 
-            if(chats.length === 0 || (recipients.length!==0 && !window.confirm(msg))){
+            if(chats.length === 0 || (recipients.length !== 0 && !window.confirm(msg))){
                 return;
             }
 
             this.props.history.push(`/chat/${chats[0]._id}`);
         }
+    }
+
+    componentWillUnmount(){
+        const {dispatch} = this.props;
+        const {clearChats} = msgActions;
+
+        dispatch(clearChats());
+
+        this.cancelSource.cancel();
     }
 
     render(){
