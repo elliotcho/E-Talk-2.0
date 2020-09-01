@@ -21,7 +21,7 @@ class CreateCommment extends Component{
             this.myComment.style.height = this.myComment.scrollHeight + 'px';
            }, 0);
         }
-
+        
         if(this.myComment.scrollHeight > 200){
             this.myComment.style.overflow = 'auto';
         }

@@ -13,6 +13,7 @@ import './Messages.css';
 class MessagesHome extends Component{
     constructor(){
         super();
+        this.cancelSource = axios.CancelToken.source();
         this.handleComposer = this.handleComposer.bind(this);
     }
 
@@ -22,9 +23,6 @@ class MessagesHome extends Component{
         const {uid,  dispatch} = this.props;
         const {getUserChats, seeChats} = msgActions;
 
-        this.cancelSource = axios.CancelToken.source();
-
-        //get user chats and mark them as seen
         const chats = await dispatch(getUserChats(uid, this.cancelSource));
         dispatch(seeChats(uid));
 
@@ -150,6 +148,7 @@ class MessagesHome extends Component{
                                 chatId = {chatId}
                                 composerChatId = {composerChatId}
                                 typingMsgs = {typingMsgs}
+                                cancelSource = {this.cancelSource}
                             />
                         </div>
                     </div>

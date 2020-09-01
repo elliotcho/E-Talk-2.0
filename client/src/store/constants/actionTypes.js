@@ -16,6 +16,7 @@ export const READ_CHAT = 'READ_CHAT';
 export const LOAD_CHATS = 'LOAD_CHATS';
 export const SEE_CHATS = 'SEE_CHATS';
 export const CLEAR_CHATS = 'CLEAR_CHATS';
+export const LOAD_UNSEEN_CHATS = 'LOAD_UNSEEN_CHATS';
     
 //friend actions
 export const LOAD_FRIENDS = 'LOAD_FRIENDS';

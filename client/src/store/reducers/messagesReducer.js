@@ -61,9 +61,13 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 chats: []
             }
-       
+        case types.LOAD_UNSEEN_CHATS:
+            return{
+                ...state,
+                unseenChats: action.unseenChats
+            }
 
-            
+
         case 'DISPLAY_MESSAGES':
             const {messages, chatId, io} = action;
             
@@ -91,11 +95,6 @@ const messagesReducer = (state = initState, action) =>{
             return{
                 ...state,
                 msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
-            }
-        case 'LOAD_UNSEEN_CHATS':
-            return{
-                ...state,
-                unseenChats: action.unseenChats
             }
         case 'IS_TYPING':
             if(state.displayedChatId === action.chatId){

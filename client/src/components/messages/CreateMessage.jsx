@@ -55,7 +55,8 @@ class CreateMessage extends Component{
             chatId, 
             composerChatId, 
             recipients, 
-            dispatch
+            dispatch,
+            cancelSource
         } = this.props;
      
         const content = this.myMessage.value;
@@ -76,7 +77,7 @@ class CreateMessage extends Component{
             io.emit('CREATE_CHAT', {recipients});
 
             //reshuffle message cards
-            await dispatch(getUserChats(uid));
+            await dispatch(getUserChats(uid, cancelSource));
 
             //render the new chat
             this.props.history.push(`/chat/${chatId}`);

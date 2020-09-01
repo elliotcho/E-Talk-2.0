@@ -25,10 +25,7 @@ class App extends Component{
 
       io = socket('http://localhost:5000');
 
-      handleSocketEvents(
-        io, 
-        props.dispatch
-      );
+      handleSocketEvents(io, props.dispatch);
     }
 
     componentDidMount(){

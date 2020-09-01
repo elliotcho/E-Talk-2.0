@@ -140,18 +140,23 @@ export const clearChats = () => {
     }
 }
 
-
-
-
-
 export const getUnseenChats = (uid) =>{
     return async (dispatch) =>{
         const response = await axios.get(`http://localhost:5000/chats/unseen/${uid}`);
         const unseenChats= response.data.unseenChats;
 
-        dispatch({type: 'LOAD_UNSEEN_CHATS', unseenChats});
+        dispatch({
+            type: types.LOAD_UNSEEN_CHATS, 
+            unseenChats
+        });
     }
 }
+
+
+
+
+
+
 
 
 export const createChat = async (uid, recipients, content) => {
