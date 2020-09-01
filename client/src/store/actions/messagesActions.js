@@ -60,6 +60,8 @@ export const clearComposer = () =>{
 
 
 
+
+
 export const getUserChats = (uid) => {
     return async (dispatch) => {
         const response = await axios.get(`http://localhost:5000/chats/user/${uid}`);

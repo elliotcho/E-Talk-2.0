@@ -112,34 +112,35 @@ class Conversation extends Component{
         
         return(
             <div className ='convo'>
-                {!isComposerChat? (<header>
-                    <div className ='chat-info'>
-                        {chatPics.length > 1?
-                            ([
-                                <img 
-                                    key={0} 
-                                    src={chatPics[0]} 
+                {!isComposerChat? 
+                    (<header>
+                        <div className ='chat-info'>
+                            {chatPics.length > 1?
+                                ([
+                                    <img 
+                                        key={0} 
+                                        src={chatPics[0]} 
+                                        alt='profile-pic' 
+                                        className='chat-pic'
+                                    />,
+                                    <img  
+                                        key={1} 
+                                        src={chatPics[1]} 
+                                        alt ='profile-pic' 
+                                        className='chat-pic second-pic'
+                                    />
+                                ]):
+                                (<img 
+                                    src={chatPics.length? chatPics[0]: loading} 
                                     alt='profile-pic' 
-                                    className='chat-pic'
-                                />,
-                                <img  
-                                    key={1} 
-                                    src={chatPics[1]} 
-                                    alt ='profile-pic' 
                                     className='chat-pic second-pic'
-                                />
-                            ]):
-                            (<img 
-                                src={chatPics.length? chatPics[0]: loading} 
-                                alt='profile-pic' 
-                                className='chat-pic second-pic'
-                            />)
-                        }
+                                />)
+                            }
 
-                        <h2>{memberNames}</h2>
-                    </div>
-                </header>): 
-                null
+                            <h2>{memberNames}</h2>
+                        </div>
+                    </header>): 
+                    null
             }
 
                 <section className ='chat-box' ref = {ele => this.chatBox = ele}>
