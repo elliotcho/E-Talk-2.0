@@ -11,7 +11,8 @@ const {
     getUnseenChats,
     seeChats,
     checkIfChatExists,
-    createMessage
+    createMessage,
+    handleComposerQuery
 } = require('../controllers/chat');
 
 router.get('/:chatId', getChat);
@@ -25,5 +26,6 @@ router.post('/members', getMemberNames);
 router.get('/unseen/:uid', getUnseenChats);
 router.put('/see/:uid', seeChats);
 router.post('/exists', checkIfChatExists);
+router.post('/composer', handleComposerQuery);
 
 module.exports = router;

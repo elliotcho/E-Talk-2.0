@@ -1,6 +1,64 @@
+import * as types from '../constants/actionTypes';
 import axios from 'axios';
 
 const config = {headers: {'content-type': 'application/json'}};
+
+export const setComposerResults = (uid, name, recipients) =>{
+    return async (dispatch) =>{
+        let composerResults = [];
+
+        if(name){
+            const data = {uid, name, recipients};
+
+            const response = await axios.post('http://localhost:5000/chats/composer', data , config);
+            composerResults = response.data;
+        }
+
+        dispatch({
+            type: types.LOAD_COMPOSER_RESULTS, 
+            composerResults
+        });
+    }
+}
+
+export const updateRecipients = (recipients) =>{
+    return(dispatch) =>{
+        dispatch({
+            type: types.UPDATE_RECIPIENTS, 
+            recipients
+        });
+    }
+}
+
+export const checkIfChatExists = async (members) =>{
+    const response = await axios.post('http://localhost:5000/chats/exists', {members}, config);
+    const {chat} = response.data;
+    return chat._id;
+}
+
+export const renderComposerChat = (chatId) =>{
+    return (dispatch) =>{
+        dispatch({
+            type: types.RENDER_COMPOSER_CHAT, 
+            chatId
+        });
+    }
+}
+
+export const clearComposerChat = () =>{
+    return (dispatch) =>{
+        dispatch({type: types.CLEAR_COMPOSER_CHAT});
+    }
+}
+
+export const clearComposer = () =>{
+    return (dispatch) =>{
+        dispatch({type: types.CLEAR_COMPOSER});
+    }
+}
+
+
+
 
 export const getUserChats = (uid) => {
     return async (dispatch) => {
@@ -19,10 +77,7 @@ export const getUserChats = (uid) => {
 export const seeChats = (uid) =>{
     return async (dispatch) =>{
         await axios.put(`http://localhost:5000/chats/see/${uid}`);
-        
-        dispatch({
-            type: 'SEE_CHATS'
-        });
+        dispatch({type: 'SEE_CHATS'});
     }
 }
 
@@ -105,11 +160,6 @@ export const getMemberIds = async (chatId, uid) =>{
     return response.data.members;
 }
 
-export const checkIfChatExists = async (members) =>{
-    const response = await axios.post('http://localhost:5000/chats/exists', {members}, config);
-    const {chat} = response.data;
-    return chat._id;
-}
 
 export const getReadReceipts = async (readBy, uid, getProfilePic) => {
     const readReceipts = [];
@@ -152,30 +202,6 @@ export const handleNewMessage = (newMessage, chatId, uid, io) =>{
 }
 
 
-export const setUserChats = (chats) =>{
-    return (dispatch) =>{
-        dispatch({type: 'SAVE_CHATS', chats});
-    }
-}
-
-export const setComposerResults = (results) =>{
-    return (dispatch) =>{
-        dispatch({type: 'COMPOSER_RESULTS', composerResults: results});
-    }
-}
-
-export const updateRecipients = (recipients) =>{
-    return(dispatch) =>{
-        dispatch({type: 'UPDATE_RECIPIENTS', recipients});
-    }
-}
-
-export const clearComposer = () =>{
-    return (dispatch) =>{
-        dispatch({type: 'CLEAR_COMPOSER'});
-    }
-}
-
 export const setMsgsOnDisplay = (chatId, uid, io) =>{
     return async (dispatch) => {
         let response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
@@ -205,8 +231,6 @@ export const clearChatOnDisplay = () => {
         dispatch({type: 'CLEAR_DISPLAYED_CHAT'});
     }
 }
-
-
 
 export const getUnseenChats = (uid) =>{
     return async (dispatch) =>{
@@ -243,17 +267,5 @@ export const clearTyping = () =>{
 export const handleReadReceipts = (chatId, messages) =>{
     return (dispatch) =>{
         dispatch({type: 'READ_RECEIPTS', chatId, messages});
-    }
-}
-
-export const renderComposerChat = (chatId) =>{
-  return (dispatch) =>{
-      dispatch({type: 'RENDER_COMPOSER_CHAT', chatId});
-  }
-}
-
-export const clearComposerChat = () =>{
-    return (dispatch) =>{
-        dispatch({type: 'CLEAR_COMPOSER_CHAT'});
     }
 }

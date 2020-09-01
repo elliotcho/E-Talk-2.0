@@ -103,7 +103,7 @@ exports.searchUser =  async (req, res) =>{
     const result = [];
     const seen = {};
  
-    for(let i=0, j=0; i<friends && j<12; i++){
+    for(let i=0; i<friends; i++){
         let friendFirstName = friends[i].firstName.split(" ").join("").toLowerCase();
         let friendLastName = friends[i].lastName.split(" ").join("").toLowerCase();
  
@@ -111,15 +111,13 @@ exports.searchUser =  async (req, res) =>{
             seen[friends[i]._id] = true;
             
             result.push(friends[i]);
-            
-            j++;
         }
     }
  
      //improve search algorithm
      const users = await User.find({});
  
-     for(let i=0, j=0;i<users.length && j<12;i++){
+     for(let i=0;i<users.length;i++){
          let userFirstName = users[i].firstName.split(" ").join("").toLowerCase();
          let userLastName = users[i].lastName.split(" ").join("").toLowerCase();
     

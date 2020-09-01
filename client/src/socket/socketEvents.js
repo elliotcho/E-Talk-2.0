@@ -50,14 +50,6 @@ export const handleSocketEvents = (io, dispatch) =>{
         });
     });
 
-    io.on('SEARCH_COMPOSER', data =>{
-        const {
-            setComposerResults
-        } = messageActions;
-
-        dispatch(setComposerResults(data.queryResult));
-    });
-
     io.on('CREATE_CHAT', data =>{
         const {
             getUserChats,
@@ -110,13 +102,5 @@ export const handleSocketEvents = (io, dispatch) =>{
         const {handleReadReceipts} = messageActions
 
         dispatch(handleReadReceipts(chatId, messages));
-    });
-
-    io.on('RENDER_COMPOSER_CHAT', data =>{
-        const {chatId} = data;
-
-        const {renderComposerChat} = messageActions
-
-        dispatch(renderComposerChat(chatId));
     });
 }

@@ -11,13 +11,6 @@ const {
     removeComment
 } = require('./socket/post');
 
-const {
-    getRecipients,
-    sendMessage, 
-    createChat,
-    renderChat
-} = require('./socket/chat');
-
 const axios = require('axios');
 
 const active = {};
@@ -102,16 +95,6 @@ module.exports = (io) =>{
             await removeComment(data);
         });
 
-        socket.on('SEARCH_COMPOSER', async data =>{
-            const result = await getRecipients(data);
-
-            const {uid} = data;
-
-            io.sockets.to(active[uid]).emit(
-                'SEARCH_COMPOSER', {queryResult: result}
-            );
-        });
-
         socket.on('CREATE_CHAT', async data =>{
             const {recipients} = data;
 
@@ -174,14 +157,6 @@ module.exports = (io) =>{
                     messages, chatId
                 });
             }
-        });
-
-        socket.on('RENDER_COMPOSER_CHAT', async data =>{
-            const {chatId, uid} = data;
-
-            io.sockets.to(active[uid]).emit('RENDER_COMPOSER_CHAT', {
-                chatId
-            });
         });
     });
 } 

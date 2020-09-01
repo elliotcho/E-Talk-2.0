@@ -1,16 +1,48 @@
+import * as types from '../constants/actionTypes';
+
 const initState = {
+    composerResults: [],
+    recipients: [],
+    composerChatId: null,
     chats: [],
     unseenChats: 0,
-    recipients: [],
-    composerResults: [],
     msgsOnDisplay: [],
     displayedChatId: null,
-    typingMsgs: [],
-    composerChatId: null
+    typingMsgs: []
 }
 
 const messagesReducer = (state = initState, action) =>{
     switch (action.type){
+        case types.LOAD_COMPOSER_RESULTS:
+            return{
+                ...state,
+                composerResults: [...action.composerResults]
+            }
+        case types.UPDATE_RECIPIENTS:
+            return{
+                ...state,
+                recipients: [...action.recipients]
+            }
+        case types.RENDER_COMPOSER_CHAT:
+            return{
+                ...state,
+                composerChatId: action.chatId
+            }
+        case types.CLEAR_COMPOSER_CHAT:
+            return{
+                ...state,
+                composerChatId: null
+            }
+        case types.CLEAR_COMPOSER:
+            return{
+                ...state,
+                composerResults: [],
+                recipients: [],
+                composerChatId: null
+        }
+
+
+        
         case 'SAVE_CHATS':
             return{
                 ...state,
@@ -25,22 +57,6 @@ const messagesReducer = (state = initState, action) =>{
             return{
                 ...state,
                 chats: [...action.chats]
-            }
-        case 'COMPOSER_RESULTS':
-            return{
-                ...state,
-                composerResults: [...action.composerResults]
-            }
-        case 'UPDATE_RECIPIENTS':
-            return{
-                ...state,
-                recipients: [...action.recipients]
-            }
-        case 'CLEAR_COMPOSER':
-            return{
-                ...state,
-                composerResults: [],
-                recipients: []
             }
         case 'DISPLAY_MESSAGES':
             const {messages, chatId, io} = action;
@@ -113,17 +129,6 @@ const messagesReducer = (state = initState, action) =>{
             }
 
             return state;
-        
-        case 'RENDER_COMPOSER_CHAT':
-            return{
-                ...state,
-                composerChatId: action.chatId
-            }
-        case 'CLEAR_COMPOSER_CHAT':
-            return{
-                ...state,
-                composerChatId: null
-            }
         default:
             return state;
     }
