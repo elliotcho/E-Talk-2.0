@@ -18,8 +18,16 @@ class CreateMessage extends Component{
     }
 
     async componentDidUpdate(prevProps){
-        if(prevProps.chatId !== this.props.chatId){
-            await this.handleStopTyping(prevProps.chatId);
+        const {chatId, composerChatId} = this.props;
+
+        if(prevProps.chatId !== chatId || prevProps.composerChatId !== composerChatId){
+            if(prevProps.composerChatId){
+                await this.handleStopTyping(prevProps.composerChatId);
+            }
+
+            else{
+                await this.handleStopTyping(prevProps.chatId);
+            }
         }
     }
 
@@ -137,8 +145,10 @@ class CreateMessage extends Component{
     }
 
     async handleIsTyping(){
-        const {chatId, uid, typingMsgs} = this.props;
-        const {getMemberIds} = msgActions;
+        const {chatId, composerChatId, uid, typingMsgs, dispatch} = this.props;
+        const {getMemberIds, handleTyping} = msgActions;
+
+        const currChatId = (composerChatId) ? composerChatId: chatId;
 
         intervals.forEach(interval => clearInterval(interval));
         intervals = [];
@@ -151,29 +161,33 @@ class CreateMessage extends Component{
         intervals.push(typingInterval);
 
         if(!typingMsgs.includes(uid)){
-            const members = await getMemberIds(chatId, uid);
+            const members = await getMemberIds(currChatId, uid);
 
             io.emit('IS_TYPING', {
-                chatId,
-                members: [...members, uid],
+                chatId: currChatId,
+                members: [...members],
                 uid
             });
+
+            dispatch(handleTyping(currChatId, uid));
         }
     }
 
     async handleStopTyping(prevChatId = null){
-        const chatId = (prevChatId) ? prevChatId: this.props.chatId;
-
-        const {typingMsgs, uid} = this.props;
+        const {chatId, composerChatId, typingMsgs, uid} = this.props;
         const {getMemberIds} = msgActions;
+
+        const currChatId = (prevChatId) ? prevChatId: 
+                       (composerChatId) ? composerChatId:
+                        chatId;
 
         typingMsgs.splice(typingMsgs.indexOf(uid), 1);
 
-        const members = await getMemberIds(chatId, uid);
+        const members = await getMemberIds(currChatId, uid);
         
         io.emit('STOP_TYPING', {
-            chatId, 
-            members: [...members, uid],
+            chatId: currChatId, 
+            members: [...members],
             typingMsgs
         });
     }
