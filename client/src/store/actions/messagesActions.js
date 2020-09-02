@@ -163,13 +163,6 @@ export const createChat = async (uid, recipients, content) => {
 }
 
 
-
-
-
-
-
-
-
 export const sendMessage = async (chatId, uid, content) => {
     const data = {uid, chatId, content};
 
@@ -194,14 +187,13 @@ export const renderNewMessage = (chatId, newMessage) => {
     }
 }
 
-
-
 export const getMemberIds = async (chatId, uid) =>{
     const data = {uid, chatId};
 
     const response = await axios.post('http://localhost:5000/chats/memberids', data, config);
     return response.data.members;
 }
+
 
 
 export const setDisplayedChatId = (chatId) =>{

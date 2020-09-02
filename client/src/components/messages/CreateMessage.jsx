@@ -17,6 +17,12 @@ class CreateMessage extends Component{
         this.handleStopTyping = this.handleStopTyping.bind(this);
     }
 
+    async componentDidUpdate(prevProps){
+        if(prevProps.chatId !== this.props.chatId){
+            await this.handleStopTyping(prevProps.chatId);
+        }
+    }
+
     pressEnter(e){
         //user doesn't press shift enter
         if(e.keyCode === 13 && e.shiftKey === false){
@@ -97,14 +103,15 @@ class CreateMessage extends Component{
         const currChatId = (composerChatId) ? composerChatId: chatId;
 
         const newMessage = await sendMessage(currChatId, uid, content);
-        await dispatch(getUserChats(uid));
         
         dispatch(renderNewMessage(currChatId, newMessage))
+        await dispatch(getUserChats(uid));
+       
         const members = await getMemberIds(currChatId, uid);
       
         io.emit('NEW_MESSAGE', {
             chatId: currChatId, 
-            members: [...members], 
+            members, 
             newMessage
         });
 
@@ -154,8 +161,10 @@ class CreateMessage extends Component{
         }
     }
 
-    async handleStopTyping(){
-        const {typingMsgs, uid, chatId} = this.props;
+    async handleStopTyping(prevChatId = null){
+        const chatId = (prevChatId) ? prevChatId: this.props.chatId;
+
+        const {typingMsgs, uid} = this.props;
         const {getMemberIds} = msgActions;
 
         typingMsgs.splice(typingMsgs.indexOf(uid), 1);
@@ -167,6 +176,10 @@ class CreateMessage extends Component{
             members: [...members, uid],
             typingMsgs
         });
+    }
+
+    async componentWillUnmount(){
+        await this.handleStopTyping();
     }
 
     render(){
