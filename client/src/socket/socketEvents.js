@@ -65,7 +65,7 @@ export const handleSocketEvents = (io, dispatch) =>{
 
         const {
             getUnseenChats,
-            handleNewMessage,
+            renderNewMessage,
             getUserChats
         } = messageActions
 
@@ -73,7 +73,7 @@ export const handleSocketEvents = (io, dispatch) =>{
         dispatch(getUnseenChats(uid));
 
         //re render the convo to include the new message
-        dispatch(handleNewMessage(newMessage, chatId, uid, io));
+        dispatch(renderNewMessage(chatId, newMessage));
 
         //reset message cards so that chat with chatId is now on top
         dispatch(getUserChats(uid));
@@ -91,16 +91,18 @@ export const handleSocketEvents = (io, dispatch) =>{
         const {chatId, typingMsgs} = data;
 
         const {stopTyping} = messageActions
-        
 
         dispatch(stopTyping(chatId, typingMsgs));
     });
 
     io.on('READ_RECEIPTS', data => {
-        const {chatId, messages} = data;
+        const {
+            chatId, 
+            readerId
+        } = data;
 
         const {handleReadReceipts} = messageActions
 
-        dispatch(handleReadReceipts(chatId, messages));
+        dispatch(handleReadReceipts(chatId, readerId, io));
     });
 }

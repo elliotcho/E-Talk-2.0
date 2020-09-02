@@ -18,23 +18,19 @@ class MessageBubble extends Component{
     }
 
     async componentDidMount(){
-        const {showRead} = this.props;
         const {uid} = this.props.msg;
 
         const ownerImgURL = await getProfilePic(uid);
 
-        if(showRead){
-            await this.loadReadReceipts();
-        }   
+        await this.loadReadReceipts();
 
         this.setState({ownerImgURL});
     }
 
     async componentDidUpdate(prevProps){
         const {showRead} = this.props;
-        const {readBy} = this.props.msg;
-
-        if((prevProps.msg.readBy.length > readBy.length || (showRead !== prevProps.showRead)) && showRead){
+    
+        if(showRead !== prevProps.showRead){
            await this.loadReadReceipts();
         }
     }
@@ -62,7 +58,7 @@ class MessageBubble extends Component{
     }
 
     render(){
-        const {msg, uid} = this.props;
+        const {msg, uid, showRead} = this.props;
 
         const {
             ownerImgURL, 
@@ -91,13 +87,13 @@ class MessageBubble extends Component{
                         </div>
     
                         <div className = 'read mx-1 my-1'>
-                            {readReceipts.map(imgURL =>
+                            {showRead? readReceipts.map(imgURL =>
                                 <img 
                                     key={imgURL} 
                                     src = {imgURL} 
                                     alt ='profile pic'
                                 />
-                            )}
+                            ): null}
                         </div>
                     </div>
     

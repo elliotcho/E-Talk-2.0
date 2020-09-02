@@ -8,18 +8,13 @@ let intervals = [];
 class CreateMessage extends Component{
     constructor(){
         super();
-
-        this.state = {
-            photo: []
-        }
-
         this.pressEnter = this.pressEnter.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleNewChat = this.handleNewChat.bind(this);
+        this.handleExistingChat = this.handleExistingChat.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleIsTyping = this.handleIsTyping.bind(this);
         this.handleStopTyping = this.handleStopTyping.bind(this);
-        this.attachPhoto = this.attachPhoto.bind(this);
-        this.removePhoto = this.removePhoto.bind(this);
     }
 
     pressEnter(e){
@@ -50,18 +45,9 @@ class CreateMessage extends Component{
     async handleSubmit(e){
         e.preventDefault();
 
-        const {
-            uid, 
-            chatId, 
-            composerChatId, 
-            recipients, 
-            dispatch,
-            cancelSource
-        } = this.props;
-     
+        const {chatId, composerChatId, recipients} = this.props; 
         const content = this.myMessage.value;
-        const {createChat, getUserChats} = msgActions;
-
+    
         if(content.trim() === ""){
             return;
         }
@@ -71,36 +57,60 @@ class CreateMessage extends Component{
                 return;
             }
 
-            const chatId = await createChat(uid, recipients, content);
-      
-            //update the message cards of recipients
-            io.emit('CREATE_CHAT', {recipients});
-
-            //reshuffle message cards
-            await dispatch(getUserChats(uid, cancelSource));
-
-            //render the new chat
-            this.props.history.push(`/chat/${chatId}`);
+            await this.handleNewChat(content);
         }
         
         else{
             this.handleStopTyping();
-
-            const {sendMessage, getMemberIds} = msgActions;
-
-            const currChatId = (composerChatId) ? composerChatId: chatId;
-
-            const newMessage =  await sendMessage(currChatId, uid, content);
-            const members = await getMemberIds(currChatId, uid);
-
-            io.emit('SEND_MESSAGE', {
-                chatId: currChatId, 
-                members: [...members, uid], 
-                newMessage
-            });
+            await this.handleExistingChat(content);
         }
 
         this.myMessage.value="";
+    }
+
+    async handleNewChat(content){
+        const {uid, dispatch, recipients, cancelSource} = this.props;
+        const {createChat, getUserChats} = msgActions;
+
+        const chatId = await createChat(uid, recipients, content);
+      
+        //update the message cards of recipients
+        io.emit('CREATE_CHAT', {recipients});
+
+        //reshuffle message cards
+        await dispatch(getUserChats(uid, cancelSource));
+
+        //render the new chat
+        this.props.history.push(`/chat/${chatId}`);
+    }
+
+    async handleExistingChat(content){
+        const {uid, chatId, dispatch, composerChatId} = this.props;
+
+        const {
+            sendMessage, 
+            getUserChats,
+            renderNewMessage,
+            getMemberIds
+        } = msgActions;
+
+        const currChatId = (composerChatId) ? composerChatId: chatId;
+
+        const newMessage = await sendMessage(currChatId, uid, content);
+        await dispatch(getUserChats(uid));
+        
+        dispatch(renderNewMessage(currChatId, newMessage))
+        const members = await getMemberIds(currChatId, uid);
+      
+        io.emit('NEW_MESSAGE', {
+            chatId: currChatId, 
+            members: [...members], 
+            newMessage
+        });
+
+        if(currChatId === composerChatId){
+            this.props.history.push(`/chat/${currChatId}`);
+        }
     }
 
     handleChange(e){
@@ -133,17 +143,7 @@ class CreateMessage extends Component{
 
         intervals.push(typingInterval);
 
-        //check if we are already typing
-        let found = false;
-        
-        for(let i=0;i<typingMsgs.length;i++){
-            if(typingMsgs[i].typingId === uid){
-                found = true;
-                break;
-            }
-        }
-
-        if(chatId !== 'new' && !found){
+        if(!typingMsgs.includes(uid)){
             const members = await getMemberIds(chatId, uid);
 
             io.emit('IS_TYPING', {
@@ -158,50 +158,20 @@ class CreateMessage extends Component{
         const {typingMsgs, uid, chatId} = this.props;
         const {getMemberIds} = msgActions;
 
-
-        for(let i =0; i<typingMsgs.length;i++){
-            if(typingMsgs[i].typingId === uid){
-                typingMsgs.splice(i, 1);
-                break;
-            }
-        }
+        typingMsgs.splice(typingMsgs.indexOf(uid), 1);
 
         const members = await getMemberIds(chatId, uid);
         
         io.emit('STOP_TYPING', {
             chatId, 
-            typingMsgs,
-            members: [...members, uid]
-        });
-        
-        return;
-    }
-
-    attachPhoto(e){
-        this.setState({photo: e.target.files});
-    }    
-
-    removePhoto(){
-        document.getElementById('msgPic').value = "";
-
-        this.setState({
-            photo: []
+            members: [...members, uid],
+            typingMsgs
         });
     }
 
     render(){
-        const {photo} = this.state;
-
         return(
             <div className ='create-msg'>
-                {photo.length !== 0?
-                    (<div className = 'photo-block text-white d-inline-block'>
-                        {photo[0].name}
-                        <i className = 'fas fa-times' onClick={this.removePhoto}/>
-                    </div>)
-                    :null
-                }
-
                 <form ref = {ele => this.myMessageForm = ele} onSubmit = {this.handleSubmit}>
                     <textarea
                         className ='form-control'
@@ -216,10 +186,10 @@ class CreateMessage extends Component{
                         <i className ='fas fa-file-image'/>
                     </label>
 
-                    <input type = 'file'
+                    <input 
+                           type = 'file'
                            id = 'msgPic'
                            accept = 'jpg jpeg png'
-                           onChange = {this.attachPhoto}
                     />
                 </form>
             </div>

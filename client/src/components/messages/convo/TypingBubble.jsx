@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {getProfilePic} from '../../../store/actions/profileActions';
+import {getProfilePic, getUserData} from '../../../store/actions/profileActions';
 import loading from '../../../images/loading.jpg';
 
 class TypingBubble extends Component{
@@ -7,6 +7,8 @@ class TypingBubble extends Component{
         super();
 
         this.state = {
+            firstName: '',
+            lastName: '',
             imgURL: null
         }
     }
@@ -14,17 +16,24 @@ class TypingBubble extends Component{
    async componentDidMount(){
         const {typingId, handleScroll} = this.props;
 
+        const user = await getUserData(typingId);
+
+        const {
+            firstName, 
+            lastName
+        } = user;
+
         const imgURL = await getProfilePic(typingId);
         
-        this.setState({imgURL}, () => {
+        this.setState({firstName, lastName, imgURL}, () => {
             handleScroll();
         });
     }
 
     render(){
-        const {msg, display} = this.props;
+        const {display} = this.props;
 
-        const {imgURL} = this.state; 
+        const {firstName, lastName, imgURL} = this.state; 
 
         const style = (display)? 
             {display: 'flex'} : 
@@ -36,7 +45,7 @@ class TypingBubble extends Component{
 
                 <div className ='typing-bubble my-1'>
                     <div>
-                        {msg}
+                        {firstName} {lastName} is typing...
                     </div>
                 </div>
             </div>

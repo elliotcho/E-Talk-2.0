@@ -48,7 +48,7 @@ class Conversation extends Component{
         } = msgActions;
 
         //get and render messages
-       await dispatch(setDisplayedChatId(chatId));
+       dispatch(setDisplayedChatId(chatId));
        await dispatch(setMsgsOnDisplay(chatId, uid, io));
     
        if(!isComposerChat){
@@ -146,13 +146,12 @@ class Conversation extends Component{
                 <section className ='chat-box' ref = {ele => this.chatBox = ele}>
                     {messages}
                     
-                    {typingMsgs.map(user =>
+                    {typingMsgs.map(typingId =>
                         <TypingBubble
-                            key = {user.typingId}
-                            typingId = {user.typingId}
-                            msg = {user.msg}
+                            key = {typingId}
+                            typingId = {typingId}
                             handleScroll = {this.handleScroll}
-                            display = {user.typingId !== uid}
+                            display = {typingId !== uid}
                         />
                     )}
                 </section>

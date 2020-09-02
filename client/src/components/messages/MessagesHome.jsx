@@ -24,7 +24,7 @@ class MessagesHome extends Component{
         const {getUserChats, seeChats} = msgActions;
 
         const chats = await dispatch(getUserChats(uid, this.cancelSource));
-        dispatch(seeChats(uid));
+        await dispatch(seeChats(uid));
 
         if(chats.length === 0 || chatId === 'new'){
             this.props.history.push('/chat/new');
@@ -35,12 +35,12 @@ class MessagesHome extends Component{
         }
     }
 
-    componentDidUpdate(){
+    async componentDidUpdate(){
         const {uid, unseenChats, dispatch} = this.props;
         const {seeChats} = msgActions;
 
         if(unseenChats > 0){
-           dispatch(seeChats(uid));
+           await dispatch(seeChats(uid));
         }
     }
 

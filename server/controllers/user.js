@@ -109,7 +109,6 @@ exports.searchUser =  async (req, res) =>{
  
         if((friendFirstName + friendLastName).startsWith(query)){
             seen[friends[i]._id] = true;
-            
             result.push(friends[i]);
         }
     }
@@ -123,7 +122,6 @@ exports.searchUser =  async (req, res) =>{
     
          if((userFirstName + userLastName).startsWith(query) && !seen[users[i]._id]){
              result.push(users[i]);
-             j++;
          }
      }
  

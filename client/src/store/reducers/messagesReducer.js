@@ -55,7 +55,6 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 unseenChats: 0
             }
-
         case types.CLEAR_CHATS:   
             return{
                 ...state,
@@ -66,24 +65,27 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 unseenChats: action.unseenChats
             }
-
-
+        
         case 'DISPLAY_MESSAGES':
-            const {messages, chatId, io} = action;
-            
-            io.emit('READ_RECEIPTS', {
-                chatId, 
-                messages: [...messages]
-            });
-            
             return{
                 ...state,
-                msgsOnDisplay: [...messages]
+                msgsOnDisplay: [...action.messages]
             }
         case 'SET_CHAT_ID':
             return{
                 ...state,
                 displayedChatId: action.chatId
+            }
+
+        case 'NEW_MESSAGE':
+            return{
+                ...state,
+                msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
+            }
+        case 'READ_RECEIPTS':
+            return{
+                ...state,
+                msgsOnDisplay: [...action.msgsOnDisplay]
             }
         case 'CLEAR_DISPLAYED_CHAT':
             return{
@@ -91,20 +93,14 @@ const messagesReducer = (state = initState, action) =>{
                 msgsOnDisplay: [],
                 displayedChatId: null
             }
-        case 'NEW_MESSAGE':
-            return{
-                ...state,
-                msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
-            }
+     
         case 'IS_TYPING':
             if(state.displayedChatId === action.chatId){
-                const {typingMsgs} = state;
-
-                const {typingId, msg} = action;
+                const {typingId} = action;
 
                 return{
                     ...state,
-                    typingMsgs: [...typingMsgs, {typingId, msg}]
+                    typingMsgs: [...state.typingMsgs, typingId]
                 }
             }
 
@@ -123,17 +119,6 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 typingMsgs: []
             }
-        case 'READ_RECEIPTS':
-            if(state.displayedChatId === action.chatId){
-                const {messages} = action;
-
-                return{
-                    ...state,
-                    msgsOnDisplay: [...messages]
-                }
-            }
-
-            return state;
         default:
             return state;
     }

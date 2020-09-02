@@ -107,15 +107,17 @@ module.exports = (io) =>{
             }
         });
 
-        socket.on('SEND_MESSAGE', data =>{
+        socket.on('NEW_MESSAGE', data =>{
             const {members, newMessage, chatId} = data;
 
             for(let i=0;i<members.length;i++){
                 const uid = members[i];
 
-                io.sockets.to(active[uid]).emit(
-                    'NEW_MESSAGE', {chatId, newMessage, uid}
-                );
+                io.sockets.to(active[uid]).emit('NEW_MESSAGE', {
+                    chatId, 
+                    newMessage, 
+                    uid
+                });
             }
         });
 
@@ -126,7 +128,8 @@ module.exports = (io) =>{
                 const id = members[i];
  
                 io.sockets.to(active[id]).emit('IS_TYPING', {
-                    uid, chatId
+                    uid, 
+                    chatId
                 });
             }
         });
@@ -138,23 +141,21 @@ module.exports = (io) =>{
                 const id = members[i];
  
                 io.sockets.to(active[id]).emit('STOP_TYPING', {
-                    typingMsgs, chatId
+                    typingMsgs, 
+                    chatId
                 });
             }
         });
 
         socket.on('READ_RECEIPTS', async data =>{
-            const {chatId, messages} = data;
-
-            const response = await axios.get(`http://localhost:5000/chats/${chatId}`);
-            const chat = response.data;
-            const {members} = chat;
+            const {chatId, members, uid} = data;
 
             for(let i=0;i<members.length;i++){
                 const id = members[i];
- 
+
                 io.sockets.to(active[id]).emit('READ_RECEIPTS', {
-                    messages, chatId
+                    chatId,
+                    readerId: uid
                 });
             }
         });

@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes';
+import uuid from 'node-uuid';
 import axios from 'axios';
 
 const config = {headers: {'content-type': 'application/json'}};
@@ -152,19 +153,8 @@ export const getUnseenChats = (uid) =>{
     }
 }
 
-
-
-
-
-
-
-
 export const createChat = async (uid, recipients, content) => {
-    const data = {
-        uid,
-        recipients, 
-        content
-    };
+    const data = {uid, recipients, content};
 
     const response = await axios.post('http://localhost:5000/chats/create', data, config);
     const {chatId} = response.data;
@@ -172,16 +162,39 @@ export const createChat = async (uid, recipients, content) => {
     return chatId;
 }
 
+
+
+
+
+
+
+
+
 export const sendMessage = async (chatId, uid, content) => {
-    const data = {
-        uid,
-        chatId, 
-        content
-    };
+    const data = {uid, chatId, content};
 
     const response = await axios.post('http://localhost:5000/chats/message', data, config);
-    return response.data;
+    const newMessage = response.data;
+
+    return newMessage;
 }
+
+export const renderNewMessage = (chatId, newMessage) => {
+    return (dispatch, getState) => {
+        const state = getState();
+
+        const {displayedChatId, composerChatId} = state.messages;
+
+        if(displayedChatId === chatId || composerChatId === chatId){
+            dispatch({
+                type: 'NEW_MESSAGE', 
+                newMessage
+            });
+        }
+    }
+}
+
+
 
 export const getMemberIds = async (chatId, uid) =>{
     const data = {uid, chatId};
@@ -191,12 +204,105 @@ export const getMemberIds = async (chatId, uid) =>{
 }
 
 
+export const setDisplayedChatId = (chatId) =>{
+    return (dispatch) =>{ 
+        dispatch({type: 'SET_CHAT_ID', chatId});
+    }
+}
+
+export const setMsgsOnDisplay = (chatId, uid, io) =>{
+    return async (dispatch) => {
+        const response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
+        const messages = response.data;
+       
+        for(let i=0;i<messages.length;i++){
+            if(messages[i].readBy.includes(uid)){
+                continue;
+            }
+
+            messages[i].readBy.push(uid);
+        }
+
+        
+        // const members = await getMemberIds(chatId);
+
+        // io.emit('READ_RECEIPTS', {
+        //     chatId,
+        //     members,
+        //     uid
+        // });
+
+        dispatch({type: 'DISPLAY_MESSAGES', messages});
+    }
+}
+
+export const handleNewMessage = (newMessage, chatId, uid, io) =>{
+    return async (dispatch, getState) => {
+        const state = getState();
+
+        const {displayedChatId} = state.messages;
+
+        if(displayedChatId === chatId){
+            if(!newMessage.readBy.includes(uid)){
+                newMessage.readBy.push(uid);
+            }
+
+            
+            // const members = await getMemberIds(chatId);
+
+            // io.emit('READ_RECEIPTS', {
+            //     chatId,
+            //     members,
+            //     uid
+            // });
+
+            dispatch({
+                type: 'NEW_MESSAGE', 
+                newMessage
+            });
+        }
+    }
+}
+
+export const handleReadReceipts = (chatId, readerId, io) =>{
+    return async (dispatch, getState) =>{
+        const state =getState();
+
+        const {displayedChatId, msgsOnDisplay} = state.messages;
+        const {uid} = state.auth;
+
+        if(chatId === displayedChatId){
+            for(let i=0;i<msgsOnDisplay.length;i++){
+                if(msgsOnDisplay[i].readBy.includes(readerId)){
+                    continue;
+                }
+
+                msgsOnDisplay[i].readBy.push(readerId);
+            }
+
+            // const members = await getMemberIds(chatId);
+
+            // io.emit('READ_RECEIPTS', {
+            //     chatId,
+            //     members,
+            //     uid
+            // });
+
+            dispatch({
+                type: 'READ_RECEIPTS', 
+                msgsOnDisplay
+            });
+        }
+    }
+}
+
+
 export const getReadReceipts = async (readBy, uid, getProfilePic) => {
     const readReceipts = [];
 
     for(let i=0;i<readBy.length;i++){
         if(readBy[i] === uid){
-                continue;
+            continue;
         }
 
         const imgURL = await getProfilePic(readBy[i]);
@@ -207,55 +313,6 @@ export const getReadReceipts = async (readBy, uid, getProfilePic) => {
     return readReceipts;
 }
 
-export const handleNewMessage = (newMessage, chatId, uid, io) =>{
-    return (dispatch, getState) => {
-        const state = getState();
-
-        const {displayedChatId, msgsOnDisplay} = state.messages;
-
-        if(displayedChatId === chatId){
-            if(!newMessage.readBy.includes(uid)){
-                newMessage.readBy.push(uid);
-            }
-
-            io.emit('READ_RECEIPTS', {
-                chatId, 
-                messages: [...msgsOnDisplay, newMessage]
-            });
-
-            dispatch({
-                type: 'NEW_MESSAGE', 
-                newMessage
-            });
-        }
-    }
-}
-
-
-export const setMsgsOnDisplay = (chatId, uid, io) =>{
-    return async (dispatch) => {
-        let response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
-        const messages = response.data;
-        const n = messages.length;
-
-        for(let i=0;i<n;i++){
-            if(messages[i].readBy.includes(uid)){
-                continue;
-            }
-
-            messages[i].readBy.push(uid);
-        }
-
-        dispatch({type: 'DISPLAY_MESSAGES', messages, chatId, io});
-    }
-}
-
-export const setDisplayedChatId = (chatId) =>{
-    return (dispatch) =>{ 
-        dispatch({type: 'SET_CHAT_ID', chatId});
-    }
-}
-
 export const clearChatOnDisplay = () => {
     return (dispatch) =>{
         dispatch({type: 'CLEAR_DISPLAYED_CHAT'});
@@ -264,12 +321,7 @@ export const clearChatOnDisplay = () => {
 
 export const handleTyping = (chatId, typingId) =>{
     return async (dispatch) =>{
-        const user = await axios.get(`http://localhost:5000/users/${typingId}`);
-        const {firstName, lastName} = user.data;
-        
-        const msg = `${firstName} ${lastName} is typing...`;
-
-        dispatch({type: 'IS_TYPING', chatId, msg, typingId});
+        dispatch({type: 'IS_TYPING', chatId, typingId});
     }
 }
 
@@ -282,11 +334,5 @@ export const stopTyping = (chatId, typingMsgs) =>{
 export const clearTyping = () =>{
     return (dispatch) =>{
         dispatch({type: 'CLEAR_TYPING'});
-    }
-}
-
-export const handleReadReceipts = (chatId, messages) =>{
-    return (dispatch) =>{
-        dispatch({type: 'READ_RECEIPTS', chatId, messages});
     }
 }
