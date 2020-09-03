@@ -153,6 +153,8 @@ export const getUnseenChats = (uid) =>{
     }
 }
 
+
+
 export const createChat = async (uid, recipients, content) => {
     const data = {uid, recipients, content};
 
@@ -207,15 +209,14 @@ export const setMsgsOnDisplay = (chatId, uid, io) =>{
         const response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
         const messages = response.data;
        
-        for(let i=0;i<messages.length;i++){
-            if(messages[i].readBy.includes(uid)){
-                continue;
-            }
+        // for(let i=0;i<messages.length;i++){
+        //     if(messages[i].readBy.includes(uid)){
+        //         continue;
+        //     }
 
-            messages[i].readBy.push(uid);
-        }
+        //     messages[i].readBy.push(uid);
+        // }
 
-        
         // const members = await getMemberIds(chatId);
 
         // io.emit('READ_RECEIPTS', {

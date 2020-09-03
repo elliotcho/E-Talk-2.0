@@ -95,7 +95,7 @@ const messagesReducer = (state = initState, action) =>{
             }
      
         case 'IS_TYPING':
-            if(state.displayedChatId === action.chatId){
+            if(state.displayedChatId === action.chatId && !state.typingMsgs.includes(typingId)){
                 const {typingId} = action;
 
                 return{

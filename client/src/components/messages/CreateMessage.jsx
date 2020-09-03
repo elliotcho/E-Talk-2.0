@@ -88,13 +88,11 @@ class CreateMessage extends Component{
 
         const chatId = await createChat(uid, recipients, content);
       
-        //update the message cards of recipients
-        io.emit('CREATE_CHAT', {recipients});
-
-        //reshuffle message cards
+        /*  update the message cards of recipients
+            reshuffle message cards
+            render the new chat  */
+        io.emit('CREATE_CHAT', {recipients});        
         await dispatch(getUserChats(uid, cancelSource));
-
-        //render the new chat
         this.props.history.push(`/chat/${chatId}`);
     }
 
@@ -111,7 +109,6 @@ class CreateMessage extends Component{
         const currChatId = (composerChatId) ? composerChatId: chatId;
 
         const newMessage = await sendMessage(currChatId, uid, content);
-        
         dispatch(renderNewMessage(currChatId, newMessage))
         await dispatch(getUserChats(uid));
        

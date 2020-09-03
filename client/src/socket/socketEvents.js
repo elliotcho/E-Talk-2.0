@@ -69,19 +69,16 @@ export const handleSocketEvents = (io, dispatch) =>{
             getUserChats
         } = messageActions
 
-        //light up navbar if you're not on messages page
+        /* light up navbar if you're not on messages page
+           re render the convo to include the new message
+           reset message cards so that chat with chatId is now on top*/
         dispatch(getUnseenChats(uid));
-
-        //re render the convo to include the new message
         dispatch(renderNewMessage(chatId, newMessage));
-
-        //reset message cards so that chat with chatId is now on top
         dispatch(getUserChats(uid));
     });
 
     io.on('IS_TYPING', data =>{
         const {chatId, uid} = data;
-
         const {handleTyping} = messageActions;
 
         dispatch(handleTyping(chatId, uid));
@@ -89,7 +86,6 @@ export const handleSocketEvents = (io, dispatch) =>{
 
     io.on('STOP_TYPING', data =>{
         const {chatId, typingMsgs} = data;
-
         const {stopTyping} = messageActions
 
         dispatch(stopTyping(chatId, typingMsgs));
