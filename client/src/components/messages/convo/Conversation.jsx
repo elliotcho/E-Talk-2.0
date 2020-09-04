@@ -19,6 +19,7 @@ class Conversation extends Component{
         this.onConvoUpdate = this.onConvoUpdate.bind(this);
         this.handleScroll = this.handleScroll.bind(this);
         this.showRead = this.getShowRead.bind(this);
+        this.sendReadReceipt = this.sendReadReceipt.bind(this);
     }
 
     async componentDidMount(){
@@ -49,7 +50,8 @@ class Conversation extends Component{
 
         //get and render messages
        dispatch(setDisplayedChatId(chatId));
-       await dispatch(setMsgsOnDisplay(chatId, uid, io));
+       await dispatch(setMsgsOnDisplay(chatId, uid));
+       await this.sendReadReceipt();
     
        if(!isComposerChat){
             const chatPics = await getChatPics(chatId, uid, getProfilePic);
@@ -73,6 +75,19 @@ class Conversation extends Component{
                 msgsOnDisplay[i].uid !== msgsOnDisplay[i+1].uid ||
                 msgsOnDisplay[i].readBy.length !== msgsOnDisplay[i+1].readBy.length
                );
+    }
+
+    async sendReadReceipt(){
+        const {chatId, uid} = this.props;
+        const {getMemberIds} = msgActions;
+
+        const members = await getMemberIds(chatId, uid);
+
+        io.emit('READ_RECEIPTS', {
+            chatId,
+            members,
+            uid
+        });
     }
 
     componentWillUnmount(){

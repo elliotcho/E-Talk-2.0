@@ -28,9 +28,9 @@ class MessageBubble extends Component{
     }
 
     async componentDidUpdate(prevProps){
-        const {showRead} = this.props;
+        const {readBy} = this.props.msg;
     
-        if(showRead !== prevProps.showRead){
+        if(readBy.length > prevProps.msg.readBy.length){
            await this.loadReadReceipts();
         }
     }
@@ -87,9 +87,9 @@ class MessageBubble extends Component{
                         </div>
     
                         <div className = 'read mx-1 my-1'>
-                            {showRead? readReceipts.map(imgURL =>
+                            {showRead? readReceipts.map((imgURL, i) =>
                                 <img 
-                                    key={imgURL} 
+                                    key={i} 
                                     src = {imgURL} 
                                     alt ='profile pic'
                                 />

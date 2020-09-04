@@ -211,6 +211,22 @@ export const clearTyping = () =>{
     }
 }
 
+export const setDisplayedChatId = (chatId) =>{
+    return (dispatch) =>{ 
+        dispatch({
+            type: types.SET_CHAT_ID, 
+            chatId
+        });
+    }
+}
+
+export const clearChatOnDisplay = () => {
+    return (dispatch) =>{
+        dispatch({type: types.CLEAR_DISPLAYED_CHAT});
+    }
+}
+
+
 
 
 
@@ -229,32 +245,18 @@ export const renderNewMessage = (chatId, newMessage) => {
     }
 }
 
-export const setDisplayedChatId = (chatId) =>{
-    return (dispatch) =>{ 
-        dispatch({type: 'SET_CHAT_ID', chatId});
-    }
-}
-
-export const setMsgsOnDisplay = (chatId, uid, io) =>{
+export const setMsgsOnDisplay = (chatId, uid) =>{
     return async (dispatch) => {
         const response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
         const messages = response.data;
        
-        // for(let i=0;i<messages.length;i++){
-        //     if(messages[i].readBy.includes(uid)){
-        //         continue;
-        //     }
+        for(let i=0;i<messages.length;i++){
+            if(messages[i].readBy.includes(uid)){
+                continue;
+            }
 
-        //     messages[i].readBy.push(uid);
-        // }
-
-        // const members = await getMemberIds(chatId);
-
-        // io.emit('READ_RECEIPTS', {
-        //     chatId,
-        //     members,
-        //     uid
-        // });
+            messages[i].readBy.push(uid);
+        }
 
         dispatch({type: 'DISPLAY_MESSAGES', messages});
     }
@@ -288,12 +290,11 @@ export const handleNewMessage = (newMessage, chatId, uid, io) =>{
     }
 }
 
-export const handleReadReceipts = (chatId, readerId, io) =>{
+export const handleReadReceipts = (chatId, readerId) =>{
     return async (dispatch, getState) =>{
         const state =getState();
 
         const {displayedChatId, msgsOnDisplay} = state.messages;
-        const {uid} = state.auth;
 
         if(chatId === displayedChatId){
             for(let i=0;i<msgsOnDisplay.length;i++){
@@ -304,17 +305,11 @@ export const handleReadReceipts = (chatId, readerId, io) =>{
                 msgsOnDisplay[i].readBy.push(readerId);
             }
 
-            // const members = await getMemberIds(chatId);
-
-            // io.emit('READ_RECEIPTS', {
-            //     chatId,
-            //     members,
-            //     uid
-            // });
+            console.log(msgsOnDisplay)
 
             dispatch({
-                type: 'READ_RECEIPTS', 
-                msgsOnDisplay
+                type: 'DISPLAY_MESSAGES', 
+                messages: msgsOnDisplay
             });
         }
     }
@@ -335,10 +330,4 @@ export const getReadReceipts = async (readBy, uid, getProfilePic) => {
     }
 
     return readReceipts;
-}
-
-export const clearChatOnDisplay = () => {
-    return (dispatch) =>{
-        dispatch({type: 'CLEAR_DISPLAYED_CHAT'});
-    }
 }

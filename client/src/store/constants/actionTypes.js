@@ -20,6 +20,8 @@ export const LOAD_UNSEEN_CHATS = 'LOAD_UNSEEN_CHATS';
 export const IS_TYPING = 'IS_TYPING';
 export const STOP_TYPING = 'STOP_TYPING';
 export const CLEAR_TYPING = 'CLEAR_TYPING';
+export const SET_CHAT_ID = 'SET_CHAT_ID';
+export const CLEAR_DISPLAYED_CHAT = 'CLEAR_DISPLAYED_CHAT';
        
 //friend actions
 export const LOAD_FRIENDS = 'LOAD_FRIENDS';

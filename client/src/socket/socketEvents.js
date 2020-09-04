@@ -99,6 +99,6 @@ export const handleSocketEvents = (io, dispatch) =>{
 
         const {handleReadReceipts} = messageActions
 
-        dispatch(handleReadReceipts(chatId, readerId, io));
+        dispatch(handleReadReceipts(chatId, readerId));
     });
 }

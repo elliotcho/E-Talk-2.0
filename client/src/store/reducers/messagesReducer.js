@@ -80,18 +80,22 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 typingMsgs: []
             }
-        
+        case types.SET_CHAT_ID:
+            return{
+                ...state,
+                displayedChatId: action.chatId
+            }
+        case types.CLEAR_DISPLAYED_CHAT:
+            return{
+                ...state,
+                msgsOnDisplay: [],
+                displayedChatId: null
+            }
         case 'DISPLAY_MESSAGES':
             return{
                 ...state,
                 msgsOnDisplay: [...action.messages]
             }
-        case 'SET_CHAT_ID':
-            return{
-                ...state,
-                displayedChatId: action.chatId
-            }
-
         case 'NEW_MESSAGE':
             return{
                 ...state,
@@ -101,12 +105,6 @@ const messagesReducer = (state = initState, action) =>{
             return{
                 ...state,
                 msgsOnDisplay: [...action.msgsOnDisplay]
-            }
-        case 'CLEAR_DISPLAYED_CHAT':
-            return{
-                ...state,
-                msgsOnDisplay: [],
-                displayedChatId: null
             }
         default:
             return state;

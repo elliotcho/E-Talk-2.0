@@ -93,7 +93,7 @@ class Composer extends Component{
 
     componentWillUnmount(){
         const {dispatch} = this.props;
-        const {clearComposer} = msgActions
+        const {clearComposer} = msgActions;
 
         dispatch(clearComposer());
     }
