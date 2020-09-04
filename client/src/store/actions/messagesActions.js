@@ -1,5 +1,4 @@
 import * as types from '../constants/actionTypes';
-import uuid from 'node-uuid';
 import axios from 'axios';
 
 const config = {headers: {'content-type': 'application/json'}};
@@ -153,8 +152,6 @@ export const getUnseenChats = (uid) =>{
     }
 }
 
-
-
 export const createChat = async (uid, recipients, content) => {
     const data = {uid, recipients, content};
 
@@ -164,7 +161,6 @@ export const createChat = async (uid, recipients, content) => {
     return chatId;
 }
 
-
 export const sendMessage = async (chatId, uid, content) => {
     const data = {uid, chatId, content};
 
@@ -173,6 +169,50 @@ export const sendMessage = async (chatId, uid, content) => {
 
     return newMessage;
 }
+
+export const getMemberIds = async (chatId, uid) =>{
+    const data = {uid, chatId};
+
+    const response = await axios.post('http://localhost:5000/chats/memberids', data, config);
+    return response.data.members;
+}
+
+export const handleTyping = (chatId, typingId) =>{
+    return async (dispatch, getState) =>{
+        const state = getState();
+        const {displayedChatId, typingMsgs} = state.messages;
+
+        if(chatId === displayedChatId && !typingMsgs.includes(typingId)){
+            dispatch({
+                type: types.IS_TYPING,
+                typingId
+            });
+        }
+    }
+}
+
+export const stopTyping = (chatId, typingMsgs) =>{
+    return (dispatch, getState) =>{
+        const state = getState();
+        const {displayedChatId} = state.messages;
+
+        if(displayedChatId === chatId){
+            dispatch({
+                type: types.STOP_TYPING,
+                typingMsgs
+            });
+        }
+    }
+}
+
+export const clearTyping = () =>{
+    return (dispatch) =>{
+        dispatch({type: types.CLEAR_TYPING});
+    }
+}
+
+
+
 
 export const renderNewMessage = (chatId, newMessage) => {
     return (dispatch, getState) => {
@@ -188,15 +228,6 @@ export const renderNewMessage = (chatId, newMessage) => {
         }
     }
 }
-
-export const getMemberIds = async (chatId, uid) =>{
-    const data = {uid, chatId};
-
-    const response = await axios.post('http://localhost:5000/chats/memberids', data, config);
-    return response.data.members;
-}
-
-
 
 export const setDisplayedChatId = (chatId) =>{
     return (dispatch) =>{ 
@@ -309,23 +340,5 @@ export const getReadReceipts = async (readBy, uid, getProfilePic) => {
 export const clearChatOnDisplay = () => {
     return (dispatch) =>{
         dispatch({type: 'CLEAR_DISPLAYED_CHAT'});
-    }
-}
-
-export const handleTyping = (chatId, typingId) =>{
-    return async (dispatch) =>{
-        dispatch({type: 'IS_TYPING', chatId, typingId});
-    }
-}
-
-export const stopTyping = (chatId, typingMsgs) =>{
-    return (dispatch) =>{
-        dispatch({type: 'STOP_TYPING', typingMsgs, chatId});
-    }
-}
-
-export const clearTyping = () =>{
-    return (dispatch) =>{
-        dispatch({type: 'CLEAR_TYPING'});
     }
 }

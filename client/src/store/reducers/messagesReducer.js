@@ -65,6 +65,21 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 unseenChats: action.unseenChats
             }
+            case types.IS_TYPING:
+            return{
+                ...state,
+                typingMsgs: [...state.typingMsgs, action.typingId]
+            }     
+        case types.STOP_TYPING:
+            return{
+                ...state,
+                typingMsgs: [...action.typingMsgs]
+            }
+        case types.CLEAR_TYPING:
+            return{
+                ...state,
+                typingMsgs: []
+            }
         
         case 'DISPLAY_MESSAGES':
             return{
@@ -92,32 +107,6 @@ const messagesReducer = (state = initState, action) =>{
                 ...state,
                 msgsOnDisplay: [],
                 displayedChatId: null
-            }
-     
-        case 'IS_TYPING':
-            if(state.displayedChatId === action.chatId && !state.typingMsgs.includes(typingId)){
-                const {typingId} = action;
-
-                return{
-                    ...state,
-                    typingMsgs: [...state.typingMsgs, typingId]
-                }
-            }
-
-            return state;
-        case 'STOP_TYPING':
-            if(state.displayedChatId === action.chatId){
-                return{
-                    ...state,
-                    typingMsgs: [...action.typingMsgs]
-                }
-            }
-
-            return state;
-        case 'CLEAR_TYPING':
-            return{
-                ...state,
-                typingMsgs: []
             }
         default:
             return state;

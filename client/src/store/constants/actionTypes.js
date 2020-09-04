@@ -17,7 +17,10 @@ export const LOAD_CHATS = 'LOAD_CHATS';
 export const SEE_CHATS = 'SEE_CHATS';
 export const CLEAR_CHATS = 'CLEAR_CHATS';
 export const LOAD_UNSEEN_CHATS = 'LOAD_UNSEEN_CHATS';
-    
+export const IS_TYPING = 'IS_TYPING';
+export const STOP_TYPING = 'STOP_TYPING';
+export const CLEAR_TYPING = 'CLEAR_TYPING';
+       
 //friend actions
 export const LOAD_FRIENDS = 'LOAD_FRIENDS';
 export const LOAD_UNREAD_REQUESTS = 'LOAD_UNREAD_REQUESTS';

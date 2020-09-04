@@ -92,7 +92,7 @@ class CreateMessage extends Component{
             reshuffle message cards
             render the new chat  */
         io.emit('CREATE_CHAT', {recipients});        
-        await dispatch(getUserChats(uid, cancelSource));
+        dispatch(getUserChats(uid, cancelSource));
         this.props.history.push(`/chat/${chatId}`);
     }
 
@@ -110,7 +110,7 @@ class CreateMessage extends Component{
 
         const newMessage = await sendMessage(currChatId, uid, content);
         dispatch(renderNewMessage(currChatId, newMessage))
-        await dispatch(getUserChats(uid));
+        dispatch(getUserChats(uid));
        
         const members = await getMemberIds(currChatId, uid);
       
