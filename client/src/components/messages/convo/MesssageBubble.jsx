@@ -18,36 +18,44 @@ class MessageBubble extends Component{
     }
 
     async componentDidMount(){
-        const {uid} = this.props.msg;
-
-        const ownerImgURL = await getProfilePic(uid);
-
-        await this.loadReadReceipts();
+        const {senderId, showRead} = this.props;
+    
+        const ownerImgURL = await getProfilePic(senderId);
+        
+        if(showRead){
+            await this.loadReadReceipts();
+        }
 
         this.setState({ownerImgURL});
     }
 
     async componentDidUpdate(prevProps){
-        const {readBy} = this.props.msg;
-    
-        if(readBy.length > prevProps.msg.readBy.length){
-           await this.loadReadReceipts();
+        const {showRead, readBy} = this.props;
+
+        
+
+        if((readBy.length !== prevProps.readBy.length)){
+            if(showRead){
+                await this.loadReadReceipts();
+            }
+
+            else{
+                this.setState({readReceipts: []});
+            }
         }
     }
 
     async loadReadReceipts(){
-        const {handleScroll} = this.props;
-        const {readBy, uid} = this.props.msg;
-
-        const readReceipts = await getReadReceipts(readBy, uid, getProfilePic);
+        const {senderId, readBy, handleScroll} = this.props;
+    
+        const readReceipts = await getReadReceipts(readBy, senderId, getProfilePic);
       
-        this.setState({readReceipts}, ()=>{
-            handleScroll();
-        });
+        this.setState({readReceipts});
+        handleScroll();
     }
 
     toProfile(){
-        const profileId = this.props.msg.uid;
+        const profileId = this.props.senderId;
         this.props.history.push(`/profile/${profileId}/posts`);
     }
 
@@ -58,14 +66,10 @@ class MessageBubble extends Component{
     }
 
     render(){
-        const {msg, uid, showRead} = this.props;
+        const {uid, senderId, content, showRead} = this.props;
+        const {ownerImgURL, readReceipts} = this.state;
 
-        const {
-            ownerImgURL, 
-            readReceipts
-        } = this.state;
-
-        const msgPosition = (msg.uid === uid)? 
+        const msgPosition = (senderId === uid)? 
             'msg-r': 
             'msg-l';
 
@@ -83,7 +87,7 @@ class MessageBubble extends Component{
 
                     <div className ={`msg ${msgPosition} my-1`}>
                         <div>
-                            {msg.content}
+                            {content}
                         </div>
     
                         <div className = 'read mx-1 my-1'>

@@ -28,12 +28,11 @@ class Conversation extends Component{
 
     async componentDidUpdate(prevProps){
         const {chatId, dispatch} = this.props;
-
+    
         //logic for rendering a new chat
         if(prevProps.chatId !== chatId && chatId !== 'new'){
             //clear the messages that shows that users are typing from the previous convo
-            await dispatch(msgActions.clearTyping());
-
+            dispatch(msgActions.clearTyping());
             await this.onConvoUpdate()
         }
     }
@@ -50,7 +49,7 @@ class Conversation extends Component{
 
         //get and render messages
        dispatch(setDisplayedChatId(chatId));
-       await dispatch(setMsgsOnDisplay(chatId, uid));
+       dispatch(setMsgsOnDisplay(chatId, uid));
        await this.sendReadReceipt();
     
        if(!isComposerChat){
@@ -119,7 +118,9 @@ class Conversation extends Component{
             <MessageBubble 
                 key={msg._id} 
                 uid={uid} 
-                msg={msg}
+                senderId = {msg.uid}
+                content = {msg.content}
+                readBy = {[...msg.readBy]}
                 handleScroll = {this.handleScroll}
                 showRead = {this.getShowRead(i)}
             />

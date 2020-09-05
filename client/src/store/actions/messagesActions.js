@@ -262,54 +262,53 @@ export const setMsgsOnDisplay = (chatId, uid) =>{
     }
 }
 
-export const handleNewMessage = (newMessage, chatId, uid, io) =>{
-    return async (dispatch, getState) => {
-        const state = getState();
+// export const handleNewMessage = (newMessage, chatId, uid, io) =>{
+//     return async (dispatch, getState) => {
+//         const state = getState();
 
-        const {displayedChatId} = state.messages;
+//         const {displayedChatId} = state.messages;
 
-        if(displayedChatId === chatId){
-            if(!newMessage.readBy.includes(uid)){
-                newMessage.readBy.push(uid);
-            }
+//         if(displayedChatId === chatId){
+//             if(!newMessage.readBy.includes(uid)){
+//                 newMessage.readBy.push(uid);
+//             }
 
             
-            // const members = await getMemberIds(chatId);
+//             const members = await getMemberIds(chatId);
 
-            // io.emit('READ_RECEIPTS', {
-            //     chatId,
-            //     members,
-            //     uid
-            // });
+//             io.emit('READ_RECEIPTS', {
+//                 chatId,
+//                 members,
+//                 uid
+//             });
 
-            dispatch({
-                type: 'NEW_MESSAGE', 
-                newMessage
-            });
-        }
-    }
-}
+//             dispatch({
+//                 type: 'NEW_MESSAGE', 
+//                 newMessage
+//             });
+//         }
+//     }
+// }
 
 export const handleReadReceipts = (chatId, readerId) =>{
     return async (dispatch, getState) =>{
-        const state =getState();
+        const state = getState();
 
         const {displayedChatId, msgsOnDisplay} = state.messages;
+        const messages = [...msgsOnDisplay];    
 
         if(chatId === displayedChatId){
-            for(let i=0;i<msgsOnDisplay.length;i++){
-                if(msgsOnDisplay[i].readBy.includes(readerId)){
+            for(let i=0;i<messages.length;i++){
+                if(messages[i].readBy.includes(readerId)){
                     continue;
                 }
 
-                msgsOnDisplay[i].readBy.push(readerId);
+                messages[i].readBy.push(readerId);
             }
-
-            console.log(msgsOnDisplay)
 
             dispatch({
                 type: 'DISPLAY_MESSAGES', 
-                messages: msgsOnDisplay
+                messages
             });
         }
     }
