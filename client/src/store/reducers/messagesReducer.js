@@ -91,20 +91,15 @@ const messagesReducer = (state = initState, action) =>{
                 msgsOnDisplay: [],
                 displayedChatId: null
             }
-        case 'DISPLAY_MESSAGES':
+        case types.LOAD_MESSAGES:
             return{
                 ...state,
                 msgsOnDisplay: [...action.messages]
             }
-        case 'NEW_MESSAGE':
+        case types.NEW_MESSAGE:
             return{
                 ...state,
                 msgsOnDisplay: [...state.msgsOnDisplay, action.newMessage]
-            }
-        case 'READ_RECEIPTS':
-            return{
-                ...state,
-                msgsOnDisplay: [...action.msgsOnDisplay]
             }
         default:
             return state;

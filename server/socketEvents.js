@@ -11,8 +11,6 @@ const {
     removeComment
 } = require('./socket/post');
 
-const axios = require('axios');
-
 const active = {};
 
 module.exports = (io) =>{

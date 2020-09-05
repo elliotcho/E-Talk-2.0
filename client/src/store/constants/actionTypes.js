@@ -22,7 +22,9 @@ export const STOP_TYPING = 'STOP_TYPING';
 export const CLEAR_TYPING = 'CLEAR_TYPING';
 export const SET_CHAT_ID = 'SET_CHAT_ID';
 export const CLEAR_DISPLAYED_CHAT = 'CLEAR_DISPLAYED_CHAT';
-       
+export const LOAD_MESSAGES = 'LOAD_MESSAGES';
+export const NEW_MESSAGE = 'NEW_MESSAGE';
+        
 //friend actions
 export const LOAD_FRIENDS = 'LOAD_FRIENDS';
 export const LOAD_UNREAD_REQUESTS = 'LOAD_UNREAD_REQUESTS';

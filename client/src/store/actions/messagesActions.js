@@ -226,29 +226,6 @@ export const clearChatOnDisplay = () => {
     }
 }
 
-
-
-
-
-export const renderNewMessage = (chatId, newMessage, uid) => {
-    return (dispatch, getState) => {
-        const state = getState();
-
-        const {displayedChatId, composerChatId} = state.messages;
-
-        if(displayedChatId === chatId || composerChatId === chatId){
-            if(!newMessage.readBy.includes(uid)){
-                newMessage.readBy.push(uid);
-            }
-
-            dispatch({
-                type: 'NEW_MESSAGE', 
-                newMessage
-            });
-        }
-    }
-}
-
 export const setMsgsOnDisplay = (chatId, uid) =>{
     return async (dispatch) => {
         const response = await axios.get(`http://localhost:5000/chats/messages/${chatId}`);
@@ -262,7 +239,10 @@ export const setMsgsOnDisplay = (chatId, uid) =>{
             messages[i].readBy.push(uid);
         }
 
-        dispatch({type: 'DISPLAY_MESSAGES', messages});
+        dispatch({
+            type: types.LOAD_MESSAGES, 
+            messages
+        });
     }
 }
 
@@ -283,13 +263,31 @@ export const handleReadReceipts = (chatId, readerId) =>{
             }
 
             dispatch({
-                type: 'DISPLAY_MESSAGES', 
+                type: types.LOAD_MESSAGES, 
                 messages
             });
         }
     }
 }
 
+export const renderNewMessage = (chatId, newMessage, uid) => {
+    return (dispatch, getState) => {
+        const state = getState();
+
+        const {displayedChatId, composerChatId} = state.messages;
+
+        if(displayedChatId === chatId || composerChatId === chatId){
+            if(!newMessage.readBy.includes(uid)){
+                newMessage.readBy.push(uid);
+            }
+
+            dispatch({
+                type: types.NEW_MESSAGE, 
+                newMessage
+            });
+        }
+    }
+}
 
 export const getReadReceipts = async (readBy, uid, getProfilePic) => {
     const readReceipts = [];
