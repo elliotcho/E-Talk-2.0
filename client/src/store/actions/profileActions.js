@@ -20,17 +20,15 @@ export const getUserData = async (uid) =>{
 }
 
 export const changeProfilePic = (uid, profilePic) =>{
-    return () =>{
-        const formData = new FormData();
+    const formData = new FormData();
 
-        formData.append('uid', uid);
-        formData.append('profilePic', profilePic);
+    formData.append('uid', uid);
+    formData.append('profilePic', profilePic);
 
-        const config = {headers: {'content-type': 'multipart/form-data'}};
+    const config = {headers: {'content-type': 'multipart/form-data'}};
 
-        axios.post('http://localhost:5000/users/profilepic', formData, config)
-        .then(() => {window.location.reload();});
-    }
+    axios.post('http://localhost:5000/users/profilepic', formData, config)
+    .then(() => {window.location.reload();});
 }
 
 export const getProfilePic = async (uid) =>{

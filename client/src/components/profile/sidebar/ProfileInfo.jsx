@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {updateRecipients} from '../../../store/actions/messagesActions';
+import {getUserData} from '../../../store/actions/profileActions';
 import ProfilePic from './ProfilePic';
 import {withRouter} from 'react-router-dom';
 import {io} from '../../../App';
 import axios from 'axios';
 
-class ProfileTop extends Component{
+class ProfileInfo extends Component{
     constructor(){
         super();
 
@@ -20,16 +21,15 @@ class ProfileTop extends Component{
         this.messageUser = this.messageUser.bind(this);
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         const {profileId, uid} = this.props;
 
-        axios.get(`http://localhost:5000/users/${profileId}`).then(response => {
-            const {firstName, lastName} = response.data;
-            
-            this.setState({
-                firstName,
-                lastName,
-            });
+        const user = await getUserData(profileId);
+        const {firstName, lastName} = user;
+        
+        this.setState({
+            firstName, 
+            lastName
         });
 
         const config = {headers: {'content-type': 'application/json'}};
@@ -130,4 +130,4 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(ProfileTop));
+export default withRouter(connect(null, mapDispatchToProps)(ProfileInfo));

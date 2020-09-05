@@ -56,8 +56,8 @@ export const handleSocketEvents = (io, dispatch) =>{
             getUnseenChats
         } = messageActions;
 
-        dispatch(getUserChats(data.uid));
         dispatch(getUnseenChats(data.uid));
+        dispatch(getUserChats(data.uid));
     });
 
     io.on('NEW_MESSAGE', async data =>{

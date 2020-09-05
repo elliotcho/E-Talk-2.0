@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {getProfilePic, changeProfilePic} from '../../../store/actions/profileActions';
 import loading from '../../../images/loading.jpg';
 
@@ -9,8 +8,8 @@ class ProfilePic extends Component{
 
         this.state = {
             imgURL: null, 
-            canChange: false,
-            labelStyle: {visibility: 'hidden'}
+            labelStyle: {visibility: 'hidden'},
+            canChange: false
         }
 
         this.handleMouseOver = this.handleMouseOver.bind(this);
@@ -22,32 +21,32 @@ class ProfilePic extends Component{
         const {profileId, uid} = this.props;
 
         const imgURL = await getProfilePic(profileId);
+        const canChange = uid === profileId;
 
-        this.setState({
-            imgURL,
-            canChange: uid === profileId
-        });
+        this.setState({imgURL, canChange});
     }
 
     handleMouseOver(){
-       this.setState({labelStyle: {visibility: 'visible'}});
+       this.setState({
+           labelStyle: {visibility: 'visible'}
+        });
     }
 
     handleMouseLeave(){
-        this.setState({labelStyle: {visibility: 'hidden'}});
+        this.setState({
+            labelStyle: {visibility: 'hidden'}
+        });
     }
 
     handleChange(e){
-        const {dispatch} = this.props;
-        dispatch(changeProfilePic(this.props.uid, e.target.files[0]));
+        changeProfilePic(this.props.uid, e.target.files[0]);
     }
 
     render(){
         const {imgURL, canChange, labelStyle} = this.state;
 
         return(
-            <section className='profile-pic' onMouseOver = {this.handleMouseOver} onMouseLeave = {this.handleMouseLeave}>
-
+            <section className='profile-pic' onMouseOver={this.handleMouseOver} onMouseLeave={this.handleMouseLeave}>
                 <img src ={imgURL? imgURL: loading} alt='profile pic'/>
 
                 <label style = {canChange? labelStyle: {display: 'none'}} htmlFor = 'uploadPic'>
@@ -56,7 +55,8 @@ class ProfilePic extends Component{
                     </div>
                 </label>
 
-                <input type ='file' 
+                <input 
+                       type ='file' 
                        id ='uploadPic' 
                        accept = 'jpg jpeg png'
                        onChange = {this.handleChange}
@@ -66,6 +66,4 @@ class ProfilePic extends Component{
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({dispatch});
-
-export default connect(null, mapDispatchToProps)(ProfilePic);
+export default ProfilePic;

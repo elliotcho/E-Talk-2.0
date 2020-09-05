@@ -87,12 +87,12 @@ class CreateMessage extends Component{
         const {createChat, getUserChats} = msgActions;
 
         const chatId = await createChat(uid, recipients, content);
-      
+
         /*  update the message cards of recipients
             reshuffle message cards
-            render the new chat  */
-        io.emit('CREATE_CHAT', {recipients});        
+            render the new chat  */       
         dispatch(getUserChats(uid, cancelSource));
+        io.emit('CREATE_CHAT', {recipients}); 
         this.props.history.push(`/chat/${chatId}`);
     }
 

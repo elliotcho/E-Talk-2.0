@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
 import {changeQueryToProfile, clearQuery} from '../../store/actions/searchActions';
 import ProfileSidebar from './sidebar/ProfileSidebar';
 import PostList from '../posts/PostList';
@@ -10,11 +10,10 @@ import './Profile.css';
 
 class Profile extends Component{
     componentDidMount(){
-        const {changeQueryToProfile} = this.props;
-        
+        const {dispatch} = this.props; 
         const {id} = this.props.match.params;
          
-        changeQueryToProfile(id);
+        dispatch(changeQueryToProfile(id));
     }
 
     componentDidUpdate(prevProps){
@@ -28,40 +27,37 @@ class Profile extends Component{
     }
 
     componentWillUnmount(){
-        this.props.clearQuery();
+        this.props.dispatch(clearQuery());
     }
 
     render(){
         const {uid} = this.props;
-
         const {id, type} = this.props.match.params;
 
         return(
                 <div className ='container'>
                     <div className ='row profile'>
                         <section className ='col-md-3'>
-                            <ProfileSidebar profileId = {id} uid = {uid}  type = {type}/>
+                            <ProfileSidebar 
+                                profileId = {id} 
+                                uid = {uid}  
+                                type = {type}
+                            />
                         </section>
 
                         <section className ='col-md-9'>
                             <div className ='profile-content'>
-                                {type === 'posts'? <PostList profileId = {id}/> : null}
-                                {type === 'friends'? <Friends profileId = {id}/>: null}
+                                {type === 'posts'? <PostList profileId={id}/> : null}
+                                {type === 'friends'? <Friends profileId={id}/>: null}
                                 {type === 'bio' ? <ProfileBio/>: null}
                             </div>
                         </section>
                     </div>
                 </div>
-            
         )
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        changeQueryToProfile: (profileId) =>{dispatch(changeQueryToProfile(profileId));},
-        clearQuery: () => {dispatch(clearQuery());}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export default withRouter(connect(null, mapDispatchToProps)(Profile));
