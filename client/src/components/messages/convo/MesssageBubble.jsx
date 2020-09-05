@@ -34,7 +34,7 @@ class MessageBubble extends Component{
 
         
 
-        if((readBy.length !== prevProps.readBy.length)){
+        if((readBy.length !== prevProps.readBy.length) || (showRead !== prevProps.showRead)){
             if(showRead){
                 await this.loadReadReceipts();
             }

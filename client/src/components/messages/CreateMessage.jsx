@@ -109,7 +109,7 @@ class CreateMessage extends Component{
         const currChatId = (composerChatId) ? composerChatId: chatId;
 
         const newMessage = await sendMessage(currChatId, uid, content);
-        dispatch(renderNewMessage(currChatId, newMessage))
+        dispatch(renderNewMessage(currChatId, newMessage, uid));
         dispatch(getUserChats(uid));
        
         const members = await getMemberIds(currChatId, uid);

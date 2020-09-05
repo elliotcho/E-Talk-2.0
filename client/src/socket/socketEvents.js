@@ -60,21 +60,31 @@ export const handleSocketEvents = (io, dispatch) =>{
         dispatch(getUnseenChats(data.uid));
     });
 
-    io.on('NEW_MESSAGE', data =>{
+    io.on('NEW_MESSAGE', async data =>{
         const {chatId, newMessage, uid} = data;
 
         const {
             getUnseenChats,
             renderNewMessage,
-            getUserChats
+            getUserChats,
+            getMemberIds
         } = messageActions
 
         /* light up navbar if you're not on messages page
            re render the convo to include the new message
            reset message cards so that chat with chatId is now on top*/
         dispatch(getUnseenChats(uid));
-        dispatch(renderNewMessage(chatId, newMessage));
+        dispatch(renderNewMessage(chatId, newMessage, uid));
         dispatch(getUserChats(uid));
+
+        //get the ids of all members except the user with uid
+        const members = await getMemberIds(chatId, uid);
+
+        io.emit('READ_RECEIPTS', {
+            chatId,
+            members,
+            uid
+        });
     });
 
     io.on('IS_TYPING', data =>{
@@ -98,7 +108,7 @@ export const handleSocketEvents = (io, dispatch) =>{
         } = data;
 
         const {handleReadReceipts} = messageActions
-
+    
         dispatch(handleReadReceipts(chatId, readerId));
     });
 }

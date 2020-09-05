@@ -121,7 +121,7 @@ module.exports = (io) =>{
             }
         });
 
-        socket.on('IS_TYPING', async data=>{
+        socket.on('IS_TYPING', data=>{
             const {members, uid, chatId} = data;
 
             for(let i=0;i<members.length;i++){
@@ -134,7 +134,7 @@ module.exports = (io) =>{
             }
         });
 
-        socket.on('STOP_TYPING', async data =>{
+        socket.on('STOP_TYPING', data =>{
             const {chatId, typingMsgs, members} = data;
 
             for(let i=0;i<members.length;i++){
@@ -147,7 +147,7 @@ module.exports = (io) =>{
             }
         });
 
-        socket.on('READ_RECEIPTS', async data =>{
+        socket.on('READ_RECEIPTS', data =>{
             const {chatId, members, uid} = data;
 
             for(let i=0;i<members.length;i++){
