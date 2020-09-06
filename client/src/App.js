@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import {connect} from 'react-redux';
-import socket from 'socket.io-client';
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
 import Userfeed from './components/userfeed/Userfeed';
@@ -12,8 +11,9 @@ import Notifications from './components/notifications/Notifications';
 import PostDetails from './components/posts/PostDetails';
 import MessagesHome from './components/messages/MessagesHome';
 import Navbar from './components/layout/Navbar';
-import {handleSocketEvents} from './socket/socketEvents';
+import socket from 'socket.io-client';
 import {ToastContainer} from 'react-toastify';
+import {handleSocketEvents} from './socket/socketEvents';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 

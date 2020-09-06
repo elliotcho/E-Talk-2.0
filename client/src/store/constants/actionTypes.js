@@ -30,3 +30,16 @@ export const LOAD_FRIENDS = 'LOAD_FRIENDS';
 export const LOAD_UNREAD_REQUESTS = 'LOAD_UNREAD_REQUESTS';
 export const READ_REQUESTS = 'READ_REQUESTS';
 export const REMOVE_REQUEST = 'REMOVE_REQUEST';
+
+//notification actions
+export const LOAD_UNREAD_NOTIFS = 'LOAD_UNREAD_NOTIFS';
+export const READ_NOTIFS = 'READ_NOTIFS';
+
+//profile actions
+export const NAVBAR_INITIALS = 'NAVBAR_INITIALS';
+
+//search actions
+export const SAVE_QUERY = 'SAVE_QUERY';
+export const SEARCH_APPLIED = 'SEARCH_APPLIED';
+export const PROFILE_QUERY = 'PROFILE_QUERY';
+export const CLEAR_QUERY = 'CLEAR_QUERY';

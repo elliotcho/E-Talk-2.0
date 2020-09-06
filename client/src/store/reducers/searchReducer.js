@@ -1,3 +1,5 @@
+import * as types from '../constants/actionTypes';
+
 const initState = {
     query: null,
     results: []
@@ -5,27 +7,27 @@ const initState = {
 
 const searchReducer = (state = initState, action) =>{
     switch(action.type){
-        case "SAVE_QUERY":
+        case types.SAVE_QUERY:
             return {
                 ...state,
                 query: action.query
             }
-        case "CLEAR_QUERY":    
-            return{
-                ...state,
-                results: [],
-                query: action.query
-            }
-        case "PROFILE_QUERY":
-            return{
-                ...state,
-                results: [],
-                query: action.query
-            }
-        case "SEARCH_APPLIED":
+        case types.SEARCH_APPLIED:
             return{
                 ...state,
                 results: [...action.results]
+            }
+        case types.PROFILE_QUERY:
+            return{
+                ...state,
+                results: [],
+                query: action.query
+            }
+        case types.CLEAR_QUERY:    
+            return{
+                ...state,
+                results: [],
+                query: ''
             }
         default:
             return state;

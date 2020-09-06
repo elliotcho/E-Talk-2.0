@@ -1,9 +1,10 @@
+import * as types from '../constants/actionTypes';
 import axios from 'axios';
 
 export const saveQuery = (query) =>{
     return (dispatch) =>{
         dispatch({
-            type: 'SAVE_QUERY', 
+            type: types.SAVE_QUERY, 
             query
         });
     }
@@ -17,7 +18,7 @@ export const applySearch = (query, uid) =>{
         const results = response.data;
 
         dispatch({
-            type: "SEARCH_APPLIED", 
+            type: types.SEARCH_APPLIED, 
             results
         });
     }
@@ -29,7 +30,7 @@ export const changeQueryToProfile = (profileId) =>{
         const {firstName, lastName} = response.data;
 
         dispatch({
-            type: "PROFILE_QUERY", 
+            type: types.PROFILE_QUERY, 
             query: `${firstName} ${lastName}`
         });
     }
@@ -37,9 +38,6 @@ export const changeQueryToProfile = (profileId) =>{
 
 export const clearQuery = () =>{
     return (dispatch) =>{
-        dispatch({
-            type: 'CLEAR_QUERY', 
-            query: ''
-        });
+        dispatch({type: types.CLEAR_QUERY});
     }
 }

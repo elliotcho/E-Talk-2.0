@@ -1,3 +1,4 @@
+import * as types from '../constants/actionTypes';
 import axios from 'axios';
 
 export const getUnreadNotifs = (uid) =>{
@@ -6,7 +7,7 @@ export const getUnreadNotifs = (uid) =>{
         const {unreadNotifs} = response.data;
 
         dispatch({
-            type: 'LOAD_UNREAD_NOTIFS', 
+            type: types.LOAD_UNREAD_NOTIFS, 
             unreadNotifs
         });
     }
@@ -17,7 +18,7 @@ export const readNotifs = (uid) => {
         const response = await axios.put(`http://localhost:5000/notifs/read/${uid}`);
 
         dispatch({
-            type: 'READ_NOTIFS',
+            type: types.READ_NOTIFS,
             notifs: response.data
         });
     }

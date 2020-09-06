@@ -1,3 +1,4 @@
+import * as types from '../constants/actionTypes';
 import axios from 'axios';
 
 export const getNavbarInitials = (uid) =>{
@@ -8,7 +9,7 @@ export const getNavbarInitials = (uid) =>{
         const initials = firstName[0].toUpperCase() + lastName[0].toUpperCase();
 
         dispatch({
-            type: "NAVBAR_INITIALS", 
+            type: types.NAVBAR_INITIALS, 
             initials
         });
     }
@@ -19,7 +20,7 @@ export const getUserData = async (uid) =>{
     return response.data;
 }
 
-export const changeProfilePic = (uid, profilePic) =>{
+export const changeProfilePic = async (uid, profilePic) =>{
     const formData = new FormData();
 
     formData.append('uid', uid);
@@ -27,8 +28,8 @@ export const changeProfilePic = (uid, profilePic) =>{
 
     const config = {headers: {'content-type': 'multipart/form-data'}};
 
-    axios.post('http://localhost:5000/users/profilepic', formData, config)
-    .then(() => {window.location.reload();});
+    await axios.post('http://localhost:5000/users/profilepic', formData, config)
+    window.location.reload();
 }
 
 export const getProfilePic = async (uid) =>{

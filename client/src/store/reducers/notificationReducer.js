@@ -1,13 +1,18 @@
-const initState = {notifs: [], unreadNotifs: 0}
+import * as types from '../constants/actionTypes';
+
+const initState = {
+    notifs: [], 
+    unreadNotifs: 0
+}
 
 const notificationReducer = (state = initState, action) => {
     switch(action.type){
-        case 'LOAD_UNREAD_NOTIFS':
+        case types.LOAD_UNREAD_NOTIFS:
             return{
                 ...state,
                 unreadNotifs: action.unreadNotifs
             }
-        case 'READ_NOTIFS':
+        case types.READ_NOTIFS:
             return{
                 ...state,
                 unreadNotifs: 0,
