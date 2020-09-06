@@ -6,28 +6,34 @@ import './ProfileContent.css';
 
 class Friends extends Component{
     componentDidMount(){
-        const {
-            dispatch
-        } = this.props;
-
-        dispatch(getFriends(this.props.profileId));
+        const {dispatch, profileId} = this.props;
+        dispatch(getFriends(profileId));
     }
 
     render(){
         const {uid} = this.props;
 
         const friends = this.props.friends.map(friend =>
-            <UserCard key={friend._id} user={friend} uid={uid} type='friend'/>
+            <UserCard 
+                key={friend._id} 
+                user={friend} 
+                uid={uid} 
+                type='friend'
+            />
         );
 
         return(
             <div>
-                {friends.length === 0? <h1 className ='nofriends text-center'>No Friends Available</h1>:
-                (<div className ='jumbotron friends-container'>
-                    <div className = 'friend row d-flex justify-content-center align-items-stretch'>
-                        {friends}
-                    </div>
-                </div>)}
+                {friends.length === 0? 
+                    (<h1 className ='nofriends text-center'>
+                        No Friends Available
+                    </h1>):
+                    (<div className ='jumbotron friends-container'>
+                        <div className = 'friend row d-flex justify-content-center align-items-stretch'>
+                            {friends}
+                        </div>
+                    </div>)
+                }
             </div>
         )
     }

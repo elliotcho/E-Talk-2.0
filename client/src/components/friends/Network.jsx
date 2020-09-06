@@ -12,20 +12,19 @@ class Network extends Component{
     }
 
     componentDidMount(){
-        this.props.readRequests(this.props.uid);
+        //load/read all friend requests
+        this.props.dispatch(readRequests(this.props.uid));
     }
     
     deleteRequest(id){
-        const {
-            removeRequest
-        } = this.props;
-
-        removeRequest(id);
+        //remove friend request from the screen
+        this.props.dispatch(removeRequest(id));
     }
 
     componentDidUpdate(prevProps){
         const {unreadRequests} = this.props;
 
+        //if we have a new request refresh the page
         if(prevProps.unreadRequests !== unreadRequests && unreadRequests!==0){   
             window.location.reload();
         }
@@ -48,10 +47,13 @@ class Network extends Component{
 
         return(
             <div className = 'network'>
-                {requests.length === 0? <h1 className ='no-requests text-center'>Friend Requests Unavailable</h1>:
-                <div className ='fr-container'>
-                    {requests}
-                </div>}
+                {requests.length === 0? 
+                    (<h1 className ='no-requests text-center'>
+                        Friend Requests Unavailable
+                    </h1>):
+                    (<div className ='fr-container'>
+                        {requests}
+                    </div>)}
             </div>
         )
     }
@@ -64,11 +66,7 @@ const mapStateToProps = (state) =>{
         unreadRequests: state.friends.unreadRequests
     }
 }
-const mapDispatchToProps = (dispatch) =>{
-    return {
-        removeRequest: (requestId, requests) => {dispatch(removeRequest(requestId, requests));},
-        readRequests: (uid) => {dispatch(readRequests(uid));}
-    }
-}
+
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Network);

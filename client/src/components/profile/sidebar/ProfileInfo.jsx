@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {updateRecipients} from '../../../store/actions/messagesActions';
-import {getUserData} from '../../../store/actions/profileActions';
-import ProfilePic from './ProfilePic';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getUserData} from '../../../store/actions/profileActions';
+import {getFriendStatus} from '../../../store/actions/friendsActions';
+import {checkIfChatExists, updateRecipients} from '../../../store/actions/messagesActions';
+import ProfilePic from './ProfilePic';
 import {io} from '../../../App';
-import axios from 'axios';
 
 class ProfileInfo extends Component{
     constructor(){
@@ -25,41 +25,37 @@ class ProfileInfo extends Component{
         const {profileId, uid} = this.props;
 
         const user = await getUserData(profileId);
-        const {firstName, lastName} = user;
-        
+        const status = await getFriendStatus(profileId, uid);
+
         this.setState({
-            firstName, 
-            lastName
-        });
-
-        const config = {headers: {'content-type': 'application/json'}};
-
-        axios.post('http://localhost:5000/friends/status', {receiverId: profileId, senderId: uid}, config).then(response =>{
-            this.setState({status: response.data.status});
+            firstName: user.firstName, 
+            lastName: user.lastName,
+            status
         });
     }
 
     changeFriendStatus(){
-        const {status} = this.state;
-        
-        const {firstName, lastName} = this.state;
-
+        const {firstName, lastName, status} = this.state;
         const {uid, profileId} = this.props;
 
         if(status === 'Add Friend'){
-            io.emit('CHANGE_FRIEND_STATUS', {status, senderId: uid, receiverId: profileId});     
+            io.emit('CHANGE_FRIEND_STATUS', {
+                status, 
+                senderId: uid, 
+                receiverId: profileId
+            });     
 
-            this.setState({
-                status: 'Pending'
-            });  
+            this.setState({status: 'Pending'});  
         }
 
         else if(status === 'Pending'){
-            io.emit('CHANGE_FRIEND_STATUS', {status, senderId: uid, receiverId: profileId});     
+            io.emit('CHANGE_FRIEND_STATUS', {
+                status, 
+                senderId: uid, 
+                receiverId: profileId
+            });     
 
-            this.setState({
-                status: 'Add Friend'
-            });
+            this.setState({status: 'Add Friend'});
         }
 
         else{
@@ -67,67 +63,65 @@ class ProfileInfo extends Component{
                 return;
             }
 
-            io.emit('CHANGE_FRIEND_STATUS', {status, senderId: uid, receiverId: profileId});     
+            io.emit('CHANGE_FRIEND_STATUS', {
+                status, 
+                senderId: uid, 
+                receiverId: profileId
+            });     
 
-            this.setState({
-                status: 'Add Friend'
-            });
+            this.setState({status: 'Add Friend'});
         }
     }
 
     async messageUser(){
         const {firstName, lastName} = this.state;
-        const {uid, profileId, updateRecipients} = this.props;
+        const {uid, profileId, dispatch} = this.props;
 
-        const config = {headers: {'content-type': 'application/json'}};
+        const chatId = await checkIfChatExists([uid, profileId]);
 
-        const response = await axios.post('http://localhost:5000/chats/exists', {members: [uid, profileId]}, config);
-        const {chat} = response.data;
-
-        if(chat){
-            this.props.history.push(`/chat/${chat._id}`);
+        if(chatId){
+            this.props.history.push(`/chat/${chatId}`);
         }
 
         else{
-            updateRecipients([{_id: profileId, firstName, lastName}]);
+            dispatch(updateRecipients([{_id: profileId, firstName, lastName}]));
             this.props.history.push('/chat/new');
         }
     }
 
     render(){
         const {firstName, lastName, status} = this.state;
-
         const {profileId, uid} = this.props;
+
+        const toProfile = () => this.props.history.push(`/profile/${profileId}/posts`);
 
         return(
             <div>
                 <ProfilePic profileId = {profileId} uid = {uid}/>
 
                 <section className ='mt-2 text-center'>
-                    <div className ='user-name' onClick = {() => {this.props.history.push(`/profile/${profileId}/posts`)}}>
+                    <div className ='user-name' onClick = {toProfile}>
                         {firstName} {lastName}
                     </div>
                 </section>
 
-                {uid === profileId? null: 
-                (<section className='user-buttons'>
-                    <button className='btn btn-secondary btn-small' onClick = {this.changeFriendStatus}>
-                        {status}
-                    </button>
+                {uid !== profileId? 
+                    (<section className='user-buttons'>
+                        <button className='btn btn-secondary btn-small' onClick = {this.changeFriendStatus}>
+                            {status}
+                        </button>
                     
-                    <button className='btn btn-primary btn-small' onClick = {this.messageUser}>
-                        Message
-                    </button>
-                </section>)}
+                        <button className='btn btn-primary btn-small' onClick = {this.messageUser}>
+                            Message
+                        </button>
+                    </section>):
+                    null
+                }
             </div>
         )
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        updateRecipients: (recipients) => {dispatch(updateRecipients(recipients));}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export default withRouter(connect(null, mapDispatchToProps)(ProfileInfo));

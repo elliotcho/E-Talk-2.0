@@ -12,6 +12,14 @@ export const getFriends = (uid) =>{
     }
 }
 
+export const getFriendStatus = async (receiverId, senderId) => {
+    const config = {headers: {'content-type': 'application/json'}};
+    const data = {receiverId, senderId};
+
+    const response = await axios.post('http://localhost:5000/friends/status', data, config);
+    return response.data.status;
+}
+
 export const getUnreadRequests = (uid) =>{
     return async (dispatch) =>{
         const response = await axios.get(`http://localhost:5000/friends/unreadrequests/${uid}`);
@@ -48,6 +56,9 @@ export const removeRequest = (requestId) =>{
             }
         }
 
-        dispatch({type: types.READ_REQUESTS, requests});
+        dispatch({
+            type: types.READ_REQUESTS, 
+            requests
+        });
     }
 }

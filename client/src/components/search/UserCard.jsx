@@ -81,7 +81,9 @@ class UserCard extends Component{
 
         const {_id, firstName, lastName} = this.props.user;
 
-        const dimensions = (type==='friend')? 'col-7 col-sm-5 col-lg-3': 'col-6 col-sm-4 col-lg-2'
+        const dimensions = (type ==='friend')? 
+            'col-7 col-sm-5 col-lg-3': 
+            'col-6 col-sm-4 col-lg-2';
 
         return(
             <div className = {`user-card card ${dimensions}`}>
