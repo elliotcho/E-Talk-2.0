@@ -1,34 +1,25 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
 import {Redirect} from 'react-router-dom';
-import {clearQuery} from '../../store/actions/searchActions';
+import {connect} from 'react-redux';
 import PostList from '../posts/PostList';
 import './Userfeed.css';
 
-class Userfeed extends Component{
-    componentDidMount(){
-        this.props.clearQuery();
+function Userfeed({uid}){
+    if(!uid){
+        return <Redirect to='/'/>
     }
 
-    render(){
-        const {uid} = this.props;
-
-        if(!uid){
-            return <Redirect to='/'/>
-        }
-
-        return (
-            <div className='userfeed'>    
-                <PostList profileId = {null}/>
-            </div>
-        )
-    }
+    return (
+        <div className='userfeed'>    
+            <PostList profileId = {null}/>
+        </div>
+    )
 }
 
-const mapDispatchToProps = (dispatch) =>{
+const mapStateToProps = (state) => {
     return{
-        clearQuery: () => {dispatch(clearQuery());}
+        uid: state.auth.uid
     }
 }
 
-export default connect(null, mapDispatchToProps)(Userfeed);
+export default connect(mapStateToProps)(Userfeed);

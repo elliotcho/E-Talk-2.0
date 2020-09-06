@@ -58,6 +58,12 @@ class Profile extends Component{
     }
 }
 
+const mapStateToProps = (state) => {
+    return{
+        uid: state.auth.uid
+    }
+}
+
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
-export default withRouter(connect(null, mapDispatchToProps)(Profile));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Profile));

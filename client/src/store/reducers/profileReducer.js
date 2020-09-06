@@ -1,17 +1,14 @@
 const initState = {
-    firstName: null, 
-    lastName: null
+    initials: null
 };
 
 const profileReducer = (state=initState, action) => {
     switch(action.type){
-        case "USER_INFO":
+        case "NAVBAR_INITIALS":
             return {
                 ...state,
-                firstName: action.firstName,
-                lastName: action.lastName
+                initials: action.initials
             }
-
         default:
             return state;
     }

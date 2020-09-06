@@ -60,6 +60,12 @@ class PostDetails extends Component{
     }
 }
 
+const mapStateToProps = (state) => {
+    return{
+        uid: state.auth.uid
+    }
+}
+
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
-export default withRouter(connect(null, mapDispatchToProps)(PostDetails));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PostDetails));

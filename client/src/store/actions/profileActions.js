@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-export const getUserInfo = (uid) =>{
+export const getNavbarInitials = (uid) =>{
     return async (dispatch) =>{
         const response = await axios.get(`http://localhost:5000/users/${uid}`);
-        
         const {firstName, lastName} = response.data;
+        
+        const initials = firstName[0].toUpperCase() + lastName[0].toUpperCase();
 
         dispatch({
-            type: "USER_INFO", 
-            firstName, 
-            lastName
+            type: "NAVBAR_INITIALS", 
+            initials
         });
     }
 }

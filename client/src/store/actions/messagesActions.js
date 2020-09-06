@@ -30,7 +30,7 @@ export const updateRecipients = (recipients) =>{
     }
 }
 
-export const checkIfChatExists = async (members) =>{
+export const checkIfChatExists = async (members, cancelSource = null) =>{
     const response = await axios.post('http://localhost:5000/chats/exists', {members}, config);
     const {chat} = response.data;
     return chat._id;

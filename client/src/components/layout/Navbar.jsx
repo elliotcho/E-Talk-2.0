@@ -1,11 +1,7 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {getUserInfo} from '../../store/actions/profileActions';
-import {getUnreadRequests} from '../../store/actions/friendsActions';
-import {getUnseenChats} from '../../store/actions/messagesActions';
-import {getUnreadNotifs} from '../../store/actions/notificationActions';
-import {saveQuery} from '../../store/actions/searchActions';
 import {Link, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {saveQuery} from '../../store/actions/searchActions';
 import NavbarLinks from './NavbarLinks';
 import './Navbar.css';
 
@@ -22,12 +18,10 @@ class Navbar extends Component{
     }
 
     componentDidUpdate(prevProps){
-        if(this.props.query !== prevProps.query){
-            const {query} = this.props;
+        const {query} = this.props;
 
-            this.setState({
-                query
-            });
+        if(query !== prevProps.query){
+            this.setState({query});
         }
     }
 
@@ -44,43 +38,49 @@ class Navbar extends Component{
             return;
         }
 
-        this.props.saveQuery(query);
-
+        this.props.dispatch(saveQuery(query));
         this.props.history.push(`/search/${query}`);
     }
 
     render(){
+        const {
+            dispatch,
+            uid, 
+            initials, 
+            unreadNotifs, 
+            unreadRequests, 
+            unseenChats
+        } = this.props;
+
         return(
             <div className='text-white navbar-container'>
                 <nav className='navbar navbar-expand-md'>
-                    <Link to='/' className ='navbar-brand'>E-Talk</Link>
+                    <Link to='/' className ='navbar-brand'>
+                        E-Talk
+                    </Link>
             
                     <button className='navbar-toggler' data-toggle='collapse' data-target='#links'>
-                        <span className='navbar-toggler-icon'></span>
+                        <span className='navbar-toggler-icon'/>
                     </button>
 
                     <div className ='collapse navbar-collapse' id='links'>
                         <form onSubmit = {this.handleSubmit}>
                             <input className='form-control' 
                                 type='text' 
-                                placeholder ='Search'
                                 id = 'query'
+                                placeholder ='Search'
                                 value = {this.state.query}
                                 onChange = {this.handleChange}
                             />
                         </form>
 
                         <NavbarLinks 
-                            uid={this.props.uid} 
-                            firstName={this.props.firstName} 
-                            lastName={this.props.lastName}
-                            unreadRequests={this.props.unreadRequests}
-                            unseenChats = {this.props.unseenChats}
-                            unreadNotifs = {this.props.unreadNotifs}
-                            getUserInfo ={this.props.getUserInfo}
-                            getUnreadRequests = {this.props.getUnreadRequests}
-                            getUnseenChats = {this.props.getUnseenChats}
-                            getUnreadNotifs = {this.props.getUnreadNotifs}
+                            dispatch = {dispatch}
+                            uid={uid} 
+                            initials = {initials}
+                            unreadRequests={unreadRequests}
+                            unseenChats = {unseenChats}
+                            unreadNotifs = {unreadNotifs}
                         />
                     </div>
                 </nav>
@@ -92,8 +92,7 @@ class Navbar extends Component{
 const mapStateToProps = (state) =>{
     return{
         uid: state.auth.uid,
-        firstName: state.profile.firstName,
-        lastName: state.profile.lastName,
+        initials: state.profile.initials,
         query: state.search.query,
         unreadRequests: state.friends.unreadRequests,
         unreadNotifs: state.notifs.unreadNotifs,
@@ -101,14 +100,6 @@ const mapStateToProps = (state) =>{
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return {
-        getUserInfo: (uid) => {dispatch(getUserInfo(uid));},
-        saveQuery: (query) => {dispatch(saveQuery(query));},
-        getUnreadRequests: (uid) => {dispatch(getUnreadRequests(uid));},
-        getUnreadNotifs: (uid) => {dispatch(getUnreadNotifs(uid));},
-        getUnseenChats: (uid) => {dispatch(getUnseenChats(uid));}
-    }
-}
+const mapDispatchToProps = (dispatch) => ({dispatch});
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Navbar));

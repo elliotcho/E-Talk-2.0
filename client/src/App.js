@@ -44,7 +44,6 @@ class App extends Component{
         }
     }
 
-  
     render(){
         const {uid} = this.props;
 
@@ -54,13 +53,13 @@ class App extends Component{
 
               <main style = {uid? {marginTop: '120px'}: null}>
                 <Switch>
-                  <Route exact path='/' render = {() => uid? <Userfeed uid = {uid}/>: <Login/>}/>
+                  <Route exact path='/' render = {() => uid? <Userfeed/>: <Login/>}/>
                   <Route path='/signup' render ={() => <Signup/>}/>
-                  <Route path ='/profile/:id/:type' render ={() => <Profile uid = {uid}/>}/>
-                  <Route path = '/mynetwork' render = {() => <Network uid = {uid}/>}/>
-                  <Route path = '/search/:query' render = {() => <SearchResults uid = {uid}/>}/>
-                  <Route path = '/notifications' render = {()=><Notifications uid={uid}/>}/>
-                  <Route path = '/post/:id' render = {() => <PostDetails uid={uid}/>}/>
+                  <Route path ='/profile/:id/:type' render ={() => <Profile/>}/>
+                  <Route path = '/mynetwork' render = {() => <Network/>}/>
+                  <Route path = '/search/:query' render = {() => <SearchResults/>}/>
+                  <Route path = '/notifications' render = {()=><Notifications/>}/>
+                  <Route path = '/post/:id' render = {() => <PostDetails/>}/>
                   <Route path = '/chat/:id' render = {() => <MessagesHome/>}/>
                 </Switch>
 
