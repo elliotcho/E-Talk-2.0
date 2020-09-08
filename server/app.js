@@ -1,4 +1,5 @@
 //require modules
+require('dotenv').config();
 const socket = require('socket.io');
 const multer = require('multer');
 const path = require('path');
@@ -8,7 +9,7 @@ const bodyParser=require('body-parser');
 const app=require('express')();
 
 //connect to db
-mongoose.connect('mongodb://localhost:27017/E-Talk', {
+mongoose.connect(process.env.DATABASE, {
     useUnifiedTopology: true,
     useNewUrlParser: true 
 });
@@ -41,6 +42,6 @@ app.use('/friends', require('./routes/friends'));
 app.use('/notifs', require('./routes/notif'));
 app.use('/chats', require('./routes/chat'));
  
-const server = app.listen(5000);
+const server = app.listen(process.env.PORT);
 
 require('./socketEvents')(socket(server));     
