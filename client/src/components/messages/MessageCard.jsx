@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import * as msgActions from '../../store/actions/messagesActions';
-import {getProfilePic} from '../../store/actions/profileActions';
 import moment from 'moment';
 import loading from '../../images/loading.jpg';
 
@@ -36,7 +35,7 @@ class MessageCard extends Component{
 
      
         const isRead = await dispatch(readChat(chatId, uid, messages, isActive));
-        const chatPics = await getChatPics(chatId, uid, getProfilePic);
+        const chatPics = await getChatPics(chatId, uid);
         let memberNames = await getMemberNames(chatId, uid);
 
         if(memberNames.length > 20){

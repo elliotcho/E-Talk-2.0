@@ -1,4 +1,5 @@
 import * as types from '../constants/actionTypes';
+import {getProfilePic} from '../actions/profileActions';
 import axios from 'axios';
 
 const config = {headers: {'content-type': 'application/json'}};
@@ -64,7 +65,7 @@ export const getMemberNames = async (chatId, uid) => {
     return memberNames;
  }
 
-export const getChatPics = async (chatId, uid, getProfilePic) => {
+export const getChatPics = async (chatId, uid) => {
     const response = await axios.post('http://localhost:5000/chats/memberids', {uid, chatId}, config);
     const {members} = response.data;
    

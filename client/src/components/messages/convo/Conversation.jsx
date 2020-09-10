@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as msgActions from '../../../store/actions/messagesActions';
-import {getProfilePic} from '../../../store/actions/profileActions';
-import MessageBubble from './MesssageBubble';
+import MessageBubble from './MessageBubble';
 import TypingBubble from './TypingBubble';
 import loading from '../../../images/loading.jpg';
 import {io} from '../../../App';
@@ -53,7 +52,7 @@ class Conversation extends Component{
        await this.sendReadReceipt();
     
        if(!isComposerChat){
-            const chatPics = await getChatPics(chatId, uid, getProfilePic);
+            const chatPics = await getChatPics(chatId, uid);
             const memberNames = await getMemberNames(chatId, uid);
            
             this.setState({
