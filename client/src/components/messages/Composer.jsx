@@ -40,9 +40,7 @@ class Composer extends Component{
         await dispatch(setComposerResults(uid, '', recipients));
 
         if(recipients.length === 0){
-            const members = [uid, user._id];
-
-            const chatId = await checkIfChatExists(members);
+            const chatId = await checkIfChatExists(uid, user._id);
 
             if(chatId){
                 dispatch(renderComposerChat(chatId));
@@ -71,11 +69,9 @@ class Composer extends Component{
         
         const {query} = this.state;
 
-        if(e.keyCode === 8 && recipients.length > 0 && query === ''){
-            if(recipients.length === 2){
-                const members = [uid, recipients[0]._id];
-
-                const chatId = await checkIfChatExists(members);
+        if(e.keyCode === 8 && query === ''){
+            if(recipients.length === 1){
+                const chatId = await checkIfChatExists(uid, recipients[0]._id);
 
                 if(chatId){
                     dispatch(renderComposerChat(chatId));
@@ -86,8 +82,10 @@ class Composer extends Component{
                 dispatch(clearComposerChat());
             }
 
-            recipients.pop();
-            dispatch(updateRecipients(recipients));
+            if(recipients.length > 0){
+                recipients.pop();
+                dispatch(updateRecipients(recipients));
+            }
         }
     }
 

@@ -239,25 +239,31 @@ exports.seeChats = async (req, res) =>{
 }
 
 exports.checkIfChatExists = async (req, res) =>{
-    const {members} = req.body;
-    
-    const key1 = members[0] + members[1];
-    const key2 = members[1] + members[0];
+    const {uid, memberId} = req.body;
 
-    let chat = await Chat.findOne({chatKey1: key1}) !== null? 
-               await Chat.findOne({chatKey1: key1}) :
+    const user = await User.findOne({_id: uid});
+    const member = await User.findOne({_id: memberId});
 
-               await Chat.findOne({chatKey2: key1}) !== null?
-               await Chat.findOne({chatKey2: key1}) :
+    const userChats = user.chats;
+    const memberChats = member.chats;
 
-               await Chat.findOne({chatKey1: key2}) !== null?
-               await Chat.findOne({chatKey1: key2}) : 
-               
-               await Chat.findOne({chatKey2: key2}) !== null?
-               await Chat.findOne({chatKey2: key2}) :
-               false;
+    let chatId = null;
+    const map = {};
 
-    res.json({chat});
+    userChats.forEach(id => {map[id] = true});
+
+    for(let i=0;i<memberChats.length;i++){
+        if(map[memberChats[i]]){
+            const chat = await Chat.findOne({_id: memberChats[i]});
+            const {members} = chat;
+
+            chatId = (members.length === 2) ? chat._id : null;
+        }
+
+        if(chatId){break;}
+    }
+
+    res.json({chatId});
 }
 
 exports.handleComposerQuery = async (req, res) =>{

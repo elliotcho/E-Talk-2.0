@@ -31,10 +31,10 @@ export const updateRecipients = (recipients) =>{
     }
 }
 
-export const checkIfChatExists = async (members) =>{
-    const response = await axios.post('http://localhost:5000/chats/exists', {members}, config);
-    const {chat} = response.data;
-    return chat._id;
+export const checkIfChatExists = async (uid, memberId) =>{
+    const response = await axios.post('http://localhost:5000/chats/exists', {uid, memberId}, config);
+    const {chatId} = response.data;
+    return chatId;
 }
 
 export const renderComposerChat = (chatId) =>{

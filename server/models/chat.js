@@ -14,9 +14,7 @@ const ChatSchema = new Schema({
     createdAt: Date,
     createdBy: String,
     messages: [MessageSchema],
-    timeOfLastMessage: Date,
-    chatKey1: String,
-    chatKey2: String
+    timeOfLastMessage: Date
 });
 
 exports.Message = mongoose.model('message', MessageSchema);

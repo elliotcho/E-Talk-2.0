@@ -1,10 +1,12 @@
 For next 2 hour session:
-[ ] Send images 
-[ ] search messages
-[ ] Non existent routes client
+
 
 Overall:
 [ ] Rework search bar backend
+
+[ ] Send images 
+[ ] search messages
+[ ] Non existent routes client
 
 [ ] Message card persists refresh/composer switch
 

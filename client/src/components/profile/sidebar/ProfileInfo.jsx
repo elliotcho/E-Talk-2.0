@@ -77,7 +77,7 @@ class ProfileInfo extends Component{
         const {firstName, lastName} = this.state;
         const {uid, profileId, dispatch} = this.props;
 
-        const chatId = await checkIfChatExists([uid, profileId]);
+        const chatId = await checkIfChatExists(uid, profileId);
 
         if(chatId){
             this.props.history.push(`/chat/${chatId}`);
