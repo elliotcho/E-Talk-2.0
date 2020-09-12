@@ -69,8 +69,8 @@ class Composer extends Component{
         
         const {query} = this.state;
 
-        if(e.keyCode === 8 && query === ''){
-            if(recipients.length === 1){
+        if(e.keyCode === 8 && recipients.length > 0 && query === ''){
+            if(recipients.length === 2){
                 const chatId = await checkIfChatExists(uid, recipients[0]._id);
 
                 if(chatId){
@@ -82,10 +82,8 @@ class Composer extends Component{
                 dispatch(clearComposerChat());
             }
 
-            if(recipients.length > 0){
-                recipients.pop();
-                dispatch(updateRecipients(recipients));
-            }
+            recipients.pop();
+            dispatch(updateRecipients(recipients));
         }
     }
 
