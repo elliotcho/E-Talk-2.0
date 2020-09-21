@@ -12,7 +12,8 @@ const {
     seeChats,
     checkIfChatExists,
     createMessage,
-    handleComposerQuery
+    handleComposerQuery,
+    getMessageImage
 } = require('../controllers/chat');
 
 router.get('/:chatId', getChat);
@@ -27,5 +28,6 @@ router.get('/unseen/:uid', getUnseenChats);
 router.put('/see/:uid', seeChats);
 router.post('/exists', checkIfChatExists);
 router.post('/composer', handleComposerQuery);
+router.post('/image', getMessageImage);
 
 module.exports = router;

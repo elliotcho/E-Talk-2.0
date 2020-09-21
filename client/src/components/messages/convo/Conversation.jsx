@@ -103,6 +103,7 @@ class Conversation extends Component{
     render(){
         const {
             uid, 
+            chatId,
             msgsOnDisplay, 
             typingMsgs, 
             isComposerChat
@@ -117,7 +118,10 @@ class Conversation extends Component{
             <MessageBubble 
                 key={msg._id} 
                 uid={uid} 
+                msgId = {msg._id}
                 senderId = {msg.uid}
+                chatId = {chatId}
+                hasImage = {msg.image}
                 content = {msg.content}
                 readBy = {[...msg.readBy]}
                 handleScroll = {this.handleScroll}

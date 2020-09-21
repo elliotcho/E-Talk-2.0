@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {getReadReceipts, getMessageImage} from '../../../store/actions/messagesActions';
 import {getProfilePic} from '../../../store/actions/profileActions';
-import {getReadReceipts} from '../../../store/actions/messagesActions';
 import loading from '../../../images/loading.jpg';
 
 class MessageBubble extends Component{
@@ -10,6 +10,7 @@ class MessageBubble extends Component{
 
         this.state = {
             ownerImgURL: null,
+            attachedImgURL: null,
             readReceipts: []
         }
 
@@ -18,15 +19,23 @@ class MessageBubble extends Component{
     }
 
     async componentDidMount(){
-        const {senderId, showRead} = this.props;
+        const {chatId, msgId, hasImage, senderId, showRead} = this.props;
     
         const ownerImgURL = await getProfilePic(senderId);
-        
+        let attachedImgURL = null;
+
         if(showRead){
             await this.loadReadReceipts();
         }
 
-        this.setState({ownerImgURL});
+        if(hasImage){
+            attachedImgURL = await getMessageImage(chatId, msgId);
+        }
+
+        this.setState({
+            ownerImgURL,
+            attachedImgURL
+        });
     }
 
     async componentDidUpdate(prevProps){
@@ -66,8 +75,8 @@ class MessageBubble extends Component{
     }
 
     render(){
-        const {uid, senderId, content, showRead} = this.props;
-        const {ownerImgURL, readReceipts} = this.state;
+        const {uid, senderId, content, hasImage, showRead} = this.props;
+        const {ownerImgURL, attachedImgURL, readReceipts} = this.state;
 
         const msgPosition = (senderId === uid)? 
             'msg-r': 
@@ -87,6 +96,11 @@ class MessageBubble extends Component{
 
                     <div className ={`msg ${msgPosition} my-1`}>
                         <div>
+                            {hasImage? 
+                                <img src = {attachedImgURL? attachedImgURL: loading} alt ='msg-pic'/>:
+                                null
+                            }
+                            
                             {content}
                         </div>
     

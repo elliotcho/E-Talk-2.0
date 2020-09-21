@@ -8,6 +8,11 @@ let intervals = [];
 class CreateMessage extends Component{
     constructor(){
         super();
+
+        this.state = {
+            photo: null
+        };
+
         this.pressEnter = this.pressEnter.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleNewChat = this.handleNewChat.bind(this);
@@ -15,6 +20,8 @@ class CreateMessage extends Component{
         this.handleChange = this.handleChange.bind(this);
         this.handleIsTyping = this.handleIsTyping.bind(this);
         this.handleStopTyping = this.handleStopTyping.bind(this);
+        this.attachPhoto = this.attachPhoto.bind(this);
+        this.detachPhoto = this.detachPhoto.bind(this);
     }
 
     async componentDidUpdate(prevProps){
@@ -60,9 +67,10 @@ class CreateMessage extends Component{
         e.preventDefault();
 
         const {chatId, composerChatId, recipients} = this.props; 
+        const {photo} = this.state;
         const content = this.myMessage.value;
     
-        if(content.trim() === ""){
+        if(content.trim() === "" && !photo){
             return;
         }
      
@@ -71,22 +79,24 @@ class CreateMessage extends Component{
                 return;
             }
 
-            await this.handleNewChat(content);
+            await this.handleNewChat(content, photo);
         }
         
         else{
             this.handleStopTyping();
-            await this.handleExistingChat(content);
+            await this.handleExistingChat(content, photo);
         }
 
         this.myMessage.value="";
+        this.myMessage.style.height = 'revert';
+        this.detachPhoto();
     }
 
-    async handleNewChat(content){
+    async handleNewChat(content, photo){
         const {uid, dispatch, recipients, cancelSource} = this.props;
         const {createChat, getUserChats} = msgActions;
 
-        const chatId = await createChat(uid, recipients, content);
+        const chatId = await createChat(uid, recipients, content, photo);
 
         /*  update the message cards of recipients
             reshuffle message cards
@@ -96,7 +106,7 @@ class CreateMessage extends Component{
         this.props.history.push(`/chat/${chatId}`);
     }
 
-    async handleExistingChat(content){
+    async handleExistingChat(content, photo){
         const {uid, chatId, dispatch, composerChatId} = this.props;
 
         const {
@@ -108,7 +118,7 @@ class CreateMessage extends Component{
 
         const currChatId = (composerChatId) ? composerChatId: chatId;
 
-        const newMessage = await sendMessage(currChatId, uid, content);
+        const newMessage = await sendMessage(currChatId, uid, content, photo);
         dispatch(renderNewMessage(currChatId, newMessage, uid));
         dispatch(getUserChats(uid));
        
@@ -189,13 +199,36 @@ class CreateMessage extends Component{
         });
     }
 
+    attachPhoto(e){
+        this.setState({photo: e.target.files});
+    }
+
+    detachPhoto(){
+        document.getElementById('msgPic').value = "";
+        this.setState({photo: null});
+    }
+
     async componentWillUnmount(){
         await this.handleStopTyping();
     }
 
     render(){
+        const {photo} = this.state;
+
         return(
             <div className ='create-msg'>
+                {photo? 
+                    (<div className = 'photo text-white d-inline-block'>
+                        {photo[0].name}
+
+                        <i  
+                            className = 'fas fa-times' 
+                            onClick = {this.detachPhoto}
+                        />
+                    </div>):
+                    null
+                }
+
                 <form ref = {ele => this.myMessageForm = ele} onSubmit = {this.handleSubmit}>
                     <textarea
                         className ='form-control'
@@ -214,6 +247,7 @@ class CreateMessage extends Component{
                            type = 'file'
                            id = 'msgPic'
                            accept = 'jpg jpeg png'
+                           onChange = {this.attachPhoto}
                     />
                 </form>
             </div>

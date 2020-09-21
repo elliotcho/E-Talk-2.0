@@ -153,22 +153,52 @@ export const getUnseenChats = (uid) =>{
     }
 }
 
-export const createChat = async (uid, recipients, content) => {
-    const data = {uid, recipients, content};
+export const createChat = async (uid, recipients, content, photo) => {
+    const formData = new FormData();
+    const image = (photo) ? photo[0] : '';
+    content = (content.trim() === '') ? '' : content;
 
-    const response = await axios.post('http://localhost:5000/chats/create', data, config);
+    formData.append('uid', uid);
+    formData.append('recipients', recipients);
+    formData.append('content', content);
+    formData.append('msgPic', image);
+  
+    const fdConfig = {headers:{'content-type': 'multipart/form-data'}};
+
+    const response = await axios.post('http://localhost:5000/chats/create', formData, fdConfig);
     const {chatId} = response.data;
-
     return chatId;
 }
 
-export const sendMessage = async (chatId, uid, content) => {
-    const data = {uid, chatId, content};
+export const sendMessage = async (chatId, uid, content, photo) => {
+    const formData = new FormData();
+    const image = (photo) ? photo[0] : '';
+    content = (content.trim() === '') ? '' : content;
 
-    const response = await axios.post('http://localhost:5000/chats/message', data, config);
+    formData.append('uid', uid);
+    formData.append('chatId', chatId);
+    formData.append('content', content);
+    formData.append('msgPic', image);
+
+    const fdConfig = {headers:{'content-type': 'multipart/form-data'}};
+
+    const response = await axios.post('http://localhost:5000/chats/message', formData, fdConfig);
     const newMessage = response.data;
-
     return newMessage;
+}
+
+export const getMessageImage = async (chatId, msgId) => {
+    const data = {chatId, msgId};
+
+    const response = await fetch('http://localhost:5000/chats/image', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: config['headers']
+    });
+
+    let file = await response.blob();
+
+    return URL.createObjectURL(file);
 }
 
 export const getMemberIds = async (chatId, uid) =>{

@@ -1,8 +1,8 @@
 const {User} = require('../models/user');
 
-const fs = require('fs');
+const upload = require('../app.js').profilePicUpload;
 const path = require('path');
-const {upload} = require('../app.js');
+const fs = require('fs');
 
 exports.login = async (req, res) =>{
     const {email, password} = req.body;
@@ -67,7 +67,7 @@ exports.updateProfilePic = (req, res) =>{
         const user = await User.findOne({_id: uid});
 
         if(user.profilePic !== null){
-            fs.unlink(path.join(__dirname, '../', `images/${user.profilePic}`), err =>{
+            fs.unlink(path.join(__dirname, '../', `images/profile/${user.profilePic}`), err =>{
                 if(err){
                     console.log(err);
                 }
@@ -84,11 +84,11 @@ exports.loadProfilePic = async (req, res)=>{
     const user = await User.findOne({_id: req.params.uid});
 
     if(user.profilePic === null){
-        res.sendFile(path.join(__dirname, '../', `images/avatar.jpg`));
+        res.sendFile(path.join(__dirname, '../', `images/profile/avatar.jpg`));
     }
 
     else{
-        res.sendFile(path.join(__dirname, '../', `images/${user.profilePic}`));
+        res.sendFile(path.join(__dirname, '../', `images/profile/${user.profilePic}`));
     }
 }
 

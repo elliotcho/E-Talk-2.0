@@ -275,6 +275,19 @@
     width: 0;
 }
 
+.create-msg .photo{
+    background: black;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.create-msg .photo i{
+    position: relative;
+    left: 5px;
+    top: 2px;
+    color: red;
+}
+
 .messages .composer{
     height: 100%;
     background: white;
