@@ -159,7 +159,7 @@ export const createChat = async (uid, recipients, content, photo) => {
     content = (content.trim() === '') ? '' : content;
 
     formData.append('uid', uid);
-    formData.append('recipients', recipients);
+    formData.append('recipients', JSON.stringify(recipients));
     formData.append('content', content);
     formData.append('msgPic', image);
   
@@ -334,4 +334,43 @@ export const getReadReceipts = async (readBy, uid, getProfilePic) => {
     }
 
     return readReceipts;
+}
+
+export const filterMsgCards = (query, uid) => {
+    return async (dispatch) => {
+        const result = [];
+
+        let response = await axios.get(`http://localhost:5000/chats/user/${uid}`);
+        const chats = response.data;
+
+        for(let i=0;i<chats.length;i++){
+            const chatId = chats[i]._id;
+
+            response = await axios.post('http://localhost:5000/chats/members', {uid, chatId}, config);
+            let {memberNames} = response.data;
+
+            memberNames = memberNames.split(" ").join("").toLowerCase();
+            query = query.split(" ").join("").toLowerCase();
+
+            if(chats[i].members.length > 2){
+                const names = memberNames.split(",");
+
+                for(let j=0;j<names.length;j++){
+                    if(names[j].startsWith(query)){
+                        result.push(chats[i]);
+                        break;
+                    }
+                }
+            }
+
+            else if(memberNames.startsWith(query)){
+                result.push(chats[i]);
+            }
+        }
+
+        dispatch({
+            type: types.LOAD_CHATS,
+            chats: result
+        });
+    }
 }

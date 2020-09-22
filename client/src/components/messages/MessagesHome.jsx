@@ -115,7 +115,7 @@ class MessagesHome extends Component{
                             </div>
  
                             <div className ='cards-container'>
-                                <SearchContacts/>
+                                <SearchContacts uid={uid} dispatch={dispatch}/>
 
                                 {cards.length === 0?
                                     (<h3 className='no-cards'>No messages available</h3>):
