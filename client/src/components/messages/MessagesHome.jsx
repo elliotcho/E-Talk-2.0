@@ -26,18 +26,25 @@ class MessagesHome extends Component{
         const chats = await dispatch(getUserChats(uid, this.cancelSource));
         dispatch(seeChats(uid));
 
-        if(chats.length === 0 || chatId === 'new'){
-            this.props.history.push('/chat/new');
+        if(chatId === 'home'){
+            this.props.history.push(`/chat/${chats[0]._id}`);
         }
 
-        else{
-            this.props.history.push(`/chat/${chats[0]._id}`);
+        else if(chats.length === 0){
+            this.props.history.push('/chat/new');
         }
     }
 
-    componentDidUpdate(){
+    componentDidUpdate(prevProps){
+        const prevPathName = prevProps.location.pathname;
+        const currPathName = this.props.location.pathname;
+
         const {uid, unseenChats, dispatch} = this.props;
         const {seeChats} = msgActions;
+
+        if(prevPathName !== '/chat/home' && currPathName === '/chat/home'){
+            this.props.history.push(prevPathName);
+        }
 
         if(unseenChats > 0){
            dispatch(seeChats(uid));
@@ -58,7 +65,7 @@ class MessagesHome extends Component{
                 return;
             }
 
-            this.props.history.push(`/chat/${chats[0]._id}`);
+            this.props.history.goBack();
         }
     }
 
