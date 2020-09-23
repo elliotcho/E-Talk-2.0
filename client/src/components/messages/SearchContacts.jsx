@@ -10,16 +10,14 @@ class SearchContacts extends Component{
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyUp = this.handleKeyUp.bind(this);
     }
 
     handleChange(e){
         this.setState({[e.target.id] : e.target.value});
     }
 
-    handleSubmit(e){
-        e.preventDefault();
-
+    handleKeyUp(){
         const {query} = this.state;
         const {uid, dispatch} = this.props;
 
@@ -31,13 +29,14 @@ class SearchContacts extends Component{
 
         return(
             <div className ='search-contacts' onSubmit = {this.handleSubmit}>
-                <form onSubmit={this.handleSubmit}>
+                <form>
                     <input 
                         type='text' 
                         id = 'query'
                         placeholder ='Search...'
                         value = {query}
                         onChange = {this.handleChange}
+                        onKeyUp = {this.handleKeyUp}
                     />
                 </form>
             </div>
