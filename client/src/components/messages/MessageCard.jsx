@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import * as msgActions from '../../store/actions/messagesActions';
+import {getUserData} from '../../store/actions/profileActions';
 import moment from 'moment';
 import loading from '../../images/loading.jpg';
 
@@ -11,7 +12,8 @@ class MessageCard extends Component{
         this.state = {
             isRead: true,
             memberNames: 'Loading...',
-            chatPics: []
+            chatPics: [],
+            content: ''
         }
 
         this.formatContent = this.formatContent.bind(this);
@@ -36,6 +38,7 @@ class MessageCard extends Component{
      
         const isRead = await dispatch(readChat(chatId, uid, messages, isActive));
         const chatPics = await getChatPics(chatId, uid);
+        const content = await this.formatContent();
         let memberNames = await getMemberNames(chatId, uid);
 
         if(memberNames.length > 20){
@@ -45,7 +48,8 @@ class MessageCard extends Component{
          this.setState({
              memberNames,
              chatPics,
-             isRead
+             isRead,
+             content
          });
     }
 
@@ -68,13 +72,20 @@ class MessageCard extends Component{
         }
     }
 
-    formatContent(){
+    async formatContent(){
         const {messages} = this.props;
         const n = messages.length;
 
-        const content = messages[n-1].content;
+        const {content, uid, image} = messages[n - 1];
 
-        if(content.length > 20){
+        if(image){
+            const user = await getUserData(uid);
+            const {firstName} = user;
+
+            return `${firstName} sent a photo`;
+        }
+
+        else if(content.length > 20){
             return content.substring(0, 20) + '...';
         }
 
@@ -90,7 +101,8 @@ class MessageCard extends Component{
         const {
             isRead, 
             memberNames, 
-            chatPics
+            chatPics,
+            content
         } = this.state;
 
         const {isActive,timeOfLastMessage} = this.props;
@@ -115,9 +127,9 @@ class MessageCard extends Component{
                         
                         <p>
                             {isRead || isActive? 
-                                this.formatContent()
+                                content
                                :(<strong className ='text-dark'>
-                                   {this.formatContent()}
+                                   {content}
                                 </strong>)
                             }
                         </p>
