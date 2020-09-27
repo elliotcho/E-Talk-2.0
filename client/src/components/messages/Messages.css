@@ -238,27 +238,26 @@
      display: none;
 }
 
-.msg-modal{
-    width: 14rem;
+.msg-modal-dialog{
+    width: 16rem;
     margin: auto;
 }
 
-.msg-modal .modal-body{
-    margin: auto;
+.msg-modal-dialog .modal-body{
     background: black;
 }
 
-.msg-modal .close{
+.msg-modal-dialog .close{
     font-size: 2rem;
 }
 
-.msg-modal .close:focus{
+.msg-modal-dialog .close:focus{
     outline: none;
 }
 
-.msg-modal .modal-body img{
-    width: 12rem;
-    height: 12rem;
+.msg-modal-dialog .modal-body img{
+    width: 14rem;
+    height: 14rem;
 }
 
 .typing-bubble{

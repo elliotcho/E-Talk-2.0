@@ -25,7 +25,7 @@ class ImageModal extends Component{
         const {imgURL} = this.state;
 
         return(
-            <div className ='msg-modal modal-dialog modal-dialog-centered'>
+            <div className ='msg-modal-dialog modal-dialog modal-dialog-centered'>
                 <div className ='modal-content'>
                     <div className ='modal-header'>
                         <h5 className='mt-1'>

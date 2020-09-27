@@ -28,7 +28,7 @@ class SearchContacts extends Component{
         const {query} = this.state;
 
         return(
-            <div className ='search-contacts' onSubmit = {this.handleSubmit}>
+            <div className ='search-contacts' onSubmit={(e) => e.preventDefault()}>
                 <form>
                     <input 
                         type='text' 
