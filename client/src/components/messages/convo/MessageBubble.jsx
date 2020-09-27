@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
-import {getReadReceipts, getMessageImage} from '../../../store/actions/messagesActions';
+import {getReadReceipts} from '../../../store/actions/messagesActions';
 import {getProfilePic} from '../../../store/actions/profileActions';
+import ImageModal from './ImageModal';
 import loading from '../../../images/loading.jpg';
 
 class MessageBubble extends Component{
@@ -19,29 +20,18 @@ class MessageBubble extends Component{
     }
 
     async componentDidMount(){
-        const {chatId, msgId, hasImage, senderId, showRead} = this.props;
-    
+        const {senderId, showRead} = this.props;
+
         const ownerImgURL = await getProfilePic(senderId);
-        let attachedImgURL = null;
+        this.setState({ownerImgURL});
 
         if(showRead){
             await this.loadReadReceipts();
         }
-
-        if(hasImage){
-            attachedImgURL = await getMessageImage(chatId, msgId);
-        }
-
-        this.setState({
-            ownerImgURL,
-            attachedImgURL
-        });
     }
 
     async componentDidUpdate(prevProps){
         const {showRead, readBy} = this.props;
-
-        
 
         if((readBy.length !== prevProps.readBy.length) || (showRead !== prevProps.showRead)){
             if(showRead){
@@ -75,8 +65,8 @@ class MessageBubble extends Component{
     }
 
     render(){
-        const {uid, senderId, content, hasImage, showRead} = this.props;
-        const {ownerImgURL, attachedImgURL, readReceipts} = this.state;
+        const {uid, msgId, chatId, senderId, content, hasImage, showRead} = this.props;
+        const {ownerImgURL, readReceipts} = this.state;
 
         const msgPosition = (senderId === uid)? 
             'msg-r': 
@@ -97,7 +87,9 @@ class MessageBubble extends Component{
                     <div className ={`msg ${msgPosition} my-1`}>
                         <div>
                             {hasImage? 
-                                <img src = {attachedImgURL? attachedImgURL: loading} alt ='msg-pic'/>:
+                                (<div className='text-primary photo-link' data-toggle ='modal' data-target ={`#${msgId}-image`}>
+                                    Photo
+                                </div>):
                                 null
                             }
                             
@@ -124,6 +116,13 @@ class MessageBubble extends Component{
                         null
                     }
                 </div>
+
+                {hasImage? 
+                    (<div className='modal fade' id={`${msgId}-image`} data-backdrop='static'>
+                        <ImageModal msgId={msgId} chatId={chatId}/>
+                    </div>):
+                    null
+                }
             </div>
         )
     }

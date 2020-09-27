@@ -222,6 +222,45 @@
     margin-right: auto;
 }
 
+.convo .photo-link{
+    cursor: pointer;
+}
+
+.convo .photo-link:hover{
+    text-decoration: underline;
+}
+
+.convo .modal {
+    background: rgba(0, 0, 0, 0.5); 
+}
+
+.modal-backdrop {
+     display: none;
+}
+
+.msg-modal{
+    width: 14rem;
+    margin: auto;
+}
+
+.msg-modal .modal-body{
+    margin: auto;
+    background: black;
+}
+
+.msg-modal .close{
+    font-size: 2rem;
+}
+
+.msg-modal .close:focus{
+    outline: none;
+}
+
+.msg-modal .modal-body img{
+    width: 12rem;
+    height: 12rem;
+}
+
 .typing-bubble{
     margin-right: auto;
 }
