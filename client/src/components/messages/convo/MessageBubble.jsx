@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {getReadReceipts} from '../../../store/actions/messagesActions';
-import {getProfilePic} from '../../../store/actions/profileActions';
+import {getProfilePic, getUserData} from '../../../store/actions/profileActions';
 import ImageModal from './ImageModal';
 import loading from '../../../images/loading.jpg';
+import moment from 'moment';
 
 class MessageBubble extends Component{
     constructor(){
@@ -12,7 +13,8 @@ class MessageBubble extends Component{
         this.state = {
             ownerImgURL: null,
             attachedImgURL: null,
-            readReceipts: []
+            readReceipts: [],
+            senderName: 'Loading...User...'
         }
 
         this.loadReadReceipts = this.loadReadReceipts.bind(this);
@@ -23,7 +25,13 @@ class MessageBubble extends Component{
         const {senderId, showRead} = this.props;
 
         const ownerImgURL = await getProfilePic(senderId);
-        this.setState({ownerImgURL});
+        const userData = await getUserData(senderId);
+
+        this.setState({
+            ownerImgURL,
+            senderName:  `${userData.firstName} ${userData.lastName}`
+        
+        });
 
         if(showRead){
             await this.loadReadReceipts();
@@ -65,9 +73,9 @@ class MessageBubble extends Component{
     }
 
     render(){
-        const {uid, msgId, chatId, senderId, content, hasImage, showRead} = this.props;
-        const {ownerImgURL, readReceipts} = this.state;
-
+        const {senderName, ownerImgURL, readReceipts} = this.state;
+        const {uid, msgId, chatId, senderId, timeSent, content, hasImage, showRead} = this.props;
+    
         const msgPosition = (senderId === uid)? 
             'msg-r': 
             'msg-l';
@@ -80,11 +88,18 @@ class MessageBubble extends Component{
                             src = {ownerImgURL? ownerImgURL: loading} 
                             alt ='profile pic' 
                             onClick={this.toProfile}
+                            data-toggle='tooltip' 
+                            data-placement='top'
+                            title= {moment(timeSent).calendar()}
                         />: 
                         null
                     }
 
                     <div className ={`msg ${msgPosition} my-1`}>
+                        <p className='mb-3'>
+                            <strong>{senderName}</strong>
+                        </p>
+
                         <div>
                             {hasImage? 
                                 (<div className='text-primary photo-link' data-toggle ='modal' data-target ={`#${msgId}-image`}>
@@ -112,6 +127,9 @@ class MessageBubble extends Component{
                             src = {ownerImgURL? ownerImgURL: loading} 
                             alt ='profile pic' 
                             onClick={this.toProfile}
+                            data-toggle='tooltip' 
+                            data-placement='top'
+                            title= {moment(timeSent).calendar()}
                         />:
                         null
                     }
@@ -119,7 +137,11 @@ class MessageBubble extends Component{
 
                 {hasImage? 
                     (<div className='modal fade' id={`${msgId}-image`} data-backdrop='static'>
-                        <ImageModal msgId={msgId} chatId={chatId}/>
+                        <ImageModal 
+                            msgId={msgId} 
+                            chatId={chatId}
+                            timeSent = {timeSent}
+                        />
                     </div>):
                     null
                 }

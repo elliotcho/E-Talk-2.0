@@ -63,7 +63,9 @@ class Conversation extends Component{
     }
 
     handleScroll(){
-        this.chatBox.scrollTop = this.chatBox.scrollHeight;
+        if(this.chatBox){
+            this.chatBox.scrollTop = this.chatBox.scrollHeight;
+        }
     }
 
     getShowRead(i){
@@ -124,6 +126,7 @@ class Conversation extends Component{
                 hasImage = {msg.image}
                 content = {msg.content}
                 readBy = {[...msg.readBy]}
+                timeSent = {msg.timeSent}
                 handleScroll = {this.handleScroll}
                 showRead = {this.getShowRead(i)}
             />
