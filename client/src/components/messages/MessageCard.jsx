@@ -67,8 +67,12 @@ class MessageCard extends Component{
             const {readChat} = msgActions;
 
             const isRead = await dispatch(readChat(chatId, uid, messages, isActive));
+            const content = await this.formatContent();
 
-            this.setState({isRead});
+            this.setState({
+                isRead,
+                content
+            });
         }
     }
 
