@@ -7,15 +7,9 @@ const fs = require('fs');
 exports.login = async (req, res) =>{
     const {email, password} = req.body;
 
-    const user = await User.findOne({email});
+    const user = await User.login(email, password);
 
-    if(user === null || user.password !== password){
-        res.json({msg: "Email or password is incorrect"});
-    }
-
-    else{
-        res.json({msg: "Success", uid: user._id});
-    }
+    res.json(user);
 }
 
 exports.signUp = async (req, res) => {
