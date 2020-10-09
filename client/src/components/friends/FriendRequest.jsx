@@ -47,8 +47,6 @@ class FriendRequest extends Component{
         if(eventType === 'ACCEPT_REQUEST'){
             const msg = await friendActions.acceptFriendRequest(receiverId, senderId, status);
 
-            console.log(msg);
-
             if(msg){
                 io.emit(eventType, {
                     receiverId, 

@@ -33,7 +33,7 @@ export const handleSocketEvents = (io, dispatch) =>{
 
         dispatch(getUnreadNotifs(uid));
 
-        toast.error(<Toast data={data} msg={` liked your post: ${content.substring(0,30)}...`}/>, {
+        toast.error(<Toast data={data} msg={` ${content.substring(0,30)}...`}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false
         });
@@ -44,7 +44,7 @@ export const handleSocketEvents = (io, dispatch) =>{
 
         dispatch(getUnreadNotifs(uid));
 
-        toast(<Toast data={data} msg={` commented on your: ${content.substring(0,30)}...`} color={'black'}/>, {
+        toast(<Toast data={data} msg={` ${content.substring(0,30)}...`} color={'black'}/>, {
             position: toast.POSITION.BOTTOM_RIGHT,
             draggable: false
         });
