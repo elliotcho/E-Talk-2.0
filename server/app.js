@@ -54,6 +54,6 @@ app.use('/friends', require('./routes/friends'));
 app.use('/notifs', require('./routes/notif'));
 app.use('/chats', require('./routes/chat'));
  
-const server = app.listen(process.env.PORT);
+const server = app.listen(process.env.PORT || 5000);
 
 require('./socketEvents')(socket(server));     

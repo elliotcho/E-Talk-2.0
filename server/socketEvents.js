@@ -1,6 +1,4 @@
 const {
-    declineRequest,
-    acceptRequest,
     changeFriendStatus
 } = require('./socket/friends');
 
@@ -23,21 +21,15 @@ module.exports = (io) =>{
             delete active[data.uid];
         });
 
-        socket.on('DECLINE_REQUEST', async data =>{
-            await declineRequest(data);
-        });
-
         socket.on('ACCEPT_REQUEST', async data =>{
-            const response = await acceptRequest(data);
+            const {receiverId, senderId} = data;
 
-            const {senderId, receiverId} = data;
-
-            if(response){
-                io.sockets.to(active[senderId]).emit(
-                    'ACCEPT_REQUEST',
-                    {toastId: receiverId, uid: senderId, type: 'REQUEST_ACCEPTED'}
-                );
-            }
+            io.sockets.to(active[senderId]).emit('ACCEPT_REQUEST',{
+                type: 'REQUEST_ACCEPTED',
+                toastId: receiverId, 
+                uid: senderId, 
+            });
+            
         });
 
         socket.on('CHANGE_FRIEND_STATUS', async data =>{

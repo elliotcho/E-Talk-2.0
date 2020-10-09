@@ -4,56 +4,6 @@ const {Notification} = require('../models/notif');
 
 const axios = require('axios');
 
-exports.declineRequest = async (data) =>{
-    const {
-        receiverId, 
-        senderId
-    } = data;
-
-    await FriendRequest.deleteOne({receiverId, senderId});
-}
-
-exports.acceptRequest = async (data) =>{
-    const {status, receiverId, senderId} = data;
-
-    const config = {headers: {'content-type': 'application/json'}};
-
-    const response = await axios.post('http://localhost:5000/friends/status', {senderId, receiverId}, config);
-
-    if(status === response.data.status && status === 'Pending'){
-        await FriendRequest.deleteOne({receiverId: receiverId, senderId: senderId});
-        await FriendRequest.deleteOne({receiverId: senderId, senderId: receiverId});
-
-        const receiver = await User.findOne({_id: receiverId});
-
-        await User.updateOne(
-            {_id: receiverId}, 
-            {friends: [...receiver.friends, senderId]
-        });
-
-        const sender = await User.findOne({_id: senderId});
-
-        await User.updateOne(
-            {_id: senderId},
-            {friends: [...sender.friends, receiverId]
-        });
-
-        const newNotification = new Notification({
-            receiverId: senderId,
-            senderId: receiverId,
-            postId: null, 
-            date: new Date(),
-            seen: false,
-            msg: 'accepted your friend request!',
-            type: 'ACCEPT_REQUEST'
-        });
-
-        await newNotification.save();
-
-        return true;
-    }
-}
-
 exports.changeFriendStatus = async (data) =>{
     const {status, senderId, receiverId} = data;
 

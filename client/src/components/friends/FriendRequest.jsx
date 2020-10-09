@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {getUserData, getProfilePic} from '../../store/actions/profileActions';
-import {getFriendStatus} from '../../store/actions/friendsActions';
+import * as friendActions from '../../store/actions/friendsActions';
 import loading from '../../images/loading.jpg';
 import {io} from '../../App';
 
@@ -12,8 +12,8 @@ class FriendRequest extends Component{
         this.state = {
             firstName: 'Loading...',
             lastName: 'User...',
-            imgURL: null,
-            status: 'Pending'
+            status: 'Pending',
+            imgURL: null
         }
 
         this.toProfile = this.toProfile.bind(this);
@@ -22,10 +22,10 @@ class FriendRequest extends Component{
 
     async componentDidMount(){
         const {receiverId, senderId} = this.props.request;
-
+    
         const user = await getUserData(senderId);
+        const status = await friendActions.getFriendStatus(receiverId, senderId);
         const imgURL = await getProfilePic(senderId);
-        const status = await getFriendStatus(receiverId, senderId);
 
         this.setState({
             firstName: user.firstName,
@@ -40,17 +40,28 @@ class FriendRequest extends Component{
         this.props.history.push(`/profile/${senderId}/posts`);
     }
 
-    handleClick(eventType){
-        const {_id, receiverId, senderId} = this.props.request;
+    async handleClick(eventType){
         const {status} = this.state;
+        const {_id, receiverId, senderId} = this.props.request;
+   
+        if(eventType === 'ACCEPT_REQUEST'){
+            const msg = await friendActions.acceptFriendRequest(receiverId, senderId, status);
 
+            console.log(msg);
+
+            if(msg){
+                io.emit(eventType, {
+                    receiverId, 
+                    senderId
+                });
+            }
+        }
+
+        else{
+            await friendActions.declineFriendRequest(receiverId, senderId);
+        }
+        
         this.props.deleteRequest(_id);
-
-        io.emit(eventType, {
-            status, 
-            receiverId, 
-            senderId
-        });
     }
 
     render(){
