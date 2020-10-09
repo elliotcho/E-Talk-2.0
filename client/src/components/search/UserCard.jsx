@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {getFriendStatus, changeFriendStatus} from '../../store/actions/friendsActions';
 import {getProfilePic} from '../../store/actions/profileActions';
-import {getFriendStatus} from '../../store/actions/friendsActions';
 import loading from '../../images/loading.jpg';
 import {io} from '../../App';
 import './UserCard.css';
@@ -36,29 +36,29 @@ class UserCard extends Component{
         this.props.history.push(`/profile/${id}/posts`);
     }
 
-    handleClick(){
+    async handleClick(){
         const {status} = this.state;
         const {_id, firstName, lastName} = this.props.user;
         const {uid} = this.props;
 
         if(status === 'Add Friend'){
+            const msg = await changeFriendStatus(_id, uid, status);
+
             io.emit('CHANGE_FRIEND_STATUS', {
-                status, 
-                senderId: uid, 
-                receiverId: _id
+                senderId: uid,
+                receiverId: _id,
+                msg
             }); 
 
             this.setState({status: 'Pending'});             
         }
 
         else if(status === 'Pending'){
-            io.emit('CHANGE_FRIEND_STATUS', {
-                status, 
-                senderId: uid, 
-                receiverId: _id
-            }); 
+            await changeFriendStatus(_id, uid, status);
 
-            this.setState({status: 'Add Friend'});
+            this.setState({
+                status: 'Add Friend'
+            });
         }
 
         else{
@@ -66,11 +66,7 @@ class UserCard extends Component{
                 return;
             }
 
-            io.emit('CHANGE_FRIEND_STATUS', {
-                status, 
-                senderId: uid, 
-                receiverId: _id
-            }); 
+            await changeFriendStatus(_id, uid, status);
 
             this.setState({status: 'Add Friend'});
         }

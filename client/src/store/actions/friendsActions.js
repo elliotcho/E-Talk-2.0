@@ -88,3 +88,19 @@ export const declineFriendRequest = async (receiverId, senderId) => {
     const {msg} = response.data;
     return msg;
 }
+
+export const changeFriendStatus = async (receiverId, senderId, clientStatus) => {
+    let response = await axios.post('http://localhost:5000/friends/status', {receiverId, senderId}, config);
+    const serverStatus = response.data.status;
+
+    const data = {
+        receiverId,
+        senderId,
+        clientStatus, 
+        serverStatus
+    };
+
+    response = await axios.post('http://localhost:5000/friends/change', data, config);
+    const {msg} = response.data;
+    return msg;
+}

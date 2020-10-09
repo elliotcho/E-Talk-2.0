@@ -109,3 +109,63 @@ exports.declineFriendReq = async (req, res) => {
 
     res.json({msg: 'Friend request declined'});
 }
+
+exports.changeFriendStatus = async (req, res) => {
+    const {clientStatus, serverStatus, senderId, receiverId} = req.body;
+
+    if(clientStatus === serverStatus){
+        if(clientStatus === 'Add Friend'){
+            const newFriendRequest = new FriendRequest({
+                senderId,
+                receiverId,
+                date: new Date(),
+                seen: false
+            });
+
+            await newFriendRequest.save();
+
+            res.json({msg: 'Friend request sent'});
+        }
+
+        else if(clientStatus === 'Pending'){
+            await FriendRequest.deleteOne({receiverId, senderId});
+
+            res.json({
+                msg: 'Friend request cancelled'
+            });
+        }
+
+        else{
+            const receiver = await User.findOne({_id: receiverId});
+
+            const receiverFriends = receiver.friends;
+
+            for(let i=0;i<receiverFriends.length;i++){
+                if(receiverFriends[i] === senderId){
+                    receiverFriends.splice(i, 1);
+                    break;
+                }
+            }
+
+            await User.updateOne({_id: receiverId}, {friends: receiverFriends});
+
+            const sender = await User.findOne({_id: senderId});
+
+            const senderFriends = sender.friends;
+
+            for(let i=0;i<senderFriends.length;i++){
+                if(senderFriends[i] === receiverId){
+                    senderFriends.splice(i, 1);
+                    break;
+                }
+            }
+
+            await User.updateOne({_id: senderId}, {friends: senderFriends});
+
+            await Notification.deleteOne({receiverId: receiverId, senderId: senderId, type: 'ACCEPT_REQUEST'});
+            await Notification.deleteOne({receiverId: senderId, senderId: receiverId, type: 'ACCEPT_REQUEST'});
+
+            res.json({msg: 'Friend deleted'});
+        }
+    }
+}

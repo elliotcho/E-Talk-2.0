@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {getUserData} from '../../../store/actions/profileActions';
-import {getFriendStatus} from '../../../store/actions/friendsActions';
+import {getFriendStatus , changeFriendStatus} from '../../../store/actions/friendsActions';
 import {checkIfChatExists, updateRecipients} from '../../../store/actions/messagesActions';
+import {getUserData} from '../../../store/actions/profileActions';
 import ProfilePic from './ProfilePic';
 import {io} from '../../../App';
 
@@ -17,7 +17,7 @@ class ProfileInfo extends Component{
             status: 'Add Friend'
         }
 
-        this.changeFriendStatus = this.changeFriendStatus.bind(this);
+        this.handleFriendStatus = this.handleFriendStatus.bind(this);
         this.messageUser = this.messageUser.bind(this);
     }
 
@@ -34,28 +34,28 @@ class ProfileInfo extends Component{
         });
     }
 
-    changeFriendStatus(){
+    async handleFriendStatus(){
         const {firstName, lastName, status} = this.state;
         const {uid, profileId} = this.props;
 
         if(status === 'Add Friend'){
+            const msg = await changeFriendStatus(profileId, uid, status);
+
             io.emit('CHANGE_FRIEND_STATUS', {
-                status, 
                 senderId: uid, 
-                receiverId: profileId
+                receiverId: profileId,
+                msg
             });     
 
             this.setState({status: 'Pending'});  
         }
 
         else if(status === 'Pending'){
-            io.emit('CHANGE_FRIEND_STATUS', {
-                status, 
-                senderId: uid, 
-                receiverId: profileId
-            });     
+            await changeFriendStatus(profileId, uid, status);  
 
-            this.setState({status: 'Add Friend'});
+            this.setState({
+                status: 'Add Friend'
+            });
         }
 
         else{
@@ -63,11 +63,7 @@ class ProfileInfo extends Component{
                 return;
             }
 
-            io.emit('CHANGE_FRIEND_STATUS', {
-                status, 
-                senderId: uid, 
-                receiverId: profileId
-            });     
+            await changeFriendStatus(profileId, uid, status);  
 
             this.setState({status: 'Add Friend'});
         }
@@ -107,7 +103,7 @@ class ProfileInfo extends Component{
 
                 {uid !== profileId? 
                     (<section className='user-buttons'>
-                        <button className='btn btn-secondary btn-small' onClick = {this.changeFriendStatus}>
+                        <button className='btn btn-secondary btn-small' onClick = {this.handleFriendStatus}>
                             {status}
                         </button>
                     

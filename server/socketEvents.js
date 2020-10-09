@@ -1,8 +1,4 @@
 const {
-    changeFriendStatus
-} = require('./socket/friends');
-
-const {
     likePost,
     unlikePost,
     addComment,
@@ -33,15 +29,14 @@ module.exports = (io) =>{
         });
 
         socket.on('CHANGE_FRIEND_STATUS', async data =>{
-            const response = await changeFriendStatus(data);
+            const {receiverId, senderId, msg} = data;
 
-            const {receiverId, senderId} = data;
-
-            if(response){
-                io.sockets.to(active[receiverId]).emit(
-                    'CHANGE_FRIEND_STATUS',
-                     {toastId: senderId, uid: receiverId, type: 'FRIEND_REQUEST'}
-                );
+            if(msg){
+                io.sockets.to(active[receiverId]).emit('CHANGE_FRIEND_STATUS',{
+                    toastId: senderId, 
+                    uid: receiverId, 
+                    type: 'FRIEND_REQUEST'
+                });
             }
         });
 

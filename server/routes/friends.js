@@ -6,7 +6,8 @@ const {
     getUnreadFriendRequests,
     readFriendRequests,
     acceptFriendReq, 
-    declineFriendReq
+    declineFriendReq,
+    changeFriendStatus
 } = require('../controllers/friends');
 
 router.get('/:profileId', getUserFriends);
@@ -15,5 +16,6 @@ router.get('/unreadrequests/:uid',  getUnreadFriendRequests);
 router.put('/readrequests/:uid', readFriendRequests);
 router.post('/accept', acceptFriendReq);
 router.post('/decline', declineFriendReq);
+router.post('/change', changeFriendStatus);
 
 module.exports = router; 
