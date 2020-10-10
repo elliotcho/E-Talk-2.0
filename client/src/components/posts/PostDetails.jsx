@@ -3,7 +3,9 @@ import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {deleteFromPostDetails, getPost} from '../../store/actions/postActions';
 import Post from './post/Post';
-import './Posts.css'
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import './Posts.css';
 
 class PostDetails extends Component{
     constructor(){
@@ -24,14 +26,20 @@ class PostDetails extends Component{
         this.setState({post});
     }
 
-    async deletePost(postId){
-        if(!window.confirm("Are you sure you want to delete this post?")){
-            return;
+    deletePost(postId){
+        const confirmDeletePost = async () => {
+            await deleteFromPostDetails(postId);
+            this.props.history.push('/'); 
         }
 
-        await deleteFromPostDetails(postId);
-        
-        this.props.history.push('/'); 
+        confirmAlert({
+            title: 'E-Talk',
+            message: 'Are you sure you want to this post?',
+            buttons: [
+                {label: 'Yes', onClick: confirmDeletePost},
+                {label: 'No', onClick: () => {return;}}
+            ]
+        });
     }
 
     render(){

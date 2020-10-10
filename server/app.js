@@ -56,4 +56,4 @@ app.use('/chats', require('./routes/chat'));
  
 const server = app.listen(process.env.PORT || 5000);
 
-require('./socketEvents')(socket(server));     
+require('./socket/socketEvents')(socket(server));     

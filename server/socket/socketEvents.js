@@ -3,7 +3,7 @@ const {
     unlikePost,
     addComment,
     removeComment
-} = require('./socket/post');
+} = require('./post');
 
 const active = {};
 

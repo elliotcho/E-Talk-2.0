@@ -2,3 +2,11 @@ body{
     background: #5a535a;
     overflow-y: auto;
 }
+
+.react-confirm-alert-overlay{
+    background: white;
+    -webkit-animation: react-confirm-alert-fadeIn 0.0s 0.s forwards;
+    -moz-animation: react-confirm-alert-fadeIn 0.0s 0.0s forwards;
+    -o-animation: react-confirm-alert-fadeIn 0.0s 0.0s forwards;
+    animation: react-confirm-alert-fadeIn 0.0s 0.0s forwards;
+}

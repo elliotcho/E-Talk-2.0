@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import * as postActions from '../../store/actions/postActions';
 import CreatePost from './CreatePost';
 import Post from './post/Post';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import './Posts.css';
 
 class PostsList extends Component{
@@ -36,14 +38,21 @@ class PostsList extends Component{
     }
 
     deletePost(postId){
-        if(!window.confirm("Are you sure you want to delete this post?")){
-            return;
-        }
-
         const {dispatch} = this.props;
         const {deletePostFromList} = postActions;
 
-        dispatch(deletePostFromList(postId));
+        const confirmDeletePost = () => {
+            dispatch(deletePostFromList(postId));
+        }
+
+        confirmAlert({
+            title: 'E-Talk',
+            message: 'Are you sure you want to this post?',
+            buttons: [
+                {label: 'Yes', onClick: confirmDeletePost},
+                {label: 'No', onClick: () => {return;}}
+            ]
+        });
     }
 
     render(){

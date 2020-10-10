@@ -44,12 +44,7 @@ class CreateCommment extends Component{
             return;
         }
 
-        const {
-            uid,
-            postId,  
-            updateCount,
-            createComment
-        } = this.props;
+        const {uid, postId, updateCount,createComment} = this.props;
 
         io.emit('COMMENT_ON_POST', {
             postId, 

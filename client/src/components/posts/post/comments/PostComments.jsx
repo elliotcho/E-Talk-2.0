@@ -30,14 +30,8 @@ class PostComments extends Component{
     }
 
     render(){
-        const {
-            uid, 
-            postId, 
-            formatCount, 
-            comments
-        } = this.props;
-
         const {commentsCount} = this.state;
+        const {uid, postId, formatCount, comments} = this.props;
 
         const iconMargin = (commentsCount === 0)? 'ml-1': 'ml-2';
     

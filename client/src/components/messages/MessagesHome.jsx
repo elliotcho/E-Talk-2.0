@@ -8,6 +8,8 @@ import CreateMessage from './CreateMessage';
 import Composer from './Composer';
 import MessageCard from './MessageCard';
 import axios from 'axios';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import './Messages.css';
 
 class MessagesHome extends Component{
@@ -59,13 +61,27 @@ class MessagesHome extends Component{
         }
 
         else{
-            const msg = "Are you sure you want to exit?";
+            const exitComposer = () => this.props.history.goBack();
 
-            if(chats.length === 0 || (recipients.length !== 0 && !window.confirm(msg))){
+            if(chats.length === 0){
                 return;
             }
 
-            this.props.history.goBack();
+            if(recipients.length !== 0){
+                confirmAlert({
+                    title: 'E-Talk',
+                    message: 'Are you sure you want to exit?',
+                    buttons: [
+                        {label: 'Yes', onClick: exitComposer},
+                        {label: 'No', onClick: () => {return;}}
+                    ]
+                });
+            }
+
+
+            else{
+                exitComposer();
+            }
         }
     }
 

@@ -23,16 +23,11 @@ class PostHeader extends Component{
 
         const user = await getUserData(ownerId);
 
-        const {
-            firstName,
-            lastName
-        } = user;
-
         const imgURL = await getProfilePic(ownerId);
 
         this.setState({
-            firstName,
-            lastName,
+            firstName: user.firstName,
+            lastName: user.lastName,
             imgURL
         });
     }
