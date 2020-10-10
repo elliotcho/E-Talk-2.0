@@ -43,7 +43,7 @@ UserSchema.statics.login = async function(email, password){
     }
 
     else{
-        return {msg: "Email is not registered with E-Talk"}
+        return {msg: "Unregistered email"}
     }
 }
 

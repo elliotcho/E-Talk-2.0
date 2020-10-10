@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {Redirect, withRouter, Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {login} from '../../store/actions/authActions';
+import {withAlert} from 'react-alert';
 import './Auth.css';
 
 class Login extends Component{
@@ -31,9 +32,9 @@ class Login extends Component{
     handleSubmit(e){
         e.preventDefault();   
         
-        const {dispatch} = this.props;
+        const {dispatch, alert} = this.props;
 
-        dispatch(login(this.state));
+        dispatch(login(this.state, alert));
     }
 
     render(){
@@ -87,4 +88,4 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({dispatch});
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withAlert()(Login)));

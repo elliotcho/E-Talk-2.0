@@ -4,7 +4,7 @@ import axios from 'axios';
 const config={headers: {'content-type': 'application/json'}};
 
 //user login: updates uid in global state
-export const login = (credentials) =>{
+export const login = (credentials, alert) =>{
     return async (dispatch) =>{
         const response = await axios.post('http://localhost:5000/users/login', {...credentials}, config)
         const {msg, uid} = response.data;
@@ -17,18 +17,18 @@ export const login = (credentials) =>{
         }
 
         else{
-            alert(msg);
+            alert.error(msg);
         }
     }
 }
 
 //user sign up: updates uid in global state
-export const signUp = (credentials) =>{
+export const signUp = (credentials, alert) =>{
     return async (dispatch) =>{
         const {firstName, lastName} = credentials;
 
         if(!verifyName(firstName) || !verifyName(lastName)){
-            alert("Invalid name: First name and last name should only contain letters!");
+            alert.error("First name and last name should only contain letters!");
             return;
         }
 
@@ -43,7 +43,7 @@ export const signUp = (credentials) =>{
         }
 
         else{
-            alert(msg);
+            alert.error(msg);
         }
     }
 }
