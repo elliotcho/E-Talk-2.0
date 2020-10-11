@@ -139,11 +139,7 @@ exports.createComment = async (req, res)=>{
 
     const post = await Post.findOne({_id: postId});
 
-    if(post === null){
-        res.json({msg: "Post not found"});
-    }
-
-    else{
+    if(post !== null){
         const {comments} = post;
 
         const newComment = new Comment({
@@ -154,15 +150,41 @@ exports.createComment = async (req, res)=>{
 
         comments.push(newComment);
         comments.sort((a, b) => b.createdAt - a.createdAt);
-
+        
         await Post.updateOne({_id: postId}, {comments});
 
-        res.json(comments);
+        if(post.uid !== uid){
+            const newNotification = new Notification({
+                receiverId: post.uid, 
+                senderId: uid,
+                postId: postId,
+                date: new Date(),
+                seen: false,
+                msg: 'commented on your:',
+                type: 'POST_COMMENT'
+            });
+    
+            await newNotification.save();
+
+            res.json({
+                comments,
+                receiverId: post.uid,
+                notifContent: ` ${newNotification.msg} ${post.content}`
+            });
+        }
+
+        else{
+            res.json({
+                comments,
+                receiverId: null,
+                notifContent: null
+            });
+        }
     }
 }
 
 exports.deleteComment =  async (req, res) =>{
-    const {postId, commentId} = req.body;
+    const {uid, postId, commentId} = req.body;
 
     const post = await Post.findOne({_id: postId});
 
@@ -181,6 +203,7 @@ exports.deleteComment =  async (req, res) =>{
         }
 
         await Post.updateOne({_id: postId}, {comments});
+        await Notification.deleteOne({postId, senderId: uid, type: 'POST_COMMENT'});
 
         res.json(comments);
     }

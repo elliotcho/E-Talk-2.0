@@ -110,10 +110,11 @@ export const createComment = async (postId, uid, content) =>{
     return response.data;
 }
 
-export const deleteComment = async (postId, commentId) =>{
+export const deleteComment = async (uid, postId, commentId) =>{
     const config = {headers: {'content-type': 'application/json'}};
 
     const data = {
+        uid,
         postId, 
         commentId
     };

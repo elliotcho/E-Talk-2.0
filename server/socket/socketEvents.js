@@ -1,8 +1,3 @@
-const {
-    addComment,
-    removeComment
-} = require('./post');
-
 const active = {};
 
 module.exports = (io) =>{
@@ -51,23 +46,15 @@ module.exports = (io) =>{
         });
 
         socket.on('COMMENT_ON_POST', async data=>{
-            const postInfo = await addComment(data);
-
-            const receiverId = postInfo[0];
-            const content = postInfo[1];
-
-            const {senderId} = data;
+            const {receiverId, senderId, content} = data;
 
             if(receiverId){
-                io.sockets.to(active[receiverId]).emit(
-                    'COMMENT_ON_POST', 
-                    {toastId: senderId, uid: receiverId, content}
-                );
+                io.sockets.to(active[receiverId]).emit('COMMENT_ON_POST', {
+                    toastId: senderId, 
+                    uid: receiverId, 
+                    content
+                });
             }
-        });
-
-        socket.on('REMOVE_COMMENT', async data =>{
-            await removeComment(data);
         });
 
         socket.on('CREATE_CHAT', async data =>{

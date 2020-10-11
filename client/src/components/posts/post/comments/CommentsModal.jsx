@@ -4,7 +4,6 @@ import CreateComment from './CreateComment';
 import UserComment from './UserComment';
 import {confirmAlert} from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
-import {io} from '../../../../App';
 
 class CommentsModal extends Component{
     constructor(){
@@ -31,11 +30,12 @@ class CommentsModal extends Component{
     async createComment(content){
         const {uid, postId} = this.props;
 
-        const comments = await createComment(postId, uid, content);
+        const data = await createComment(postId, uid, content);
+        const {comments} = data;
 
-        this.setState({
-            comments
-        });
+        this.setState({comments});
+
+        return data;
     }    
 
     async deleteComment(commentId){
@@ -43,13 +43,8 @@ class CommentsModal extends Component{
 
         const confirmDeleteComment = async () => {
             updateCount(-1);
-
-            io.emit('REMOVE_COMMENT', {
-                postId, 
-                senderId: uid
-            });
         
-            const comments = await deleteComment(postId, commentId);
+            const comments = await deleteComment(uid, postId, commentId);
     
             this.setState({comments});
         }

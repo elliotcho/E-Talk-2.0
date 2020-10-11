@@ -35,7 +35,7 @@ class CreateCommment extends Component{
         this.setState({[e.target.id]: e.target.value});
     }
 
-    handleSubmit(e){
+    async handleSubmit(e){
         e.preventDefault();
 
         const content = this.myComment.value;
@@ -44,14 +44,16 @@ class CreateCommment extends Component{
             return;
         }
 
-        const {uid, postId, updateCount,createComment} = this.props;
+        const {uid, updateCount, createComment} = this.props;
+
+        const data = await createComment(content);
 
         io.emit('COMMENT_ON_POST', {
-            postId, 
-            senderId: uid
+            senderId: uid,
+            receiverId: data.receiverId,
+            content: data.notifContent
         });
 
-        createComment(content);
         updateCount(1);
 
         this.myComment.value = "";
