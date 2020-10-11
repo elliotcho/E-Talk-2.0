@@ -1,41 +1,6 @@
 const {Post}  = require('../models/post');
 const {Notification} = require('../models/notif');
 
-exports.likePost = async (data) =>{
-    const {senderId, postId} = data;
-
-    const post = await Post.findOne({_id: postId});
-
-    if(post!== null && post.uid !== senderId){
-        const newNotification = new Notification({
-            receiverId: post.uid, 
-            senderId: senderId,
-            postId: postId,
-            date: new Date(),
-            seen: false,
-            msg: 'liked your post:',
-            type: 'LIKE_POST'
-        });
-
-        await newNotification.save();
-
-        return [post.uid, ` ${newNotification.msg} ${post.content}`];
-    }
-
-    else{
-        return [null, null];
-    }
-}
-
-exports.unlikePost = async (data) =>{
-    const {
-        senderId, 
-        postId
-    } = data;
-
-    await Notification.deleteOne({postId, senderId, type: 'LIKE_POST'});
-}
-
 exports.addComment = async (data) =>{
     const {senderId, postId} = data;
 

@@ -6,7 +6,8 @@ const {
     getFeedPosts,
     getProfilePosts,
     createPost,
-    handlePostLike,
+    likePost,
+    unlikePost,
     checkUserLike,
     createComment,
     deleteComment
@@ -17,7 +18,8 @@ router.delete('/:postId', deletePost);
 router.get('/feed/:uid', getFeedPosts);
 router.post('/profile', getProfilePosts);
 router.post('/create', createPost);
-router.post('/like', handlePostLike);
+router.post('/like', likePost);
+router.post('/unlike', unlikePost);
 router.post('/userliked', checkUserLike);
 router.post('/comment', createComment);
 router.post('/deletecomment', deleteComment);

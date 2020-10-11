@@ -81,16 +81,20 @@ export const checkIfUserLiked = async (uid, postId) =>{
     return userLiked;
 }
 
-export const handleLike = async (uid, postId, userLiked) =>{
+export const likePost = async (uid, postId) =>{
     const config = {headers: {'content-type': 'application/json'}};
+    const data = {uid, postId};
 
-    const data = {
-        uid, 
-        postId, 
-        userLiked: !userLiked
-    };
+    const response = await axios.post('http://localhost:5000/posts/like', data , config);
+    return response.data;
+}
 
-    await axios.post('http://localhost:5000/posts/like', data , config);
+export const unlikePost = async (uid, postId) => {
+    const config = {headers: {'content-type': 'application/json'}};
+    const data = {uid, postId};
+
+    await axios.post('http://localhost:5000/posts/unlike', data , config);
+
 }
 
 export const createComment = async (postId, uid, content) =>{

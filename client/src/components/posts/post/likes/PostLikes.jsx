@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
-import {checkIfUserLiked, handleLike} from '../../../../store/actions/postActions';
+import * as postActions from '../../../../store/actions/postActions';
 import LikesModal from './LikesModal';
 import {io} from '../../../../App';
 import './Likes.css';
@@ -19,47 +19,36 @@ class PostLikes extends Component{
     async componentDidMount(){
         const {uid, postId} = this.props;
 
-        const userLiked = await checkIfUserLiked(uid, postId);
+        const userLiked = await postActions.checkIfUserLiked(uid, postId);
       
         this.setState({userLiked});
     }
 
     async handleLike(e){
         let {userLiked} = this.state;
-
-        let {
-            uid, 
-            postId, 
-            likes
-        } = this.props;
+        const {uid, postId, likes} = this.props;
     
         if(userLiked){
             e.target.style.color = 'white';
-
             likes.splice(likes.indexOf(uid), 1);
 
-            io.emit('UNLIKE_POST', {
-                senderId: uid, 
-                postId
-            });
+            await postActions.unlikePost(uid, postId);
         }
 
         else{
             e.target.style.color = 'red';
-            
             likes.push(uid);
+
+            const data = await postActions.likePost(uid, postId);
 
             io.emit('LIKE_POST', {
                 senderId: uid, 
-                postId
+                receiverId: data.receiverId,
+                content: data.notifContent
             });
         }
 
-        await handleLike(uid, postId, userLiked);
-    
-        this.setState({
-            userLiked: !userLiked
-        });
+        this.setState({userLiked: !userLiked});
     }
 
     render(){

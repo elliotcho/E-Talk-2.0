@@ -59,27 +59,59 @@ exports.createPost = async (req, res) =>{
     res.json(post);
 }
 
-exports.handlePostLike = async (req, res) =>{  
-    const {uid, postId, userLiked} = req.body;
+exports.likePost = async (req, res) => {
+    const {uid, postId} = req.body;
 
     const post = await Post.findOne({_id: postId});
-    const {likes} = post;
-
-    if(userLiked){
+    
+    if(post !== null){
+        const {likes} = post;
         likes.push(uid);
 
         await Post.updateOne({_id: postId}, {likes});
 
-        res.json({msg: "Post was liked"});
+        if(post.uid !== uid){
+            const newNotification = new Notification({
+                receiverId: post.uid, 
+                senderId: uid,
+                postId: postId,
+                date: new Date(),
+                seen: false,
+                msg: 'liked your post:',
+                type: 'LIKE_POST'
+            });
+    
+            await newNotification.save();
+
+            const notifContent = ` ${newNotification.msg} ${post.content}`;
+
+            res.json({
+                receiverId: post.uid,
+                notifContent
+            });
+        }
+
+        else{
+            res.json({
+                receiverId: null, 
+                notifContent: null
+            });
+        }
     }
+}
 
-    else{
-        likes.splice(likes.indexOf(uid), 1);
+exports.unlikePost = async (req, res) =>{  
+    const {uid, postId} = req.body;
 
-        await Post.updateOne({_id: postId}, {likes});
+    const post = await Post.findOne({_id: postId});
+    const {likes} = post;
 
-        res.json({msg: "Post was unliked"});
-    }
+    likes.splice(likes.indexOf(uid), 1);
+
+    await Post.updateOne({_id: postId}, {likes});
+    await Notification.deleteOne({postId, senderId: uid, type: 'LIKE_POST'});
+
+    res.json({msg: "Post was unliked"});
 }
 
 exports.checkUserLike = async (req, res) =>{
@@ -96,9 +128,7 @@ exports.checkUserLike = async (req, res) =>{
 
         if(likes.includes(uid)){
             res.json({userLiked: true});
-        }
-
-        else{
+        } else{
             res.json({userLiked: false});
         }
     }
