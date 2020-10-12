@@ -103,18 +103,8 @@ class Conversation extends Component{
     }
 
     render(){
-        const {
-            uid, 
-            chatId,
-            msgsOnDisplay, 
-            typingMsgs, 
-            isComposerChat
-        } = this.props;
-
-        const {
-            memberNames, 
-            chatPics
-        } = this.state;
+        const {uid, chatId, msgsOnDisplay, typingMsgs, isComposerChat} = this.props;
+        const {memberNames, chatPics} = this.state;
 
         const messages = msgsOnDisplay.map((msg, i) =>
             <MessageBubble 

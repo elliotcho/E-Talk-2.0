@@ -97,7 +97,17 @@ class MessageCard extends Component{
     }
 
     displayChat(){
-        const {chatId} = this.props;
+        const {
+            uid, 
+            chatId, 
+            dispatch, 
+            clearContactsQuery, 
+            getUserChats
+        } = this.props;
+
+        dispatch(getUserChats(uid));
+        clearContactsQuery();
+
         this.props.history.push(`/chat/${chatId}`);
     }
 

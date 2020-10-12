@@ -15,8 +15,15 @@ import './Messages.css';
 class MessagesHome extends Component{
     constructor(){
         super();
+
+        this.state = {
+            emptyContactsQuery: false
+        };
+
         this.cancelSource = axios.CancelToken.source();
         this.handleComposer = this.handleComposer.bind(this);
+        this.clearContactsQuery = this.clearContactsQuery.bind(this);
+        this.resetContactsQuery = this.resetContactsQuery.bind(this);
     }
 
     async componentDidMount(){
@@ -85,6 +92,14 @@ class MessagesHome extends Component{
         }
     }
 
+    clearContactsQuery(){
+        this.setState({emptyContactsQuery: true});
+    }
+
+    resetContactsQuery(){
+        this.setState({emptyContactsQuery: false});
+    }
+
     componentWillUnmount(){
         const {dispatch} = this.props;
         const {clearChats} = msgActions;
@@ -96,20 +111,16 @@ class MessagesHome extends Component{
 
     render(){
         const chatId = this.props.match.params.id;
-        
-        const {
-            uid, 
-            chats, 
-            recipients, 
-            typingMsgs,
-            composerResults, 
-            composerChatId, 
-            dispatch
-        } = this.props;
+
+        const {emptyContactsQuery} = this.state;
+        const {uid, chats, recipients, typingMsgs,composerResults, composerChatId, dispatch} = this.props;
 
         if(!uid){
             return <Redirect to ='/'/>
         }
+
+        const clearContactsQuery = () => {this.setState({emptyContactsQuery: true})};
+        const resetContactsQuery = () => {this.setState({emptyContactsQuery: false})};
 
         const cards = chats.map(chat =>
             <MessageCard 
@@ -120,6 +131,8 @@ class MessagesHome extends Component{
                 isActive = {chat._id === chatId}
                 messages = {chat.messages}
                 timeOfLastMessage = {chat.timeOfLastMessage}
+                clearContactsQuery =  {clearContactsQuery}
+                getUserChats = {msgActions.getUserChats}
             />    
         );
 
@@ -138,7 +151,12 @@ class MessagesHome extends Component{
                             </div>
  
                             <div className ='cards-container'>
-                                <SearchContacts uid={uid} dispatch={dispatch}/>
+                                <SearchContacts 
+                                    uid={uid} 
+                                    emptyContactsQuery = {emptyContactsQuery}
+                                    resetContactsQuery = {resetContactsQuery}
+                                    dispatch={dispatch}
+                                />
 
                                 {cards.length === 0?
                                     (<h3 className='no-cards'>No messages available</h3>):

@@ -13,6 +13,15 @@ class SearchContacts extends Component{
         this.handleKeyUp = this.handleKeyUp.bind(this);
     }
 
+    componentDidUpdate(prevProps){
+        const {emptyContactsQuery, resetContactsQuery} = this.props;
+
+        if(emptyContactsQuery && !prevProps.emptyContactsQuery){
+            this.setState({query: ''});
+            resetContactsQuery();
+        }
+    }
+
     handleChange(e){
         this.setState({[e.target.id] : e.target.value});
     }
