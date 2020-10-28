@@ -1,6 +1,8 @@
 import * as types from '../constants/actionTypes';
 import axios from 'axios';
 
+const config = {headers: {'content-type': 'application/json'}};
+
 export const getNavbarInitials = (uid) =>{
     return async (dispatch) =>{
         const response = await axios.get(`http://localhost:5000/users/${uid}`);
@@ -47,4 +49,8 @@ export const getUserBio = async (uid) => {
     const {bio} = response.data;
 
     return bio;
+}
+
+export const updateUserBio = async (content, uid) => {
+    await axios.post('http://localhost:5000/users/bio', {content, uid}, config);
 }

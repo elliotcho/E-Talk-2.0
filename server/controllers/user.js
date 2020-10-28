@@ -128,7 +128,7 @@ exports.searchUser =  async (req, res) =>{
 
      const user = await User.findOne({_id: uid});
      const {bio} = user;
-
+     
     res.json({bio})
  }
 
