@@ -1,14 +1,11 @@
 For next 2 hour session:
 
-
 Overall:
 [ ] Rework search bar backend
 
 [ ] Send images 
 [ ] search messages
 [ ] Non existent routes client
-
-[ ] Message card persists refresh/composer switch
 
 [ ] Profile Bio Design
 [ ] Profile Bio backend

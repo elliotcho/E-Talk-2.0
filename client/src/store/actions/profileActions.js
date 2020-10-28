@@ -41,3 +41,10 @@ export const getProfilePic = async (uid) =>{
 
     return URL.createObjectURL(file);
 }
+
+export const getUserBio = async (uid) => {
+    const response = await axios.get(`http://localhost:5000/users/bio/${uid}`);
+    const {bio} = response.data;
+
+    return bio;
+}

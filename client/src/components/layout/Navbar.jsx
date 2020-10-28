@@ -49,8 +49,10 @@ class Navbar extends Component{
             initials, 
             unreadNotifs, 
             unreadRequests, 
-            unseenChats
+            unseenChats,
         } = this.props;
+
+        
 
         return(
             <div className='text-white navbar-container'>
@@ -71,7 +73,7 @@ class Navbar extends Component{
                                 placeholder ='Search'
                                 value = {this.state.query}
                                 onChange = {this.handleChange}
-                            />
+                            />                       
                         </form>
 
                         <NavbarLinks 

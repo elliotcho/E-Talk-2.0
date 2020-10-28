@@ -49,7 +49,7 @@ class Profile extends Component{
                             <div className ='profile-content'>
                                 {type === 'posts'? <PostList profileId={id}/> : null}
                                 {type === 'friends'? <Friends profileId={id}/>: null}
-                                {type === 'bio' ? <ProfileBio/>: null}
+                                {type === 'bio' ? <ProfileBio profileId={id}/>: null}
                             </div>
                         </section>
                     </div>

@@ -309,8 +309,7 @@
 }
 
 .create-msg input{
-    height: 0;
-    width: 0;
+    display: none;
 }
 
 .create-msg .photo{

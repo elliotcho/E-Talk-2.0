@@ -34,6 +34,7 @@ exports.signUp = async (req, res) => {
                     password,
                     createdAt: new Date(),
                     profilePic: null,
+                    bio: null,
                     friends: [], 
                     chats: []
                 });
@@ -120,4 +121,21 @@ exports.searchUser =  async (req, res) =>{
      }
  
      res.json(result);
+ }
+
+ exports.getUserBio = async (req, res) => {
+     const {uid} = req.params;
+
+     const user = await User.findOne({_id: uid});
+     const {bio} = user;
+
+    res.json({bio})
+ }
+
+ exports.updateBio = async (req, res) => {
+    const {uid, content} = req.body;
+
+    await User.updateOne({_id: uid}, {bio: content});
+
+    res.json({msg: 'Success'});
  }
