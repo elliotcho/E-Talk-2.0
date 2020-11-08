@@ -208,3 +208,11 @@ exports.deleteComment =  async (req, res) =>{
         res.json(comments);
     }
 }
+
+exports.editPost = async (req, res) => {
+    const {postId, newContent} = req.body;
+
+    await Post.update({_id: postId}, {content: newContent});
+
+    res.json({msg: 'Success'});
+}

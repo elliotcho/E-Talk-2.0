@@ -10,7 +10,8 @@ const {
     unlikePost,
     checkUserLike,
     createComment,
-    deleteComment
+    deleteComment,
+    editPost
 } = require('../controllers/post');
 
 router.get('/:postId', getPost);  
@@ -23,5 +24,6 @@ router.post('/unlike', unlikePost);
 router.post('/userliked', checkUserLike);
 router.post('/comment', createComment);
 router.post('/deletecomment', deleteComment);
+router.post('/edit', editPost);
 
 module.exports = router;

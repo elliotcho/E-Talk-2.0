@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {updatePost, reloadPosts} from '../../../store/actions/postActions';
 import PostLikes from './likes/PostLikes';
 import PostComments from './comments/PostComments';
 import PostHeader from './PostHeader';
 import PostBody from './PostBody';
+import EditModal from './EditModal';
 
 class Post extends Component{
     constructor(){
         super();
         this.toPostDetails = this.toPostDetails.bind(this);
+        this.editPost = this.editPost.bind(this);
     }
 
     formatCount(num){
@@ -46,6 +50,21 @@ class Post extends Component{
         else{
             this.props.history.push(`/post/${postId}`);
         }
+    }
+
+    async editPost(newContent){
+        const {dispatch, posts, postId} = this.props;
+
+        await updatePost(postId, newContent);
+
+        for(let i=0;i<posts.length;i++){
+            if(posts[i]._id === postId){
+                posts[i].content = newContent;
+                break;
+            }
+        }
+
+        dispatch(reloadPosts(posts));
     }
 
     render(){
@@ -95,9 +114,21 @@ class Post extends Component{
                         formatCount ={this.formatCount}
                     />
                 </section>
+
+                <button 
+                    id='open-edit' 
+                    data-toggle='modal' 
+                    data-target='#edit'
+                    style = {{display: 'none'}}
+                />
+
+                <EditModal content={content} editPost={this.editPost}/>
             </div>
         )
     }
 }
 
-export default withRouter(Post);
+const mapStateToProps = (state) => ({posts: state.posts.posts});
+const mapDispatchToProps = (dispatch) => ({dispatch});
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Post));

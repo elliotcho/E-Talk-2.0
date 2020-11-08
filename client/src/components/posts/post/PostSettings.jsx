@@ -3,6 +3,10 @@ import React from 'react';
 function PostSettings({uid, ownerId, postId, deletePost}){
     const style = (uid === ownerId)?  {} : {display: 'none'};
 
+    const openEditModal = () => {
+        document.getElementById('open-edit').click();
+    }
+
     return(
         <div style = {style}>
             <div className = 'post-settings'>
@@ -12,7 +16,12 @@ function PostSettings({uid, ownerId, postId, deletePost}){
                     <div>
                         <div className = 'option' onClick = {() => {deletePost(postId)}}>
                             <i className ='fas fa-trash-alt'></i>
-                            <span className ='ml-1'>Delete Post</span>
+                            <span>Delete Post</span>
+                        </div>
+
+                        <div className = 'option' onClick={openEditModal}>
+                            <i className ='fas fa-edit'></i>
+                            <span>Edit Post</span>
                         </div>
                     </div>
                 </div>
