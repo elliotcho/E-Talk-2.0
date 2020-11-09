@@ -76,7 +76,7 @@ class EditModal extends Component{
                 <div className ='modal-dialog modal-dialog-centered'>
                     <div className ='modal-content'>
                         <div className ='modal-header'>
-                            <h3>Edit your review</h3>
+                            <h3>Edit your post</h3>
                        
                             <button className='close' onClick={this.closeModal}>
                                 <span>&times;</span>

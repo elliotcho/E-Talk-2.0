@@ -65,11 +65,6 @@ export const deletePostFromList = (postId) => {
     }
 }
 
-export const deleteFromPostDetails = async (postId) =>{
-    await axios.delete(`http://localhost:5000/posts/${postId}`);
-}
-
-
 export const checkIfUserLiked = async (uid, postId) =>{
     const response = await axios.post('http://localhost:5000/posts/userliked', {uid, postId}, config);
     const {userLiked} = response.data;

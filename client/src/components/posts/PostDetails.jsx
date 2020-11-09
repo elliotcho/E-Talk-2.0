@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {deleteFromPostDetails, getPost} from '../../store/actions/postActions';
+import * as postActions from '../../store/actions/postActions';
 import Post from './post/Post';
 import {confirmAlert} from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -10,25 +10,25 @@ import './Posts.css';
 class PostDetails extends Component{
     constructor(){
         super(); 
-
-        this.state = {
-            post: null
-        }
-
         this.deletePost = this.deletePost.bind(this);
     }
 
     async componentDidMount(){
         const postId = this.props.match.params.id;
+        const {dispatch} = this.props;
         
-        const post = await getPost(postId);
-   
-        this.setState({post});
+        const post = await postActions.getPost(postId);
+        const postList = [post];
+
+        dispatch(postActions.reloadPosts(postList));
     }
 
     deletePost(postId){
-        const confirmDeletePost = async () => {
-            await deleteFromPostDetails(postId);
+        const confirmDeletePost = () => {
+            const {dispatch} = this.props;
+
+            dispatch(postActions.deletePostFromList(postId));
+            
             this.props.history.push('/'); 
         }
 
@@ -43,25 +43,25 @@ class PostDetails extends Component{
     }
 
     render(){
-        const {uid} = this.props;
-
-        const {post} = this.state;
+        const {uid, posts} = this.props;
 
         return(
             <div>
-                {!post? <h1 className='noposts text-center'>Post is Loading...</h1>:
-                    (<Post 
-                           postId = {post._id} 
-                           ownerId = {post.uid}
-                           uid = {uid}
-                           profileId = {null}
-                           createdAt = {post.createdAt}
-                           content = {post.content}
-                           likes = {post.likes}
-                           comments = {JSON.stringify(post.comments)} 
-                           deletePost={this.deletePost}
-                           seeMore = {true}
-                    />)
+                {posts.length === 0? <h1 className='noposts text-center'>Post is Loading...</h1>:
+                    posts.map(post => 
+                        (<Post 
+                            postId = {post._id} 
+                            ownerId = {post.uid}
+                            uid = {uid}
+                            profileId = {null}
+                            createdAt = {post.createdAt}
+                            content = {post.content}
+                            likes = {post.likes}
+                            comments = {JSON.stringify(post.comments)} 
+                            deletePost={this.deletePost}
+                            seeMore = {true}
+                        />)    
+                    )
                 }
             </div>
         )
@@ -70,7 +70,8 @@ class PostDetails extends Component{
 
 const mapStateToProps = (state) => {
     return{
-        uid: state.auth.uid
+        uid: state.auth.uid,
+        posts: state.posts.posts
     }
 }
 
