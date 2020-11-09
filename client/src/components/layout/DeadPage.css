@@ -1,0 +1,30 @@
+.dead-page{
+    font-family: 'Nunito Sans';
+    font-weight: 600;
+    color: lightgray;
+}
+
+.dead-page h1{
+    margin-top: 75px;
+}
+
+.dead-page i{
+    font-size: 12rem;
+}
+
+.dead-page ul{
+    position: relative;
+    right: 45px;
+}
+
+.dead-page li{
+    display: inline-block;
+    margin-left: 50px;
+    list-style-type: none;
+    color: #0883f0;
+    font-size: 2rem;
+}
+
+.dead-page li:hover{
+    text-decoration: underline;
+}
