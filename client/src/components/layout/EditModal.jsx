@@ -20,6 +20,12 @@ class EditModal extends Component{
         this.setState({newContent: this.props.content});
     }
 
+    componentDidUpdate(prevProps){
+        if(this.props.content !== prevProps.content){
+            this.setState({newContent: this.props.content});
+        }
+    }
+
     handleChange(e){
         this.setState({[e.target.id]: e.target.value});
     }

@@ -1,19 +1,17 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {getUserBio, updateUserBio} from '../../../store/actions/profileActions';
+import EditModal from '../../layout/EditModal';
 
 class ProfileBio extends Component{
     constructor(){
         super();
 
         this.state = {
-            bio: 'Loading Bio...',
-            text: '',
-            editting: false
+            bio: null
         }
 
-        this.handleChange = this.handleChange.bind(this);
-        this.saveBio = this.saveBio.bind(this);
+        this.editContent = this.editContent.bind(this);
     }
 
     async componentDidMount(){
@@ -21,63 +19,53 @@ class ProfileBio extends Component{
 
         const bio = await getUserBio(profileId);
 
-        this.setState({
-            text: bio? bio: '',
-            bio
-        });
+        this.setState({bio});
     }
 
-    handleChange(e){
-        this.setState({[e.target.id]: e.target.value});
-    }
-
-    async saveBio(){
-        const {text} = this.state;
+    async editContent(newContent){
         const {uid} = this.props;
 
-        await updateUserBio(text, uid);
+        await updateUserBio(newContent, uid);
 
-        this.setState({
-            bio: text,
-            editting: false
-        });
+        this.setState({bio: newContent});
     }
 
     render(){
-        const {bio, text, editting} = this.state;
+        const {bio} = this.state;
         const {profileId, uid} = this.props;
 
-        const startEdit = () => {this.setState({editting: true});}
-        const cancelEdit = () => {this.setState({editting: false});}
+        const openEditModal = () => {
+            document.getElementById('open-edit').click();
+        }
 
         return(
             <div className='bio'>
-                {!editting? (bio? bio: <h1>User has no bio</h1>) : null}
-             
-                {profileId === uid? (editting?
-                    (<div>
-                        <textarea
-                            id='text'
-                            onChange={this.handleChange}
-                            value={text}
-                        />
+                {bio? bio: <h1>User has no bio</h1>}
 
-                        <div className='btn-container'>
-                            <button className='btn btn-secondary' onClick={cancelEdit}>
-                                Close
-                            </button>
+                <button 
+                    id='open-edit' 
+                    data-toggle='modal' 
+                    data-target='#edit'
+                    style = {{display: 'none'}}
+                />
 
-                            <button className='btn btn-success' onClick={this.saveBio}>
-                                Save
-                            </button>
-                        </div>
-                    </div>) :
-                    (<div className='btn-container'>
-                        <button className='btn btn-success' onClick={startEdit}>
-                            Edit Bio
+                {uid === profileId?
+                    (<div className='text-center my-3'>
+                        <button className='btn btn-lg btn-primary' onClick={openEditModal}>
+                            <i className ='fas fa-edit mr-2'/>
+                            
+                            <span>
+                                Edit Bio
+                            </span>
                         </button>
-                    </div>)
-                ): null}
+                    </div>) : null
+                }
+
+                <EditModal
+                    title='Edit your bio'
+                    content = {bio? bio: ''}
+                    editContent = {this.editContent}
+                />
             </div>
         )
     }
