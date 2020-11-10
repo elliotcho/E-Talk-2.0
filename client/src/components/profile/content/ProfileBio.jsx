@@ -40,7 +40,14 @@ class ProfileBio extends Component{
 
         return(
             <div className='bio'>
-                {bio? bio: <h1>User has no bio</h1>}
+                {bio? 
+                    (<p>
+                        {bio}
+                    </p>): 
+                    (<h1>
+                        User has no bio
+                    </h1>)
+                }
 
                 <button 
                     id='open-edit' 

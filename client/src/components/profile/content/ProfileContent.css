@@ -12,3 +12,12 @@
 .profile .bio h1{
     text-align: center;
 }
+
+.profile .bio p{
+    text-align: center;
+    font-size: 2rem;
+}
+
+.profile .bio .btn-primary{
+    margin-top: 4rem;
+}
