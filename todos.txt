@@ -3,8 +3,6 @@ For next 2 hour session:
 Overall:
 [ ] Rework search bar backend
 
-[ ] Non existent routes client
-
 [ ] Profile Bio Design
 [ ] Profile Bio backend
 

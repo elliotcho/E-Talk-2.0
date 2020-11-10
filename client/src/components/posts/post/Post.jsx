@@ -6,7 +6,7 @@ import PostLikes from './likes/PostLikes';
 import PostComments from './comments/PostComments';
 import PostHeader from './PostHeader';
 import PostBody from './PostBody';
-import EditModal from './EditModal';
+import EditModal from '../../layout/EditModal';
 
 class Post extends Component{
     constructor(){
@@ -122,7 +122,11 @@ class Post extends Component{
                     style = {{display: 'none'}}
                 />
 
-                <EditModal content={content} editPost={this.editPost}/>
+                <EditModal 
+                    title = 'Edit your post'
+                    content={content} 
+                    editContent={this.editPost}
+                />
             </div>
         )
     }
