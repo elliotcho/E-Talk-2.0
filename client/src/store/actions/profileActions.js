@@ -54,3 +54,13 @@ export const getUserBio = async (uid) => {
 export const updateUserBio = async (content, uid) => {
     await axios.post('http://localhost:5000/users/bio', {content, uid}, config);
 }
+
+export const getUserSkills = async (uid) => {
+    const response = await axios.get(`http://localhost:5000/users/skills/${uid}`);
+    const skills = response.data;
+    return skills;
+}
+
+export const addSkill = async (uid, newSkill) => {
+     await axios.post('http://localhost:5000/users/skills', {uid, newSkill}, config);
+}

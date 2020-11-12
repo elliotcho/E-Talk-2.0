@@ -11,7 +11,8 @@ const UserSchema = new Schema({
     profilePic: String,
     friends: [String],
     chats: [String],
-    bio: String
+    bio: String,
+    skills: [String]
 });
 
 UserSchema.pre('save', async function(next){

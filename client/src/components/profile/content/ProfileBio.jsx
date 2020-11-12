@@ -39,7 +39,7 @@ class ProfileBio extends Component{
         }
 
         return(
-            <div className='bio'>
+            <div className='bio-container'>
                 {bio? 
                     (<p className='text-center mt-3'>
                         {bio}
@@ -78,10 +78,6 @@ class ProfileBio extends Component{
     }
 }   
 
-const mapStateToProps = (state) =>{
-    return{
-        uid: state.auth.uid
-    }
-}
+const mapStateToProps = (state) => ({uid: state.auth.uid});
 
 export default connect(mapStateToProps)(ProfileBio);

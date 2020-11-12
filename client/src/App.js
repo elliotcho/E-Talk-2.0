@@ -22,7 +22,7 @@ let io;
 
 class App extends Component{ 
     constructor(props){
-      super(props);
+      super();
 
       io = socket('http://localhost:5000');
 

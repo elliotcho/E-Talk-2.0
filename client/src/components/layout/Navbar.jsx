@@ -52,8 +52,6 @@ class Navbar extends Component{
             unseenChats,
         } = this.props;
 
-        
-
         return(
             <div className='text-white navbar-container'>
                 <nav className='navbar navbar-expand-md'>

@@ -97,14 +97,12 @@ class ProfileInfo extends Component{
         const {firstName, lastName, status} = this.state;
         const {profileId, uid} = this.props;
 
-        const toProfile = () => this.props.history.push(`/profile/${profileId}/posts`);
-
         return(
             <div>
                 <ProfilePic profileId = {profileId} uid = {uid}/>
 
                 <section className ='mt-2 text-center'>
-                    <div className ='user-name' onClick = {toProfile}>
+                    <div className ='user-name'>
                         {firstName} {lastName}
                     </div>
                 </section>

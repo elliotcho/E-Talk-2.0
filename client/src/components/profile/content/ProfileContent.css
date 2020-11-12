@@ -2,21 +2,35 @@
     background: #313131;
 }
 
-.profile .nofriends, .profile .bio h1{
+.profile .nofriends, 
+.profile .bio-container h1, 
+.profile .skills-container h1{
     max-width: 600px;
     color:gray;
     font-family: 'Nunito Sans';
     margin: 60px auto;
 }
 
-.profile .bio h1{
+.profile .bio-container h1{
     text-align: center;
 }
 
-.profile .bio p{
+.profile .bio-container p{
     font-size: 2rem;
 }
 
-.profile .bio .btn-primary{
+.profile .bio-container .btn-primary{
     margin-top: 4rem;
+}
+
+.profile .skill{
+    font-family: 'Arial';
+    background: lightgray;
+    display: inline-block;
+    padding: 10px;
+}
+
+.profile .skill i{
+    cursor: pointer;
+    color: red;
 }
