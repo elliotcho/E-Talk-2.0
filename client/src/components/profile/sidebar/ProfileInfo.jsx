@@ -5,6 +5,8 @@ import {getFriendStatus , changeFriendStatus} from '../../../store/actions/frien
 import {checkIfChatExists, updateRecipients} from '../../../store/actions/messagesActions';
 import {getUserData} from '../../../store/actions/profileActions';
 import ProfilePic from './ProfilePic';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import {io} from '../../../App';
 
 class ProfileInfo extends Component{
@@ -59,13 +61,19 @@ class ProfileInfo extends Component{
         }
 
         else{
-            if(!window.confirm(`Are you sure you want to unfriend ${firstName} ${lastName}?`)){
-                return;
+            const confirmUnfriend = async () => {
+                await changeFriendStatus(profileId, uid, status);  
+                this.setState({status: 'Add Friend'});
             }
 
-            await changeFriendStatus(profileId, uid, status);  
-
-            this.setState({status: 'Add Friend'});
+            confirmAlert({
+                title: 'E-Talk',
+                message: `Are you sure you want to unfriend ${firstName} ${lastName}?`,
+                buttons: [
+                    {label: 'Yes', onClick: confirmUnfriend},
+                    {label: 'No', onClick: () => {return;}}
+                ]
+            });
         }
     }
 

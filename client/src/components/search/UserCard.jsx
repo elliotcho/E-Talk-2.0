@@ -3,6 +3,8 @@ import {withRouter} from 'react-router-dom';
 import {getFriendStatus, changeFriendStatus} from '../../store/actions/friendsActions';
 import {getProfilePic} from '../../store/actions/profileActions';
 import loading from '../../images/loading.jpg';
+import {confirmAlert} from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import {io} from '../../App';
 import './UserCard.css';
 
@@ -62,13 +64,19 @@ class UserCard extends Component{
         }
 
         else{
-            if(!window.confirm(`Are you sure you want to unfriend ${firstName} ${lastName}?`)){
-                return;
+            const confirmUnfriend = async () => {
+                await changeFriendStatus(_id, uid, status);  
+                this.setState({status: 'Add Friend'});
             }
 
-            await changeFriendStatus(_id, uid, status);
-
-            this.setState({status: 'Add Friend'});
+            confirmAlert({
+                title: 'E-Talk',
+                message: `Are you sure you want to unfriend ${firstName} ${lastName}?`,
+                buttons: [
+                    {label: 'Yes', onClick: confirmUnfriend},
+                    {label: 'No', onClick: () => {return;}}
+                ]
+            });
         }
     }
 
