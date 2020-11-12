@@ -41,7 +41,7 @@ class ProfileBio extends Component{
         return(
             <div className='bio'>
                 {bio? 
-                    (<p>
+                    (<p className='text-center mt-3'>
                         {bio}
                     </p>): 
                     (<h1>

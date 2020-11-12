@@ -36,7 +36,8 @@ exports.signUp = async (req, res) => {
                     profilePic: null,
                     bio: null,
                     friends: [], 
-                    chats: []
+                    chats: [], 
+                    skills: []
                 });
     
                 const user = await newUser.save();
@@ -138,4 +139,36 @@ exports.searchUser =  async (req, res) =>{
     await User.updateOne({_id: uid}, {bio: content});
 
     res.json({msg: 'Success'});
+ }
+
+ exports.getSkills = async (req, res) => {
+     const {uid} = req.params;
+
+     const user = await User.findOne({_id: uid});
+
+     res.json(user.skills);
+ }
+
+ exports.addSkill = async (req, res) => {
+     const {uid, newSkill} = req.body;
+
+     const user = await User.findOne({_id: uid});
+     const {skills} = user;
+
+     skills.push(newSkill);
+
+     await User.updateOne({_id: uid}, {skills});
+     res.json({msg: 'Success'});
+ }
+
+ exports.deleteSkill = async (req, res) => {
+     const {uid, idx} = req.params;
+
+     const user = await User.findOne({_id: uid});
+     const {skills} = user;
+
+     skills.splice(idx, 1);
+
+     await User.updateOne({_id: uid}, {skills});
+     res.json({msg: 'Success'});
  }

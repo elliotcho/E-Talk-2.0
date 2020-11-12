@@ -5,6 +5,7 @@ import {changeQueryToProfile, clearQuery} from '../../store/actions/searchAction
 import ProfileSidebar from './sidebar/ProfileSidebar';
 import PostList from '../posts/PostList';
 import ProfileBio from './content/ProfileBio';
+import ProfileSkills from './content/ProfileSkills';
 import Friends from './content/Friends';
 import './Profile.css';
 
@@ -50,6 +51,7 @@ class Profile extends Component{
                                 {type === 'posts'? <PostList profileId={id}/> : null}
                                 {type === 'friends'? <Friends profileId={id}/>: null}
                                 {type === 'bio' ? <ProfileBio profileId={id}/>: null}
+                                {type === 'skills' ? <ProfileSkills profileId={id}/>: null}
                             </div>
                         </section>
                     </div>

@@ -8,7 +8,10 @@ const {
     loadProfilePic,
     searchUser,
     getUserBio,
-    updateBio
+    updateBio,
+    getSkills,
+    addSkill,
+    deleteSkill
 } = require('../controllers/user');
 
 //auth routes
@@ -20,5 +23,8 @@ router.get('/profilepic/:uid', loadProfilePic);
 router.post('/search', searchUser);
 router.get('/bio/:uid', getUserBio);
 router.post('/bio', updateBio);
+router.get('/skills/:uid', getSkills);
+router.post('/skills', addSkill);
+router.delete('/skills/:uid/:idx', deleteSkill);
 
 module.exports = router;
