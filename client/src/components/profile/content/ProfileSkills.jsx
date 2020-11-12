@@ -17,9 +17,9 @@ class ProfileSkills extends Component{
     }
 
     async componentDidMount(){
-        const {uid} = this.props;
+        const {profileId} = this.props;
 
-        const skills = await profileActions.getUserSkills(uid);
+        const skills = await profileActions.getUserSkills(profileId);
 
         this.setState({skills});
     }
@@ -40,7 +40,7 @@ class ProfileSkills extends Component{
 
         await profileActions.addSkill(uid, newSkill);
         skills.push(newSkill);
-        
+
         this.setState({
             skills, 
             newSkill: ''
@@ -59,20 +59,23 @@ class ProfileSkills extends Component{
 
     render(){
         const {skills, newSkill} = this.state;
+        const {profileId, uid} = this.props;
 
         return(
             <div className='skills-container'>
-                <div className='text-center mt-5'>
-                    <form onSubmit={this.handleSubmit}>
-                        <input 
-                            type='text'
-                            id = 'newSkill'
-                            value = {newSkill}
-                            onChange = {this.handleChange}
-                            required
-                        />
-                    </form>
-                </div>
+                {uid === profileId? 
+                    (<div className='text-center mt-5 mb-4'>
+                        <form onSubmit={this.handleSubmit}>
+                            <input 
+                                type='text'
+                                id = 'newSkill'
+                                value = {newSkill}
+                                onChange = {this.handleChange}
+                                required
+                            />
+                        </form>
+                    </div>) : null
+                }
 
                 {skills.length > 0?
                     skills.map((name, i) => 
@@ -81,10 +84,12 @@ class ProfileSkills extends Component{
                                 {name}
                             </span>
 
-                            <i 
-                                className='ml-2 fa fa-times' 
-                                onClick={() => this.deleteSkill(i)}
-                            />
+                            {profileId === uid? 
+                                 (<i 
+                                    className='ml-2 fa fa-times' 
+                                    onClick={() => this.deleteSkill(i)}
+                                />) : null
+                            }
                         </div>
                     ) : 
                     (<h1>
