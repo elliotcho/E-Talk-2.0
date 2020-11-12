@@ -64,3 +64,7 @@ export const getUserSkills = async (uid) => {
 export const addSkill = async (uid, newSkill) => {
      await axios.post('http://localhost:5000/users/skills', {uid, newSkill}, config);
 }
+
+export const deleteSkill = async (uid, idx) => {
+    await axios.delete(`http://localhost:5000/users/skills/${uid}/${idx}`);
+}

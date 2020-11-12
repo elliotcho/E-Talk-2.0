@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getUserSkills, addSkill} from '../../../store/actions/profileActions';
+import * as profileActions from '../../../store/actions/profileActions';
 
 class ProfileSkills extends Component{
     constructor(){
@@ -13,12 +13,13 @@ class ProfileSkills extends Component{
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.deleteSkill = this.deleteSkill.bind(this);
     }
 
     async componentDidMount(){
         const {uid} = this.props;
 
-        const skills = await getUserSkills(uid);
+        const skills = await profileActions.getUserSkills(uid);
 
         this.setState({skills});
     }
@@ -33,13 +34,27 @@ class ProfileSkills extends Component{
         const {skills, newSkill} = this.state;
         const {uid} = this.props;
 
-        skills.push(newSkill);
-        await addSkill(uid, newSkill);
+        if(newSkill.trim().length === 0){
+            return;
+        }
 
+        await profileActions.addSkill(uid, newSkill);
+        skills.push(newSkill);
+        
         this.setState({
             skills, 
             newSkill: ''
         });
+    }
+
+    async deleteSkill(idx){
+        const {skills} = this.state;
+        const {uid} = this.props;
+
+        await profileActions.deleteSkill(uid, idx);
+        skills[idx] = '';
+
+        this.setState({skills});
     }
 
     render(){
@@ -54,18 +69,22 @@ class ProfileSkills extends Component{
                             id = 'newSkill'
                             value = {newSkill}
                             onChange = {this.handleChange}
+                            required
                         />
                     </form>
                 </div>
 
                 {skills.length > 0?
                     skills.map((name, i) => 
-                        <div key={i} className='skill'>
+                        <div key={i} className='skill' style={name? {}: {display: 'none'}}>                   
                             <span>
                                 {name}
                             </span>
 
-                            <i className='ml-2 fa fa-times'/>
+                            <i 
+                                className='ml-2 fa fa-times' 
+                                onClick={() => this.deleteSkill(i)}
+                            />
                         </div>
                     ) : 
                     (<h1>
