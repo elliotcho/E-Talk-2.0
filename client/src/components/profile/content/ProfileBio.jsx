@@ -46,9 +46,9 @@ class ProfileBio extends Component{
                     (<p className='mt-3'>
                         {bio}
                     </p>): 
-                    (<h1>
+                    (<p className='mt-3'>
                         {noBioMsg}
-                    </h1>)
+                    </p>)
                 }
 
                 <button 

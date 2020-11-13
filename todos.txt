@@ -2,10 +2,6 @@ For next 2 hour session:
 
 Overall:
 [ ] Rework search bar backend
-[ ] Notification for accept request, then unfriend still there
-
-[ ] Profile Bio Design
-[ ] Profile Bio backend
 
 [ ] Profile projects Design
 [ ] Profile projects backend

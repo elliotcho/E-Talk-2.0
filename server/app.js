@@ -53,6 +53,7 @@ app.use('/posts', require('./routes/post'));
 app.use('/friends', require('./routes/friends'));
 app.use('/notifs', require('./routes/notif'));
 app.use('/chats', require('./routes/chat'));
+app.use('/projects', require('./routes/project'));
  
 const server = app.listen(process.env.PORT || 5000);
 
