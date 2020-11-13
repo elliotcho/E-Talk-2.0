@@ -126,6 +126,7 @@ class Post extends Component{
                     title = 'Edit your post'
                     content={content} 
                     editContent={this.editPost}
+                    maxLength = {null}
                 />
             </div>
         )

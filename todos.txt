@@ -10,9 +10,6 @@ Overall:
 [ ] Profile projects Design
 [ ] Profile projects backend
 
-[ ] Profile skills design
-[ ] profile skills backend
-
 [ ] Friend Request page design
 
 [ ] Settings page design

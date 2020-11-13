@@ -38,14 +38,16 @@ class ProfileBio extends Component{
             document.getElementById('open-edit').click();
         }
 
+        const noBioMsg = (uid === profileId) ? 'You have no bio' : 'User has no bio';
+
         return(
             <div className='bio-container'>
                 {bio? 
-                    (<p className='text-center mt-3'>
+                    (<p className='mt-3'>
                         {bio}
                     </p>): 
                     (<h1>
-                        User has no bio
+                        {noBioMsg}
                     </h1>)
                 }
 
@@ -72,6 +74,7 @@ class ProfileBio extends Component{
                     title='Edit your bio'
                     content = {bio? bio: ''}
                     editContent = {this.editContent}
+                    maxLength = '300'
                 />
             </div>
         )

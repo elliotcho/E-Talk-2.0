@@ -11,16 +11,27 @@
     margin: 60px auto;
 }
 
-.profile .bio-container h1{
-    text-align: center;
-}
-
 .profile .bio-container p{
-    font-size: 2rem;
+    text-align: left;
+    color: #707070;
+    font-size: 1.8rem;
 }
 
 .profile .bio-container .btn-primary{
-    margin-top: 4rem;
+    margin-top: 5rem;
+}
+
+.profile .skills-container h3{
+    color: gray;
+}
+
+.profile .skills-container form{
+    margin: 0 auto;
+    max-width: 260px;
+}
+
+.profile .skills-container input{
+    width: 100%;
 }
 
 .profile .skill{
@@ -28,6 +39,7 @@
     background: lightgray;
     display: inline-block;
     margin-right: 10px;
+    margin-top: 10px;
     padding: 10px;
 }
 

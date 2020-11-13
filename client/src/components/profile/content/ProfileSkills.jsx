@@ -64,13 +64,18 @@ class ProfileSkills extends Component{
         return(
             <div className='skills-container'>
                 {uid === profileId? 
-                    (<div className='text-center mt-5 mb-4'>
+                    (<div className='text-center mt-2 mb-4'>
+                        <h3 className='mb-3'>
+                            Show off your skills!
+                        </h3>
+
                         <form onSubmit={this.handleSubmit}>
                             <input 
                                 type='text'
                                 id = 'newSkill'
                                 value = {newSkill}
                                 onChange = {this.handleChange}
+                                maxLength = '80'
                                 required
                             />
                         </form>
@@ -91,11 +96,14 @@ class ProfileSkills extends Component{
                                 />) : null
                             }
                         </div>
-                    ) : 
+                    ) : null
+                }      
+
+                {uid !== profileId && skills.length === 0? 
                     (<h1>
                         User has not updated their skills
-                    </h1>)
-                }              
+                    </h1>) : null
+                }        
             </div>
         )
     }

@@ -79,6 +79,14 @@ class EditModal extends Component{
         const {newContent} = this.state;
         const {title} = this.props;
 
+        let maxLength;
+
+        if(this.props.maxLength){
+            maxLength = this.props.maxLength
+        } else{
+            maxLength = '524288';
+        }
+
         return(
             <div className='edit-modal modal fade' id='edit' data-backdrop='false'>
                 <div className ='modal-dialog modal-dialog-centered'>
@@ -99,6 +107,7 @@ class EditModal extends Component{
                                     id= 'newContent'
                                     value = {newContent}
                                     onChange = {this.handleChange}
+                                    maxLength = {maxLength}
                                 />
                              </div>
                         </div>
