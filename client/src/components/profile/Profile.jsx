@@ -7,6 +7,7 @@ import PostList from '../posts/PostList';
 import ProfileBio from './content/ProfileBio';
 import ProfileSkills from './content/ProfileSkills';
 import Friends from './content/Friends';
+import ProfileProjects from './content/ProfileProjects';
 import './Profile.css';
 
 class Profile extends Component{
@@ -52,6 +53,7 @@ class Profile extends Component{
                                 {type === 'friends'? <Friends profileId={id}/>: null}
                                 {type === 'bio' ? <ProfileBio profileId={id}/>: null}
                                 {type === 'skills' ? <ProfileSkills profileId={id}/>: null}
+                                {type === 'projects' ? <ProfileProjects profileId={id}/>: null}
                             </div>
                         </section>
                     </div>

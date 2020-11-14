@@ -100,7 +100,7 @@ class ProfileSkills extends Component{
                 }      
 
                 {uid !== profileId && skills.length === 0? 
-                    (<h1>
+                    (<h1 className='text-center'>
                         User has not updated their skills
                     </h1>) : null
                 }        
