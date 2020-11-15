@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { getProjectById } from '../../../store/actions/profileActions';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
@@ -11,9 +12,35 @@ class ProjectModal extends Component{
             description: ''
         }
 
+        this.loadProjectData = this.loadProjectData.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.closeModal = this.closeModal.bind(this);
         this.saveProject = this.saveProject.bind(this);
+    }
+    
+    async componentDidMount(){
+        const {selectedId} = this.props;
+
+        if(selectedId){
+            await this.loadProjectData(selectedId);
+        }
+    }
+
+    async componentDidUpdate(prevProps){
+        const {selectedId} = this.props;
+
+        if(selectedId && selectedId !== prevProps.selectedId){
+             await this.loadProjectData(selectedId);
+        }
+    }
+
+    async loadProjectData(selectedId){
+        const project = await getProjectById(selectedId);
+
+        this.setState({
+            name: project.name,
+            description: project.description
+        });
     }
 
     handleChange(e){
@@ -26,15 +53,16 @@ class ProjectModal extends Component{
 
     async saveProject(){
         const {name, description} = this.state;
-        const {addProject} = this.props;
+        const {addProject, editProject, selectedId} = this.props;
 
-        await addProject(name, description);
+        if(selectedId){
+            await editProject(selectedId, name, description);
+        } else{
+            await addProject(name, description);
+        }
+
         this.closeModal();
-
-        this.setState({
-            name: '',
-            description: ''
-        })
+        this.setState({name: '', description: ''});
     }
 
     render(){

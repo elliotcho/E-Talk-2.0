@@ -10,11 +10,13 @@ class ProfileProjects extends Component{
         super();
 
         this.state = {
-            projects: []
+            projects: [],
+            selectedId: null
         }
 
         this.addProject = this.addProject.bind(this);
         this.deleteProject = this.deleteProject.bind(this);
+        this.editProject = this.editProject.bind(this);
     }
 
     async componentDidMount(){
@@ -53,22 +55,54 @@ class ProfileProjects extends Component{
         }
 
         await profileActions.deleteProject(projectId);
+        
+        this.setState({projects});
+    }
+
+    async editProject(projectId, name, description){
+        const {projects} = this.state;
+        const {alert} = this.props;
+
+
+        if(name.trim().length === 0 || description.trim().length === 0){
+            alert.error('Fields cannot be blank!');
+            return;
+        }
+
+        for(let i=0;i<projects.length;i++){
+            if(projects[i]._id === projectId){
+
+                projects[i].name = name;
+                projects[i].description = description;
+
+            }
+        }
+
+        await profileActions.updateProject({name, description, projectId});
         this.setState({projects});
     }
 
     render(){
-        const {projects} = this.state;
+        const {projects, selectedId} = this.state;
         const {uid, profileId} = this.props;
+
+        const clickAdd = () => this.setState({selectedId: null})
+        const clickEdit = (projectId) => this.setState({selectedId: projectId})
 
         return(
             <div className='projects-container'>
                 {uid === profileId? 
-                    (<div>
+                    (<div className='mb-5'>
                         <h2 className='d-inline-block'>
                             Projects
                         </h2>
 
-                        <button className='add' data-toggle='modal' data-target='#project'>
+                        <button 
+                            className='add' 
+                            data-toggle='modal' 
+                            data-target='#project' 
+                            onClick={clickAdd}
+                        >
                             +
                         </button>
                     </div>): null
@@ -76,7 +110,7 @@ class ProfileProjects extends Component{
 
                 {projects.length > 0?
                     projects.map(project => 
-                        <div key={project._id} className='project mt-5'>
+                        <div key={project._id} className='project mb-5'>
                             <h3>{project.name}</h3>
 
                             <p className='text-muted'>
@@ -89,7 +123,12 @@ class ProfileProjects extends Component{
 
                             {uid === profileId?
                                 (<footer className = 'text-right'>
-                                    <i className='fas fa-edit mr-3' onClick={this.editProject}/>
+                                    <i 
+                                        className='fas fa-edit mr-3' 
+                                        data-toggle = 'modal'
+                                        data-target = '#project'
+                                        onClick = {() => clickEdit(project._id)}
+                                    />
 
                                     <i 
                                         className='fas fa-trash-alt' 
@@ -107,8 +146,10 @@ class ProfileProjects extends Component{
                     </h1>): null
                 }
 
-                <ProjectModal
+                <ProjectModal 
+                    selectedId = {selectedId}
                     addProject = {this.addProject}
+                    editProject = {this.editProject}
                 />
             </div>
         )

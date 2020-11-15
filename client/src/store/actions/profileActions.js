@@ -69,8 +69,14 @@ export const deleteSkill = async (uid, idx) => {
     await axios.delete(`http://localhost:5000/users/skills/${uid}/${idx}`);
 }
 
+export const getProjectById = async (id) => {
+    const response = await axios.get(`http://localhost:5000/projects/${id}`);
+    const project = response.data;
+    return project;
+}
+
 export const getUserProjects = async (uid) => {
-    const response = await axios.get(`http://localhost:5000/projects/${uid}`);
+    const response = await axios.get(`http://localhost:5000/projects/user/${uid}`);
     const projects = response.data;
     return projects;
 }
@@ -83,4 +89,8 @@ export const addProject = async (data) => {
 
 export const deleteProject = async (projectId) => {
     await axios.delete(`http://localhost:5000/projects/${projectId}`);
+}
+
+export const updateProject = async (data) => {
+    await axios.post('http://localhost:5000/projects/update', data, config);
 }
