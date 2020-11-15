@@ -74,3 +74,13 @@ export const getUserProjects = async (uid) => {
     const projects = response.data;
     return projects;
 }
+
+export const addProject = async (data) => {
+    const response = await axios.post('http://localhost:5000/projects', data, config);
+    const newProject = response.data;
+    return newProject;
+}
+
+export const deleteProject = async (projectId) => {
+    await axios.delete(`http://localhost:5000/projects/${projectId}`);
+}

@@ -1,4 +1,3 @@
-
 .edit-modal textarea{
     width: 100%;
     height: 100px;
@@ -25,7 +24,7 @@
     font-size: 1.7rem;
 }
 
-.edit-modal .close span:hover{
+.edit-modal .close:hover span{
     color: white;
 }
 

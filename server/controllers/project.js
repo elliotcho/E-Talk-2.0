@@ -10,16 +10,17 @@ exports.createProject = async (req, res) => {
         createdAt: new Date()
     });
 
-    await newProject.save();
+    const project = await newProject.save();
 
-    res.json({msg: 'Success'});
+    res.json(project);
 }
 
 exports.getUserProjects = async (req, res) => {
     const {uid} = req.params;
 
     const projects = await Project.find({uid});
-
+    
+    projects.sort((a, b) => b.createdAt - a.createdAt);
     res.json(projects);
 }
 
