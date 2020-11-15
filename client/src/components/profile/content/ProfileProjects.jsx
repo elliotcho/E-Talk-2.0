@@ -78,8 +78,10 @@ class ProfileProjects extends Component{
             }
         }
 
-        await profileActions.updateProject({name, description, projectId});
-        this.setState({projects});
+        const data = {name, description, projectId};
+
+        await profileActions.updateProject(data);
+        this.setState({ projects, selectedId: null });
     }
 
     render(){

@@ -23,6 +23,11 @@ class ProjectModal extends Component{
 
         if(selectedId){
             await this.loadProjectData(selectedId);
+        } else {
+            this.setState({
+                name: '',
+                description: ''
+            });
         }
     }
 
@@ -31,6 +36,13 @@ class ProjectModal extends Component{
 
         if(selectedId && selectedId !== prevProps.selectedId){
              await this.loadProjectData(selectedId);
+        } 
+
+        else if(!selectedId && prevProps.selectedId){
+            this.setState({
+                name: '',
+                description: ''
+            });
         }
     }
 
@@ -67,13 +79,16 @@ class ProjectModal extends Component{
 
     render(){
         const {name, description} = this.state;
+        const {selectedId} = this.props;
 
         return(
             <div className='project-modal modal fade' id='project' data-backdrop='false'>
                 <div className ='modal-dialog modal-dialog-centered'>
                     <div className ='modal-content'>
                         <div className ='modal-header'>
-                            <h3>New Project</h3>
+                            <h3>
+                                {selectedId? 'Update Project' : 'New Project'}
+                            </h3>
                        
                             <button className='close' onClick={this.closeModal}>
                                 <span>&times;</span>
