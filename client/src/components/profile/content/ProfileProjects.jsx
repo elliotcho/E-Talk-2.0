@@ -87,14 +87,16 @@ class ProfileProjects extends Component{
                                 {project.description}
                             </main>
 
-                            <footer className = 'text-right'>
-                                <i className='fas fa-edit mr-3' onClick={this.editProject}/>
+                            {uid === profileId?
+                                (<footer className = 'text-right'>
+                                    <i className='fas fa-edit mr-3' onClick={this.editProject}/>
 
-                                <i 
-                                    className='fas fa-trash-alt' 
-                                    onClick={() => this.deleteProject(project._id)}
-                                />
-                            </footer>
+                                    <i 
+                                        className='fas fa-trash-alt' 
+                                        onClick={() => this.deleteProject(project._id)}
+                                    />
+                                </footer>) : null
+                            }
                         </div>  
                     ) : null
                 }
