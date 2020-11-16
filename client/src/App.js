@@ -10,6 +10,7 @@ import SearchResults from './components/search/SearchResults';
 import Notifications from './components/notifications/Notifications';
 import PostDetails from './components/posts/PostDetails';
 import MessagesHome from './components/messages/MessagesHome';
+import Settings from './components/settings/Settings';
 import DeadPage from './components/layout/DeadPage';
 import Navbar from './components/layout/Navbar';
 import socket from 'socket.io-client';
@@ -55,13 +56,14 @@ class App extends Component{
               <main style = {uid? {marginTop: '120px'}: null}>
                 <Switch>
                   <Route exact path='/' render = {() => uid? <Userfeed/>: <Login/>}/>
-                  <Route exact path='/signup' render ={() => <Signup/>}/>
-                  <Route exact path ='/profile/:id/:type' render ={() => <Profile/>}/>
-                  <Route exact path = '/mynetwork' render = {() => <Network/>}/>
-                  <Route exact path = '/search/:query' render = {() => <SearchResults/>}/>
-                  <Route exact path = '/notifications' render = {()=><Notifications/>}/>
-                  <Route exact path = '/post/:id' render = {() => <PostDetails/>}/>
-                  <Route exact path = '/chat/:id' render = {() => <MessagesHome/>}/>
+                  <Route exact path='/signup' component={Signup}/>
+                  <Route exact path ='/profile/:id/:type' component={Profile}/>
+                  <Route exact path = '/mynetwork' component={Network}/>
+                  <Route exact path = '/search/:query' component={SearchResults}/>
+                  <Route exact path = '/notifications' component={Notifications}/>
+                  <Route exact path = '/post/:id' component={PostDetails}/>
+                  <Route exact path = '/chat/:id' component={MessagesHome}/>
+                  <Route exacct path = '/settings' component={Settings}/>
                   <Route path = '/' component = {DeadPage}/>
                 </Switch>
 

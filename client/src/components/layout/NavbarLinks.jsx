@@ -114,7 +114,7 @@ class NavbarLinks extends Component{
                     </span>
                 </Link>
             
-                <Link to ='/' className ='link'>
+                <Link to ='/settings' className ='link'>
                     <i className='fas fa-user-cog mr-2'/>
 
                     <span className='title'>

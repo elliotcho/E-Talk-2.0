@@ -2,10 +2,6 @@ For next 2 hour session:
 
 Overall:
 [ ] Rework search bar backend
-
-[ ] Profile projects Design
-[ ] Profile projects backend
-
 [ ] Friend Request page design
 
 [ ] Settings page design
