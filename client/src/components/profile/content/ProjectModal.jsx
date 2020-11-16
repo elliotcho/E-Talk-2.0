@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import { getProjectById } from '../../../store/actions/profileActions';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class ProjectModal extends Component{
     constructor(){

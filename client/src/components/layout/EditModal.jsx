@@ -1,6 +1,4 @@
 import React, {Component} from 'react';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
 import './EditModal.css';
 
 class EditModal extends Component{
@@ -31,48 +29,18 @@ class EditModal extends Component{
     }
 
     closeModal(){
-        const confirmDelete = () => {
-            const {content} = this.props;
-            this.setState({newContent: content});
+        const {content} = this.props;
+        this.setState({newContent: content});
 
-            document.getElementById('close-edit').click();
-        }
-
-        if(this.props.content === this.state.newContent){
-            confirmDelete();
-        }
-
-        else{    
-            confirmAlert({
-                title: 'E-Talk',
-                message: 'Are you sure you want to exit? Any changes you have made will not be saved!',
-                buttons: [
-                    {label: 'Yes', onClick: confirmDelete},
-                    {label: 'No', onClick: () => {return;}}
-                ]
-            }); 
-        }
+        document.getElementById('close-edit').click();
     }
 
     async saveChanges(){
         const{newContent} = this.state;
-     
-        const confirmSave = async () => {
-            const {editContent} = this.props;
+        const {editContent} = this.props;
 
-            await editContent(newContent);
-
-            document.getElementById('close-edit').click();
-        }
-
-        confirmAlert({
-            title: 'E-Talk',
-            message: 'Are you sure you want to save your changes? Previous changes will be overwritten!',
-            buttons: [
-                {label: 'Yes', onClick: confirmSave},
-                {label: 'No', onClick: () => {return;}}
-            ]
-        });
+        await editContent(newContent);
+        document.getElementById('close-edit').click();
     }
 
     render(){

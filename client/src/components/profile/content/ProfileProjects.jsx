@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import * as profileActions from '../../../store/actions/profileActions';
 import ProjectModal from './ProjectModal';
-import {withAlert} from 'react-alert';
 import moment from 'moment';
+import {withAlert} from 'react-alert';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class ProfileProjects extends Component{
     constructor(){
@@ -47,16 +49,26 @@ class ProfileProjects extends Component{
     async deleteProject(projectId){
         const {projects} = this.state;
 
-        for(let i=0;i<projects.length;i++){
-            if(projects[i]._id === projectId){
-                projects.splice(i, 1);
-                break;
+        const confirmDelete = async () => {
+            for(let i=0;i<projects.length;i++){
+                if(projects[i]._id === projectId){
+                    projects.splice(i, 1);
+                    break;
+                }
             }
+    
+            await profileActions.deleteProject(projectId);
+            this.setState({projects});
         }
 
-        await profileActions.deleteProject(projectId);
-        
-        this.setState({projects});
+        confirmAlert({
+            title: 'E-Talk',
+            message: `Are you sure you want to delete this project?`,
+            buttons: [
+                {label: 'Yes', onClick: confirmDelete},
+                {label: 'No', onClick: () => {return;}}
+            ]
+        });
     }
 
     async editProject(projectId, name, description){
