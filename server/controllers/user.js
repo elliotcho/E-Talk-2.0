@@ -1,8 +1,11 @@
 const {User} = require('../models/user');
+const {FriendRequest} = require('../models/friendRequest');
+const {Notification} = require('../models/notif');
 
 const upload = require('../app.js').profilePicUpload;
 const path = require('path');
 const fs = require('fs');
+const { NOTFOUND } = require('dns');
 
 exports.login = async (req, res) =>{
     const {email, password} = req.body;
@@ -171,4 +174,50 @@ exports.searchUser =  async (req, res) =>{
 
      await User.updateOne({_id: uid}, {skills});
      res.json({msg: 'Success'});
+ }
+
+ exports.deleteUser = async (req, res) => {
+     const { uid } = req.params;
+
+     const user = await User.findOne({_id: uid});
+     const {profilePic} = user;
+
+     //delete profile picture from file system if user has one
+     if(profilePic){
+        const pathName = path.join(__dirname, '../', `images/profile/${profilePic}`);
+
+        fs.unlink( pathName, (err) => {
+            if(err){
+                console.log(err)
+            }
+        });
+     }
+     
+     //delete user from others' friends lists
+     const userFriends = await User.find({_id: { $in : user.friends }});
+
+     for(let i=0;i<userFriends.length;i++){
+         for(let j=0;j<userFriends[i].length;j++){
+             if(userFriends[i].friends[j] === uid){
+                userFriends[i].friends.splice(j, 1);
+
+                await User.updateOne({_id: userFriends[i]._id}, {friends: userFriends[i].friends});
+
+                break;
+             }
+         }
+     }
+
+     //delete any friend requests that involve the user
+     await FriendRequest.deleteMany({receiverId: uid});
+     await FriendRequest.deleteMany({senderId: uid});
+
+     //delete any notifications that involve the user
+     await Notification.deleteMany({receiverId: uid});
+     await Notification.deleteMany({senderId : uid});
+
+     //delete the user
+     await User.deleteOne({_id: uid});
+
+     res.json({msg: 'User deleted'});
  }
