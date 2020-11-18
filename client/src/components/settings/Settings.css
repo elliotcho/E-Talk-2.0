@@ -1,0 +1,12 @@
+.settings{
+    height: 100%;
+}
+
+.settings form{
+    max-width: 330px;
+    margin: 0 auto;
+}
+
+.settings input{
+    width: 100%;
+}

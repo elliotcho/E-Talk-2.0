@@ -94,3 +94,9 @@ export const deleteProject = async (projectId) => {
 export const updateProject = async (data) => {
     await axios.post('http://localhost:5000/projects/update', data, config);
 }
+
+export const changeName = async (data) => {
+    const response = await axios.post('http://localhost:5000/users/change_name',data, config);
+    const { msg } = response.data;
+    return msg;
+}

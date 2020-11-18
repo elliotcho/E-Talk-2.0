@@ -55,18 +55,14 @@ class Login extends Component{
                            id='email' 
                            onChange={this.handleChange}
                            placeholder='Your email here'
-                           minLength='6'
-                           maxLength='50'
-                           required={true}
+                           required
                     />
                     
                     <input type='password' 
                            id='password' 
                            onChange={this.handleChange}
                            placeholder='Your password here'
-                           minLength='6'
-                           maxLength='50'
-                           required={true}
+                           required
                     />
                     
                     <button className='btn btn-lg btn-success'>Sign In</button>

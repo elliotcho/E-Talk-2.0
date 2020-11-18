@@ -11,7 +11,8 @@ const {
     updateBio,
     getSkills,
     addSkill,
-    deleteSkill
+    deleteSkill,
+    changeName
 } = require('../controllers/user');
 
 //auth routes
@@ -26,5 +27,6 @@ router.post('/bio', updateBio);
 router.get('/skills/:uid', getSkills);
 router.post('/skills', addSkill);
 router.delete('/skills/:uid/:idx', deleteSkill);
+router.post('/change_name', changeName);
 
 module.exports = router;
