@@ -35,9 +35,16 @@ class Signup extends Component{
     handleSubmit(e){
        e.preventDefault();
         
+       const {firstName, lastName, confirmPassword, password, email} = this.state;
        const {dispatch, alert} = this.props;
-    
-       dispatch(signUp(this.state, alert));
+
+       if(password !== confirmPassword){
+          alert.error('Passwords do not match');
+          return;
+       }
+
+       const credentials = {firstName, lastName, password, email};
+       dispatch(signUp(credentials, alert));
     }
 
     render(){

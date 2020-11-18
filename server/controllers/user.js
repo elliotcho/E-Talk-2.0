@@ -2,10 +2,10 @@ const {User} = require('../models/user');
 const {FriendRequest} = require('../models/friendRequest');
 const {Notification} = require('../models/notif');
 
+const bcrypt = require('bcrypt');
 const upload = require('../app.js').profilePicUpload;
 const path = require('path');
 const fs = require('fs');
-const { NOTFOUND } = require('dns');
 
 exports.login = async (req, res) =>{
     const {email, password} = req.body;
@@ -15,39 +15,28 @@ exports.login = async (req, res) =>{
     res.json(user);
 }
 
-exports.signUp = async (req, res) => {
-        const {firstName, lastName, email, password, confirmPassword} = req.body;
+exports.signUp = async (req, res) => {    
+    const user = await User.findOne({email : req.body.email});
     
-        if(password !== confirmPassword){
-            res.json({msg: 'Passwords do not match'});
-        }
+    if(user !== null){
+        res.json({msg: 'Email is already taken by another user'});
+    }
     
-        else{
-            const user = await User.findOne({email});
+    else{
+        const newUser = new User({
+            ...req.body,
+            createdAt: new Date(),
+            profilePic: null,
+            bio: null,
+            friends: [], 
+            chats: [], 
+            skills: []
+        });
     
-            if(user !== null){
-                res.json({msg: 'Email is already taken by another user'});
-            }
+        const user = await newUser.save();
     
-            else{
-                const newUser = new User({
-                    firstName, 
-                    lastName, 
-                    email, 
-                    password,
-                    createdAt: new Date(),
-                    profilePic: null,
-                    bio: null,
-                    friends: [], 
-                    chats: [], 
-                    skills: []
-                });
-    
-                const user = await newUser.save();
-    
-                res.json({msg: 'Success', uid: user._id});
-            }
-        }
+        res.json({msg: 'Success', uid: user._id});
+    }
 }
 
 exports.getUserInfo = async (req, res) =>{
@@ -176,6 +165,51 @@ exports.searchUser =  async (req, res) =>{
      res.json({msg: 'Success'});
  }
 
+ exports.changeName = async (req, res) => {
+     const { uid, firstName, lastName } = req.body;
+   
+     if(firstName && !lastName){
+         await User.updateOne(
+             {_id: uid}, {firstName}
+         );
+
+         res.json({msg:'Your first name has been updated'});
+     }
+
+     else if(!firstName && lastName){
+        await User.updateOne(
+            {_id: uid}, {lastName}
+        );
+
+        res.json({msg: 'Your last name has been updated'});
+     }
+
+     else{
+         await User.updateOne(
+             {_id: uid}, {firstName, lastName}
+          );
+         
+         res.json({msg:'Your full name has been updated'});
+     }
+ }
+
+ exports.changePassword = async (req, res) => {
+     const { uid, currPwd, newPwd } = req.body;
+
+     const user = await User.findOne({_id: uid});
+     const { password } = user;
+
+     const valid = await bcrypt.compare(currPwd, password);
+
+     if(valid){
+        await User.updateOne({ _id: uid }, { password: newPwd });
+        res.json({msg: 'Your password has been changed'});
+
+     } else{
+         res.json({msg: 'Your password is incorrect'});
+     }
+ }
+
  exports.deleteUser = async (req, res) => {
      const { uid } = req.params;
 
@@ -204,15 +238,13 @@ exports.searchUser =  async (req, res) =>{
                 await User.updateOne({_id: userFriends[i]._id}, {friends: userFriends[i].friends});
 
                 break;
-             }
+            }
          }
      }
 
-     //delete any friend requests that involve the user
+     //delete any notification/fr that involve the user
      await FriendRequest.deleteMany({receiverId: uid});
      await FriendRequest.deleteMany({senderId: uid});
-
-     //delete any notifications that involve the user
      await Notification.deleteMany({receiverId: uid});
      await Notification.deleteMany({senderId : uid});
 
