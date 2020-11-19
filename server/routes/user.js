@@ -13,7 +13,8 @@ const {
     addSkill,
     deleteSkill,
     changeName,
-    changePassword
+    changePassword,
+    deleteUser
 } = require('../controllers/user');
 
 //auth routes
@@ -30,5 +31,6 @@ router.post('/skills', addSkill);
 router.delete('/skills/:uid/:idx', deleteSkill);
 router.post('/change_name', changeName);
 router.post('/change_pwd', changePassword);
+router.delete('/:uid', deleteUser);
 
 module.exports = router;

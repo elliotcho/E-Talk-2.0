@@ -40,6 +40,10 @@ class ChangeNameForm extends Component{
       
         return(
             <form onSubmit={this.handleSubmit}>
+                <h3 className='text-center mb-4'>
+                    Change Name
+                </h3>
+
                 <input
                     id='firstName'
                     value={firstName}
@@ -58,7 +62,9 @@ class ChangeNameForm extends Component{
                     maxLength='30'
                 />
 
-                <button>Change Name</button>
+                <button className='btn btn-success mt-4'>
+                    Change Name
+                </button>
             </form>
         )
     }

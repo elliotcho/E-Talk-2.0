@@ -35,12 +35,12 @@ class MessagesHome extends Component{
         const chats = await dispatch(getUserChats(uid, this.cancelSource));
         dispatch(seeChats(uid));
 
-        if(chatId === 'home'){
-            this.props.history.push(`/chat/${chats[0]._id}`);
+        if(chats.length === 0){
+            this.props.history.push('/chat/new');
         }
 
-        else if(chats.length === 0){
-            this.props.history.push('/chat/new');
+        else if(chatId === 'home'){
+            this.props.history.push(`/chat/${chats[0]._id}`);
         }
     }
 

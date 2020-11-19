@@ -1,12 +1,32 @@
 .settings{
-    height: 100%;
+    background: #fff;
+    max-width: 800px;
+    min-height: 460px;
+    font-family: 'Arial';
+    margin: 50px auto;
+    padding: 20px;
 }
 
-.settings form{
-    max-width: 330px;
-    margin: 0 auto;
+.settings h2{
+    font-family: 'Nunito Sans';
+}
+
+.settings form, .settings .del-container{
+    max-width: 400px;
+    border: solid black 1px;
+    margin: 35px auto;
+    padding: 15px;
+}
+
+.settings input, .settings button{
+    width: 100%;
 }
 
 .settings input{
-    width: 100%;
+    padding: 6px;
+}
+
+.settings button:focus{
+    outline: none;
+    box-shadow: none;
 }

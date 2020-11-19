@@ -106,3 +106,9 @@ export const changePwd = async (data) => {
     const { msg } = response.data;
     return msg;
 }
+
+export const deleteUser = async (uid) => {
+    const response = await axios.delete(`http://localhost:5000/users/${uid}`);
+    const { msg } = response.data;
+    return msg;
+}

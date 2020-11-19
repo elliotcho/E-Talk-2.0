@@ -38,6 +38,10 @@ class ChangePasswordForm extends Component{
 
         return(
             <form onSubmit={this.handleSubmit}>
+                  <h3 className='text-center mb-4'>
+                      Change Password
+                  </h3>
+
                   <input
                     id='currPwd'
                     type='password'
@@ -60,7 +64,9 @@ class ChangePasswordForm extends Component{
                     required
                 />
 
-                <button>Change Password</button>
+                <button className='btn btn-warning mt-4'>
+                    Change Password
+                </button>
             </form>
         )
     }

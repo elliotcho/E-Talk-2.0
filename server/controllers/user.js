@@ -1,6 +1,7 @@
 const {User} = require('../models/user');
 const {FriendRequest} = require('../models/friendRequest');
 const {Notification} = require('../models/notif');
+const {Project} = require('../models/project');
 
 const bcrypt = require('bcrypt');
 const upload = require('../app.js').profilePicUpload;
@@ -41,7 +42,16 @@ exports.signUp = async (req, res) => {
 
 exports.getUserInfo = async (req, res) =>{
     const user = await User.findOne({_id: req.params.uid});
-    res.json(user);
+
+    if(user === null){
+        res.json({
+            _id: req.params.uid,
+            firstName: 'E-Talk',
+            lastName: 'User'
+        });
+    } else{
+        res.json(user);
+    }
 }
 
 exports.updateProfilePic = (req, res) =>{
@@ -71,7 +81,7 @@ exports.updateProfilePic = (req, res) =>{
 exports.loadProfilePic = async (req, res)=>{
     const user = await User.findOne({_id: req.params.uid});
 
-    if(user.profilePic === null){
+    if(user === null || user.profilePic === null){
         res.sendFile(path.join(__dirname, '../', `images/profile/avatar.jpg`));
     }
 
@@ -242,11 +252,12 @@ exports.searchUser =  async (req, res) =>{
          }
      }
 
-     //delete any notification/fr that involve the user
+     //delete any notification/fr/projects that involve the user
      await FriendRequest.deleteMany({receiverId: uid});
      await FriendRequest.deleteMany({senderId: uid});
      await Notification.deleteMany({receiverId: uid});
      await Notification.deleteMany({senderId : uid});
+     await Project.deleteMany({uid});
 
      //delete the user
      await User.deleteOne({_id: uid});
