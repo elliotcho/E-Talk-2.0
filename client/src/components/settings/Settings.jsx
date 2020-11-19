@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import ChangeNameForm from './ChangeNameForm';
 import { withAlert } from 'react-alert';
 import './Settings.css';
+import ChangePasswordForm from './ChangePasswordForm';
 
 class Settings extends Component{
     render(){
@@ -16,6 +17,7 @@ class Settings extends Component{
         return(
             <div className='settings'>
                 <ChangeNameForm uid={uid} alert={alert}/>
+                <ChangePasswordForm uid={uid} alert={alert}/>
             </div>
         )
     }

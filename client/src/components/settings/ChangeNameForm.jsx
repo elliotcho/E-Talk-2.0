@@ -29,8 +29,10 @@ class ChangeNameForm extends Component{
             return;
         }   
 
-        const msg = await changeName({uid, firstName, lastName});
+        const msg = await changeName({uid, ...this.state});
         alert.success(msg);
+
+        this.setState({firstName: '', lastName: ''});
     }
 
     render(){

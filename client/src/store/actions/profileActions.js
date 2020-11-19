@@ -100,3 +100,9 @@ export const changeName = async (data) => {
     const { msg } = response.data;
     return msg;
 }
+
+export const changePwd = async (data) => {
+    const response = await axios.post('http://localhost:5000/users/change_pwd', data, config);
+    const { msg } = response.data;
+    return msg;
+}
