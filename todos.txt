@@ -4,9 +4,6 @@ Overall:
 [ ] Rework search bar backend
 [ ] Friend Request page design
 
-[ ] Settings page design
-[ ] Settings page backend
-
 [ ] Additional settings for posts backend
 
 [ ] User feed side content design

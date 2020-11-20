@@ -1,20 +1,29 @@
 .settings{
     background: #fff;
     max-width: 800px;
-    min-height: 460px;
     font-family: 'Arial';
     margin: 50px auto;
     padding: 20px;
 }
 
-.settings h2{
-    font-family: 'Nunito Sans';
+.settings .fa-cog, .settings span{
+    color: gray;
+}
+
+.settings .fa-cog{
+   font-size: 3rem;
+}
+
+.settings span{
+    font-size: 2.5rem;
+    position: relative;
+    bottom: 3px;
 }
 
 .settings form, .settings .del-container{
     max-width: 400px;
     border: solid black 1px;
-    margin: 35px auto;
+    margin: 30px auto;
     padding: 15px;
 }
 

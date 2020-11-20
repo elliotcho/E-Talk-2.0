@@ -36,17 +36,23 @@ function Settings({uid, alert}){
 
     return(
         <div className='settings'>
-            <h2>Settings</h2>
+            <div>
+                <i className='fas fa-cog mr-3'/>
 
-            <ChangeNameForm 
-                uid={uid} 
-                alert={alert}
-            />
+                <span>
+                    Settings
+                </span>
+            </div>
 
-            <ChangePasswordForm 
-                uid={uid} 
-                alert={alert}
-            />
+            <div className='row'>
+                <div className='col-12 col-sm-6'>
+                    <ChangeNameForm uid={uid} alert={alert}/>
+                </div>
+
+                <div className='col-12 col-sm-6'>
+                    <ChangePasswordForm uid={uid} alert={alert}/>
+                </div>
+            </div>
 
             <div className='del-container'>
                 <h3 className='text-center mb-3'>
