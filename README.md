@@ -20,7 +20,7 @@
 <p>
     E-Talk allows users to connect with others in the tech industry with similar goals and interests.
     This can lead to potential employment opportunities, mentors to receive advice from, or even 
-    a partner to work on side projects and prepare for technical interviews.
+    a partner to work on side projects and prepare for technical interviews with.
 </p>
 
 <h2>
