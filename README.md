@@ -27,7 +27,7 @@
     Screenshots
 </h2>
 
-<details style="max-height: 1080px; overflow: auto;">
+<details>
     <summary>Authentication</summary>
     <img src="./screenshots/Login.png" name="Login Page"> 
     <img src="./screenshots/Register.png" name="Sign up Page">
