@@ -47,15 +47,14 @@
 </p>
 
 <p>
-    Technology is always changing and advancing, and there has been an increase in demand
-    for technical skills, but the demand is not the only thing that has increased. I noticed
-    a lot more people have become interested in working in tech compared to a few years ago.
+    Technology is always changing and advancing. In recent years, the demand for technical skills has increased significantly.
+    As a result of this, I noticed a lot more people have become interested in working in tech.
 </p>
 
 <p>
     With a lot of resources online, learning technical skills have become easier than before, but 
-    it has come to my attention that it might not always be easy to find an environment where they
-    can apply these hard earned skills. 
+    it has come to my attention that it is not always be easy to find an environment where these
+    hard earned skills can be applied.
 </p>
 
 <p>
@@ -74,15 +73,15 @@
 </p>
 
 <p>
-    React.js was chosen in the frontend to create a page that changes dynamically based on the user's actions,
-    such as liking or commenting on a post, while Redux was chosen for better state management. Lastly Boostrap was
-    chosen so it was easier to implement features like navbars and modals.
+    I chose to use React.js in the frontend to create pages that change dynamically based on the user's actions,
+    while Redux allows better state management. Lastly, I have chosen to use Bootstrap so that it was easier to 
+    implement features like navbars and modals.
 </p>
 
 <p>
-    Node.js was used in the backend to manage third party packages that allows me to a variety of things on the backend
-    such as update/load a user's profile picture. Express.js was used because it simplified handling http requests to the
-    server. MongoDB was selected as opposed to MySQL (the database for E-Talk 1.0), so we could be more flexible with our data.
+    I used Node.js in the backend to manage third party packages that allowed me to do a variety of cool things
+    like updating and loading a user's profile picture from the server. Express.js was used because it simplified handling http requests to the
+    server. MongoDB was selected as opposed to MySQL (the database for E-Talk 1.0), so I could be more flexible with my data.
     Socket.io, a library that takes advantage of web sockets, was used to handle real time events like notifications, friend 
     requests and messages.
 </p>
@@ -92,21 +91,21 @@
 </h2>
 
 <p>
-    E-Talk is something I definitely want to expand in the future, and am excited to start working on the third iteration.
+    E-Talk is something I definitely want to expand in the future, and I am excited to start working on its third iteration.
 </p>
 
 <p>
-    Some new features I would consider is to recommend friends, implement a better search algorithm, show friends who are online, 
-    expand the users's settings, expand chat settings, allow users to post source code for their projects (instead of just
-    a description of them), and implement many more whether that's in the next iteration or future iterations of the application.
+    Some new features I would consider are recommending friends, implementing a better search algorithm, showing friends who are online, 
+    expanding the user's settings, expanding chat settings, allowing users to post source code for their projects (instead of just
+    a description of them), and implementing many more whether that's in the next iteration or future iterations of the application.
 </p>
 
 <p>
-    I might considering changing up the tech stack not only for learning experience, but to best fit the needs of the website.
+    I am considering changing up the tech stack not only for my learning experience, but to best fit the needs of the website.
     Instead of using the client side local storage to persist the user data, I want to set up a server side cache
-    using Express-Session and Redis. I might also look into changing the architecture of the server from one based on
-    REST API to one based on GraphQL. I also want to look into using Next.js instead of React.js for 
-    search engine optimization via server side rendering, I am excited to look into new technology. Lastly, I am open 
+    using Express-Session and Redis. I might also look into changing the architecture of the server so that it utilizes GraphQL rather than REST API. 
+    I also want to look into using Next.js instead of React.js for 
+    search engine optimization via server side rendering. Lastly, I am open 
     to using TypeScript for a better development experience. 
 </p>
 
