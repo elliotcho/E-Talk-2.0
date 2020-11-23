@@ -1,28 +1,3 @@
-<h2>What is E-Talk?</h2>
-
-<p>
-    E-Talk is a social media application that allows individuals in the tech industry
-    to connect with each other.
-</p>
-
-<p>
-    Technology is always changing and advancing, and there has been an increase in demand
-    for technical skills, but the demand is not the only thing that has increased. I noticed
-    a lot more people have become interested in working in tech compared to a few years ago.
-</p>
-
-<p>
-    With a lot of resources online, learning technical skills have become easier than before, but 
-    it has come to my attention that it might not always be easy to find an environment where they
-    can apply these hard earned skills. 
-</p>
-
-<p>
-    E-Talk allows users to connect with others in the tech industry with similar goals and interests.
-    This can lead to potential employment opportunities, mentors to receive advice from, or even 
-    a partner to work on side projects and prepare for technical interviews with.
-</p>
-
 <h2>
     Screenshots
 </h2>
@@ -63,6 +38,31 @@
     <img src="./screenshots/Notifs.png" name="Notifications"> 
     <img src="./screenshots/FriendReqs.png" name="Friend Requests">
 </details>
+
+<h2>What is E-Talk?</h2>
+
+<p>
+    E-Talk is a social media application that allows individuals in the tech industry
+    to connect with each other.
+</p>
+
+<p>
+    Technology is always changing and advancing, and there has been an increase in demand
+    for technical skills, but the demand is not the only thing that has increased. I noticed
+    a lot more people have become interested in working in tech compared to a few years ago.
+</p>
+
+<p>
+    With a lot of resources online, learning technical skills have become easier than before, but 
+    it has come to my attention that it might not always be easy to find an environment where they
+    can apply these hard earned skills. 
+</p>
+
+<p>
+    E-Talk allows users to connect with others in the tech industry with similar goals and interests.
+    This can lead to potential employment opportunities, mentors to receive advice from, or even 
+    a partner to work on side projects and prepare for technical interviews with.
+</p>
 
 <h2>
     Tech Stack
