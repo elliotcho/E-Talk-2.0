@@ -96,9 +96,9 @@
 </p>
 
 <p>
-    Some new features I would consider is to recommend friends, a better search algorithm, show friends who are online, 
-    expand the users's settings, expand chat settings, allow users to post source code for there projects, instead of just
-    a description of them, and many more whether that's in the next iteration or future iterations of the application.
+    Some new features I would consider is to recommend friends, implement a better search algorithm, show friends who are online, 
+    expand the users's settings, expand chat settings, allow users to post source code for their projects (instead of just
+    a description of them), and implement many more whether that's in the next iteration or future iterations of the application.
 </p>
 
 <p>
